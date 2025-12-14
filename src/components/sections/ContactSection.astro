@@ -1,0 +1,76 @@
+---
+import { themeConfig } from '../../config';
+import SectionTitle from '../ui/SectionTitle.astro';
+
+const { contact_infos, web3form_public_key } = themeConfig;
+const showForm = !!web3form_public_key;
+---
+
+<section id="contact" class="contact section">
+  <SectionTitle title="Contact" />
+
+  <div class="container" data-aos="fade" data-aos-delay="200">
+    <div class="row gy-4">
+      
+      <div class={showForm ? "col-lg-4" : "col-lg-8 offset-lg-4"}>
+        <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+          {contact_infos.map((info) => (
+            <div class="info-wrap mb-4">
+              <i class={info.icon_class}></i>
+              <div>
+                <h3>{info.item}</h3>
+                <p>{info.content}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {showForm && (
+        <div class="col-lg-8">
+          <form action="https://api.web3forms.com/submit" method="POST" class="contact-form" data-aos="fade-up" data-aos-delay="400">
+            <input type="hidden" name="access_key" value={web3form_public_key} />
+            
+            <div class="row gy-4">
+              <div class="col-md-6">
+                <div class="input-box">
+                    <input type="text" name="name" id="name-field" required />
+                    <label for="name-field" class="label">Your Name</label>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="input-box">
+                    <input type="email" name="email" id="email-field" required />
+                    <label for="email-field" class="label">Your Email</label>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="input-box">
+                    <input type="text" name="subject" id="subject-field" required />
+                    <label for="subject-field" class="label">Subject</label>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                 <div class="input-box">
+                    <textarea name="message" rows="6" id="message-field" required></textarea>
+                    <label for="message-field" class="label">Message</label>
+                </div>
+              </div>
+
+              <div class="col-md-12 text-center">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+                <button type="submit">Send Message</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
+
+    </div>
+  </div>
+</section>

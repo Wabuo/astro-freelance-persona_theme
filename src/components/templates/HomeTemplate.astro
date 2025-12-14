@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import PlainSection from '../components/sections/PlainSection.astro';
+import ContactSection from '../components/sections/ContactSection.astro';
+import { themeConfig } from '../config';
+import CategorySection from '../components/sections/CategorySection.astro';
+
+// 1. Fetch all sections
+const allSections = await getCollection('sections');
+
+// 2. Separate "Hero" from the rest
+// We assume the hero settings are in a file named 'hero.md' or '_index.md' inside content/sections/
+// Since we are porting, let's look for a section with title "Persona" or order 0.
+const heroSection = allSections.find(s => s.slug === 'hero') || {
+  data: {
+    title: themeConfig.title,
+    subtitles: "Welcome"
+  }
+};
+
+// 3. Filter and Sort the rest
+const contentSections = allSections
+  .filter(s => s.slug !== 'hero')
+  .sort((a, b) => a.data.order - b.data.order);
+
+---
+
+<BaseLayout title={themeConfig.title} navType="home">
+  
+  <Hero 
+    title={heroSection.data.title} 
+    subtitles={heroSection.data.subtitles} 
+  />
+
+  {contentSections.map(async (section) => {
+    const { Content } = await section.render();
+    
+    // We check the 'type' field we added to the schema
+    if (section.data.type === 'plain') {
+      return (
+        <PlainSection 
+          slug={section.slug} 
+          title={section.data.title} 
+          subtitle={section.data.subtitle}
+        >
+          <Content />
+        </PlainSection>
+      );
+    }
+    
+    if (section.data.type === 'category') {
+      return (
+        <CategorySection 
+          slug={section.slug} 
+          title={section.data.title} 
+          subtitle={section.data.subtitle}
+        />
+      );
+    }
+
+    return null;
+  })}
+
+  <ContactSection />
+
+</BaseLayout>

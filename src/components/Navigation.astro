@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import { themeConfig } from '../config';
+
+// Props: isHome determines link behavior and styling
+interface Props {
+  isHome?: boolean;
+}
+const { isHome = false } = Astro.props;
+
+// Fetch and sort sections
+const sections = await getCollection('sections');
+const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
+
+// Helper to determine the href
+const getLink = (slug: string) => {
+  if (isHome) {
+    return `#${slug}`; // Scroll to section
+  } else {
+    // For inner pages, link to the homepage anchor
+    // Alternatively, if you want standalone pages, use `/${slug}`
+    return `/#${slug}`; 
+  }
+};
+---
+
+<header id="header" class="header d-flex flex-column justify-content-center">
+  <nav id="navmenu" class="navmenu">
+    <ul>
+      <li>
+        <a href={isHome ? "#hero" : "/"} class={isHome ? "active" : ""} aria-label="Home">
+          <i class="bi bi-house navicon"></i>
+          <span>Home</span>
+        </a>
+      </li>
+
+      {sortedSections.map((section) => (
+        // Only show sections that have an icon (avoids listing non-menu items)
+        section.data.icon_class && (
+          <li>
+            <a href={getLink(section.slug)} aria-label={section.data.title}>
+              <i class={`${section.data.icon_class} navicon`}></i>
+              <span>{section.data.title}</span>
+            </a>
+          </li>
+        )
+      ))}
+
+      {themeConfig.contact_infos && (
+         <li>
+           <a href={getLink('contact')} aria-label="Contact">
+             <i class="bi bi-envelope navicon"></i>
+             <span>Contact</span>
+           </a>
+         </li>
+      )}
+    </ul>
+  </nav>
+</header>

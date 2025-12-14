@@ -1,0 +1,38 @@
+---
+// ... imports ...
+import Navigation from '../components/Navigation.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  tex?: boolean;
+  // New Prop: 'home' (sidebar) or 'page' (topbar)
+  navType?: 'home' | 'page'; 
+}
+
+const { 
+  title = themeConfig.title, 
+  description = themeConfig.description,
+  tex = false,
+  navType = 'page' // Default to inner page style
+} = Astro.props;
+
+const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <body class={bodyClass}>
+    <Navigation isHome={navType === 'home'} />
+
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+
+    <main class="main">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <div id="preloader"></div>
+  </body>
+</html>

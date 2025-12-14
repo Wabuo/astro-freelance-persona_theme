@@ -5,7 +5,7 @@
 // index.js
 export { default as BaseLayout } from './src/layouts/BaseLayout.astro';
 export { default as HomeTemplate } from './src/components/templates/HomeTemplate.astro';
-export { default as BlogPostTemplate } from './src/pages/blog/[...slug].astro'; // We can reuse the logic here too if adapted, or user copies the file. 
+export { default as BlogPostTemplate } from './src/components/templates/BlogPostTemplate.astro';
 // For now, let's stick to exporting components:
 export { default as Hero } from './src/components/Hero.astro';
 export { default as Footer } from './src/components/Footer.astro';

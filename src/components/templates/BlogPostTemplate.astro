@@ -4,15 +4,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import BlogSidebar from '../../components/blog/BlogSidebar.astro';
 
-// 1. Generate static paths for all blog posts
-export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
-}
-
 const { post } = Astro.props;
 const { Content } = await post.render();
 

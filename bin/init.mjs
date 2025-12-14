@@ -19,6 +19,11 @@ const contentDir = path.join(srcDir, 'content');
 const pagesDir = path.join(srcDir, 'pages');
 
 console.log('\n🚀 Initializing (or Repairing) Persona Theme...\n');
+// ----------------------
+console.log('   💡 Tip: If this is a fresh installation into an empty Astro project,');
+console.log('           you should overwrite all conflicting files (like index.astro)');
+console.log('           to ensure the theme applies correctly.\n');
+// ----------------------
 
 // 3. Ensure directories exist
 const dirs = [

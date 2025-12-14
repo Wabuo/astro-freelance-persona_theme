@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import SectionTitle from '../ui/SectionTitle.astro';
+
+interface Props {
+  slug: string;
+  title: string;
+  subtitle?: string;
+}
+const { slug, title, subtitle } = Astro.props;
+
+// Fetch blog posts for this preview
+// (In a more complex theme, we might filter by the specific category 'slug', 
+// but for now we assume this section shows the 'blog' collection)
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<section id={slug} class="category section">
+  <SectionTitle title={title} subtitle={subtitle} />
+
+  <div class="container" data-aos="fade-up">
+    <div class="row">
+      {sortedPosts.map((post) => (
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="post-entry">
+            {post.data.thumbnail && (
+              <a href={`/blog/${post.slug}`} class="thumb">
+                 <img src={post.data.thumbnail} alt={post.data.title} class="img-fluid" />
+              </a>
+            )}
+            
+            <div class="meta">
+              <span class="date">
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </span>
+            </div>
+            
+            <div class="post-content">
+              <h3><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
+              <p>{post.data.description || "Click to read more..."}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

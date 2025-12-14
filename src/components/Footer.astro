@@ -1,0 +1,33 @@
+---
+import { themeConfig } from '../config';
+
+const { title, quote, social_links, copyright, credits } = themeConfig;
+---
+
+<footer id="footer" class="footer position-relative">
+  <div class="container">
+    <h3 class="sitename">{title}</h3>
+    <p class="quote">{quote}</p>
+    
+    <div class="social-links d-flex justify-content-center">
+      {social_links.map((link) => (
+        <a 
+          href={link.url} 
+          aria-label={`Link to my ${link.name} profile`}
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          <i class={link.icon_class} aria-hidden="true"></i>
+        </a>
+      ))}
+    </div>
+    
+    <div class="container">
+      {/* Note: We are using set:html to render the HTML entities like &copy; 
+         In a future step, we can add a markdown parser if you want complex links here.
+      */}
+      <div class="copyright" set:html={copyright}></div>
+      <div class="credits" set:html={credits}></div>
+    </div>
+  </div>
+</footer>

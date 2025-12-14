@@ -1,0 +1,4 @@
+/* Applied only when body has .home-page class */
+body.home-page {
+  @import "./navigation-index.css";
+}

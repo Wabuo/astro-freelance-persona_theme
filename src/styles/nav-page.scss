@@ -1,0 +1,4 @@
+/* Applied only when body has .inner-page class */
+body.inner-page {
+  @import "./navigation.css";
+}

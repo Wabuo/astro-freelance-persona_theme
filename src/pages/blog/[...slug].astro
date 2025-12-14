@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import BlogSidebar from '../../components/blog/BlogSidebar.astro';
+
+// 1. Generate static paths for all blog posts
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Helper for approximate reading time (Word count / 200 words per min)
+const wordCount = post.body.split(/\s+/g).length;
+const readingTime = Math.ceil(wordCount / 200);
+---
+
+<BaseLayout title={post.data.title} navType="page" tex={true}>
+  
+  <Breadcrumbs crumbs={[
+    { label: 'Home', href: '/' }, 
+    { label: 'Blog', href: '/#blogs' }, 
+    { label: post.data.title }
+  ]} />
+
+  <div class="container">
+    <div class="row">
+      <section id="blog-post" class="blog-post section col-lg-8">
+        <div class="container" data-aos="fade-up">
+          <article class="article">
+            
+            {post.data.thumbnail && (
+              <div class="post-img">
+                <img src={post.data.thumbnail} alt="" class="img-fluid">
+              </div>
+            )}
+
+            <div class="post-header">
+              <h2 class="post-title">{post.data.title}</h2>
+              
+              <div class="post-tags">
+                {post.data.tags && post.data.tags.map(tag => (
+                  <span class="tag">{tag.toLowerCase()}</span>
+                ))}
+              </div>
+              
+              <div class="meta-top-divider"></div>
+              
+              <div class="meta-top">
+                <div class="d-flex justify-content-between">
+                  <ul id="info" class="d-flex list-unstyled m-0">
+                    <li class="d-flex align-items-center me-4">
+                      <i class="bi bi-calendar-event me-2"></i>
+                      <time>{post.data.date.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}</time>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <i class="bi bi-hourglass-split me-2"></i>
+                      <time>{readingTime} min read</time>
+                    </li>
+                  </ul>
+                  
+                  <ul id="action" class="d-flex list-unstyled m-0">
+                    <li class="d-flex align-items-center">
+                       <i class="bi bi-share"></i>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="meta-top-divider"></div>
+            </div>
+
+            <div class="post-content">
+              <Content />
+            </div>
+
+          </article>
+        </div>
+      </section>
+
+      <BlogSidebar />
+      
+    </div>
+  </div>
+
+</BaseLayout>

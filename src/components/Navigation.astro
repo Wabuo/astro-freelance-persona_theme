@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import { themeConfig } from '../config';
-
 // Props: isHome determines link behavior and styling
 interface Props {
   isHome?: boolean;
@@ -15,11 +14,11 @@ const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
 // Helper to determine the href
 const getLink = (slug: string) => {
   if (isHome) {
-    return `#${slug}`; // Scroll to section
+    return `#${slug}`;
+    // Scroll to section
   } else {
     // For inner pages, link to the homepage anchor
-    // Alternatively, if you want standalone pages, use `/${slug}`
-    return `/#${slug}`; 
+    return `/#${slug}`;
   }
 };
 ---
@@ -57,3 +56,53 @@ const getLink = (slug: string) => {
     </ul>
   </nav>
 </header>
+
+<script>
+  // Navigation Interactions
+  
+  // 1. Mobile Navigation Toggle
+  const toggleBtn = document.querySelector('.nav-toggle');
+  const header = document.querySelector('.header');
+  
+  if(toggleBtn && header) {
+    toggleBtn.addEventListener('click', () => {
+      header.classList.toggle('navmenu-show');
+      toggleBtn.classList.toggle('bi-list');
+      toggleBtn.classList.toggle('bi-x');
+    });
+  }
+
+  // 2. ScrollSpy (Highlight active link on scroll)
+  // Only run this if we are on the home page (single page scroll)
+  const isHomePage = document.body.classList.contains('home-page');
+  
+  if (isHomePage) {
+    const navLinks = document.querySelectorAll('#navmenu a');
+    const sections = document.querySelectorAll('section');
+
+    const updateActiveLink = () => {
+      let position = window.scrollY + 200; // Offset for better triggering
+
+      sections.forEach(section => {
+        if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + section.id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+      
+      // Edge case: Top of page (Hero)
+      if (window.scrollY < 100) {
+         navLinks.forEach(link => link.classList.remove('active'));
+         const homeLink = document.querySelector('#navmenu a[href="#hero"]');
+         if(homeLink) homeLink.classList.add('active');
+      }
+    };
+
+    window.addEventListener('load', updateActiveLink);
+    document.addEventListener('scroll', updateActiveLink);
+  }
+</script>

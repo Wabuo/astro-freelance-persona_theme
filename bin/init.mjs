@@ -1,10 +1,17 @@
 #!/usr/bin/env node
+// bin/init.mjs
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import readline from 'readline';
+import { fileURLToPath } from 'url';
 
-// 1. Setup Interactive CLI
+// --- 1. Setup Environment ---
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const packageRoot = path.resolve(__dirname, '..'); // Points to astro-persona-theme root
+const projectRoot = process.cwd();
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -12,171 +19,127 @@ const rl = readline.createInterface({
 
 const ask = (query) => new Promise((resolve) => rl.question(query, resolve));
 
-// 2. Determine paths
-const projectRoot = process.cwd();
-const srcDir = path.join(projectRoot, 'src');
-const contentDir = path.join(srcDir, 'content');
-const pagesDir = path.join(srcDir, 'pages');
-
 console.log('\n🚀 Initializing (or Repairing) Persona Theme...\n');
-// ----------------------
-console.log('   💡 Tip: If this is a fresh installation into an empty Astro project,');
-console.log('           you should overwrite all conflicting files (like index.astro)');
-console.log('           to ensure the theme applies correctly.\n');
-// ----------------------
 
-// 3. Ensure directories exist
-const dirs = [
-  path.join(contentDir, 'sections'),
-  path.join(contentDir, 'blog'),
-  path.join(pagesDir, 'blog')
+// --- 2. Definition of Source Files ---
+
+// A. Core Files: exist in theme root, copied to project root
+//    Use this for config files that must sit in the base directory.
+const coreFiles = [
+  'astro.config.mjs'
 ];
 
-dirs.forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+// B. Starter Directory: folder in theme containing the template structure
+//    Everything inside this folder is copied 1:1 to the user's project root.
+const starterSrcDir = path.join(packageRoot, 'starter');
+
+
+// --- 3. Helper Functions ---
+
+/**
+ * Copies a single file with an overwrite prompt.
+ * @param {string} sourcePath - Absolute path to source file
+ * @param {string} destPath - Absolute path to destination
+ * @param {string} displayName - Name to show in logs
+ * @param {boolean} isSystemFile - If true, warns differently about overwrites
+ */
+async function safeCopy(sourcePath, destPath, displayName, isSystemFile = false) {
+  if (!fs.existsSync(sourcePath)) {
+    console.warn(`   ⚠️  Source file not found: ${displayName}`);
+    return;
   }
-});
 
-// 4. Define Content Generators
-const filesToGenerate = [
-  {
-    path: path.join(contentDir, 'config.ts'),
-    type: 'system', // System files affect functionality
-    content: `
-import { defineCollection, z } from 'astro:content';
+  // Create directory if it doesn't exist
+  const destDir = path.dirname(destPath);
+  if (!fs.existsSync(destDir)) {
+    fs.mkdirSync(destDir, { recursive: true });
+  }
 
-const sectionsCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    order: z.number().default(99),
-    type: z.enum(['plain', 'category', 'blog']).optional().default('plain'),
-    icon_class: z.string().optional(), 
-    subtitle: z.string().optional(),
-    subtitles: z.string().optional(),
-  }),
-});
+  if (fs.existsSync(destPath)) {
+    // If the files are identical (size check), skip without prompting to reduce noise
+    const srcStat = fs.statSync(sourcePath);
+    const destStat = fs.statSync(destPath);
+    if (srcStat.size === destStat.size) {
+        // A simple size check is usually enough to assume it's the same default file
+        // You could add a content hash check here if you want to be 100% sure
+        console.log(`      ⏭️  Skipped (Identical): ${displayName}`);
+        return;
+    }
 
-const blogCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.date(),
-    tags: z.array(z.string()).optional(),
-    thumbnail: z.string().optional(),
-    description: z.string().optional(),
-  }),
-});
+    console.log(`\n   ⚠️  Found existing ${displayName}`);
+    if (isSystemFile) {
+      console.log(`      (System file: Resetting might fix configuration issues)`);
+    } else {
+      console.log(`      (Content file: Overwriting will delete your custom work)`);
+    }
 
-export const collections = {
-  'sections': sectionsCollection,
-  'blog': blogCollection,
-};
-`
-  },
-  {
-    path: path.join(pagesDir, 'index.astro'),
-    type: 'system',
-    content: `---
-import { HomeTemplate } from 'astro-persona-theme';
----
+    const answer = await ask(`      ❓ Overwrite ${displayName}? (y/N) `);
+    if (!answer.toLowerCase().startsWith('y')) {
+      console.log(`      ⏭️  Skipped: ${displayName}`);
+      return;
+    }
+  }
 
-<HomeTemplate />
-`
-  },
-  {
-    path: path.join(pagesDir, 'blog/[...slug].astro'),
-    type: 'system',
-    content: `---
-import { getCollection } from 'astro:content';
-import { BlogPostTemplate } from 'astro-persona-theme';
-
-export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  fs.copyFileSync(sourcePath, destPath);
+  console.log(`   ✅ Created/Updated: ${displayName}`);
 }
 
-const { post } = Astro.props;
----
+/**
+ * Recursively walks a directory and returns a list of files relative to the base.
+ */
+function getAllFiles(dirPath, arrayOfFiles) {
+  const files = fs.readdirSync(dirPath);
+  arrayOfFiles = arrayOfFiles || [];
 
-<BlogPostTemplate post={post} />
-`
-  },
-  {
-    path: path.join(contentDir, 'sections/hero.md'),
-    type: 'content', // Content files contain user data
-    content: `---
-title: "Persona"
-subtitles: "a Zola Theme, a Resume, a Portfolio, a Blog"
-order: 0
----
-`
-  },
-  {
-    path: path.join(contentDir, 'sections/about.md'),
-    type: 'content',
-    content: `---
-title: "About"
-type: "plain"
-icon_class: "bi bi-person-vcard"
-subtitle: "Public Self & Private Soul"
-order: 10
----
+  files.forEach(function(file) {
+    if (fs.statSync(path.join(dirPath, file)).isDirectory()) {
+      arrayOfFiles = getAllFiles(path.join(dirPath, file), arrayOfFiles);
+    } else {
+      arrayOfFiles.push(path.join(dirPath, file));
+    }
+  });
 
-This is a sample about section auto-generated by the theme installer.
-`
-  },
-  {
-    path: path.join(contentDir, 'blog/first-post.md'),
-    type: 'content',
-    content: `---
-title: "Hello World"
-date: 2024-01-01
-description: "My first post with the new theme"
-tags: ["intro", "astro"]
----
+  return arrayOfFiles;
+}
 
-Welcome to my new blog! This file was created automatically.
-`
-  }
-];
 
-// 5. Processing Logic
+// --- 4. Main Execution Logic ---
+
 async function processFiles() {
-  
-  for (const file of filesToGenerate) {
-    const fileName = path.basename(file.path);
-    
-    // Case A: File doesn't exist -> Create it
-    if (!fs.existsSync(file.path)) {
-      fs.writeFileSync(file.path, file.content.trim());
-      console.log(`   ✅ Created: ${fileName}`);
-      continue;
-    }
 
-    // Case B: File exists -> Prompt user
-    console.log(`\n   ⚠️  Found existing ${fileName}`);
-    if (file.type === 'content') {
-      console.log(`      (Warning: Overwriting this will delete your custom text/data)`);
-    } else {
-      console.log(`      (System file: Resetting this can fix broken functionality)`);
-    }
-
-    const answer = await ask(`      ❓ Overwrite ${fileName}? (y/N) `);
-    
-    if (answer.toLowerCase().startsWith('y')) {
-      fs.writeFileSync(file.path, file.content.trim());
-      console.log(`      ✨ Overwrote: ${fileName}`);
-    } else {
-      console.log(`      ⏭️  Skipped: ${fileName}`);
-    }
+  // --- Step A: Copy Core System Files ---
+  console.log('📂 Checking System Configuration...');
+  for (const file of coreFiles) {
+    await safeCopy(
+      path.join(packageRoot, file), // Source
+      path.join(projectRoot, file), // Dest
+      file,                         // Name
+      true                          // Is System File
+    );
   }
 
-  // 6. Sass Check
+  // --- Step B: Copy Starter Content (Includes Assets) ---
+  console.log('\n📝 Checking Starter Content & Assets...');
+  if (fs.existsSync(starterSrcDir)) {
+    const starterFiles = getAllFiles(starterSrcDir);
+    
+    for (const fullSourcePath of starterFiles) {
+      // Calculate relative path (e.g., 'src/assets/img/background.jpg' or 'public/assets/img/favicon.ico')
+      const relPath = path.relative(starterSrcDir, fullSourcePath);
+      const fullDestPath = path.join(projectRoot, relPath);
+      
+      await safeCopy(
+        fullSourcePath,
+        fullDestPath,
+        relPath,
+        false // Treat as content (safer default)
+      );
+    }
+  } else {
+    console.warn(`   ⚠️  Starter content directory not found at ${starterSrcDir}`);
+  }
+
+  // --- Step C: Dependencies ---
   console.log('\n📦 Checking dependencies...');
   try {
     const pkgPath = path.join(projectRoot, 'package.json');
@@ -184,6 +147,7 @@ async function processFiles() {
       const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
       const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
       
+      // Check for Sass
       if (!allDeps.sass) {
         console.log('   Installing Sass...');
         execSync('yarn add -D sass', { stdio: 'inherit' });
@@ -192,7 +156,7 @@ async function processFiles() {
       }
     }
   } catch (e) {
-    console.warn('   Failed to check/install Sass.');
+    console.warn('   Failed to check/install dependencies:', e.message);
   }
 
   console.log('\n🎉 Setup complete! Run "yarn dev" to start.\n');

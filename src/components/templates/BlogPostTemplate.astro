@@ -1,8 +1,8 @@
 ---
-import { getCollection } from 'astro:content';
+// Correct imports for src/components/templates/BlogPostTemplate.astro
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
-import BlogSidebar from '../../components/blog/BlogSidebar.astro';
+import Breadcrumbs from '../ui/Breadcrumbs.astro';
+import BlogSidebar from '../blog/BlogSidebar.astro';
 
 const { post } = Astro.props;
 const { Content } = await post.render();

@@ -1,33 +1,31 @@
 // src/styles/main.scss
 
-// 1. Fonts
-// Importing the fonts used by the theme (Roboto, Raleway, Poppins)
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+// 1. Fonts 
+// NOTE: Fonts are now imported in layouts/BaseLayout.astro via JS 
+// to ensure correct loading in Yarn PnP environments.
 
-// 2. Vendor Imports (Managed by Yarn)
-// We import the source SCSS for Bootstrap to allow future variable overrides if needed
+// 2. Vendor Imports
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 @import "academicons/css/academicons.css";
 @import "sal.js/dist/sal.css";
 
 // 3. Theme Core Styles
-@import "./base.css";
-@import "./footer.css";
-@import "./preloader.css";
+@import "base";
+@import "footer";
+@import "preloader";
 
 // 4. Global Component Styles
-// We import these globally to preserve the original theme's cascading behavior
-@import "./section.css";
-@import "./hero.css";
-@import "./contact.css";
-@import "./plain.css";
-@import "./category.css";
-@import "./blog.css";
-@import "./blog-post.css";
-@import "./breadcrumbs.css";
-@import "./widgets.css";
+@import "section";
+@import "hero";
+@import "contact";
+@import "plain";
+@import "category";
+@import "blog";
+@import "blog-post";
+@import "breadcrumbs";
+@import "widgets";
 
 // 5. Conditional Navigation Styles
-@import "./nav-home.scss";
-@import "./nav-page.scss";
+@import "nav-home";
+@import "nav-page";

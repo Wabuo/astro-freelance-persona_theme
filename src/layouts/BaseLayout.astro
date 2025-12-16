@@ -5,7 +5,6 @@ import Navigation from '../components/Navigation.astro';
 import { themeConfig } from '../config';
 
 // --- FONTS ---
-// Importing here allows Vite to handle the resolution (fixes Sass/PnP errors)
 import '@fontsource/poppins/300.css';
 import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/500.css';
@@ -27,7 +26,7 @@ import '@fontsource/roboto/500-italic.css';
 import '@fontsource/roboto/700.css';
 import '@fontsource/roboto/700-italic.css';
 
-// Import the global asset pipeline (CSS runs fine on server)
+// Import Global Styles
 import '../styles/main.scss';
 
 interface Props {
@@ -43,6 +42,7 @@ const {
   tex = false,
   navType = 'page' 
 } = Astro.props;
+
 const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
 ---
 
@@ -76,56 +76,21 @@ const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
     <div id="preloader"></div>
 
     <script is:inline>
-      // Lightweight preloader script (executes immediately)
+      // Lightweight preloader script
       function removePreloader() {
         const preloader = document.getElementById('preloader');
         if (preloader) {
           preloader.style.opacity = '0';
-          setTimeout(() => { preloader.remove(); }, 600); // Wait for fade out
+          setTimeout(() => { preloader.remove(); }, 600);
         }
       }
-      // Remove on load
       window.addEventListener('load', removePreloader);
-      // Failsafe: Remove after 1.5s even if page hasn't fully fired 'load'
       setTimeout(removePreloader, 1500);
     </script>
 
     <script>
-      // Island Architecture: Global Scripts
-      // We import only what we need for the global layout.
-      
-      // 1. Scroll Animations (Sal.js)
-      import sal from 'sal.js';
-      
-      document.addEventListener('DOMContentLoaded', () => {
-        sal({
-          threshold: 0.1,
-          once: true,
-        });
-      });
-
-      // 2. Dynamic KaTeX Loading (Local & Privacy-friendly)
-      const body = document.querySelector('body');
-      if (body && body.dataset.tex === 'true') {
-        // Dynamically import KaTeX only when needed
-        Promise.all([
-          import('katex/dist/katex.min.css'),
-          import('katex/dist/contrib/auto-render.js')
-        ]).then(([_, autoRenderModule]) => {
-          // The auto-render module exports default function
-          const renderMathInElement = autoRenderModule.default || autoRenderModule;
-          
-          renderMathInElement(document.body, {
-            delimiters: [
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false},
-              {left: '\\(', right: '\\)', display: false},
-              {left: '\\[', right: '\\]', display: true}
-            ],
-            throwOnError : false
-          });
-        }).catch(err => console.error("Failed to load KaTeX:", err));
-      }
+      // Import our modern, dependency-free global logic
+      import "../scripts/layout.js";
     </script>
   </body>
 </html>

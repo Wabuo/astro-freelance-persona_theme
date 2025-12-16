@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import { themeConfig } from '../config';
+
 // Props: isHome determines link behavior and styling
 interface Props {
   isHome?: boolean;
@@ -14,8 +15,7 @@ const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
 // Helper to determine the href
 const getLink = (slug: string) => {
   if (isHome) {
-    return `#${slug}`;
-    // Scroll to section
+    return `#${slug}`; // Scroll to section
   } else {
     // For inner pages, link to the homepage anchor
     return `/#${slug}`;
@@ -93,11 +93,12 @@ const getLink = (slug: string) => {
           });
         }
       });
-      
+
       // Edge case: Top of page (Hero)
       if (window.scrollY < 100) {
          navLinks.forEach(link => link.classList.remove('active'));
          const homeLink = document.querySelector('#navmenu a[href="#hero"]');
+         // Safety check: ensure homeLink exists before accessing classList
          if(homeLink) homeLink.classList.add('active');
       }
     };

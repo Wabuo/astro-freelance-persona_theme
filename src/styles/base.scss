@@ -136,3 +136,40 @@ h6 {
     transition-delay: 0 !important;
   }
 }
+
+/*--------------------------------------------------------------
+# Native Scroll Animations
+--------------------------------------------------------------*/
+// These mimic Sal.js / AOS behavior but use our custom observer
+
+// 1. Base State (Hidden)
+[data-aos] {
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: 0.8s;
+  transition-timing-function: ease-out;
+}
+
+// 2. Active State (Visible)
+// Added by our script when element enters viewport
+[data-aos].aos-animate {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+// 3. Specific Animation Types
+
+// Fade Up (starts lower and slides up)
+[data-aos="fade-up"] {
+  transform: translateY(30px);
+}
+
+// Zoom Out (starts slightly larger and scales down)
+[data-aos="zoom-out"] {
+  transform: scale(1.05);
+}
+
+// Fade In (just opacity, no movement)
+[data-aos="fade-in"] {
+  transform: none;
+}

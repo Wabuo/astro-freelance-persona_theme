@@ -29,6 +29,55 @@ import '@fontsource/roboto/700-italic.css';
 // Import Global Styles
 import '../styles/main.scss';
 
+// --- SMART ASSET DISCOVERY ---
+async function findAsset(glob: Record<string, () => Promise<any>>) {
+  const paths = Object.keys(glob);
+  if (paths.length === 0) return null;
+  
+  // Sort preference: SVG > PNG > ICO
+  paths.sort((a, b) => {
+    const score = (p: string) => p.endsWith('.svg') ? 4 : p.endsWith('.png') ? 3 : p.endsWith('.ico') ? 2 : 0;
+    return score(b) - score(a);
+  });
+  
+  const mod = await glob[paths[0]]();
+  return mod.default;
+}
+
+// 1. Find Favicon
+const faviconSrc = await findAsset(import.meta.glob('/src/assets/img/favicon.{svg,ico,png,webp}'));
+// 2. Find Apple Touch Icon
+const appleSrc = await findAsset(import.meta.glob('/src/assets/img/apple-touch-icon.{png,svg,webp}'));
+
+// Helper: Extract URL from string or Astro ImageMetadata object
+const getAssetUrl = (asset: any) => {
+  if (!asset) return '';
+  if (typeof asset === 'string') return asset;
+  if (typeof asset === 'object' && asset.src) return asset.src;
+  return '';
+};
+
+// Helper: Determine MIME type safely
+const getMime = (asset: any) => {
+  if(!asset) return 'image/x-icon';
+  
+  // Handle Astro ImageMetadata (Object with 'format' property)
+  if (typeof asset === 'object' && asset.format) {
+     if (asset.format === 'svg') return 'image/svg+xml';
+     if (asset.format === 'png') return 'image/png';
+     if (asset.format === 'webp') return 'image/webp';
+     return `image/${asset.format}`;
+  }
+  
+  // Handle String path (Fallback)
+  if (typeof asset === 'string') {
+    if(asset.endsWith('.svg')) return 'image/svg+xml';
+    if(asset.endsWith('.png')) return 'image/png';
+  }
+  
+  return 'image/x-icon';
+};
+
 interface Props {
   title?: string;
   description?: string;
@@ -56,8 +105,12 @@ const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
     <meta name="description" content={description} />
     <meta name="author" content={themeConfig.author} />
 
-    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico" />
-    <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+    {faviconSrc && (
+      <link rel="icon" type={getMime(faviconSrc)} href={getAssetUrl(faviconSrc)} />
+    )}
+    {appleSrc && (
+      <link rel="apple-touch-icon" href={getAssetUrl(appleSrc)} />
+    )}
     
     <meta name="generator" content={Astro.generator} />
   </head>

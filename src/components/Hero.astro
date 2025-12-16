@@ -9,27 +9,17 @@ interface Props {
 }
 
 const { title, subtitles, background_image: explicitImage } = Astro.props;
+
 // --- DYNAMIC BACKGROUND LOGIC ---
-
 let finalImage = explicitImage;
-
-// If no image was defined in hero.md, search for a default 'background.*'
 if (!finalImage) {
-  // Added 'svg' to the list of extensions
   const bgGlob = import.meta.glob('/src/assets/img/background.{jpg,jpeg,png,webp,avif,svg}');
   const paths = Object.keys(bgGlob);
-  
   if (paths.length > 0) {
-    // Priority: JPG > PNG > WEBP > SVG > Others
     paths.sort((a, b) => {
-      const score = (p: string) => 
-        p.endsWith('.jpg') || p.endsWith('.jpeg') ? 4 : 
-        p.endsWith('.png') ? 3 : 
-        p.endsWith('.webp') ? 2 : 
-        p.endsWith('.svg') ? 1 : 0;
+      const score = (p: string) => p.endsWith('.jpg') ? 4 : p.endsWith('.png') ? 3 : p.endsWith('.webp') ? 2 : p.endsWith('.svg') ? 1 : 0;
       return score(b) - score(a);
     });
-    // Load the file
     const imageModule = await bgGlob[paths[0]]();
     finalImage = imageModule.default;
   }
@@ -54,7 +44,7 @@ if (!finalImage) {
       <div class="col-lg-9">
         <h2>{title}</h2>
         {subtitles && (
-          <p>I'm <span class="typed" data-typed-items={subtitles}></span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span></p>
+          <p>I'm <span class="typed" data-typed-items={subtitles}></span><span class="typed-cursor">|</span></p>
         )}
       </div>
     </div>
@@ -62,21 +52,50 @@ if (!finalImage) {
 </section>
 
 <script>
-  import Typed from 'typed.js';
+  // Tiny Typewriter implementation (Zero Dependency)
+  const typedEl = document.querySelector('.typed');
+  const cursorEl = document.querySelector('.typed-cursor');
+  
+  if (typedEl) {
+    const words = typedEl.getAttribute('data-typed-items')?.split(',') || [];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typeSpeed = 100;
 
-  const typedElements = document.querySelectorAll('.typed');
-  typedElements.forEach(element => {
-    const strings = element.getAttribute('data-typed-items');
-    if (strings) {
-      new Typed(element, {
-        strings: strings.split(','),
-        loop: true,
-        typeSpeed: 100,
-        backSpeed: 50,
-        backDelay: 2000
-      });
-    }
-  });
+    const type = () => {
+      const currentWord = words[wordIndex];
+      
+      if (isDeleting) {
+        typedEl.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+        typeSpeed = 50; // Deleting is faster
+      } else {
+        typedEl.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+        typeSpeed = 100; // Typing is normal
+      }
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        // Finished typing word, pause then delete
+        isDeleting = true;
+        typeSpeed = 2000;
+        if(cursorEl) cursorEl.classList.add('blinking');
+      } else if (isDeleting && charIndex === 0) {
+        // Finished deleting, move to next word
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        typeSpeed = 500;
+        if(cursorEl) cursorEl.classList.remove('blinking');
+      } else {
+        if(cursorEl) cursorEl.classList.remove('blinking');
+      }
+
+      setTimeout(type, typeSpeed);
+    };
+
+    if (words.length > 0) type();
+  }
 </script>
 
 <style>
@@ -88,5 +107,21 @@ if (!finalImage) {
     height: 100%;
     object-fit: cover;
     z-index: 0;
+  }
+  
+  /* Cursor Blinking Animation */
+  .typed-cursor {
+    opacity: 1;
+    font-weight: 100;
+    color: inherit;
+    margin-left: 2px;
+  }
+  .typed-cursor.blinking {
+    animation: blink 0.7s infinite;
+  }
+  @keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
   }
 </style>

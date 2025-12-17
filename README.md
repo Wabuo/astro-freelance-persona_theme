@@ -13,9 +13,21 @@ run the following comands to create your websites project folder as a siblings f
      It can also be used to reset your projet to the themes defaults, this might mean you lose some progress!<br>
      Be carefull what you let it override if your project isnt empty! You might lose some of your work!<br>
      Make smart choices!
-5. `git init --initial-branch=main ` &emsp; Initiates your project as a new git reposetorry, feel fre to use any other VCS
+5. `git init --initial-branch=main ` &emsp; Initiates your project as a new git reposetorry, feel free to use any other VCS
+6. `yarn dev`
 
+## Theme Devolopmet setup
+
+1. follow step 1 till 4 of the [Install workflow](#install-workflow)
+2. test any modifications to the Theme by running
+    + `yarn add ../astro-persona-theme; yarn install; yarn astro-persona-theme init; yarn build; yarn preview`<br>
+    Optionally you can replace `yarn build; yarn preview` with `yarn dev` but yarn build catches more errors.<br>
+    Therfor please insure you run `yarn build; yarn preview` before you updtream any changes to this Theme!
+
+
+<br><br><br>
 
 Have fun and be carefull out there Astronaut
 
-This Theme and aynthing attouched to it comes with absolutly no warranty, I've got no ide what I'm doing!
+This Theme and aynthing attouched to it comes with absolutly no warranty, I've got no idea what I'm doing!<br>
+(and can't spell)

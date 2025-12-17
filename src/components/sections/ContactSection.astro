@@ -1,5 +1,6 @@
 ---
-import { themeConfig } from '../../config';
+// src/components/sections/ContactSection.astro
+import { themeConfig } from '@theme-config';
 import SectionTitle from '../ui/SectionTitle.astro';
 
 const { contact_infos, web3form_public_key } = themeConfig;
@@ -13,15 +14,27 @@ const showForm = !!web3form_public_key;
     <div class="row gy-4">
       
       <div class={showForm ? "col-lg-4" : "col-lg-8 offset-lg-4"}>
-        <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+        <div class="info-list d-flex flex-column gap-4" data-aos="fade-up" data-aos-delay="300">
           {contact_infos.map((info) => (
-            <div class="info-wrap mb-4">
-              <i class={info.icon_class}></i>
-              <div>
-                <h3>{info.item}</h3>
-                <p>{info.content}</p>
-              </div>
-            </div>
+            <>
+              {info.item === 'Email' ? (
+                <a href={`mailto:${info.content}`} class="info-item d-flex email-wrapper">
+                  <i class={info.icon_class}></i>
+                  <div>
+                    <h3>{info.item}</h3>
+                    <p>{info.content}</p>
+                  </div>
+                </a>
+              ) : (
+                <div class="info-item d-flex">
+                  <i class={info.icon_class}></i>
+                  <div>
+                    <h3>{info.item}</h3>
+                    <p>{info.content}</p>
+                  </div>
+                </div>
+              )}
+            </>
           ))}
         </div>
       </div>
@@ -74,3 +87,33 @@ const showForm = !!web3form_public_key;
     </div>
   </div>
 </section>
+
+<style>
+  /* 1. RESET: Make the anchor behave like a block div (no default link color) */
+  .email-wrapper {
+    text-decoration: none;
+    color: inherit; /* Inherit text color from parent (usually dark/white) */
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  /* 2. TEXT COLOR: The email address is ALWAYS accent color */
+  .email-wrapper p {
+    color: var(--accent-color);
+    margin-bottom: 0;
+    transition: 0.3s;
+  }
+
+  /* 3. HOVER STATE: Underline the text when hovering the wrapper */
+  .email-wrapper:hover p {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-color);
+    text-underline-offset: 0.2rem; /* 3px -> ~0.2rem */
+  }
+
+  /* Optional: Light up the icon background on hover too (standard theme behavior) */
+  .email-wrapper:hover i {
+    background: var(--accent-color);
+    color: var(--contrast-color);
+  }
+</style>

@@ -1,3 +1,5 @@
+/* src/styles/_navigation-index.scss */
+
 /*--------------------------------------------------------------
 # Global Header
 --------------------------------------------------------------*/
@@ -24,18 +26,24 @@
 }
 
 @media (min-width: 992px) {
+  /* GLOBAL LAYOUT LOGIC:
+     The sidebar (.header) is fixed on the left (hovering).
+     The main content margin is controlled entirely by user config via CSS vars.
+     If margins are equal, content is centered relative to viewport.
+  */
   .header~main {
-    margin-left: calc(
-      var(--nav-menu-width) + 
-      calc(2*var(--nav-menu-border-padding))
-    );
+    margin-left: var(--global-margin-left);
+    margin-right: var(--global-margin-right);
   }
 
+  /* Hero Section Compensation:
+     The Hero often wants to be full width. 
+     If we want it to ignore the margin and touch the edge, we use negative margin.
+     If we want it contained like the rest, we remove this.
+     Currently, maintaining "full width hero" illusion:
+  */
   .header~main .hero {
-    margin-left: calc(
-      calc(-1*var(--nav-menu-width)) -
-      calc(2*var(--nav-menu-border-padding))
-    );
+    margin-left: calc(-1 * var(--global-margin-left));
     width: 100vw;
   }
 }
@@ -57,7 +65,8 @@
   list-style: none;
   padding: 0 0 20px 0;
   margin: 0;
-  width: calc(var(--nav-menu-mobile-width)-2*var(--nav-menu-border-padding));
+  /* Fixed sass calculation spacing */
+  width: calc(var(--nav-menu-mobile-width) - 2 * var(--nav-menu-border-padding));
 }
 
 .navmenu a,

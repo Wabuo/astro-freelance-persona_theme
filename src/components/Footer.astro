@@ -1,6 +1,8 @@
 ---
-import { themeConfig } from '../config';
+// src/components/Footer.astro
+import { themeConfig } from '@theme-config';
 
+const year = new Date().getFullYear();
 const { title, quote, social_links, copyright, credits } = themeConfig;
 ---
 
@@ -23,9 +25,6 @@ const { title, quote, social_links, copyright, credits } = themeConfig;
     </div>
     
     <div class="container">
-      {/* Note: We are using set:html to render the HTML entities like &copy; 
-         In a future step, we can add a markdown parser if you want complex links here.
-      */}
       <div class="copyright" set:html={copyright}></div>
       <div class="credits" set:html={credits}></div>
     </div>

@@ -1,10 +1,8 @@
 ---
-import { getCollection } from 'astro:content';
-// Update these paths to go back two levels (../../) instead of one
+import { getCollection, render } from 'astro:content'; 
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { themeConfig } from '../../config';
+import { themeConfig } from '@theme-config';
 
-// Components are siblings in the parent folder, so just ../ works for them
 import Hero from '../Hero.astro';
 import PlainSection from '../sections/PlainSection.astro';
 import ContactSection from '../sections/ContactSection.astro';
@@ -13,35 +11,35 @@ import CategorySection from '../sections/CategorySection.astro';
 // 1. Fetch all sections
 const allSections = await getCollection('sections');
 
-// 2. Separate "Hero" from the rest
-// We assume the hero settings are in a file named 'hero.md' or '_index.md' inside content/sections/
-// Since we are porting, let's look for a section with title "Persona" or order 0.
+// 2. Separate "Hero" 
+// REFACTOR: Fallback is now explicitly an ERROR state so you know if hero.md is missing.
 const heroSection = allSections.find(s => s.slug === 'hero') || {
   data: {
-    title: themeConfig.title,
-    subtitles: "Welcome"
+    title: "CONFIG MISSING",
+    hero_typing_text: "Error: src/content/sections/hero.md not found", 
+    greeting: "SYSTEM:",
+    background_image: undefined
   }
 };
 
-// 3. Filter and Sort the rest
+// 3. Filter and Sort
 const contentSections = allSections
   .filter(s => s.slug !== 'hero')
   .sort((a, b) => a.data.order - b.data.order);
-
 ---
 
 <BaseLayout title={themeConfig.title} navType="home">
   
   <Hero 
     title={heroSection.data.title} 
-    subtitles={heroSection.data.subtitles}
+    hero_typing_text={heroSection.data.hero_typing_text} 
+    greeting={heroSection.data.greeting}
     background_image={heroSection.data.background_image} 
-/>
+  />
 
   {contentSections.map(async (section) => {
-    const { Content } = await section.render();
+    const { Content } = await render(section);
     
-    // We check the 'type' field we added to the schema
     if (section.data.type === 'plain') {
       return (
         <PlainSection 
@@ -60,10 +58,11 @@ const contentSections = allSections
           slug={section.slug} 
           title={section.data.title} 
           subtitle={section.data.subtitle}
+          blog_tag_filter={section.data.blog_tag_filter}
         />
       );
     }
-
+    
     return null;
   })}
 

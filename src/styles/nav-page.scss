@@ -1,4 +1,5 @@
 /* Applied only when body has .inner-page class */
 body.inner-page {
-  @import "./navigation.css";
+  /* Sass will now inline the content here, correctly scoped */
+  @import "navigation";
 }

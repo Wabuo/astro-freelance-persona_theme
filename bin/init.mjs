@@ -111,33 +111,55 @@ async function processFiles() {
   console.log('📂 Checking System Configuration...');
   for (const file of coreFiles) {
     await safeCopy(
-      path.join(packageRoot, file), // Source
-      path.join(projectRoot, file), // Dest
-      file,                         // Name
-      true                          // Is System File
+      path.join(packageRoot, file), 
+      path.join(projectRoot, file), 
+      file,                         
+      true                          
     );
   }
 
-  // --- Step B: Copy Starter Content (Includes Assets) ---
+  // --- Step B: Copy Starter Content ---
   console.log('\n📝 Checking Starter Content & Assets...');
   if (fs.existsSync(starterSrcDir)) {
     const starterFiles = getAllFiles(starterSrcDir);
     
     for (const fullSourcePath of starterFiles) {
-      // Calculate relative path (e.g., 'src/assets/img/background.jpg' or 'public/assets/img/favicon.ico')
       const relPath = path.relative(starterSrcDir, fullSourcePath);
-      const fullDestPath = path.join(projectRoot, relPath);
       
-      await safeCopy(
-        fullSourcePath,
-        fullDestPath,
-        relPath,
-        false // Treat as content (safer default)
-      );
+      // SKIP: Don't copy the config files via the generic loop.
+      // We handle them explicitly in Step C to ensure they go to the right place.
+      if (relPath === 'src/config.ts') continue;
+      if (relPath === 'src/content/config.ts') continue;
+      if (relPath === 'src/content.config.ts') continue;
+
+      const fullDestPath = path.join(projectRoot, relPath);
+      await safeCopy(fullSourcePath, fullDestPath, relPath, false);
     }
-  } else {
-    console.warn(`   ⚠️  Starter content directory not found at ${starterSrcDir}`);
   }
+
+  // --- Step C: Inject Configurations ---
+  console.log('\n⚙️  Injecting Configuration...');
+  
+  // 1. Master Config (The User Settings)
+  await safeCopy(
+    path.join(packageRoot, 'starter/src/config.ts'), 
+    path.join(projectRoot, 'src/config.ts'), 
+    'src/config.ts',
+    false 
+  );
+
+  // 2. Content Collections Config (The Schema - Required by Astro to be in src/)
+  // We check for the new Astro v5 naming convention
+  const contentConfigSource = fs.existsSync(path.join(packageRoot, 'starter/src/content.config.ts'))
+    ? path.join(packageRoot, 'starter/src/content.config.ts')
+    : path.join(packageRoot, 'starter/src/content/config.ts'); // Fallback for older structure
+
+  await safeCopy(
+    contentConfigSource, 
+    path.join(projectRoot, 'src/content.config.ts'), // Destination is always root src/content.config.ts for Astro 5
+    'src/content.config.ts',
+    true // Treat as system file (users shouldn't delete this)
+  );
 
   // --- Step C: Dependencies ---
   console.log('\n📦 Checking dependencies...');
@@ -147,13 +169,23 @@ async function processFiles() {
       const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
       const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
       
-      // Check for Sass
+      // 1. Check for Sass (Dev Dependency)
       if (!allDeps.sass) {
         console.log('   Installing Sass...');
         execSync('yarn add -D sass', { stdio: 'inherit' });
       } else {
         console.log('   ✅ Sass is already installed.');
       }
+
+      // 2. Check for Sharp (Image Optimization Engine)
+      if (!allDeps.sharp) {
+        console.log('   Installing Sharp (Required for Image Optimization)...');
+        // Sharp is best installed as a regular dependency to ensure it exists in prod builds
+        execSync('yarn add sharp', { stdio: 'inherit' });
+      } else {
+        console.log('   ✅ Sharp is already installed.');
+      }
+
     }
   } catch (e) {
     console.warn('   Failed to check/install dependencies:', e.message);

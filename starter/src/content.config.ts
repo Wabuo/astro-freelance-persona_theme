@@ -26,6 +26,14 @@ const sections = defineCollection({
     icon_class: z.string().optional(),
     type: z.string().optional(),
     background_image: z.string().optional(),
+  }).transform((data) => {
+    return {
+      ...data,
+      // Ensure type is preserved, defaulting to 'plain' only if strictly missing
+      type: data.type || 'plain',
+      // Map hero_typing_text to subtitles to ensure backward compatibility with the Hero component
+      subtitles: data.hero_typing_text,
+    };
   }),
 });
 // 2. Blog Collection

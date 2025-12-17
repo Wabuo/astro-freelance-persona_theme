@@ -2,7 +2,7 @@
 // src/layouts/BaseLayout.astro
 import Footer from '../components/Footer.astro';
 import Navigation from '../components/Navigation.astro';
-import { themeConfig } from '@theme-config'; 
+import { themeConfig } from '../config';
 
 // --- FONTS ---
 import '@fontsource/poppins/300.css';
@@ -30,25 +30,32 @@ import '@fontsource/roboto/700-italic.css';
 import '../styles/main.scss';
 
 // --- SMART ASSET DISCOVERY ---
-async function findAsset(glob: Record<string, () => Promise<any>>) {
+async function findAsset(glob: Record<string, () => Promise<any>>, label: string) {
   const paths = Object.keys(glob);
+  
+  // Debug: Log found assets to the server console
+  if (import.meta.env.DEV) {
+    console.log(`[BaseLayout] ${label} discovery:`, paths.length > 0 ? paths : 'None found');
+  }
+
   if (paths.length === 0) return null;
+  
+  // Sort preference: SVG > PNG > ICO
   paths.sort((a, b) => {
     const score = (p: string) => p.endsWith('.svg') ? 4 : p.endsWith('.png') ? 3 : p.endsWith('.ico') ? 2 : 0;
     return score(b) - score(a);
   });
-  const selectedPath = paths[0];
-  const mod = await glob[selectedPath]();
+  
+  const mod = await glob[paths[0]]();
   return mod.default;
 }
 
-const faviconSrc = await findAsset(
-  import.meta.glob('/src/assets/img/favicon.{svg,ico,png,webp}', { query: { url: '' } })
-);
-const appleSrc = await findAsset(
-  import.meta.glob('/src/assets/img/apple-touch-icon.{png,svg,webp}', { query: { url: '' } })
-);
+// 1. Find Favicon
+const faviconSrc = await findAsset(import.meta.glob('/src/assets/img/favicon.{svg,ico,png,webp}'), 'Favicon');
+// 2. Find Apple Touch Icon
+const appleSrc = await findAsset(import.meta.glob('/src/assets/img/apple-touch-icon.{png,svg,webp}'), 'Apple Icon');
 
+// Helper: Extract URL from string or Astro ImageMetadata object
 const getAssetUrl = (asset: any) => {
   if (!asset) return '';
   if (typeof asset === 'string') return asset;
@@ -56,20 +63,24 @@ const getAssetUrl = (asset: any) => {
   return '';
 };
 
+// Helper: Determine MIME type safely (Handles Objects and Strings)
 const getMime = (asset: any) => {
   if(!asset) return 'image/x-icon';
+  
+  // Handle Astro ImageMetadata (Object with 'format' property)
   if (typeof asset === 'object' && asset.format) {
      if (asset.format === 'svg') return 'image/svg+xml';
      if (asset.format === 'png') return 'image/png';
      if (asset.format === 'webp') return 'image/webp';
      return `image/${asset.format}`;
   }
+  
+  // Handle String path (Fallback)
   if (typeof asset === 'string') {
-    if (/\.svg($|\?)/.test(asset)) return 'image/svg+xml';
-    if (/\.png($|\?)/.test(asset)) return 'image/png';
-    if (/\.ico($|\?)/.test(asset)) return 'image/x-icon';
-    if (/\.webp($|\?)/.test(asset)) return 'image/webp';
+    if(asset.endsWith('.svg')) return 'image/svg+xml';
+    if(asset.endsWith('.png')) return 'image/png';
   }
+  
   return 'image/x-icon';
 };
 
@@ -88,17 +99,10 @@ const {
 } = Astro.props;
 
 const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
-
-// --- LAYOUT LOGIC ---
-const layout = themeConfig.layout || {};
-// Default left margin if not set. 140px matches standard sidebar width.
-const globalMarginLeft = layout.margin_left || '140px';
-// If margin_right is not explicitly set, force it to equal margin_left (Centering behavior)
-const globalMarginRight = layout.margin_right || globalMarginLeft;
 ---
 
 <!DOCTYPE html>
-<html lang="en" style={`--global-margin-left: ${globalMarginLeft}; --global-margin-right: ${globalMarginRight};`}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -131,6 +135,7 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
     <div id="preloader"></div>
 
     <script is:inline>
+      // Lightweight preloader script
       function removePreloader() {
         const preloader = document.getElementById('preloader');
         if (preloader) {
@@ -143,6 +148,7 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
     </script>
 
     <script>
+      // Import our modern, dependency-free global logic
       import "../scripts/layout.js";
     </script>
   </body>

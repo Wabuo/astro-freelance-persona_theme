@@ -1,3 +1,5 @@
+/* src/styles/contact.scss */
+
 /*--------------------------------------------------------------
 # Contact Section
 --------------------------------------------------------------*/
@@ -20,7 +22,6 @@
 }
 
 .contact .info-item h3 {
-  font-size: var(--normal-font-size);
   padding: 0;
   font-size: 18px;
   font-weight: 700;
@@ -30,7 +31,7 @@
 .contact .info-item p {
   padding: 0;
   margin-bottom: 0;
-  font-size: var(--footer-font-size);
+  font-size: 14px;
 }
 
 .contact .info-item:hover i {
@@ -94,17 +95,18 @@
 
 .contact .contact-form .input-box input,
 .contact .contact-form .input-box textarea {
-  font-size: var(--footer-font-size);
+  font-size: 14px;
   outline: none;
   padding: 15px 15px 10px 15px;
   display: block;
   width: 100%;
   border: none;
   border-radius: 4px;
-  border: 2px solid color-mix(in srgb, var(--default-color), transparent 80%);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
+  /* Keep the semi-transparent background for the input */
   background: color-mix(in srgb, var(--background-color), transparent 50%);
   color: var(--default-color);
-  transition: var(--accent-color) 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .contact .contact-form .input-box textarea {
@@ -117,33 +119,42 @@
 .contact .contact-form .input-box textarea:focus,
 .contact .contact-form .input-box textarea:valid {
   border-color: var(--accent-color);
+  /* Optional: Make input solid on focus for better readability */
+  background: var(--background-color);
 }
 
 .contact .contact-form .input-box .label {
   color: color-mix(in srgb, var(--default-color), transparent 30%);
-  font-size: var(--footer-font-size);
+  font-size: 14px;
   font-weight: normal;
   position: absolute;
   pointer-events: none;
-  left: 24px;
+  left: 15px; /* Adjusted to match input padding */
   top: 15px;
   transition: all 0.3s ease;
-  background: var(--background-color);
+  
+  /* FIXED: Transparent by default so it blends into the input */
+  background: transparent; 
   padding: 0 4px;
 }
 
+/* --- Active / Floating State --- */
 .contact .contact-form .input-box input:focus ~ .label,
 .contact .contact-form .input-box input:valid ~ .label,
 .contact .contact-form .input-box textarea:focus ~ .label,
 .contact .contact-form .input-box textarea:valid ~ .label {
-  transform: translateY(-25px);
-  font-size: var(--footer-font-size);
+  transform: translateY(-24px) translateX(-5px) scale(0.9);
+  
+  /* FIXED: Become solid only when floating on the border */
+  background: var(--background-color);
   color: var(--accent-color);
+  z-index: 10;
 }
 
 .contact .contact-form .input-box input:user-invalid ~ .label {
-  transform: translateY(-25px);
-  font-size: var(--footer-font-size);
+  transform: translateY(-24px) translateX(-5px) scale(0.9);
+  background: var(--background-color);
+  color: #df1529; /* Red label if invalid */
 }
 
 .contact .contact-form button[type=submit] {
@@ -153,6 +164,7 @@
   padding: 10px 30px;
   transition: 0.4s;
   border-radius: 50px;
+  font-weight: 600;
 }
 
 .contact .contact-form button[type=submit]:hover {
@@ -169,7 +181,7 @@
   }
 }
 
-/* Show messaging elements when the 'show' class is added by JS */
+/* Show messaging elements */
 .contact .contact-form .loading.show,
 .contact .contact-form .error-message.show,
 .contact .contact-form .sent-message.show {

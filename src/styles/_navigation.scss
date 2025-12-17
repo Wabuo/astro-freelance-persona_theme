@@ -193,7 +193,7 @@
     list-style: none;
     padding: 0 0 20px 0;
     margin: 0;
-    width: calc(var(--nav-menu-mobile-width)-2*var(--nav-menu-border-padding));
+    width: calc(var(--nav-menu-mobile-width) - 2 * var(--nav-menu-border-padding));
   }
   
   .navmenu a,

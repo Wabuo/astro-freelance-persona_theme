@@ -1,4 +1,5 @@
 ---
+// src/components/sections/CategorySection.astro
 import { getCollection } from 'astro:content';
 import SectionTitle from '../ui/SectionTitle.astro';
 
@@ -6,43 +7,63 @@ interface Props {
   slug: string;
   title: string;
   subtitle?: string;
+  blog_tag_filter?: string; // <--- NEW PROP
 }
-const { slug, title, subtitle } = Astro.props;
+const { slug, title, subtitle, blog_tag_filter } = Astro.props;
 
-// Fetch blog posts for this preview
-// (In a more complex theme, we might filter by the specific category 'slug', 
-// but for now we assume this section shows the 'blog' collection)
-const posts = await getCollection('blog');
-const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+// 1. Fetch ALL posts
+const allPosts = await getCollection('blog');
+
+// 2. Filter Logic
+// If a filter is provided, only keep posts that have that specific tag.
+// If no filter is provided, keep everything.
+const filteredPosts = blog_tag_filter 
+  ? allPosts.filter(post => post.data.tags?.includes(blog_tag_filter))
+  : allPosts;
+
+// 3. Sort by Date & LIMIT to 3
+// We only want the 3 newest posts for this specific section.
+const displayedPosts = filteredPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3); 
 ---
 
-<section id={slug} class="category section">
-  <SectionTitle title={title} subtitle={subtitle} />
+{/* Only render the section if we actually found posts for this category */}
+{displayedPosts.length > 0 && (
+  <section id={slug} class="category section">
+    <SectionTitle title={title} subtitle={subtitle} />
 
-  <div class="container" data-aos="fade-up">
-    <div class="row">
-      {sortedPosts.map((post) => (
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="post-entry">
-            {post.data.thumbnail && (
-              <a href={`/blog/${post.slug}`} class="thumb">
-                 <img src={post.data.thumbnail} alt={post.data.title} class="img-fluid" />
-              </a>
-            )}
-            
-            <div class="meta">
-              <span class="date">
-                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-              </span>
-            </div>
-            
-            <div class="post-content">
-              <h3><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
-              <p>{post.data.description || "Click to read more..."}</p>
+    <div class="container" data-aos="fade-up">
+      <div class="row">
+        {displayedPosts.map((post) => (
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="post-entry">
+              {post.data.thumbnail && (
+                <a href={`/blog/${post.slug}`} class="thumb">
+                  <img src={post.data.thumbnail} alt={post.data.title} class="img-fluid" />
+                </a>
+              )}
+              
+              <div class="meta">
+                <span class="date">
+                  {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </span>
+                {/* Optional: Show the tag filter as a badge so users know the context */}
+                {blog_tag_filter && (
+                  <span class="badge ms-2 text-bg-secondary" style="font-size: 0.75em; vertical-align: middle;">
+                    {blog_tag_filter}
+                  </span>
+                )}
+              </div>
+              
+              <div class="post-content">
+                <h3><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
+                <p>{post.data.description || "Click to read more..."}</p>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+)}

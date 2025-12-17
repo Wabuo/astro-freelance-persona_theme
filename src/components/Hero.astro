@@ -1,16 +1,17 @@
 ---
 import { Image } from 'astro:assets';
-import { themeConfig } from '../config';
+import { themeConfig } from '@theme-config';
 
 interface Props {
   title: string;
-  subtitles?: string;
+  hero_typing_text?: string;
+  greeting?: string; // String gest put in front of the typing effect, e.g., "I'm"
   background_image?: ImageMetadata; 
 }
 
-const { title, subtitles, background_image: explicitImage } = Astro.props;
+const { title, hero_typing_text, greeting, background_image: explicitImage } = Astro.props;
 
-// --- DYNAMIC BACKGROUND LOGIC ---
+// --- DYNAMIC BACKGROUND LOGIC (Keep existing logic) ---
 let finalImage = explicitImage;
 if (!finalImage) {
   const bgGlob = import.meta.glob('/src/assets/img/background.{jpg,jpeg,png,webp,avif,svg}');
@@ -24,7 +25,7 @@ if (!finalImage) {
     finalImage = imageModule.default;
   }
 }
-// --- END DYNAMIC LOGIC ---
+// -------------------------------------
 ---
 
 <section id="hero" class="hero section">
@@ -43,19 +44,23 @@ if (!finalImage) {
     <div class="row justify-content-center">
       <div class="col-lg-9">
         <h2>{title}</h2>
-        {subtitles && (
-          <p>I'm <span class="typed" data-typed-items={subtitles}></span><span class="typed-cursor">|</span></p>
+        {hero_typing_text && (
+          <p>
+            {/* LOGIC: Only show greeting span if it exists */}
+            {greeting && <span class="greeting">{greeting} </span>}
+            <span class="typed" data-typed-items={hero_typing_text}></span>
+            <span class="typed-cursor">|</span>
+          </p>
         )}
       </div>
     </div>
   </div>
 </section>
 
+{/* ... (Keep Script Section exactly as is) ... */}
 <script>
-  // Tiny Typewriter implementation (Zero Dependency)
   const typedEl = document.querySelector('.typed');
   const cursorEl = document.querySelector('.typed-cursor');
-  
   if (typedEl) {
     const words = typedEl.getAttribute('data-typed-items')?.split(',') || [];
     let wordIndex = 0;
@@ -65,24 +70,21 @@ if (!finalImage) {
 
     const type = () => {
       const currentWord = words[wordIndex];
-      
       if (isDeleting) {
         typedEl.textContent = currentWord.substring(0, charIndex - 1);
         charIndex--;
-        typeSpeed = 50; // Deleting is faster
+        typeSpeed = 50; 
       } else {
         typedEl.textContent = currentWord.substring(0, charIndex + 1);
         charIndex++;
-        typeSpeed = 100; // Typing is normal
+        typeSpeed = 100; 
       }
 
       if (!isDeleting && charIndex === currentWord.length) {
-        // Finished typing word, pause then delete
         isDeleting = true;
         typeSpeed = 2000;
         if(cursorEl) cursorEl.classList.add('blinking');
       } else if (isDeleting && charIndex === 0) {
-        // Finished deleting, move to next word
         isDeleting = false;
         wordIndex = (wordIndex + 1) % words.length;
         typeSpeed = 500;
@@ -90,15 +92,14 @@ if (!finalImage) {
       } else {
         if(cursorEl) cursorEl.classList.remove('blinking');
       }
-
       setTimeout(type, typeSpeed);
     };
-
     if (words.length > 0) type();
   }
 </script>
 
 <style>
+  /* ... (Keep existing styles) ... */
   .hero-bg {
     position: absolute;
     inset: 0;
@@ -109,6 +110,24 @@ if (!finalImage) {
     z-index: 0;
   }
   
+  /* FONT FIX: Force the subtitle paragraph to use the Heading/Nav font (Poppins) */
+  /* This overrides the default 'Roboto' body font */
+  .hero p {
+    font-family: var(--nav-font); /* Poppins */
+    /* Alternatively try var(--heading-font) if you prefer Raleway */
+    font-size: 1.625rem; /* 26px -> 1.625rem */ /* Adjust size to match original if needed */
+    margin-bottom: 0;
+  }
+
+  .greeting {
+    font-weight: 400; /* Regular weight for "I'm" */
+  }
+
+  .hero p span.greeting {
+    font-weight: 400; /* Regular weight for "I'm" */
+    color: inherit;   /* Inherits white/dark from parent, ignoring the accent color rule */
+  }
+
   /* Cursor Blinking Animation */
   .typed-cursor {
     opacity: 1;

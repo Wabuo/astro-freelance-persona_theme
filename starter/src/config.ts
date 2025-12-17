@@ -6,6 +6,16 @@ export const themeConfig: PersonaConfig = {
   author: "Persona, Zola Theme",
   description: "A modern, responsive and lightweight theme for resume, portfolio, and blog.",
   
+  // --- LAYOUT CONFIG ---
+  layout: {
+    // Defines the "Canvas" margins.
+    // The sidebar floats over this area.
+    margin_left: "140px",  // Adjust to match Sidebar width
+    // margin_right: "5em", // Uncomment to set manually. Defaults to margin_left.
+    // can take any CSS unit (em, px, vw, etc.)
+  },
+  // ---------------------
+
   social_links: [
     { 
       name: "GitHub", 
@@ -31,7 +41,6 @@ export const themeConfig: PersonaConfig = {
   
   quote: "There's the private persona and the public persona, and the two shall never meet. --- Liev Schreiber",
   
-  // Note: We will handle the markdown parsing for these strings in the components later
   copyright: "&copy; All Rights Reserved",
   credits: "Powered by [Zola](https://www.getzola.org/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/)"
 };

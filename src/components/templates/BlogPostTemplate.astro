@@ -1,14 +1,17 @@
 ---
-// Correct imports for src/components/templates/BlogPostTemplate.astro
+// src/components/templates/BlogPostTemplate.astro
+import { render } from 'astro:content'; // <--- Import 'render'
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../ui/Breadcrumbs.astro';
 import BlogSidebar from '../blog/BlogSidebar.astro';
 
 const { post } = Astro.props;
-const { Content } = await post.render();
 
-// Helper for approximate reading time (Word count / 200 words per min)
-const wordCount = post.body.split(/\s+/g).length;
+// FIXED: Use standalone render()
+const { Content } = await render(post);
+
+// Helper for approximate reading time
+const wordCount = post.body ? post.body.split(/\s+/g).length : 0;
 const readingTime = Math.ceil(wordCount / 200);
 ---
 
@@ -36,7 +39,7 @@ const readingTime = Math.ceil(wordCount / 200);
               <h2 class="post-title">{post.data.title}</h2>
               
               <div class="post-tags">
-                {post.data.tags && post.data.tags.map(tag => (
+                {post.data.tags && post.data.tags.map((tag: string) => (
                   <span class="tag">{tag.toLowerCase()}</span>
                 ))}
               </div>
@@ -67,7 +70,7 @@ const readingTime = Math.ceil(wordCount / 200);
             </div>
 
             <div class="post-content">
-              <Content />
+               <Content />
             </div>
 
           </article>

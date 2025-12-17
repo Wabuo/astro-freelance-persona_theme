@@ -32,21 +32,21 @@
 
 /* Font Sizes - The following variables define the base font sizes for the website. They can be used to maintain consistency in typography across different sections and elements */
 :root {
-  --normal-font-size: 16px; /* Base font size for the website */
-  --footer-font-size: 14px; /* Font size for footer text */
-  --heading-font-size: 32px; /* Base font size for headings */
-  --subtitle-font-size: 24px; /* Font size for subtitles, such as section titles */
-  --title-font-size: 64px; /* Font size for titles, such as hero section titles */
-}
+  --normal-font-size: 1rem; /* 16px */
+  --footer-font-size: 0.875rem; /* 14px */
+  --heading-font-size: 2rem; /* 32px */
+  --subtitle-font-size: 1.5rem; /* 24px */
+  --title-font-size: 4rem; /* 64px */
+} 
 
 /* Nav Menu Dimensions */
 :root {
-  --nav-icon-size: 56px; /* The size of the navigation menu icons */
-  --nav-menu-width: 140px; /* The width of the navigation menu */
-  --nav-menu-mobile-width: 300px; /* The width of the navigation menu */
-  --nav-menu-border-padding: 15px; /* The padding width of the navigation menu */
-  --nav-menu-mobile-border-width: 1px; /* The border width of the navigation menu */
-}
+  --nav-icon-size: 3.5rem; /* 56px */
+  --nav-menu-width: 8.75rem; /* 140px */
+  --nav-menu-mobile-width: 18.75rem; /* 300px */
+  --nav-menu-border-padding: 0.9375rem; /* 15px */
+  --nav-menu-mobile-border-width: 1px; /* 1px - keep as px for crisp borders */
+} 
 
 /* Nav Menu Colors */
 :root {
@@ -86,11 +86,11 @@
 }
 
 :root {
-  --img-border-radius: 10px;
-  --botton-size: 40px;
-  --botton-position-away-from-corner-distance: 15px;
+  --img-border-radius: 0.625rem; /* 10px */
+  --botton-size: 2.5rem; /* 40px */
+  --botton-position-away-from-corner-distance: 0.9375rem; /* 15px */
   --botton-position-away-from-corner-horizontal-distance: var(--botton-position-away-from-corner-distance);
-  --botton-position-away-from-corner-vertical-distance: 30px;
+  --botton-position-away-from-corner-vertical-distance: 1.875rem; /* 30px */
 }
 
 /* Smooth scroll */
@@ -161,7 +161,7 @@ h6 {
 
 // Fade Up (starts lower and slides up)
 [data-aos="fade-up"] {
-  transform: translateY(30px);
+  transform: translateY(1.875rem); /* 30px */
 }
 
 // Zoom Out (starts slightly larger and scales down)

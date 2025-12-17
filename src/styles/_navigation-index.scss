@@ -63,7 +63,7 @@
 
 .navmenu ul {
   list-style: none;
-  padding: 0 0 20px 0;
+  padding: 0 0 1.25rem 0; /* 20px */
   margin: 0;
   /* Fixed sass calculation spacing */
   width: calc(var(--nav-menu-mobile-width) - 2 * var(--nav-menu-border-padding));
@@ -75,10 +75,10 @@
   font-family: var(--nav-font);
   display: flex;
   align-items: center;
-  padding: 10px 18px;
-  margin-bottom: 8px;
-  font-size: 15px;
-  border-radius: 50px;
+  padding: 0.625rem 1.125rem; /* 10px 18px */
+  margin-bottom: 0.5rem; /* 8px */
+  font-size: 0.9375rem; /* 15px */
+  border-radius: 3.125rem; /* 50px */
   background: color-mix(in srgb, var(--default-color), transparent 92%);
   height: var(--nav-icon-size);
   width: 100%;
@@ -88,13 +88,13 @@
 
 .navmenu a i,
 .navmenu a:focus i {
-  font-size: 20px;
+  font-size: 1.25rem; /* 20px */
 }
 
 .navmenu a span,
 .navmenu a:focus span {
-  padding: 0 5px 0 7px;
-}
+  padding: 0 0.3125rem 0 0.4375rem; /* 0 5px 0 7px */
+} 
 
 @media (min-width: 992px) {
 
@@ -139,7 +139,7 @@
 .nav-toggle {
   color: var(--contrast-color);
   background-color: var(--accent-color);
-  font-size: 22px;
+  font-size: 1.375rem; /* 22px */
   display: flex;
   align-items: center;
   justify-content: center;

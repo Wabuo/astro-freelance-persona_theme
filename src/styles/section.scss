@@ -18,8 +18,8 @@ section,
 .section-title h2 {
   font-size: var(--heading-font-size);
   font-weight: 700;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 1.25rem; /* 20px */
+  padding-bottom: 1.25rem; /* 20px */
   position: relative;
 }
 
@@ -27,7 +27,7 @@ section,
   content: "";
   position: absolute;
   display: block;
-  width: 160px;
+  width: 10rem; /* 160px */
   height: 1px;
   background: color-mix(in srgb, var(--default-color), transparent 60%);
   left: 0;
@@ -41,13 +41,13 @@ section,
   position: absolute;
   display: block;
   width: var(--spacing-xxl);
-  height: 3px;
+  height: 0.1875rem; /* 3px */
   background: var(--accent-color);
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
-}
+} 
 
 .section-title p {
   margin-bottom: 0;

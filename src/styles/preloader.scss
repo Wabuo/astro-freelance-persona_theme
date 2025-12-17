@@ -13,13 +13,13 @@
 #preloader:before {
   content: "";
   position: fixed;
-  top: calc(50% - 30px);
-  left: calc(50% - 30px);
-  border: 6px solid #ffffff;
+  top: calc(50% - 1.875rem); /* 30px */
+  left: calc(50% - 1.875rem); /* 30px */
+  border: 0.375rem solid #ffffff; /* 6px */
   border-color: var(--accent-color) transparent var(--accent-color) transparent;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 3.75rem; /* 60px */
+  height: 3.75rem; /* 60px */
   animation: animate-preloader 1.5s linear infinite;
 }
 

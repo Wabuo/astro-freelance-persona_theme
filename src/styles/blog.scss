@@ -6,13 +6,13 @@ ol {
 }
 
 .post-entry {
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem; /* 30px */
 }
 
 .post-entry .post-meta {
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
+  margin-top: 1.25rem; /* 20px */
+  margin-bottom: 0.625rem; /* 10px */
+} 
 
 .post-entry .post-meta .post-title {
   font-size: var(--subtitle-font-size);
@@ -21,12 +21,12 @@ ol {
 .post-entry .post-meta .post-date {
   color: var(--color-gray);
   font-size: var(--normal-font-size);
-  margin-left: 40px;
+  margin-left: 2.5rem; /* 40px */
   width: fit-content;
   white-space: nowrap;
 }
 
 .post-entry p {
   text-align: justify;
-  margin-left: 20px;
+  margin-left: 1.25rem; /* 20px */
 }

@@ -57,45 +57,55 @@ if (!finalImage) {
   </div>
 </section>
 
-{/* ... (Keep Script Section exactly as is) ... */}
+{/* ... (Typed script logic) ... */}
 <script>
-  const typedEl = document.querySelector('.typed');
-  const cursorEl = document.querySelector('.typed-cursor');
-  if (typedEl) {
-    const words = typedEl.getAttribute('data-typed-items')?.split(',') || [];
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let typeSpeed = 100;
 
-    const type = () => {
-      const currentWord = words[wordIndex];
-      if (isDeleting) {
-        typedEl.textContent = currentWord.substring(0, charIndex - 1);
-        charIndex--;
-        typeSpeed = 50; 
-      } else {
-        typedEl.textContent = currentWord.substring(0, charIndex + 1);
-        charIndex++;
-        typeSpeed = 100; 
-      }
+  // Wrap the typed script in a function
+  function initTyped() {
+    const typedEl = document.querySelector('.typed');
+    const cursorEl = document.querySelector('.typed-cursor');
 
-      if (!isDeleting && charIndex === currentWord.length) {
-        isDeleting = true;
-        typeSpeed = 2000;
-        if(cursorEl) cursorEl.classList.add('blinking');
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-        typeSpeed = 500;
-        if(cursorEl) cursorEl.classList.remove('blinking');
-      } else {
-        if(cursorEl) cursorEl.classList.remove('blinking');
-      }
-      setTimeout(type, typeSpeed);
-    };
-    if (words.length > 0) type();
+    if (typedEl) {
+      const words = typedEl.getAttribute('data-typed-items')?.split(',') || [];
+      let wordIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      let typeSpeed = 100;
+
+      const type = () => {
+        const currentWord = words[wordIndex];
+        if (isDeleting) {
+          typedEl.textContent = currentWord.substring(0, charIndex - 1);
+          charIndex--;
+          typeSpeed = 50; 
+        } else {
+          typedEl.textContent = currentWord.substring(0, charIndex + 1);
+          charIndex++;
+          typeSpeed = 100; 
+        }
+
+        if (!isDeleting && charIndex === currentWord.length) {
+          isDeleting = true;
+          typeSpeed = 2000;
+          if(cursorEl) cursorEl.classList.add('blinking');
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          typeSpeed = 500;
+          if(cursorEl) cursorEl.classList.remove('blinking');
+        } else {
+          if(cursorEl) cursorEl.classList.remove('blinking');
+        }
+        setTimeout(type, typeSpeed);
+      };
+      if (words.length > 0) type();
+    }
   }
+  // Run on initial load
+  initTyped();
+
+  // Run on subsequent navigations (if ClientRouter is ever added)
+  document.addEventListener('astro:page-load', initTyped);
 </script>
 
 <style>

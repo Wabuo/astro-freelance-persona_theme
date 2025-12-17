@@ -7,6 +7,7 @@ const sections = defineCollection({
   schema: z.object({
     title: z.string(),
     
+    
     // --- 1. Standard Section Props ---
     // The small text below the main title (e.g. "Thoughts & Updates")
     subtitle: z.string().optional(),
@@ -24,16 +25,8 @@ const sections = defineCollection({
     // --- 4. Technical Props ---
     order: z.number().default(100),
     icon_class: z.string().optional(),
-    type: z.string().optional(),
+    type: z.enum(['hero', 'plain', 'category', 'contact']).optional().default('plain'),
     background_image: z.string().optional(),
-  }).transform((data) => {
-    return {
-      ...data,
-      // Ensure type is preserved, defaulting to 'plain' only if strictly missing
-      type: data.type || 'plain',
-      // Map hero_typing_text to subtitles to ensure backward compatibility with the Hero component
-      subtitles: data.hero_typing_text,
-    };
   }),
 });
 // 2. Blog Collection

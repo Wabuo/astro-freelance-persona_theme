@@ -15,12 +15,12 @@ const sections = await getCollection('sections');
 const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
 
 // Helper to determine the href
-const getLink = (slug: string) => {
+const getLink = (id: string) => {
   if (isHome) {
-    return `#${slug}`; // Scroll to section
+    return `#${id}`; // Scroll to section
   } else {
     // For inner pages, link to the homepage anchor
-    return `/#${slug}`;
+    return `/#${id}`;
   }
 };
 ---
@@ -39,7 +39,7 @@ const getLink = (slug: string) => {
         // Only show sections that have an icon (avoids listing non-menu items)
         section.data.icon_class && (
           <li>
-            <a href={getLink(section.slug)} aria-label={section.data.title}>
+            <a href={getLink(section.id)} aria-label={section.data.title}>
               <i class={`${section.data.icon_class} navicon`}></i>
               <span>{section.data.title}</span>
             </a>

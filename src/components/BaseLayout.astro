@@ -2,7 +2,8 @@
 // src/layouts/BaseLayout.astro
 import Footer from '../components/Footer.astro';
 import Navigation from '../components/Navigation.astro';
-import { themeConfig } from '../config';
+import { themeConfig } from '@theme-config'; 
+import { ClientRouter } from 'astro:transitions'; // <--- 1. Import Client Router
 
 // --- FONTS ---
 import '@fontsource/poppins/300.css';
@@ -30,32 +31,25 @@ import '@fontsource/roboto/700-italic.css';
 import '../styles/main.scss';
 
 // --- SMART ASSET DISCOVERY ---
-async function findAsset(glob: Record<string, () => Promise<any>>, label: string) {
+async function findAsset(glob: Record<string, () => Promise<any>>) {
   const paths = Object.keys(glob);
-  
-  // Debug: Log found assets to the server console
-  if (import.meta.env.DEV) {
-    console.log(`[BaseLayout] ${label} discovery:`, paths.length > 0 ? paths : 'None found');
-  }
-
   if (paths.length === 0) return null;
-  
-  // Sort preference: SVG > PNG > ICO
   paths.sort((a, b) => {
     const score = (p: string) => p.endsWith('.svg') ? 4 : p.endsWith('.png') ? 3 : p.endsWith('.ico') ? 2 : 0;
     return score(b) - score(a);
   });
-  
-  const mod = await glob[paths[0]]();
+  const selectedPath = paths[0];
+  const mod = await glob[selectedPath]();
   return mod.default;
 }
 
-// 1. Find Favicon
-const faviconSrc = await findAsset(import.meta.glob('/src/assets/img/favicon.{svg,ico,png,webp}'), 'Favicon');
-// 2. Find Apple Touch Icon
-const appleSrc = await findAsset(import.meta.glob('/src/assets/img/apple-touch-icon.{png,svg,webp}'), 'Apple Icon');
+const faviconSrc = await findAsset(
+  import.meta.glob('/src/assets/img/favicon.{svg,ico,png,webp}', { query: { url: '' } })
+);
+const appleSrc = await findAsset(
+  import.meta.glob('/src/assets/img/apple-touch-icon.{png,svg,webp}', { query: { url: '' } })
+);
 
-// Helper: Extract URL from string or Astro ImageMetadata object
 const getAssetUrl = (asset: any) => {
   if (!asset) return '';
   if (typeof asset === 'string') return asset;
@@ -63,24 +57,20 @@ const getAssetUrl = (asset: any) => {
   return '';
 };
 
-// Helper: Determine MIME type safely (Handles Objects and Strings)
 const getMime = (asset: any) => {
   if(!asset) return 'image/x-icon';
-  
-  // Handle Astro ImageMetadata (Object with 'format' property)
   if (typeof asset === 'object' && asset.format) {
      if (asset.format === 'svg') return 'image/svg+xml';
      if (asset.format === 'png') return 'image/png';
      if (asset.format === 'webp') return 'image/webp';
      return `image/${asset.format}`;
   }
-  
-  // Handle String path (Fallback)
   if (typeof asset === 'string') {
-    if(asset.endsWith('.svg')) return 'image/svg+xml';
-    if(asset.endsWith('.png')) return 'image/png';
+    if (/\.svg($|\?)/.test(asset)) return 'image/svg+xml';
+    if (/\.png($|\?)/.test(asset)) return 'image/png';
+    if (/\.ico($|\?)/.test(asset)) return 'image/x-icon';
+    if (/\.webp($|\?)/.test(asset)) return 'image/webp';
   }
-  
   return 'image/x-icon';
 };
 
@@ -99,10 +89,15 @@ const {
 } = Astro.props;
 
 const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
+
+// --- LAYOUT LOGIC ---
+const layout = themeConfig.layout || {};
+const globalMarginLeft = layout.margin_left || '140px';
+const globalMarginRight = layout.margin_right || globalMarginLeft;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style={`--global-margin-left: ${globalMarginLeft}; --global-margin-right: ${globalMarginRight};`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -110,6 +105,8 @@ const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={themeConfig.author} />
+    
+    <ClientRouter />
 
     {faviconSrc && (
       <link rel="icon" type={getMime(faviconSrc)} href={getAssetUrl(faviconSrc)} />
@@ -119,6 +116,15 @@ const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
     )}
     
     <meta name="generator" content={Astro.generator} />
+
+    <noscript>
+      <style>
+        /* Hide preloader immediately if JS is off */
+        #preloader { display: none !important; visibility: hidden; opacity: 0; z-index: -9999; }
+        /* Force animations to be visible immediately */
+        [data-aos] { opacity: 1 !important; transform: none !important; }
+      </style>
+    </noscript>
   </head>
 
   <body class={bodyClass} data-tex={tex}>
@@ -135,7 +141,6 @@ const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
     <div id="preloader"></div>
 
     <script is:inline>
-      // Lightweight preloader script
       function removePreloader() {
         const preloader = document.getElementById('preloader');
         if (preloader) {
@@ -143,13 +148,66 @@ const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
           setTimeout(() => { preloader.remove(); }, 600);
         }
       }
+      // Run on standard load
       window.addEventListener('load', removePreloader);
+      // Run on Astro navigation (Client Router)
+      document.addEventListener('astro:page-load', removePreloader);
+      
+      // Safety timeout
       setTimeout(removePreloader, 1500);
     </script>
 
     <script>
-      // Import our modern, dependency-free global logic
-      import "../scripts/layout.js";
+      // NOTE: This <script> is processed by Vite, so imports work!
+      
+      // A. Animation Logic (Moved from layout.js)
+      const initScrollAnimations = () => {
+        const elements = document.querySelectorAll('[data-aos]');
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('aos-animate');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px"
+        });
+
+        elements.forEach(el => observer.observe(el));
+      };
+
+      // B. KaTeX Logic (Moved from layout.js)
+      const initKatex = () => {
+        if (document.body.dataset.tex === 'true') {
+          Promise.all([
+            import('katex/dist/katex.min.css'),
+            import('katex/dist/contrib/auto-render.js')
+          ]).then(([_, autoRenderModule]) => {
+            const renderMathInElement = autoRenderModule.default || autoRenderModule;
+            if (typeof renderMathInElement === 'function') {
+              renderMathInElement(document.body, {
+                delimiters: [
+                  {left: '$$', right: '$$', display: true},
+                  {left: '$', right: '$', display: false},
+                  {left: '\\(', right: '\\)', display: false},
+                  {left: '\\[', right: '\\]', display: true}
+                ],
+                throwOnError : false
+              });
+            }
+          }).catch(err => console.error("Failed to load KaTeX:", err));
+        }
+      };
+
+      // C. Navigation Event Listener
+      // This ensures logic runs on initial load AND every time you navigate.
+      document.addEventListener('astro:page-load', () => {
+        initScrollAnimations();
+        initKatex();
+      });
     </script>
   </body>
 </html>

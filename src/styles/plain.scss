@@ -3,7 +3,7 @@
 --------------------------------------------------------------*/
 .plain .content h2 {
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.5rem; /* 24px */
 }
 
 .plain .content ul {
@@ -12,21 +12,21 @@
 }
 
 .plain .content ul li {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem; /* 20px */
   display: flex;
   align-items: center;
 }
 
 .plain .content ul strong {
-  margin-right: 10px;
+  margin-right: 0.625rem; /* 10px */
 }
 
 .plain .content ul i {
-  font-size: 16px;
-  margin-right: 5px;
+  font-size: 1rem; /* 16px */
+  margin-right: 0.3125rem; /* 5px */
   color: var(--accent-color);
   line-height: 0;
-}
+} 
 
 .plain .content p {
   text-align: justify;

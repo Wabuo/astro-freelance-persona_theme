@@ -10,10 +10,12 @@ import CategorySection from '../sections/CategorySection.astro';
 
 // 1. Fetch all sections
 const allSections = await getCollection('sections');
+/* Uncomment the line below for debugging */
+console.log(allSections[0]); // <--- Debugging line to inspect the first section, helpful if some .md gets ignored.
 
 // 2. Separate "Hero" 
 // REFACTOR: Fallback is now explicitly an ERROR state so you know if hero.md is missing.
-const heroSection = allSections.find(s => s.slug === 'hero') || {
+const heroSection = allSections.find(s => s.id === 'hero') || {
   data: {
     title: "CONFIG MISSING",
     hero_typing_text: "Error: src/content/sections/hero.md not found", 
@@ -43,7 +45,7 @@ const contentSections = allSections
     if (section.data.type === 'plain') {
       return (
         <PlainSection 
-          slug={section.slug} 
+          slug={section.id} 
           title={section.data.title} 
           subtitle={section.data.subtitle}
         >
@@ -55,7 +57,7 @@ const contentSections = allSections
     if (section.data.type === 'category') {
       return (
         <CategorySection 
-          slug={section.slug} 
+          slug={section.id} 
           title={section.data.title} 
           subtitle={section.data.subtitle}
           blog_tag_filter={section.data.blog_tag_filter}

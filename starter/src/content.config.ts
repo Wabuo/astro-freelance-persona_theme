@@ -16,7 +16,7 @@ const sections = defineCollection({
       greeting: z.string(), 
       hero_typing_text: z.string(), 
       order: z.number().default(0),
-      // Background image is optional for Hero
+      // Background image is optional for Hero, meaning if undefined, it will use any 'background.*' file it finds.
       background_image: z.string().optional(), 
     }),
 
@@ -25,8 +25,9 @@ const sections = defineCollection({
       type: z.literal('recent_posts'),
       title: z.string(),
       subtitle: z.string().optional(),
-      blog_tag_filter: z.string(), // REQUIRED: Which tag to show?
+      tags_to_filter_posts_by: z.string().optional(),
       order: z.number().default(100),
+      icon_class: z.string(),
     }),
 
     // C. PLAIN & CONTACT SECTIONS
@@ -36,7 +37,7 @@ const sections = defineCollection({
       title: z.string(),
       subtitle: z.string().optional(),
       order: z.number().default(100),
-      icon_class: z.string().optional(),
+      icon_class: z.string(),
     }),
   ]),
 });
@@ -50,7 +51,7 @@ const blog = defineCollection({
     description: z.string(),
     date: z.date(),
     thumbnail: z.string().optional(),
-    tags: z.array(z.string()).optional(),
+    tags: z.array(z.string()),
   }),
 });
 

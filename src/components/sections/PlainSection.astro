@@ -2,14 +2,14 @@
 import SectionTitle from '../ui/SectionTitle.astro';
 
 interface Props {
-  slug: string;
+  id: string;
   title: string;
   subtitle?: string;
 }
-const { slug, title, subtitle } = Astro.props;
+const { id, title, subtitle } = Astro.props;
 ---
 
-<section id={slug} class="plain section">
+<section id={id} class="plain section">
   <SectionTitle title={title} subtitle={subtitle} />
   
   <div class="container" data-aos="fade-up" data-aos-delay="100">

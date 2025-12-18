@@ -1,9 +1,8 @@
 ---
-// src/theme/pages/BlogPost.astro
+// src/freelance-persona/pages/blog/BlogPost.astro
 import { getCollection, render } from 'astro:content';
-import BlogPostTemplate from '@freelance-persona/components/templates/BlogPostTemplate.astro'; // Update imports!
+import BlogPostTemplate from '@freelance-persona/components/templates/BlogPostTemplate.astro';
 
-// 1. Keep your getStaticPaths here exactly as it was
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
@@ -15,6 +14,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 ---
-<BlogPostTemplate {...post.data}>
+
+<BlogPostTemplate post={post}>
   <Content />
 </BlogPostTemplate>

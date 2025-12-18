@@ -1,14 +1,13 @@
 ---
-// src/components/templates/BlogPostTemplate.astro
-import { render } from 'astro:content'; // <--- Import 'render'
+// src/freelance-persona/components/templates/BlogPostTemplate.astro
 import BaseLayout from '@freelance-persona/layouts/BaseLayout.astro';
 import Breadcrumbs from '@freelance-persona/components/ui/Breadcrumbs.astro';
 import BlogSidebar from '@freelance-persona/components/blog/BlogSidebar.astro';
 
 const { post } = Astro.props;
 
-// FIXED: Use standalone render()
-const { Content } = await render(post);
+// FIX: Removed 'render(post)' to avoid double-rendering and the crash.
+// The content is now received via <slot />
 
 // Helper for approximate reading time
 const wordCount = post.body ? post.body.split(/\s+/g).length : 0;
@@ -70,7 +69,7 @@ const readingTime = Math.ceil(wordCount / 200);
             </div>
 
             <div class="post-content">
-               <Content />
+               <slot />
             </div>
 
           </article>

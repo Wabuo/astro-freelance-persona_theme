@@ -1,9 +1,9 @@
 ---
 // src/components/templates/BlogPostTemplate.astro
 import { render } from 'astro:content'; // <--- Import 'render'
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../ui/Breadcrumbs.astro';
-import BlogSidebar from '../blog/BlogSidebar.astro';
+import BaseLayout from '@freelance-persona/layouts/BaseLayout.astro';
+import Breadcrumbs from '@freelance-persona/components/ui/Breadcrumbs.astro';
+import BlogSidebar from '@freelance-persona/components/blog/BlogSidebar.astro';
 
 const { post } = Astro.props;
 

@@ -1,7 +1,7 @@
 ---
 // src/components/sections/ContactSection.astro
-import { themeConfig } from '@theme-config';
-import SectionTitle from '../ui/SectionTitle.astro';
+import { themeConfig } from '@freelance-persona/config';
+import SectionTitle from '@freelance-persona/components/ui/SectionTitle.astro';
 
 const { contact_infos, web3form_public_key } = themeConfig;
 const showForm = !!web3form_public_key;

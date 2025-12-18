@@ -1,33 +1,82 @@
-# astro-persona-theme
+# Astro freelance-persona theme
 
-## Install workflow
-To use this theme please checkout this git reposetorry.
-Then in the sam place without going in to the just cched out folder,
-run the following comands to create your websites project folder as a siblings folder to the themes folder
+A modern, responsive, and lightweight theme for freelancing, portfolios, and blogs. Initially ported from Zola Persona, customized and expanded for the freelancing focus with elements from Zola Gouyu.
+Modernized and adapted to Astro 5.
 
-1. `yarn create astro --template minimal --no-git --install name_for_my-web-page-folder` &emsp; Creates an empty Astro project
-2. `cd name_of_your-web-page-folder` &emsp; Change directorry in to your new project
-3. `yarn add ../astro-persona-theme` &emsp; Adds the theme as a node dependancy
-4. `yarn astro-persona-theme init` &emsp; Runns the init script provided by the theme, populates your project with dumy files. 
-    * This script will coppy dumy files from the theme in to your project. (let it overwrite everything)<br>
-     It can also be used to reset your projet to the themes defaults, this might mean you lose some progress!<br>
-     Be carefull what you let it override if your project isnt empty! You might lose some of your work!<br>
-     Make smart choices!
-5. `git init --initial-branch=main ` &emsp; Initiates your project as a new git reposetorry, feel free to use any other VCS
-6. `yarn dev`
+## 🚀 Quick Start (For Users)
 
-## Theme Devolopmet setup
+To create a new website using this theme, simply run the following command. This will download the starter template and set everything up for you.
 
-1. follow step 1 till 4 of the [Install workflow](#install-workflow)
-2. test any modifications to the Theme by running
-    + `yarn add ../astro-persona-theme; yarn install; yarn astro-persona-theme init; yarn build; yarn preview`<br>
-    Optionally you can replace `yarn build; yarn preview` with `yarn dev` but yarn build catches more errors.<br>
-    Therfor please insure you run `yarn build; yarn preview` before you updtream any changes to this Theme!
+```bash
+# Replace 'YourGitHubName' with your actual GitHub username
+yarn create astro -- --template YourGitHubName/astro-freelance-persona/starter
+
+```
+
+---
+
+## 🛠️ Local Development Setup (For Contributors)
+
+If you are developing the theme itself and want to test changes in real-time, follow this workflow.
+
+We use **Yarn Berry (v4)** and the **`portal:` protocol** to symlink the theme folder. This ensures that any changes you make to the theme logic (`src/freelance-persona/`) are immediately reflected in your test site without needing to reinstall.
+
+### Prerequisites
+
+* **Node.js** (v18+)
+* **Yarn** (v4+)
+* **Unix-like Shell** (bash, zsh, fish)
+
+### Setup Steps
+
+1. **Create a Test Site**
+Run this command in the parent directory (sibling to your theme folder):
+```fish
+yarn create astro --template minimal --no-git --install test_freelance-persona
+cd test_freelance-persona
+
+```
 
 
-<br><br><br>
+2. **Link the Theme via Portal**
+This creates a live link to your local theme folder.
+*(Note: Ensure the path points to your actual theme directory — where ever you git cloned to)*
+```fish
+yarn add "astro-freelance-persona@portal:../astro_freelance-persona_theme"
 
-Have fun and be carefull out there Astronaut
+```
 
-This Theme and aynthing attouched to it comes with absolutly no warranty, I've got no idea what I'm doing!<br>
-(and can't spell)
+
+3. **Apply the Starter Template**
+Manually copy the starter files into your test project. This simulates exactly what a user gets when they use the Quick Start command.
+```fish
+cp -r ../astro_freelance-persona_theme/starter/* .
+
+```
+
+
+4. **Install Dependencies & Run**
+Install the dependencies introduced by the starter (like Bootstrap/Sass) and start the dev server.
+```fish
+yarn install
+yarn dev
+
+```
+
+5. **Before upstreaming/submitting any changes**
+Please alsways run `yarn build; yarn preview` on your final code and see if anything comes up!
+It can catch errors not exposed by `yarn dev`, thanks.
+
+
+
+### Workflow Tips
+
+* **Hot Reloading:** Because of the `portal:` link, edits to `../astro_freelance-persona_theme/src` will hot-reload in your browser instantly.
+* **Clean State:** If you mess up the configuration in `lets-freelance`, just delete the folder and repeat steps 1-4. It takes less than a minute.
+* **Production Test:** Before committing major changes, run `yarn build` in your test site to ensure the production build passes.
+
+---
+
+*This Theme and aynthing attouched to it, comes with absolutly no warranty, I've got no idea what I'm doing!*<br>
+*(and can't spell — shoutout to my fellow dyslexic)*
+

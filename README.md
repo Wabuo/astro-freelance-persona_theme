@@ -50,7 +50,7 @@ yarn add "astro-freelance-persona@portal:../astro_freelance-persona_theme"
 3. **Apply the Starter Template**
 Manually copy the starter files into your test project. This simulates exactly what a user gets when they use the Quick Start command.
 ```fish
-cp -r ../astro_freelance-persona_theme/starter/* .
+cp -r ../astro_freelance-persona_theme/starter/* ./
 
 ```
 

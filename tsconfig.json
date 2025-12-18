@@ -1,0 +1,12 @@
+// tsconfig.json
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@freelance-persona/*": ["src/freelance-persona/*"],
+      "@freelance-persona/config": ["src/freelance-persona.config.ts"]
+    }
+  },
+  "include": ["src/**/*", "astro.config.mjs"]
+}

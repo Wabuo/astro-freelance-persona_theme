@@ -1,9 +1,9 @@
 ---
 // src/layouts/BaseLayout.astro
-import Footer from '../components/Footer.astro';
-import Navigation from '../components/Navigation.astro';
-import { themeConfig } from '@theme-config'; 
-import { ClientRouter } from 'astro:transitions'; // <--- 1. Import Client Router
+import Footer from '@freelance-persona/components/Footer.astro';
+import Navigation from '@freelance-persona/components/Navigation.astro';
+import { themeConfig } from '@freelance-persona/config'; 
+import { ClientRouter } from 'astro:transitions';
 
 // --- FONTS ---
 import '@fontsource/poppins/300.css';
@@ -28,7 +28,7 @@ import '@fontsource/roboto/700.css';
 import '@fontsource/roboto/700-italic.css';
 
 // Import Global Styles
-import '../styles/main.scss';
+import '@freelance-persona/styles/main.scss';
 
 // --- SMART ASSET DISCOVERY ---
 async function findAsset(glob: Record<string, () => Promise<any>>) {

@@ -1,30 +1,28 @@
 {
-  "name": "astro-persona-theme",
+  "name": "astro-freelance-persona",
+  "author": "Fabio Rieker",
+  "license": "MIT",
   "version": "0.1.0",
-  "description": "A modern, responsive and lightweight theme for resume, portfolio, and blog. Ported from Zola to Astro.",
+  "description": "A modern, responsive and lightweight theme for freelancing, portfolio, and blog. Ported from Zola Persona and then modified.",
   "type": "module",
   "main": "index.js",
   "exports": {
-    ".": "./index.js",
-    "./components/*": "./src/components/*",
-    "./layouts/*": "./src/layouts/*",
-    "./styles/*": "./src/styles/*"
+    ".": "./src/freelance-persona/integration.ts",
+    "./components/*": "./src/freelance-persona/components/*",
+    "./styles/*": "./src/freelance-persona/styles/*",
+    "./config": "./src/freelance-persona.config.ts"
   },
   "bin": "./bin/init.mjs",
   "files": [
     "src",
-    "bin",
-    "public",
-    "starter",
-    "astro.config.mjs",
-    "index.js",
-    "README.md",
-    "LICENSE"
+    "index.js"
   ],
   "keywords": [
     "astro",
     "theme",
+    "freelance",
     "portfolio",
+    "blog",
     "resume"
   ],
   "dependencies": {

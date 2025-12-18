@@ -44,3 +44,5 @@ export const themeConfig: PersonaConfig = {
   copyright: "&copy; All Rights Reserved",
   credits: "Powered by [Zola](https://www.getzola.org/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/)"
 };
+
+export default themeConfig;

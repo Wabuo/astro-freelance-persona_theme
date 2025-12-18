@@ -1,12 +1,12 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { themeConfig } from '@theme-config';
+import BaseLayout from '@freelance-persona/layouts/BaseLayout.astro';
+import { themeConfig } from '@freelance-persona/config';
 
-import Hero from '../Hero.astro';
-import PlainSection from '../sections/PlainSection.astro';
-import ContactSection from '../sections/ContactSection.astro';
-import Recent_PostsSection from '../sections/Recent_PostsSection.astro';
+import Hero from '@freelance-persona/components/Hero.astro';
+import PlainSection from '@freelance-persona/components/sections/PlainSection.astro';
+import ContactSection from '@freelance-persona/components/sections/ContactSection.astro';
+import Recent_PostsSection from '@freelance-persona/components/sections/Recent_PostsSection.astro';
 
 const heroSection = await getEntry('sections', 'hero') || {
   data: {

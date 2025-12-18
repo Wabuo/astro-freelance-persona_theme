@@ -1,0 +1,11 @@
+---
+// starter/src/pages/blog/[...id].astro
+
+// 1. Import the Component AND the getStaticPaths function
+import ThemeBlogPost, { getStaticPaths as themePaths } from '@theme/pages/BlogPost.astro';
+
+// 2. Re-export getStaticPaths so Astro finds it
+export const getStaticPaths = themePaths;
+---
+
+<ThemeBlogPost {...Astro.props} />

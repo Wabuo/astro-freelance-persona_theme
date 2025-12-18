@@ -1,5 +1,5 @@
 ---
-// src/layouts/BaseLayout.astro
+// src/freelance-persona/layouts/BaseLayout.astro
 import Footer from '@freelance-persona/components/Footer.astro';
 import Navigation from '@freelance-persona/components/Navigation.astro';
 import { themeConfig } from '@freelance-persona/config'; 
@@ -91,9 +91,7 @@ const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
 
 // --- LAYOUT LOGIC ---
 const layout = themeConfig.layout || {};
-// Default left margin if not set. 140px matches standard sidebar width.
 const globalMarginLeft = layout.margin_left || '140px';
-// If margin_right is not explicitly set, force it to equal margin_left (Centering behavior)
 const globalMarginRight = layout.margin_right || globalMarginLeft;
 ---
 
@@ -115,6 +113,18 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
     )}
     
     <meta name="generator" content={Astro.generator} />
+
+    {/* CRITICAL: Fallback for users without JavaScript.
+      Without this, elements with data-aos will remain invisible (opacity: 0).
+    */}
+    <noscript>
+      <style>
+        [data-aos] {
+          opacity: 1 !important;
+          transform: translate(0) scale(1) !important;
+        }
+      </style>
+    </noscript>
   </head>
 
   <body class={bodyClass} data-tex={tex}>
@@ -131,6 +141,7 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
     <div id="preloader"></div>
 
     <script is:inline>
+      /* 1. PRELOADER LOGIC */
       function removePreloader() {
         const preloader = document.getElementById('preloader');
         if (preloader) {
@@ -138,12 +149,36 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
           setTimeout(() => { preloader.remove(); }, 600);
         }
       }
-      window.addEventListener('load', removePreloader);
-      setTimeout(removePreloader, 1500);
+
+      /* 2. NATIVE SCROLL ANIMATION OBSERVER */
+      function initAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('aos-animate');
+              observer.unobserve(entry.target); 
+            }
+          });
+        }, {
+          rootMargin: '0px 0px -50px 0px', 
+          threshold: 0.1
+        });
+
+        document.querySelectorAll('[data-aos]').forEach(el => {
+          observer.observe(el);
+        });
+      }
+
+      // Initialize on Load
+      window.addEventListener('load', () => {
+        removePreloader();
+        setTimeout(removePreloader, 1500); 
+        initAnimations();
+      });
+
+      // Initialize on Astro Page Swap
+      document.addEventListener('astro:after-swap', initAnimations);
     </script>
 
-    <script>
-      import "../scripts/layout.js";
-    </script>
   </body>
 </html>

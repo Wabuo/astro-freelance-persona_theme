@@ -1,5 +1,5 @@
 // src/config.ts
-import type { PersonaConfig } from './types';
+import type { PersonaConfig } from '@freelance-persona/types';
 
 export const themeConfig: PersonaConfig = {
   title: "Persona - Zola Theme ",

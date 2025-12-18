@@ -1,18 +1,17 @@
 {
-"name": "astro-freelance-persona",
+  "name": "astro-freelance-persona",
   "version": "0.1.0",
   "description": "A modern, responsive and lightweight theme for freelancing, portfolio, and blog.",
   "type": "module",
   "license": "MIT",
   "author": "Fabio Rieker",
-
   "exports": {
     ".": "./src/freelance-persona/integration.ts",
     "./components/*": "./src/freelance-persona/components/*",
+    "./pages/*": "./src/freelance-persona/pages/*",
     "./styles/*": "./src/freelance-persona/styles/*",
     "./config": "./src/freelance-persona.config.ts"
   },
-
   "files": [
     "src"
   ],
@@ -25,28 +24,26 @@
     "resume",
     "astro-theme"
   ],
-
   "peerDependencies": {
     "astro": "^5.0.0"
   },
-
   "dependencies": {
     "@fontsource/poppins": "^5.2.7",
     "@fontsource/raleway": "^5.2.8",
     "@fontsource/roboto": "^5.2.9",
+    "@popperjs/core": "^2.11.8",
     "academicons": "^1.9.5",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "katex": "^0.16.27",
+    "sass-embedded": "^1.97.0",
     "sharp": "^0.34.5"
   },
-  
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
     "@types/bootstrap": "^5.2.10",
     "@types/node": "^25.0.2",
     "astro": "^5.16.5",
-    "sass": "^1.96.0",
     "typescript": "^5.9.3"
   },
   "scripts": {

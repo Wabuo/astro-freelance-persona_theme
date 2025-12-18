@@ -58,8 +58,7 @@ cp -r ../astro_freelance-persona_theme/starter/* ./
 4. **Install Dependencies & Run**
 Install the dependencies introduced by the starter (like Bootstrap/Sass) and start the dev server.
 ```fish
-yarn install
-yarn dev
+yarn install; yarn dev
 
 ```
 

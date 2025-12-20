@@ -1,5 +1,6 @@
 ---
 // src/freelance-persona/layouts/BaseLayout.astro
+import { ClientRouter } from 'astro:transitions';
 import Footer from '@freelance-persona/components/Footer.astro';
 import Navigation from '@freelance-persona/components/Navigation.astro';
 import { themeConfig } from '@freelance-persona/config'; 
@@ -104,6 +105,8 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={themeConfig.author} />
+    
+    <ClientRouter />
 
     {faviconSrc && (
       <link rel="icon" type={getMime(faviconSrc)} href={getAssetUrl(faviconSrc)} />
@@ -119,9 +122,17 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
     */}
     <noscript>
       <style>
+        /* 1. Hide the preloader completely if JS is disabled */
+        #preloader {
+          display: none !important; 
+          visibility: hidden !important;
+        }
+        
+        /* 2. Force all animated elements to be visible and reset their positions */
         [data-aos] {
           opacity: 1 !important;
-          transform: translate(0) scale(1) !important;
+          transform: none !important;
+          transition: none !important;
         }
       </style>
     </noscript>
@@ -140,44 +151,59 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
 
     <div id="preloader"></div>
 
-    <script is:inline>
-      /* 1. PRELOADER LOGIC */
-      function removePreloader() {
+    {/* ASTRO 5 BEST PRACTICE:
+       1. Remove 'is:inline' so the script is processed as a module (loaded once, cached).
+       2. Use 'astro:page-load' to trigger logic on initial visit AND after every transition.
+    */}
+    <script>
+      function onPageLoad() {
+        // --- 1. PRELOADER ---
         const preloader = document.getElementById('preloader');
         if (preloader) {
+          // Optional: If this is an internal navigation (not a full reload), 
+          // you might want to hide it instantly. 
+          // For now, we keep the fade behavior for consistency.
           preloader.style.opacity = '0';
           setTimeout(() => { preloader.remove(); }, 600);
         }
-      }
 
-      /* 2. NATIVE SCROLL ANIMATION OBSERVER */
-      function initAnimations() {
-        const observer = new IntersectionObserver((entries) => {
+        // --- 2. ANIMATIONS (AOS Style) ---
+        const aosObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               entry.target.classList.add('aos-animate');
-              observer.unobserve(entry.target); 
+              aosObserver.unobserve(entry.target); 
             }
           });
-        }, {
-          rootMargin: '0px 0px -50px 0px', 
-          threshold: 0.1
-        });
+        }, { rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
 
-        document.querySelectorAll('[data-aos]').forEach(el => {
-          observer.observe(el);
-        });
+        document.querySelectorAll('[data-aos]').forEach(el => aosObserver.observe(el));
+
+        // --- 3. SCROLLSPY ---
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-menu a, .nav-link');
+
+        // Only run ScrollSpy if we actually have sections to spy on
+        if (sections.length > 0) {
+          const spyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                if (id) {
+                  navLinks.forEach(link => link.classList.remove('active'));
+                  const activeLink = document.querySelector(`.nav-menu a[href*="#${id}"]`);
+                  if (activeLink) activeLink.classList.add('active');
+                }
+              }
+            });
+          }, { rootMargin: '-30% 0px -70% 0px' }); // Active when section is near top
+
+          sections.forEach(section => spyObserver.observe(section));
+        }
       }
 
-      // Initialize on Load
-      window.addEventListener('load', () => {
-        removePreloader();
-        setTimeout(removePreloader, 1500); 
-        initAnimations();
-      });
-
-      // Initialize on Astro Page Swap
-      document.addEventListener('astro:after-swap', initAnimations);
+      // Fires on initial load, view transitions, and history navigation.
+      document.addEventListener('astro:page-load', onPageLoad);
     </script>
 
   </body>

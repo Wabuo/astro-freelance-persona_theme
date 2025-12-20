@@ -10,7 +10,8 @@
     "./components/*": "./src/freelance-persona/components/*",
     "./pages/*": "./src/freelance-persona/pages/*",
     "./styles/*": "./src/freelance-persona/styles/*",
-    "./config": "./src/freelance-persona.config.ts"
+    "./config": "./src/freelance-persona.config.ts",
+    "./content.config": "./src/freelance-persona/content.config.ts"
   },
   "files": [
     "src"

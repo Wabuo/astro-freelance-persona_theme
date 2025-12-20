@@ -22,8 +22,14 @@ interface Props {
   nudge_x?: string;
   nudge_y?: string;
   content_scale?: number;
-  base_font_size?: string;
+  
   title_font_size?: string;
+  title_font_family?: string;
+  typing_font_size?: string;
+  typing_font_family?: string;
+  
+  gap_title_to_typing?: string;
+  gap_typing_to_socials?: string;
 }
 
 const { 
@@ -38,8 +44,6 @@ const {
   deleting_speed = 50,
   pause_duration = 2000,
   
-  // Defaulting to CENTER to match standard theme behavior.
-  // User must set 'left' in markdown to override.
   position_x = 'center', 
   position_y = 'middle',
   size = 'medium',
@@ -47,8 +51,14 @@ const {
   nudge_x = "0px",
   nudge_y = "0px",
   content_scale = 1,
-  base_font_size = undefined,
-  title_font_size = undefined
+  
+  title_font_size = undefined,
+  title_font_family = undefined,
+  typing_font_size = undefined,
+  typing_font_family = undefined,
+
+  gap_title_to_typing = undefined, 
+  gap_typing_to_socials = undefined 
 } = Astro.props;
 
 const { social_links } = themeConfig;
@@ -69,7 +79,6 @@ if (!finalImage) {
 }
 
 // --- CSS CLASS MAPPING ---
-// Maps position_x to Flexbox alignment AND Text alignment
 const xMap = {
   'left': { row: 'justify-content-start', text: 'text-start', flex: 'justify-content-start' },
   'center': { row: 'justify-content-center', text: 'text-center', flex: 'justify-content-center' },
@@ -77,7 +86,6 @@ const xMap = {
 };
 const alignSettings = xMap[position_x] || xMap['center'];
 
-// Vertical Alignment
 const yMap = {
   'top': 'align-items-start pt-5',
   'middle': 'align-items-center',
@@ -85,7 +93,6 @@ const yMap = {
 };
 const heroAlignClass = yMap[position_y] || 'align-items-center';
 
-// Width (Bootstrap Columns)
 const sizeMap = {
   'small': 'col-lg-6 col-md-8',
   'medium': 'col-lg-9 col-md-10',
@@ -96,10 +103,18 @@ const colClass = sizeMap[size] || 'col-lg-9';
 
 // --- FINE TUNING STYLES ---
 const fineTuneStyle = {
+  // 1. Position & Scale
   transform: `translate(${nudge_x}, ${nudge_y}) scale(${content_scale})`,
-  // Conditionally add overrides if props are provided
-  ...(base_font_size && { '--hero-font-size-override': base_font_size }),
-  ...(title_font_size && { '--hero-title-size-override': title_font_size })
+  
+  // 2. Variable Injection (Fonts & Gaps)
+  ...(title_font_size && { '--title-font-size': title_font_size }),
+  ...(title_font_family && { '--title-font-family-override': title_font_family }),
+  
+  ...(typing_font_size && { '--hero-typing-font-size': typing_font_size }),
+  ...(typing_font_family && { '--typing-font-family-override': typing_font_family }),
+
+  ...(gap_title_to_typing && { '--gap-title-to-typing': gap_title_to_typing }),
+  ...(gap_typing_to_socials && { '--gap-typing-to-socials': gap_typing_to_socials })
 };
 ---
 
@@ -119,9 +134,6 @@ const fineTuneStyle = {
   <div class="container" data-aos="zoom-out">
     <div class={`row ${alignSettings.row}`}>
       
-      {/* Apply alignment classes (text-center, etc.) to the column wrapper.
-          Apply fine-tuning styles (nudge/scale) here so the whole block moves together.
-      */}
       <div class={`${colClass} ${alignSettings.text}`} style={fineTuneStyle}>
         
         <h2>{title}</h2>
@@ -187,7 +199,7 @@ const fineTuneStyle = {
     const speedDelete = parseInt(typedEl.getAttribute('data-deleting-speed') || '50');
     const speedPause = parseInt(typedEl.getAttribute('data-pause-duration') || '2000');
 
-    // 2. LAYOUT CALCULATION
+    // 2. LAYOUT CALCULATION (Prevents layout shift)
     const measureSpan = document.createElement('span');
     measureSpan.style.font = window.getComputedStyle(typedEl).font;
     measureSpan.style.visibility = 'hidden';
@@ -267,27 +279,24 @@ const fineTuneStyle = {
     z-index: 0;
   }
   
-  .hero h2 {
-    margin-bottom: 1rem;
-    /* Removed hardcoded 'text-align: left' here. 
-       Alignment is now handled by the 'text-start' / 'text-center' class on the parent div. */
-    
-    /* Font Size Override logic */
-    font-size: var(--hero-title-size-override, var(--title-font-size));
-  }
-
-  /* Flex wrapper for the typing line */
   .typing-wrapper {
     display: flex;
-    /* Removed hardcoded 'justify-content: flex-start'. 
-       Handled by dynamic class (alignSettings.flex). */
     width: 100%;
   }
 
+  /* --- TYPOGRAPHY OVERRIDES --- */
+  
+  /* TITLE */
+  .hero h2 {
+    font-family: var(--title-font-family-override, var(--heading-font, sans-serif));
+    /* Font size is handled by inheritance from the wrapper's --title-font-size variable */
+  }
+
+  /* TYPING TEXT */
   .hero p {
-    font-family: var(--nav-font);
-    /* Font Size Override logic */
-    font-size: var(--hero-font-size-override, 1.625rem);
+    font-family: var(--typing-font-family-override, var(--nav-font));
+    font-size: var(--hero-typing-font-size, 1.625rem);
+    margin-top: var(--gap-title-to-typing, 0.3125rem);
     
     margin-bottom: 0;
     white-space: nowrap; 
@@ -295,15 +304,12 @@ const fineTuneStyle = {
     align-items: center;
   }
 
-  /* REGRESSION CHECK: Ensure greeting color inherits correctly */
   .hero p span.greeting {
     font-weight: 400;
     margin-right: 0.3em;
     color: inherit !important;
   }
 
-  /* REGRESSION CHECK: The Lock MUST remain left-aligned internally 
-     so the text types naturally from the first character. */
   .typing-lock {
     display: inline-block;
     text-align: left;
@@ -326,15 +332,14 @@ const fineTuneStyle = {
     100% { opacity: 1; }
   }
 
-  /* REGRESSION CHECK: Noscript handling */
   noscript { display: inline; }
   noscript + .typing-lock { display: none; }
 
+  /* SOCIALS LOGIC */
   .social-links {
-    margin-top: 2rem;
+    margin-top: var(--gap-typing-to-socials, 1.5625rem);
     display: flex;
     gap: 1.5rem;
-    /* Removed hardcoded justify-content. Handled by dynamic class. */
   }
   
   .social-links a {

@@ -1,4 +1,6 @@
 ---
+// src/freelance-persona/components/templates/HomeTemplate.astro
+
 import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '@freelance-persona/layouts/BaseLayout.astro';
 import { themeConfig } from '@freelance-persona/config';
@@ -30,15 +32,18 @@ const contentSections = allSections
     deleting_speed={heroData.deleting_speed}
     pause_duration={heroData.pause_duration}
 
-    {/* Layout & Fine Tuning */}
     position_x={heroData.position_x}
     position_y={heroData.position_y}
     size={heroData.size}
     nudge_x={heroData.nudge_x}
     nudge_y={heroData.nudge_y}
     content_scale={heroData.content_scale}
-    base_font_size={heroData.base_font_size}
+    
     title_font_size={heroData.title_font_size}
+    typing_font_size={heroData.typing_font_size}
+    
+    gap_title_to_typing={heroData.gap_title_to_typing}
+    gap_typing_to_socials={heroData.gap_typing_to_socials}
   />
 
   {contentSections.map(async (section) => {

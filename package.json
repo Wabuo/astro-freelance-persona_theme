@@ -29,9 +29,6 @@
     "astro": "^5.0.0"
   },
   "dependencies": {
-    "@fontsource/poppins": "^5.2.7",
-    "@fontsource/raleway": "^5.2.8",
-    "@fontsource/roboto": "^5.2.9",
     "@popperjs/core": "^2.11.8",
     "academicons": "^1.9.5",
     "bootstrap": "^5.3.8",

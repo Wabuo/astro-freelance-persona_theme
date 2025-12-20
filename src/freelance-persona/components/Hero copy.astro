@@ -1,0 +1,201 @@
+---
+import { Image } from 'astro:assets';
+import { themeConfig } from '@freelance-persona/config';
+
+interface Props {
+  title: string;
+  hero_typing_text?: string;
+  greeting?: string; // String gest put in front of the typing effect, e.g., "I'm"
+  background_image?: ImageMetadata; 
+}
+
+const { title, hero_typing_text, greeting, background_image: explicitImage } = Astro.props;
+const { social_links } = themeConfig;
+
+// --- DYNAMIC BACKGROUND LOGIC (Keep existing logic) ---
+let finalImage = explicitImage;
+if (!finalImage) {
+  const bgGlob = import.meta.glob('/src/assets/img/background.{jpg,jpeg,png,webp,avif,svg}');
+  const paths = Object.keys(bgGlob);
+  if (paths.length > 0) {
+    paths.sort((a, b) => {
+      const score = (p: string) => p.endsWith('.jpg') ? 4 : p.endsWith('.png') ? 3 : p.endsWith('.webp') ? 2 : p.endsWith('.svg') ? 1 : 0;
+      return score(b) - score(a);
+    });
+    const imageModule = await bgGlob[paths[0]]();
+    finalImage = imageModule.default;
+  }
+}
+// -------------------------------------
+---
+
+<section id="hero" class="hero section">
+  {finalImage && (
+    <Image 
+      src={finalImage} 
+      alt="Background"
+      class="hero-bg"
+      width={1920} 
+      height={1080}
+      format="webp"
+    />
+  )}
+
+  <div class="container" data-aos="zoom-out">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <h2>{title}</h2>
+        {hero_typing_text && (
+          <p>
+            {/* LOGIC: Only show greeting span if it exists */}
+            {greeting && <span class="greeting">{greeting} </span>}
+            
+            {/* 1. JS Enabled: Empty span that gets filled by Typed.js */}
+            <span class="typed" data-typed-items={hero_typing_text}></span>
+            
+            {/* 2. JS Disabled: Show all options at once */}
+            <noscript>
+              {hero_typing_text.split(',').join(', ')}
+            </noscript>
+
+            {/* Cursor only shows if JS is running (handled by CSS/JS usually, but we can hide it here too) */}
+            <span class="typed-cursor">|</span> 
+          </p>
+        )}
+
+          {/* --- RESTORED SOCIAL LINKS --- */}
+        {social_links && social_links.length > 0 && (
+          <div class="social-links">
+            {social_links.map((link) => (
+              <a href={link.url} class={link.name.toLowerCase()} target="_blank" rel="noopener noreferrer">
+                <i class={link.icon_class}></i>
+              </a>
+            ))}
+          </div>
+        )}
+        {/* ----------------------------- */}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* ... (Typed script logic) ... */}
+<script>
+
+  // Wrap the typed script in a function
+  function initTyped() {
+    const typedEl = document.querySelector('.typed');
+    const cursorEl = document.querySelector('.typed-cursor');
+
+    if (typedEl) {
+      const words = typedEl.getAttribute('data-typed-items')?.split(',') || [];
+      let wordIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      let typeSpeed = 100;
+
+      const type = () => {
+        const currentWord = words[wordIndex];
+        if (isDeleting) {
+          typedEl.textContent = currentWord.substring(0, charIndex - 1);
+          charIndex--;
+          typeSpeed = 50; 
+        } else {
+          typedEl.textContent = currentWord.substring(0, charIndex + 1);
+          charIndex++;
+          typeSpeed = 100; 
+        }
+
+        if (!isDeleting && charIndex === currentWord.length) {
+          isDeleting = true;
+          typeSpeed = 2000;
+          if(cursorEl) cursorEl.classList.add('blinking');
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          typeSpeed = 500;
+          if(cursorEl) cursorEl.classList.remove('blinking');
+        } else {
+          if(cursorEl) cursorEl.classList.remove('blinking');
+        }
+        setTimeout(type, typeSpeed);
+      };
+      if (words.length > 0) type();
+    }
+  }
+  // Run on initial load
+  initTyped();
+
+  // Run on subsequent navigations (if ClientRouter is ever added)
+  document.addEventListener('astro:page-load', initTyped);
+</script>
+
+<style>
+  /* ... (Keep existing styles) ... */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  
+  /* FONT FIX: Force the subtitle paragraph to use the Heading/Nav font (Poppins) */
+  /* This overrides the default 'Roboto' body font */
+  .hero p {
+    font-family: var(--nav-font); /* Poppins */
+    /* Alternatively try var(--heading-font) if you prefer Raleway */
+    font-size: 1.625rem; /* 26px -> 1.625rem */ /* Adjust size to match original if needed */
+    margin-bottom: 0;
+  }
+
+  .greeting {
+    font-weight: 400; /* Regular weight for "I'm" */
+  }
+
+  .hero p span.greeting {
+    font-weight: 400; /* Regular weight for "I'm" */
+    color: inherit;   /* Inherits white/dark from parent, ignoring the accent color rule */
+  }
+
+  /* Cursor Blinking Animation */
+  .typed-cursor {
+    opacity: 1;
+    font-weight: 100;
+    color: inherit;
+    margin-left: 2px;
+  }
+  .typed-cursor.blinking {
+    animation: blink 0.7s infinite;
+  }
+  @keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  noscript + .typed-cursor {
+    display: none;
+  }
+
+  .social-links {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  
+  .social-links a {
+    font-size: 1.5rem; /* 24px */
+    color: var(--heading-color); /* Darker color by default */
+    transition: 0.3s;
+    line-height: 1;
+  }
+  
+  .social-links a:hover {
+    color: var(--accent-color); /* Blue on hover */
+    transform: scale(1.1);
+  }
+</style>

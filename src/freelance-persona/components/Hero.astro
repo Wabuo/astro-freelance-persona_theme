@@ -3,15 +3,57 @@ import { Image } from 'astro:assets';
 import { themeConfig } from '@freelance-persona/config';
 
 interface Props {
-  title: string;
+  title?: string;
   hero_typing_text?: string;
-  greeting?: string; // String gest put in front of the typing effect, e.g., "I'm"
-  background_image?: ImageMetadata; 
+  greeting?: string;
+  background_image?: ImageMetadata;
+  
+  // Typing Config
+  typing_speed?: number;
+  deleting_speed?: number;
+  pause_duration?: number;
+  
+  // Layout Config
+  position_x?: 'left' | 'center' | 'right';
+  position_y?: 'top' | 'middle' | 'bottom';
+  size?: 'small' | 'medium' | 'large' | 'full';
+
+  // Fine Tuning
+  nudge_x?: string;
+  nudge_y?: string;
+  content_scale?: number;
+  base_font_size?: string;
+  title_font_size?: string;
 }
 
-const { title, hero_typing_text, greeting, background_image: explicitImage } = Astro.props;
+const { 
+  background_image: explicitImage,
+  
+  title = "CONFIG MISSING",
+  hero_typing_text = "Error: src/content/sections/hero.md not found",
+  greeting = "SYSTEM:", 
+  
+  // Defaults
+  typing_speed = 100,
+  deleting_speed = 50,
+  pause_duration = 2000,
+  
+  // Defaulting to CENTER to match standard theme behavior.
+  // User must set 'left' in markdown to override.
+  position_x = 'center', 
+  position_y = 'middle',
+  size = 'medium',
 
-// --- DYNAMIC BACKGROUND LOGIC (Keep existing logic) ---
+  nudge_x = "0px",
+  nudge_y = "0px",
+  content_scale = 1,
+  base_font_size = undefined,
+  title_font_size = undefined
+} = Astro.props;
+
+const { social_links } = themeConfig;
+
+// --- DYNAMIC BACKGROUND LOGIC ---
 let finalImage = explicitImage;
 if (!finalImage) {
   const bgGlob = import.meta.glob('/src/assets/img/background.{jpg,jpeg,png,webp,avif,svg}');
@@ -25,10 +67,43 @@ if (!finalImage) {
     finalImage = imageModule.default;
   }
 }
-// -------------------------------------
+
+// --- CSS CLASS MAPPING ---
+// Maps position_x to Flexbox alignment AND Text alignment
+const xMap = {
+  'left': { row: 'justify-content-start', text: 'text-start', flex: 'justify-content-start' },
+  'center': { row: 'justify-content-center', text: 'text-center', flex: 'justify-content-center' },
+  'right': { row: 'justify-content-end', text: 'text-end', flex: 'justify-content-end' }
+};
+const alignSettings = xMap[position_x] || xMap['center'];
+
+// Vertical Alignment
+const yMap = {
+  'top': 'align-items-start pt-5',
+  'middle': 'align-items-center',
+  'bottom': 'align-items-end pb-5'
+};
+const heroAlignClass = yMap[position_y] || 'align-items-center';
+
+// Width (Bootstrap Columns)
+const sizeMap = {
+  'small': 'col-lg-6 col-md-8',
+  'medium': 'col-lg-9 col-md-10',
+  'large': 'col-lg-11',
+  'full': 'col-12'
+};
+const colClass = sizeMap[size] || 'col-lg-9';
+
+// --- FINE TUNING STYLES ---
+const fineTuneStyle = {
+  transform: `translate(${nudge_x}, ${nudge_y}) scale(${content_scale})`,
+  // Conditionally add overrides if props are provided
+  ...(base_font_size && { '--hero-font-size-override': base_font_size }),
+  ...(title_font_size && { '--hero-title-size-override': title_font_size })
+};
 ---
 
-<section id="hero" class="hero section">
+<section id="hero" class={`hero section ${heroAlignClass}`}>
   {finalImage && (
     <Image 
       src={finalImage} 
@@ -37,79 +112,151 @@ if (!finalImage) {
       width={1920} 
       height={1080}
       format="webp"
+      loading="eager"
     />
   )}
 
   <div class="container" data-aos="zoom-out">
-    <div class="row justify-content-center">
-      <div class="col-lg-9">
+    <div class={`row ${alignSettings.row}`}>
+      
+      {/* Apply alignment classes (text-center, etc.) to the column wrapper.
+          Apply fine-tuning styles (nudge/scale) here so the whole block moves together.
+      */}
+      <div class={`${colClass} ${alignSettings.text}`} style={fineTuneStyle}>
+        
         <h2>{title}</h2>
+        
         {hero_typing_text && (
-          <p>
-            {/* LOGIC: Only show greeting span if it exists */}
-            {greeting && <span class="greeting">{greeting} </span>}
-            <span class="typed" data-typed-items={hero_typing_text}></span>
-            <span class="typed-cursor">|</span>
-          </p>
+          <div class={`typing-wrapper ${alignSettings.flex}`}>
+            <p>
+              {greeting && <span class="greeting">{greeting} </span>}
+              
+              <span class="typing-lock">
+                <span 
+                  class="typed" 
+                  data-typed-items={hero_typing_text}
+                  data-typing-speed={typing_speed}
+                  data-deleting-speed={deleting_speed}
+                  data-pause-duration={pause_duration}
+                ></span>
+                
+                <span class="typed-cursor" aria-hidden="true">|</span>
+              </span>
+
+              <noscript>
+                <span class="noscript-text">
+                  {hero_typing_text.split(',').join(', ')}
+                </span>
+              </noscript>
+            </p>
+          </div>
         )}
+
+        {social_links && social_links.length > 0 && (
+          <div class={`social-links ${alignSettings.flex}`}>
+            {social_links.map((link) => (
+              <a href={link.url} class={link.name.toLowerCase()} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
+                <i class={link.icon_class}></i>
+              </a>
+            ))}
+          </div>
+        )}
+
       </div>
     </div>
   </div>
 </section>
 
-{/* ... (Typed script logic) ... */}
 <script>
-
-  // Wrap the typed script in a function
   function initTyped() {
     const typedEl = document.querySelector('.typed');
     const cursorEl = document.querySelector('.typed-cursor');
+    const lockEl = document.querySelector('.typing-lock');
 
-    if (typedEl) {
-      const words = typedEl.getAttribute('data-typed-items')?.split(',') || [];
-      let wordIndex = 0;
-      let charIndex = 0;
-      let isDeleting = false;
-      let typeSpeed = 100;
+    if (!typedEl || !lockEl) return;
 
-      const type = () => {
-        const currentWord = words[wordIndex];
-        if (isDeleting) {
-          typedEl.textContent = currentWord.substring(0, charIndex - 1);
-          charIndex--;
-          typeSpeed = 50; 
-        } else {
-          typedEl.textContent = currentWord.substring(0, charIndex + 1);
-          charIndex++;
-          typeSpeed = 100; 
-        }
+    // 1. CLEANUP
+    // @ts-ignore
+    if (typedEl._stopTyping) typedEl._stopTyping();
 
-        if (!isDeleting && charIndex === currentWord.length) {
-          isDeleting = true;
-          typeSpeed = 2000;
-          if(cursorEl) cursorEl.classList.add('blinking');
-        } else if (isDeleting && charIndex === 0) {
-          isDeleting = false;
-          wordIndex = (wordIndex + 1) % words.length;
-          typeSpeed = 500;
-          if(cursorEl) cursorEl.classList.remove('blinking');
-        } else {
-          if(cursorEl) cursorEl.classList.remove('blinking');
-        }
-        setTimeout(type, typeSpeed);
-      };
-      if (words.length > 0) type();
-    }
+    const words = typedEl.getAttribute('data-typed-items')?.split(',') || [];
+    if (words.length === 0) return;
+
+    // READ CONFIG
+    const speedType = parseInt(typedEl.getAttribute('data-typing-speed') || '100');
+    const speedDelete = parseInt(typedEl.getAttribute('data-deleting-speed') || '50');
+    const speedPause = parseInt(typedEl.getAttribute('data-pause-duration') || '2000');
+
+    // 2. LAYOUT CALCULATION
+    const measureSpan = document.createElement('span');
+    measureSpan.style.font = window.getComputedStyle(typedEl).font;
+    measureSpan.style.visibility = 'hidden';
+    measureSpan.style.position = 'absolute';
+    measureSpan.style.whiteSpace = 'nowrap';
+    document.body.appendChild(measureSpan);
+
+    let maxWidth = 0;
+    words.forEach(word => {
+      measureSpan.textContent = word;
+      const width = measureSpan.getBoundingClientRect().width;
+      if (width > maxWidth) maxWidth = width;
+    });
+    document.body.removeChild(measureSpan);
+
+    (lockEl as HTMLElement).style.minWidth = `${Math.ceil(maxWidth) + 15}px`;
+
+    // 3. TYPING LOGIC
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let timeoutId: any;
+
+    const type = () => {
+      const currentWord = words[wordIndex];
+      
+      if (isDeleting) {
+        typedEl.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typedEl.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let currentSpeed = isDeleting ? speedDelete : speedType;
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        isDeleting = true;
+        currentSpeed = speedPause; 
+        cursorEl?.classList.add('blinking');
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        currentSpeed = 500; 
+        cursorEl?.classList.remove('blinking');
+      } else {
+        cursorEl?.classList.remove('blinking');
+      }
+
+      timeoutId = setTimeout(type, currentSpeed);
+    };
+
+    type();
+
+    // Attach cleanup
+    // @ts-ignore
+    typedEl._stopTyping = () => clearTimeout(timeoutId);
   }
-  // Run on initial load
-  initTyped();
 
-  // Run on subsequent navigations (if ClientRouter is ever added)
+  initTyped();
   document.addEventListener('astro:page-load', initTyped);
+  document.addEventListener('astro:before-swap', () => {
+    const typedEl = document.querySelector('.typed');
+    // @ts-ignore
+    if (typedEl && typedEl._stopTyping) typedEl._stopTyping();
+  });
 </script>
 
 <style>
-  /* ... (Keep existing styles) ... */
   .hero-bg {
     position: absolute;
     inset: 0;
@@ -120,30 +267,55 @@ if (!finalImage) {
     z-index: 0;
   }
   
-  /* FONT FIX: Force the subtitle paragraph to use the Heading/Nav font (Poppins) */
-  /* This overrides the default 'Roboto' body font */
+  .hero h2 {
+    margin-bottom: 1rem;
+    /* Removed hardcoded 'text-align: left' here. 
+       Alignment is now handled by the 'text-start' / 'text-center' class on the parent div. */
+    
+    /* Font Size Override logic */
+    font-size: var(--hero-title-size-override, var(--title-font-size));
+  }
+
+  /* Flex wrapper for the typing line */
+  .typing-wrapper {
+    display: flex;
+    /* Removed hardcoded 'justify-content: flex-start'. 
+       Handled by dynamic class (alignSettings.flex). */
+    width: 100%;
+  }
+
   .hero p {
-    font-family: var(--nav-font); /* Poppins */
-    /* Alternatively try var(--heading-font) if you prefer Raleway */
-    font-size: 1.625rem; /* 26px -> 1.625rem */ /* Adjust size to match original if needed */
+    font-family: var(--nav-font);
+    /* Font Size Override logic */
+    font-size: var(--hero-font-size-override, 1.625rem);
+    
     margin-bottom: 0;
+    white-space: nowrap; 
+    display: inline-flex; 
+    align-items: center;
   }
 
-  .greeting {
-    font-weight: 400; /* Regular weight for "I'm" */
-  }
-
+  /* REGRESSION CHECK: Ensure greeting color inherits correctly */
   .hero p span.greeting {
-    font-weight: 400; /* Regular weight for "I'm" */
-    color: inherit;   /* Inherits white/dark from parent, ignoring the accent color rule */
+    font-weight: 400;
+    margin-right: 0.3em;
+    color: inherit !important;
   }
 
-  /* Cursor Blinking Animation */
+  /* REGRESSION CHECK: The Lock MUST remain left-aligned internally 
+     so the text types naturally from the first character. */
+  .typing-lock {
+    display: inline-block;
+    text-align: left;
+    white-space: nowrap;
+  }
+
   .typed-cursor {
     opacity: 1;
     font-weight: 100;
     color: inherit;
     margin-left: 2px;
+    display: inline-block;
   }
   .typed-cursor.blinking {
     animation: blink 0.7s infinite;
@@ -152,5 +324,28 @@ if (!finalImage) {
     0% { opacity: 1; }
     50% { opacity: 0; }
     100% { opacity: 1; }
+  }
+
+  /* REGRESSION CHECK: Noscript handling */
+  noscript { display: inline; }
+  noscript + .typing-lock { display: none; }
+
+  .social-links {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    /* Removed hardcoded justify-content. Handled by dynamic class. */
+  }
+  
+  .social-links a {
+    font-size: 1.5rem;
+    color: var(--heading-color);
+    transition: 0.3s;
+    line-height: 1;
+  }
+  
+  .social-links a:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
   }
 </style>

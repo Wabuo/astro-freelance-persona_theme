@@ -2,22 +2,16 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '@freelance-persona/layouts/BaseLayout.astro';
 import { themeConfig } from '@freelance-persona/config';
-
 import Hero from '@freelance-persona/components/Hero.astro';
 import PlainSection from '@freelance-persona/components/sections/PlainSection.astro';
 import ContactSection from '@freelance-persona/components/sections/ContactSection.astro';
 import Recent_PostsSection from '@freelance-persona/components/sections/Recent_PostsSection.astro';
 
-const heroSection = await getEntry('sections', 'hero') || {
-  data: {
-    title: "CONFIG MISSING",
-    hero_typing_text: "Error: src/content/sections/hero.md not found", 
-    greeting: "SYSTEM:",
-    background_image: undefined
-  }
-};
+// 1. HERO DATA FETCHING
+const heroEntry = await getEntry('sections', 'hero');
+const heroData = heroEntry?.data || {};
 
-// 3. Filter and Sort
+// 2. CONTENT SECTIONS
 const allSections = await getCollection('sections');
 const contentSections = allSections
   .filter(s => s.id !== 'hero')
@@ -27,10 +21,24 @@ const contentSections = allSections
 <BaseLayout title={themeConfig.title} navType="home">
   
   <Hero 
-    title={heroSection.data.title} 
-    hero_typing_text={heroSection.data.hero_typing_text} 
-    greeting={heroSection.data.greeting}
-    background_image={heroSection.data.background_image} 
+    title={heroData.title} 
+    hero_typing_text={heroData.hero_typing_text} 
+    greeting={heroData.greeting}
+    background_image={heroData.background_image}
+    
+    typing_speed={heroData.typing_speed}
+    deleting_speed={heroData.deleting_speed}
+    pause_duration={heroData.pause_duration}
+
+    {/* Layout & Fine Tuning */}
+    position_x={heroData.position_x}
+    position_y={heroData.position_y}
+    size={heroData.size}
+    nudge_x={heroData.nudge_x}
+    nudge_y={heroData.nudge_y}
+    content_scale={heroData.content_scale}
+    base_font_size={heroData.base_font_size}
+    title_font_size={heroData.title_font_size}
   />
 
   {contentSections.map(async (section) => {

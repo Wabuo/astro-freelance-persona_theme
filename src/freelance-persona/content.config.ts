@@ -8,7 +8,7 @@ const sections = defineCollection({
   
   schema: z.discriminatedUnion('type', [
     
-    // A. HERO SECTION
+  // A. HERO SECTION
     z.object({
       type: z.literal('hero'),
       title: z.string(),
@@ -17,25 +17,32 @@ const sections = defineCollection({
       order: z.number().default(0),
       background_image: z.string().optional(), 
 
-      // Typing Config (Optional)
+      // Typing Config
       typing_speed: z.number().optional(),
       deleting_speed: z.number().optional(),
       pause_duration: z.number().optional(),
 
-      // Layout Config (Coarse)
+      // Layout Config
       position_x: z.enum(['left', 'center', 'right']).optional(),
       position_y: z.enum(['top', 'middle', 'bottom']).optional(),
       size: z.enum(['small', 'medium', 'large', 'full']).optional(),
 
-      // Fine Tuning (Nudging, Scaling, Font Overrides)
+      // Fine Tuning
       nudge_x: z.string().optional(), 
       nudge_y: z.string().optional(),
       content_scale: z.number().optional(),
-      base_font_size: z.string().optional(),
+      
+      // Typography & Gaps
       title_font_size: z.string().optional(),
+      title_font_family: z.string().optional(),
+      typing_font_size: z.string().optional(),
+      typing_font_family: z.string().optional(),
+      
+      gap_title_to_typing: z.string().optional(),
+      gap_typing_to_socials: z.string().optional(),
     }),
 
-    // B. RECENT POSTS
+  // B. RECENT POSTS
     z.object({
       type: z.literal('recent_posts'),
       title: z.string(),
@@ -45,7 +52,7 @@ const sections = defineCollection({
       icon_class: z.string(),
     }),
 
-    // C. PLAIN & CONTACT
+  // C. PLAIN & CONTACT
     z.object({
       type: z.enum(['plain', 'contact']), 
       title: z.string(),

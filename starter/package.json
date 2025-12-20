@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "astro": "^5.0.0",
-    "astro-freelance-persona": "^0.1.0"
+    "astro-freelance-persona": "^0.1.0",
+    "@fontsource/poppins": "^5.2.7",
+    "@fontsource/raleway": "^5.2.8",
+    "@fontsource/roboto": "^5.2.9"
   },
   "devDependencies": {
     "sharp": "^0.34.5",

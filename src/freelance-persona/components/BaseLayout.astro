@@ -2,7 +2,8 @@
 // src/layouts/BaseLayout.astro
 import Footer from '@freelance-persona/components/Footer.astro';
 import Navigation from '@freelance-persona/components/Navigation.astro';
-import { themeConfig } from '@freelance-persona/config'; 
+import { themeConfig } from '@freelance-persona/config';
+import KatexLoader from '@freelance-persona/components/KatexLoader.astro';
 import { ClientRouter } from 'astro:transitions';
 
 // --- FONTS ---
@@ -140,6 +141,8 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
 
     <div id="preloader"></div>
 
+    {tex && <KatexLoader />}
+
     <script is:inline>
       function removePreloader() {
         const preloader = document.getElementById('preloader');
@@ -179,34 +182,16 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
         elements.forEach(el => observer.observe(el));
       };
 
-      // B. KaTeX Logic (Moved from layout.js)
-      const initKatex = () => {
-        if (document.body.dataset.tex === 'true') {
-          Promise.all([
-            import('katex/dist/katex.min.css'),
-            import('katex/dist/contrib/auto-render.js')
-          ]).then(([_, autoRenderModule]) => {
-            const renderMathInElement = autoRenderModule.default || autoRenderModule;
-            if (typeof renderMathInElement === 'function') {
-              renderMathInElement(document.body, {
-                delimiters: [
-                  {left: '$$', right: '$$', display: true},
-                  {left: '$', right: '$', display: false},
-                  {left: '\\(', right: '\\)', display: false},
-                  {left: '\\[', right: '\\]', display: true}
-                ],
-                throwOnError : false
-              });
-            }
-          }).catch(err => console.error("Failed to load KaTeX:", err));
-        }
-      };
+      // B. KaTeX Logic
+      // initKatex() got moved to KatexLoader.astro
+      // so that KaTeX CSS can be tree-shaken properly by Astro/Vite. If the user never uses TeX,
+      // the KaTeX CSS won't be included in the final build.
+
 
       // C. Navigation Event Listener
       // This ensures logic runs on initial load AND every time you navigate.
       document.addEventListener('astro:page-load', () => {
         initScrollAnimations();
-        initKatex();
       });
     </script>
   </body>

@@ -1,0 +1,30 @@
+---
+// src/freelance-persona/components/KatexLoader.astro
+---
+
+<script>
+  // Static imports here are fine because this entire script module 
+  // is only included in the build if <KatexLoader /> is rendered.
+  import 'katex/dist/katex.min.css';
+  import renderMathInElement from 'katex/dist/contrib/auto-render';
+
+  const options = {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true}
+    ],
+    throwOnError : false
+  };
+
+  function init() {
+    renderMathInElement(document.body, options);
+  }
+
+  // Run immediately when this component is mounted
+  init();
+
+  // Re-run on View Transitions (if the user navigates between Math pages)
+  document.addEventListener('astro:page-load', init);
+</script>

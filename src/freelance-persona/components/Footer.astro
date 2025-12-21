@@ -1,9 +1,13 @@
 ---
-// src/components/Footer.astro
+// src/freelance-persona/components/Footer.astro
 import { themeConfig } from '@freelance-persona/config';
+import { parse } from 'marked'; // <--- The "real" parser
 
-const year = new Date().getFullYear();
 const { title, quote, social_links, copyright, credits } = themeConfig;
+
+// Use 'parse' to convert the markdown string to HTML
+// We use 'await' because marked can be async, though usually sync for strings
+const creditsHtml = await parse(credits || '');
 ---
 
 <footer id="footer" class="footer position-relative">
@@ -12,7 +16,7 @@ const { title, quote, social_links, copyright, credits } = themeConfig;
     <p class="quote">{quote}</p>
     
     <div class="social-links d-flex justify-content-center">
-      {social_links.map((link) => (
+      {social_links.map((link: any) => (
         <a 
           href={link.url} 
           aria-label={`Link to my ${link.name} profile`}
@@ -26,7 +30,8 @@ const { title, quote, social_links, copyright, credits } = themeConfig;
     
     <div class="container">
       <div class="copyright" set:html={copyright}></div>
-      <div class="credits" set:html={credits}></div>
+      {/* Render the fully parsed HTML */}
+      <div class="credits" set:html={creditsHtml}></div>
     </div>
   </div>
 </footer>

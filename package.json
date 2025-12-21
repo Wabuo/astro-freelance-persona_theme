@@ -29,7 +29,6 @@
     "astro": "^5.0.0"
   },
   "dependencies": {
-    "@popperjs/core": "^2.11.8",
     "academicons": "^1.9.5",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",

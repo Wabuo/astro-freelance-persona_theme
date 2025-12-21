@@ -343,8 +343,10 @@ const fineTuneStyle = {
   }
   
   .social-links a {
-    font-size: 1.5rem;
-    color: var(--heading-color);
+    font-size: 1.25rem; /* 20px -> 1.25rem */
+    /* Semi-transparent color mix for the "foggy" effect */
+    color: color-mix(in srgb, var(--default-color), transparent 30%);
+    
     transition: 0.3s;
     line-height: 1;
   }

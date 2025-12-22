@@ -2,8 +2,8 @@
 import type { PersonaConfig } from '@freelance-persona/types';
 
 export const themeConfig: PersonaConfig = {
-  title: "Persona - Zola Theme ",
-  author: "Persona, Zola Theme",
+  title: "freelance-persona - Astro5 Theme ",
+  author: "freelance-persona, Astro Theme",
   description: "A modern, responsive and lightweight theme for resume, portfolio, and blog.",
   
   // --- LAYOUT CONFIG ---

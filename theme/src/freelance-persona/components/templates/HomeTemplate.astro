@@ -55,6 +55,10 @@ const contentSections = allSections
           id={section.id} 
           title={section.data.title} 
           subtitle={section.data.subtitle}
+          nudge_x={section.data.nudge_x}
+          nudge_y={section.data.nudge_y}
+          content_scale={section.data.content_scale}
+          delay={section.data.delay}
         >
           <Content />
         </PlainSection>
@@ -71,10 +75,12 @@ const contentSections = allSections
         />
       );
     }
+
+    if (section.data.type === 'contact') {
+      return <ContactSection entry={section} />;
+    }
     
     return null;
   })}
-
-  <ContactSection />
-
+  
 </BaseLayout>

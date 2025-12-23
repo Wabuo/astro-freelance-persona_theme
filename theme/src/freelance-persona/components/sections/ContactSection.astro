@@ -3,33 +3,56 @@
 import { themeConfig } from '@freelance-persona/config';
 import SectionTitle from '@freelance-persona/components/ui/SectionTitle.astro';
 
-const { contact_infos, web3form_public_key } = themeConfig;
-const showForm = !!web3form_public_key;
+const { entry } = Astro.props;
+if (!entry) throw new Error('ContactSection requires an "entry" prop.');
+
+const { title, subtitle, contact_items = [], nudge_x, nudge_y, content_scale, delay } = entry.data;
+
+// MIXER LOGIC: Resolve theme_* variables
+// ?? Cnat we just set themeConfig.email, themeConfig.phone, themeConfig.address in contact.md frontmatter
+// instead of this wierd if check?
+const resolvedItems = contact_items.map(item => {
+  let content = item.value;
+  if (item.value === 'theme_email') content = themeConfig.email;
+  if (item.value === 'theme_phone') content = themeConfig.phone;
+  if (item.value === 'theme_address') content = themeConfig.address;
+  
+  return { ...item, content };
+});
+
+const showForm = !!themeConfig.web3form_public_key;
+
+// Visual Overrides CSS
+const sectionStyle = `
+  ${nudge_x ? `--nudge-x: ${nudge_x};` : ''}
+  ${nudge_y ? `--nudge-y: ${nudge_y};` : ''}
+  ${content_scale ? `--content-scale: ${content_scale};` : ''}
+`;
 ---
 
-<section id="contact" class="contact section">
-  <SectionTitle title="Contact" />
+<section id={entry.id} class="contact section" style={sectionStyle}>
+  <SectionTitle title={title} subtitle={subtitle} />
 
-  <div class="container" data-aos="fade" data-aos-delay="200">
+  <div class="container" data-reveal data-delay={delay || 200}>
     <div class="row gy-4">
       
       <div class={showForm ? "col-lg-4" : "col-lg-8 offset-lg-4"}>
-        <div class="info-list d-flex flex-column gap-4" data-aos="fade-up" data-aos-delay="300">
-          {contact_infos.map((info) => (
+        <div class="info-list d-flex flex-column gap-4" data-reveal="fade-up" data-delay="300">
+          {resolvedItems.map((info) => (
             <>
-              {info.item === 'Email' ? (
+              {info.type === 'email' ? (
                 <a href={`mailto:${info.content}`} class="info-item d-flex email-wrapper">
-                  <i class={info.icon_class}></i>
+                  <i class={info.icon}></i>
                   <div>
-                    <h3>{info.item}</h3>
+                    <h3>{info.label}</h3>
                     <p>{info.content}</p>
                   </div>
                 </a>
               ) : (
                 <div class="info-item d-flex">
-                  <i class={info.icon_class}></i>
+                  <i class={info.icon}></i>
                   <div>
-                    <h3>{info.item}</h3>
+                    <h3>{info.label}</h3>
                     <p>{info.content}</p>
                   </div>
                 </div>
@@ -41,8 +64,8 @@ const showForm = !!web3form_public_key;
 
       {showForm && (
         <div class="col-lg-8">
-          <form action="https://api.web3forms.com/submit" method="POST" class="contact-form" data-aos="fade-up" data-aos-delay="400">
-            <input type="hidden" name="access_key" value={web3form_public_key} />
+          <form action="https://api.web3forms.com/submit" method="POST" class="contact-form" data-reveal="fade-up" data-delay="400">
+            <input type="hidden" name="access_key" value={themeConfig.web3form_public_key} />
             
             <div class="row gy-4">
               <div class="col-md-6">
@@ -89,6 +112,10 @@ const showForm = !!web3form_public_key;
 </section>
 
 <style>
+  .contact.section {
+    transform: translate(var(--nudge-x, 0), var(--nudge-y, 0)) scale(var(--content-scale, 1));
+  }
+  
   /* 1. RESET: Make the anchor behave like a block div (no default link color) */
   .email-wrapper {
     text-decoration: none;

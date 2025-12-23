@@ -92,9 +92,17 @@ const {
 const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
 
 // --- LAYOUT LOGIC ---
-const layout = themeConfig.layout || {};
-const globalMarginLeft = layout.margin_left || '140px';
-const globalMarginRight = layout.margin_right || globalMarginLeft;
+const visuals = themeConfig.visuals || {};
+const layout = visuals.layout || {};
+const globalMarginLeft = layout.page_margin_left || '140px';
+const globalMarginRight = layout.page_margin_right || globalMarginLeft;
+
+const animConfig = visuals.scroll_animations || { 
+  enabled: true, 
+  duration: 600, 
+  threshold: 0.1, 
+  root_margin: "0px 0px -50px 0px" 
+};
 ---
 
 <!DOCTYPE html>
@@ -123,7 +131,7 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
         /* Hide preloader immediately if JS is off */
         #preloader { display: none !important; visibility: hidden; opacity: 0; z-index: -9999; }
         /* Force animations to be visible immediately */
-        [data-aos] { opacity: 1 !important; transform: none !important; }
+        [data-aos], [data-reveal] { opacity: 1 !important; transform: none !important; }
       </style>
     </noscript>
   </head>
@@ -160,26 +168,42 @@ const globalMarginRight = layout.margin_right || globalMarginLeft;
       setTimeout(removePreloader, 1500);
     </script>
 
-    <script>
+    <script define:vars={{ animConfig }}>
       // NOTE: This <script> is processed by Vite, so imports work!
       
-      // A. Animation Logic (Moved from layout.js)
+      // A. Animation Logic (Unified Visuals Engine)
       const initScrollAnimations = () => {
-        const elements = document.querySelectorAll('[data-aos]');
+        if (!animConfig.enabled) {
+          // If disabled, ensure everything is visible
+          document.querySelectorAll('[data-reveal]').forEach(el => {
+            el.classList.add('revealed');
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+          });
+          return;
+        }
+
+        const elements = document.querySelectorAll('[data-aos], [data-reveal]');
         
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
-              entry.target.classList.add('aos-animate');
+              entry.target.classList.add('revealed');
               observer.unobserve(entry.target);
             }
           });
         }, {
-          threshold: 0.1,
-          rootMargin: "0px 0px -50px 0px"
+          threshold: animConfig.threshold,
+          rootMargin: animConfig.root_margin
         });
 
-        elements.forEach(el => observer.observe(el));
+        elements.forEach(el => {
+            // Apply duration from config if not overridden inline
+            if (!el.style.transitionDuration) {
+                el.style.transitionDuration = `${animConfig.duration}ms`;
+            }
+            observer.observe(el);
+        });
       };
 
       // B. KaTeX Logic

@@ -1,0 +1,25 @@
+######################################################
+## Ignore files the user might axidentally commit
+######################################################
+
+background.jpg
+
+
+#####################################################
+## Ignore patterns for Theme Development
+#####################################################
+
+# Dependencies
+node_modules/
+
+# Build Outputs
+dist/
+.astro/
+coverage/
+
+# Typescript
+*.tsbuildinfo
+
+# Environment
+.env
+.env.*

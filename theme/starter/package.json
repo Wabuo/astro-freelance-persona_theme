@@ -9,14 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.0.0",
-    "astro-freelance-persona": "^0.1.0",
+    "@astrojs/check": "^0.9.6",
     "@fontsource/poppins": "^5.2.7",
     "@fontsource/raleway": "^5.2.8",
-    "@fontsource/roboto": "^5.2.9"
+    "@fontsource/roboto": "^5.2.9",
+    "astro": "^5.0.0",
+    "astro-freelance-persona": "^0.1.0",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "sharp": "^0.34.5",
-    "sass-embedded": "^1.0.0" 
+    "sass-embedded": "^1.0.0",
+    "sharp": "^0.34.5"
   }
 }

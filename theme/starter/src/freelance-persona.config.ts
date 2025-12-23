@@ -1,13 +1,13 @@
-// src/config.ts
-import type { PersonaConfig } from 'astro-freelance-persona/types';
+//  starter/src/freelance-persona.config.ts
+import type { PersonaConfig } from 'astro-freelance-persona_theme/types';
 
 export const themeConfig: PersonaConfig = {
-  title: "freelance-persona - Astro5 Theme ",
+  title: "freelance-persona - a Astro5 Theme ",
   author: "freelance-persona, Astro Theme",
-  description: "A modern, responsive and lightweight theme for resume, portfolio, and blog.",
+  description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.",
 
   // Contact Data
-  email: "hanson.hschang+persona.zola.theme@gmail.com",
+  email: "example@example.com",
   phone: "+1234567890",
   address: "123 Persona Way, Remote City",
 
@@ -26,10 +26,18 @@ export const themeConfig: PersonaConfig = {
     }
   },
 
+  // Fonts Config
+  fonts: {
+    headings: "Poppins",
+    body: "Roboto",
+    navigation: "Raleway",
+    monospace: '"Courier New", Courier, monospace'
+  },
+
   social_links: [
     {
       name: "GitHub",
-      url: "https://github.com/hanson-hschang/persona-zola-theme",
+      url: "https://github.com/wabuo/astro_freelance-persona_theme",
       icon_class: "bi bi-github"
     },
   ],

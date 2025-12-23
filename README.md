@@ -8,69 +8,105 @@ Modernized and adapted to Astro 5.
 To create a new website using this theme, simply run the following command. This will download the starter template and set everything up for you.
 
 ```bash
-# Replace 'YourGitHubName' with your actual GitHub username
-bun create astro -- --template YourGitHubName/astro-freelance-persona/starter
+# Replace 'YourGitHubName' with the actual GitHub username where the theme is hosted
+npm create astro@latest -- --template YourGitHubName/astro-freelance-persona/starter
 ```
 
----
+## 📜 The "Manifesto" (Agreed Design Rules)
+
+1. **No Hardcoded Pixels:** Use relative units or CSS variables wherever possible.
+2. **4-Level Hierarchy:** Settings are resolved in this strict order:
+    - Level 1: Frontmatter (Targeted Override)
+    - Level 2: Component Role (Context: Title vs Content)
+    - Level 3: User Config (Theme-wide Preference)
+    - Level 4: Code Fallback (Safety Net)
+3. **Privacy First:** No external CDNs, minimal JS bloat.
+4. **Configuration, Not Prescription:** The `starter` config file should be minimal. Defaults live in the code, not the user's config file.
 
 ## 🛠️ Local Development Setup (For Contributors)
 
-If you are developing the theme itself and want to test changes in real-time, follow this workflow.
+This repository is set up as a **Monorepo** using **Bun Workspaces**.
 
-We use **Bun** and `file:` dependencies to link local packages.
+- **Root**: Contains the Theme package (`astro-freelance-persona`).
+- **`starter/`**: Contains a clean sample template for the theme.
+- **`playground/`**: An initially empty folder to be used as a local development and testing environment.
 
 ### Prerequisites
 
-* **Node.js** (v18+)
-* **Bun** (v1.0+)
-* **Unix-like Shell** (bash, zsh, fish)
+- **Node.js** (v18+)
+- **Bun** (v1.0+)
 
 ### Setup Steps
 
-1. **Create a Test Site**
-Run this command in the parent directory (sibling to your theme folder):
+1. #### Clone the Repository
+
+   ```fish
+   git clone [https://github.com/YourGitHubName/astro-freelance-persona.git](https://github.com/YourGitHubName/astro-freelance-persona.git)
+   cd astro-freelance-persona
+   ```
+
+2. #### Copy files from starter to playground
+
+   Copy all files from the `starter` directory to the `playground` directory.
+
+   ```fish
+   cp -r theme/starter/* playground/
+   ```
+
+   You can now edit the files in the `playground` directory to test the theme.
+
+   - ##### Reset playground
+
+      To reset the playground to the original state, delete the `playground` directory and run `cp -r theme/starter/* playground/` again, then run `bun install` in the root directory.
+
+3. #### Install Dependencies
+
+   Run this in the root directory. It installs dependencies for **both** the theme and the starter, and links them together automatically.
+
+   ```fish
+   bun install
+   ```
+
+4. #### Start Development Server
+
+   This starts the `playground` site in development mode.
+
+   ```fish
+   bun run dev
+   ```
+
+   - Open <http://localhost:4321> in your browser.
+   - Any changes you make to the theme files (`src/freelance-persona/...`) will **instantly hot-reload** in the browser.
+
+### Building & Testing
+
+Before submitting changes, ensure the production build works:
+
 ```fish
-bun create astro --template minimal --no-git --install test_freelance-persona
-cd test_freelance-persona
+# Build the playground site using the local theme
+bun run --filter playground build
+
+# Preview the built site
+bun run --filter playground preview
 ```
 
+### 🎨 Font Configuration
 
-2. **Apply the Starter Template**
-Manually copy the starter files into your test project. This simulates exactly what a user gets when they use the Quick Start command.
-```fish
-cp -r ../astro_freelance-persona_theme/starter/* ./
-```
+This theme uses a configurable font system. The starter template comes with **Poppins**, **Raleway**, and **Roboto** pre-configured.
 
+To change fonts:
 
-3. **Link the Theme**
-This creates a live link to your local theme folder.
-*(Note: Ensure the path points to your actual theme directory — where ever you git cloned to)*
-```fish
-bun add "file:../astro_freelance-persona_theme"
-```
+1. **Install the font package**: e.g., `bun add @fontsource/inter`
+2. **Import the CSS**: Add the import to `src/fonts.ts`.
+3. **Update Config**: Update the `fonts` section in `src/freelance-persona.config.ts`.
+4. **Don't Forget**: uninstall the unneeded font package(s).
 
+### Architecture Notes
 
-4. **Install Dependencies & Run**
-Install the dependencies introduced by the starter (like Bootstrap/Sass) and start the dev server.
-```fish
-bun install; bun dev
-```
+- **`playground/package.json`**: During local development, this uses the local version of the theme. When published as a template, it uses the version from the npm registry.
+- **Imports**: The starter imports components from the theme package (e.g., `astro-freelance-persona/components/...`) just like a real user would.
 
-5. **Before upstreaming/submitting any changes**
-Please alsways run `bun run build; bun run preview` on your final code and see if anything comes up!
-It can catch errors not exposed by `bun dev`, thanks.
+<br>
 
-
-
-### Workflow Tips
-
-* **Hot Reloading:** Because of the `file:` link (and Bun's handling of it), edits to `../astro_freelance-persona_theme/src` will hot-reload in your browser.
-* **Clean State:** If you mess up the configuration in `lets-freelance`, just delete the folder and repeat steps 1-4. It takes less than a minute.
-* **Production Test:** Before committing major changes, run `bun run build` in your test site to ensure the production build passes.
-
----
-
-*This Theme and aynthing attouched to it, comes with absolutly no warranty, I've got no idea what I'm doing!*<br>
+*This Theme and anything attached to it, comes with absolutely no warranty, I've got no idea what I'm doing!*<br>
 *(and can't spell — shoutout to my fellow dyslexic)*
-

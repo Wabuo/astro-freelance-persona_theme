@@ -5,27 +5,8 @@ import Footer from '@freelance-persona/components/Footer.astro';
 import Navigation from '@freelance-persona/components/Navigation.astro';
 import { themeConfig } from '@freelance-persona/config'; 
 
-// --- FONTS ---
-import '@fontsource/poppins/300.css';
-import '@fontsource/poppins/400.css';
-import '@fontsource/poppins/500.css';
-import '@fontsource/poppins/600.css';
-import '@fontsource/poppins/700.css';
+// Font imports removed - should be handled by the consumer/starter
 
-import '@fontsource/raleway/300.css';
-import '@fontsource/raleway/400.css';
-import '@fontsource/raleway/500.css';
-import '@fontsource/raleway/600.css';
-import '@fontsource/raleway/700.css';
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/300-italic.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/400-italic.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/500-italic.css';
-import '@fontsource/roboto/700.css';
-import '@fontsource/roboto/700-italic.css';
 
 // Import Global Styles
 import '@freelance-persona/styles/main.scss';
@@ -94,10 +75,27 @@ const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
 const layout = themeConfig.layout || {};
 const globalMarginLeft = layout.margin_left || '140px';
 const globalMarginRight = layout.margin_right || globalMarginLeft;
+
+// --- FONTS CONFIGURATION ---
+const fonts = themeConfig.fonts || {};
+
+// Level 4: Code Fallback (Generic System Fonts)
+const headingFont = fonts.headings || 'sans-serif';
+const bodyFont = fonts.body || 'sans-serif';
+const navFont = fonts.navigation || 'sans-serif';
+const monospaceFont = fonts.monospace || 'monospace';
+
 ---
 
 <!DOCTYPE html>
-<html lang="en" style={`--global-margin-left: ${globalMarginLeft}; --global-margin-right: ${globalMarginRight};`}>
+<html lang="en" style={`
+  --global-margin-left: ${globalMarginLeft}; 
+  --global-margin-right: ${globalMarginRight};
+  --heading-font: "${headingFont}";
+  --default-font: "${bodyFont}";
+  --nav-font: "${navFont}";
+  --monospace-font: "${monospaceFont}";
+`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -52,4 +52,12 @@ export interface PersonaConfig {
 
   // New Visuals Config
   visuals?: VisualsConfig;
+
+  // Font Configuration
+  fonts?: {
+    headings?: string;
+    body?: string;
+    navigation?: string;
+    monospace?: string;
+  };
 }

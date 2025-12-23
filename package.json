@@ -6,7 +6,7 @@
     "playground"
   ],
   "scripts": {
-    "dev": "bun --filter playground dev",
+    "dev": "bun --filter my-freelance-portfolio dev",
     "build": "bun --filter theme build",
     "test": "bun --filter theme test"
   }

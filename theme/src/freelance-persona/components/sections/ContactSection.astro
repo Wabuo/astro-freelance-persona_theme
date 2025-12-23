@@ -1,22 +1,50 @@
 ---
 // src/components/sections/ContactSection.astro
-import { themeConfig } from '@freelance-persona/config';
-import SectionTitle from '@freelance-persona/components/ui/SectionTitle.astro';
+import { themeConfig } from "@freelance-persona/config";
+import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 
 const { entry } = Astro.props;
 if (!entry) throw new Error('ContactSection requires an "entry" prop.');
 
-const { title, subtitle, contact_items = [], nudge_x, nudge_y, content_scale, delay } = entry.data;
+const {
+  title,
+  subtitle,
+  contact_items = [],
+  nudge_x,
+  nudge_y,
+  content_scale,
+  delay,
+} = entry.data;
 
-// MIXER LOGIC: Resolve theme_* variables
-// ?? Cnat we just set themeConfig.email, themeConfig.phone, themeConfig.address in contact.md frontmatter
-// instead of this wierd if check?
-const resolvedItems = contact_items.map(item => {
+// MIXER LOGIC: Resolve Defaults
+// Level 2 (Component Role) & Level 3 (User Config) resolution
+const resolvedItems = contact_items.map((item) => {
   let content = item.value;
-  if (item.value === 'theme_email') content = themeConfig.email;
-  if (item.value === 'theme_phone') content = themeConfig.phone;
-  if (item.value === 'theme_address') content = themeConfig.address;
-  
+
+  switch (item.value) {
+    case "theme_email":
+      content = themeConfig.email;
+      break;
+    case "theme_phone":
+      content = themeConfig.phone;
+      break;
+    case "theme_address":
+      content = themeConfig.address;
+      break;
+    case "theme_author":
+      content = themeConfig.author;
+      break;
+    default:
+      content = item.value;
+  }
+
+  // Validate: If content ends up empty (e.g. themeConfig var was empty), throw error
+  if (!content) {
+    throw new Error(
+      `Contact item "${item.label}" has no value. It is set to "${item.value}" which resolved to an empty string. Please check your freelance-persona.config.ts or contact.md.`,
+    );
+  }
+
   return { ...item, content };
 });
 
@@ -24,9 +52,9 @@ const showForm = !!themeConfig.web3form_public_key;
 
 // Visual Overrides CSS
 const sectionStyle = `
-  ${nudge_x ? `--nudge-x: ${nudge_x};` : ''}
-  ${nudge_y ? `--nudge-y: ${nudge_y};` : ''}
-  ${content_scale ? `--content-scale: ${content_scale};` : ''}
+  ${nudge_x ? `--nudge-x: ${nudge_x};` : ""}
+  ${nudge_y ? `--nudge-y: ${nudge_y};` : ""}
+  ${content_scale ? `--content-scale: ${content_scale};` : ""}
 `;
 ---
 
@@ -35,87 +63,132 @@ const sectionStyle = `
 
   <div class="container" data-reveal data-delay={delay || 200}>
     <div class="row gy-4">
-      
       <div class={showForm ? "col-lg-4" : "col-lg-8 offset-lg-4"}>
-        <div class="info-list d-flex flex-column gap-4" data-reveal="fade-up" data-delay="300">
-          {resolvedItems.map((info) => (
-            <>
-              {info.type === 'email' ? (
-                <a href={`mailto:${info.content}`} class="info-item d-flex email-wrapper">
-                  <i class={info.icon}></i>
-                  <div>
-                    <h3>{info.label}</h3>
-                    <p>{info.content}</p>
+        <div
+          class="info-list d-flex flex-column gap-4"
+          data-reveal="fade-up"
+          data-delay="300"
+        >
+          {
+            resolvedItems.map((info) => (
+              <>
+                {info.type === "email" ? (
+                  <a
+                    href={`mailto:${info.content}`}
+                    class="info-item d-flex email-wrapper"
+                  >
+                    <i class={info.icon} />
+                    <div>
+                      <h3>{info.label}</h3>
+                      <p>{info.content}</p>
+                    </div>
+                  </a>
+                ) : (
+                  <div class="info-item d-flex">
+                    <i class={info.icon} />
+                    <div>
+                      <h3>{info.label}</h3>
+                      <p>{info.content}</p>
+                    </div>
                   </div>
-                </a>
-              ) : (
-                <div class="info-item d-flex">
-                  <i class={info.icon}></i>
-                  <div>
-                    <h3>{info.label}</h3>
-                    <p>{info.content}</p>
-                  </div>
-                </div>
-              )}
-            </>
-          ))}
+                )}
+              </>
+            ))
+          }
         </div>
       </div>
 
-      {showForm && (
-        <div class="col-lg-8">
-          <form action="https://api.web3forms.com/submit" method="POST" class="contact-form" data-reveal="fade-up" data-delay="400">
-            <input type="hidden" name="access_key" value={themeConfig.web3form_public_key} />
-            
-            <div class="row gy-4">
-              <div class="col-md-6">
-                <div class="input-box">
+      {
+        showForm && (
+          <div class="col-lg-8">
+            <form
+              action="https://api.web3forms.com/submit"
+              method="POST"
+              class="contact-form"
+              data-reveal="fade-up"
+              data-delay="400"
+            >
+              <input
+                type="hidden"
+                name="access_key"
+                value={themeConfig.web3form_public_key}
+              />
+
+              <div class="row gy-4">
+                <div class="col-md-6">
+                  <div class="input-box">
                     <input type="text" name="name" id="name-field" required />
-                    <label for="name-field" class="label">Your Name</label>
+                    <label for="name-field" class="label">
+                      Your Name
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="input-box">
+                    <input
+                      type="email"
+                      name="email"
+                      id="email-field"
+                      required
+                    />
+                    <label for="email-field" class="label">
+                      Your Email
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="input-box">
+                    <input
+                      type="text"
+                      name="subject"
+                      id="subject-field"
+                      required
+                    />
+                    <label for="subject-field" class="label">
+                      Subject
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="input-box">
+                    <textarea
+                      name="message"
+                      rows="6"
+                      id="message-field"
+                      required
+                    />
+                    <label for="message-field" class="label">
+                      Message
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-12 text-center">
+                  <div class="loading">Loading</div>
+                  <div class="error-message" />
+                  <div class="sent-message">
+                    Your message has been sent. Thank you!
+                  </div>
+                  <button type="submit">Send Message</button>
                 </div>
               </div>
-
-              <div class="col-md-6">
-                <div class="input-box">
-                    <input type="email" name="email" id="email-field" required />
-                    <label for="email-field" class="label">Your Email</label>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <div class="input-box">
-                    <input type="text" name="subject" id="subject-field" required />
-                    <label for="subject-field" class="label">Subject</label>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                 <div class="input-box">
-                    <textarea name="message" rows="6" id="message-field" required></textarea>
-                    <label for="message-field" class="label">Message</label>
-                </div>
-              </div>
-
-              <div class="col-md-12 text-center">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-                <button type="submit">Send Message</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      )}
-
+            </form>
+          </div>
+        )
+      }
     </div>
   </div>
 </section>
 
 <style>
   .contact.section {
-    transform: translate(var(--nudge-x, 0), var(--nudge-y, 0)) scale(var(--content-scale, 1));
+    transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
+      scale(var(--content-scale, 1));
   }
-  
+
   /* 1. RESET: Make the anchor behave like a block div (no default link color) */
   .email-wrapper {
     text-decoration: none;
@@ -123,7 +196,7 @@ const sectionStyle = `
     cursor: pointer;
     transition: 0.3s;
   }
-  
+
   /* 2. TEXT COLOR: The email address is ALWAYS accent color */
   .email-wrapper p {
     color: var(--accent-color);

@@ -14,7 +14,7 @@
     "@fontsource/raleway": "^5.2.8",
     "@fontsource/roboto": "^5.2.9",
     "astro": "^5.0.0",
-    "astro-freelance-persona": "^0.1.0",
+    "astro-freelance-persona_theme": "^0.1.0",
     "typescript": "^5.9.3"
   },
   "devDependencies": {

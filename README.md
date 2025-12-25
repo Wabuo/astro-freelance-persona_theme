@@ -19,9 +19,9 @@ npm create astro@latest -- --template YourGitHubName/astro-freelance-persona/sta
     - Level 1: Frontmatter (Targeted Override)
     - Level 2: Component Role (Context: Title vs Content)
     - Level 3: User Config (Theme-wide Preference)
-    - Level 4: Code Fallback (Safety Net)
+    - Level 4: Code Fallback (sensible defaults, allows for easy code portability)
 3. **Privacy First:** No external CDNs, minimal JS bloat.
-4. **Configuration, Not Prescription:** The `starter` config file should be minimal. Defaults live in the code, not the user's config file.
+4. **Configuration, Not Prescription:** The `starter` config file should be minimal. Defaults live in the lowest sensible level of code/logic that consumes the value, not in the user's config file or a theme wide shadow config file.
 
 ## 🛠️ Local Development Setup (For Contributors)
 
@@ -29,7 +29,7 @@ This repository is set up as a **Monorepo** using **Bun Workspaces**.
 
 - **Root**: Contains the Theme package (`astro-freelance-persona`).
 - **`starter/`**: Contains a clean sample template for the theme.
-- **`playground/`**: An initially empty folder to be used as a local development and testing environment.
+- **`playground/`**: An initially empty folder to be used as a local development and testing environment, copy the content of starter here.
 
 ### Prerequisites
 
@@ -80,15 +80,25 @@ This repository is set up as a **Monorepo** using **Bun Workspaces**.
 
 ### Building & Testing
 
-Before submitting changes, ensure the production build works:
+Before submitting changes, ensure the production build works: \n
+`astro build` can and will catch some things that `bun run dev` won't.
 
 ```fish
+# Runs astro check 
+# add astro check
+
 # Build the playground site using the local theme
 bun run --filter playground build
 
 # Preview the built site
 bun run --filter playground preview
 ```
+
+## Configuration
+
+The Main configuration file is `src/freelance-persona.config.ts`.\n
+This file is mainly for theme/web page wide sttings./n
+Each markdown file defining a page can override these settings and will often also offer page/section specific settings.
 
 ### 🎨 Font Configuration
 
@@ -99,7 +109,7 @@ To change fonts:
 1. **Install the font package**: e.g., `bun add @fontsource/inter`
 2. **Import the CSS**: Add the import to `src/fonts.ts`.
 3. **Update Config**: Update the `fonts` section in `src/freelance-persona.config.ts`.
-4. **Don't Forget**: uninstall the unneeded font package(s).
+4. **Don't Forget**: to uninstall unneeded font package(s).
 
 ### Architecture Notes
 

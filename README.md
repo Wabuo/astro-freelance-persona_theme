@@ -85,7 +85,7 @@ Before submitting changes, ensure the production build works: \n
 
 ```fish
 # Runs astro check 
-# add astro check
+# !FixMe! add astro check
 
 # Build the playground site using the local theme
 bun run --filter playground build
@@ -116,7 +116,7 @@ To change fonts:
 - **`playground/package.json`**: During local development, this uses the local version of the theme. When published as a template, it uses the version from the npm registry.
 - **Imports**: The starter imports components from the theme package (e.g., `astro-freelance-persona/components/...`) just like a real user would.
 
-<br>
+\n
 
-*This Theme and anything attached to it, comes with absolutely no warranty, I've got no idea what I'm doing!*<br>
+*This Theme and anything attached to it, comes with absolutely no warranty, I've got no idea what I'm doing!*\n
 *(and can't spell — shoutout to my fellow dyslexic)*

@@ -23,13 +23,30 @@ npm create astro@latest -- --template YourGitHubName/astro-freelance-persona/sta
 3. **Privacy First:** No external CDNs, minimal JS bloat.
 4. **Configuration, Not Prescription:** The `starter` config file should be minimal. Defaults live in the lowest sensible level of code/logic that consumes the value, not in the user's config file or a theme wide shadow config file.
 
+## Configuration
+
+The Main configuration file is `src/freelance-persona.config.ts`.<br>
+This file is mainly for theme/web page wide sttings.<br>
+Each markdown file defining a page can override these settings and will often also offer page/section specific settings.
+
+### 🎨 Font Configuration
+
+This theme uses a configurable font system. The starter template comes with **Poppins**, **Raleway**, and **Roboto** pre-configured.
+
+To change fonts:
+
+1. **Install the font package**: e.g., `bun add @fontsource/inter`
+2. **Import the CSS**: Add the import to `src/fonts.ts`.
+3. **Update Config**: Update the `fonts` section in `src/freelance-persona.config.ts`.
+4. **Don't Forget**: to uninstall unneeded font package(s).
+
 ## 🛠️ Local Development Setup (For Contributors)
 
 This repository is set up as a **Monorepo** using **Bun Workspaces**.
 
 - **Root**: Contains the Theme package (`astro-freelance-persona`).
 - **`starter/`**: Contains a clean sample template for the theme.
-- **`playground/`**: An initially empty folder to be used as a local development and testing environment, copy the content of starter here.
+- **`playground/`**: An initially empty folder, to be used as a local development and testing environment, copy the content of starter here.
 
 ### Prerequisites
 
@@ -80,7 +97,7 @@ This repository is set up as a **Monorepo** using **Bun Workspaces**.
 
 ### Building & Testing
 
-Before submitting changes, ensure the production build works: \n
+Before submitting changes, ensure the production build works:<br>
 `astro build` can and will catch some things that `bun run dev` won't.
 
 ```fish
@@ -94,29 +111,15 @@ bun run --filter playground build
 bun run --filter playground preview
 ```
 
-## Configuration
-
-The Main configuration file is `src/freelance-persona.config.ts`.\n
-This file is mainly for theme/web page wide sttings./n
-Each markdown file defining a page can override these settings and will often also offer page/section specific settings.
-
-### 🎨 Font Configuration
-
-This theme uses a configurable font system. The starter template comes with **Poppins**, **Raleway**, and **Roboto** pre-configured.
-
-To change fonts:
-
-1. **Install the font package**: e.g., `bun add @fontsource/inter`
-2. **Import the CSS**: Add the import to `src/fonts.ts`.
-3. **Update Config**: Update the `fonts` section in `src/freelance-persona.config.ts`.
-4. **Don't Forget**: to uninstall unneeded font package(s).
-
 ### Architecture Notes
 
 - **`playground/package.json`**: During local development, this uses the local version of the theme. When published as a template, it uses the version from the npm registry.
 - **Imports**: The starter imports components from the theme package (e.g., `astro-freelance-persona/components/...`) just like a real user would.
 
-\n
+<br>
+<br>
+<br>
+<br>
 
-*This Theme and anything attached to it, comes with absolutely no warranty, I've got no idea what I'm doing!*\n
+— *This Theme and anything attached to it, comes with absolutely no warranty, I've got no idea what I'm doing!*<br>
 *(and can't spell — shoutout to my fellow dyslexic)*

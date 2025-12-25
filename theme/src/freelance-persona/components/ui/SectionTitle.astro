@@ -2,13 +2,21 @@
 interface Props {
   title: string;
   subtitle?: string;
+  delay?: number;
 }
-const { title, subtitle } = Astro.props;
+const { title, subtitle, delay } = Astro.props;
 ---
 
-<div class="section-title" data-aos="fade-up">
+<div class="section-title" data-reveal="fade-up" data-delay={delay}>
   <h2>
     {title}
-    {subtitle && <em><br>{subtitle}</em>}
+    {
+      subtitle && (
+        <em>
+          <br />
+          {subtitle}
+        </em>
+      )
+    }
   </h2>
 </div>

@@ -5,6 +5,7 @@ export const themeConfig: PersonaConfig = {
   // ===================================================================================
   // 1. SITE IDENTITY
   // ===================================================================================
+  // (Touch to force rebuild)
   title: "freelance-persona — a Astro5 Theme ",
   author: "freelance-persona, Astro Theme", // Used for meta tags and the 'theme_author' token
   description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.",
@@ -37,20 +38,25 @@ export const themeConfig: PersonaConfig = {
     layout: {
       // Defines the empty area/gap on the left side of the page.
       // The sidebar floats over this area.
-      page_margin_left: "140px",
+      page_margin_left: "142px", // "140px"
 
-      // margin_right: "5em", // <- Uncomment to set manually. Defaults to page_margin_left
+      //page_margin_right: "1em", // <- Uncomment to set manually. Defaults to page_margin_left
       // Note: You can use any CSS unit (em, px, vw, etc.)
     },
     scroll_animations: {
       enabled: true,
-      duration: 600 // Animation duration in milliseconds
+      //duration: 600 // Animation duration in milliseconds
+    },
+    delays: {
+      //  heading: 100, // Defines how many ms after being triggerd the animation will start
+      //content: 400, // Defines how many ms after being triggerd the animation will start
+      //stagger: 100 // multiple content elements will be delayeded by this amount to eachother
     }
   },
 
   fonts: {
     // I recommen to use @fontsource/font-name //e.g. run `bun add @fontsource/some-font-name`
-    // But you can also use a font CDN or standard system fonts.
+    // But you can also use a font CDN(bad for enduser privacy) or standard system fonts.
     // Make sure to import them in src/fonts.ts if using custom ones.
     headings: "Poppins",
     body: "Roboto",

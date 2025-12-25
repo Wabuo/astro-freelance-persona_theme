@@ -1,64 +1,64 @@
 ---
-import { Image } from 'astro:assets';
-import { themeConfig } from '@freelance-persona/config';
+import { Image } from "astro:assets";
+import { themeConfig } from "@freelance-persona/config";
 
 interface Props {
   title?: string;
   hero_typing_text?: string;
   greeting?: string;
   background_image?: ImageMetadata;
-  
+
   // Typing Config
   typing_speed?: number;
   deleting_speed?: number;
   pause_duration?: number;
-  
+
   // Layout Config
-  position_x?: 'left' | 'center' | 'right';
-  position_y?: 'top' | 'middle' | 'bottom';
-  size?: 'small' | 'medium' | 'large' | 'full';
+  position_x?: "left" | "center" | "right";
+  position_y?: "top" | "middle" | "bottom";
+  size?: "small" | "medium" | "large" | "full";
 
   // Fine Tuning
   nudge_x?: string;
   nudge_y?: string;
   content_scale?: number;
-  
+
   title_font_size?: string;
   title_font_family?: string;
   typing_font_size?: string;
   typing_font_family?: string;
-  
+
   gap_title_to_typing?: string;
   gap_typing_to_socials?: string;
 }
 
-const { 
+const {
   background_image: explicitImage,
-  
+
   title = "CONFIG MISSING",
   hero_typing_text = "Error: src/content/sections/hero.md not found",
-  greeting = "SYSTEM:", 
-  
+  greeting = "SYSTEM:",
+
   // Defaults
   typing_speed = 100,
   deleting_speed = 50,
   pause_duration = 2000,
-  
-  position_x = 'center', 
-  position_y = 'middle',
-  size = 'medium',
+
+  position_x = "center",
+  position_y = "middle",
+  size = "medium",
 
   nudge_x = "0px",
   nudge_y = "0px",
   content_scale = 1,
-  
+
   title_font_size = undefined,
   title_font_family = undefined,
   typing_font_size = undefined,
   typing_font_family = undefined,
 
-  gap_title_to_typing = undefined, 
-  gap_typing_to_socials = undefined 
+  gap_title_to_typing = undefined,
+  gap_typing_to_socials = undefined,
 } = Astro.props;
 
 const { social_links } = themeConfig;
@@ -66,11 +66,22 @@ const { social_links } = themeConfig;
 // --- DYNAMIC BACKGROUND LOGIC ---
 let finalImage = explicitImage;
 if (!finalImage) {
-  const bgGlob = import.meta.glob('/src/assets/img/background.{jpg,jpeg,png,webp,avif,svg}');
+  const bgGlob = import.meta.glob(
+    "/src/assets/img/background.{jpg,jpeg,png,webp,avif,svg}",
+  );
   const paths = Object.keys(bgGlob);
   if (paths.length > 0) {
     paths.sort((a, b) => {
-      const score = (p: string) => p.endsWith('.jpg') ? 4 : p.endsWith('.png') ? 3 : p.endsWith('.webp') ? 2 : p.endsWith('.svg') ? 1 : 0;
+      const score = (p: string) =>
+        p.endsWith(".jpg")
+          ? 4
+          : p.endsWith(".png")
+            ? 3
+            : p.endsWith(".webp")
+              ? 2
+              : p.endsWith(".svg")
+                ? 1
+                : 0;
       return score(b) - score(a);
     });
     const imageModule = await bgGlob[paths[0]]();
@@ -80,100 +91,129 @@ if (!finalImage) {
 
 // --- CSS CLASS MAPPING ---
 const xMap = {
-  'left': { row: 'justify-content-start', text: 'text-start', flex: 'justify-content-start' },
-  'center': { row: 'justify-content-center', text: 'text-center', flex: 'justify-content-center' },
-  'right': { row: 'justify-content-end', text: 'text-end', flex: 'justify-content-end' }
+  left: {
+    row: "justify-content-start",
+    text: "text-start",
+    flex: "justify-content-start",
+  },
+  center: {
+    row: "justify-content-center",
+    text: "text-center",
+    flex: "justify-content-center",
+  },
+  right: {
+    row: "justify-content-end",
+    text: "text-end",
+    flex: "justify-content-end",
+  },
 };
-const alignSettings = xMap[position_x] || xMap['center'];
+const alignSettings = xMap[position_x] || xMap["center"];
 
 const yMap = {
-  'top': 'align-items-start pt-5',
-  'middle': 'align-items-center',
-  'bottom': 'align-items-end pb-5'
+  top: "align-items-start pt-5",
+  middle: "align-items-center",
+  bottom: "align-items-end pb-5",
 };
-const heroAlignClass = yMap[position_y] || 'align-items-center';
+const heroAlignClass = yMap[position_y] || "align-items-center";
 
 const sizeMap = {
-  'small': 'col-lg-6 col-md-8',
-  'medium': 'col-lg-9 col-md-10',
-  'large': 'col-lg-11',
-  'full': 'col-12'
+  small: "col-lg-6 col-md-8",
+  medium: "col-lg-9 col-md-10",
+  large: "col-lg-11",
+  full: "col-12",
 };
-const colClass = sizeMap[size] || 'col-lg-9';
+const colClass = sizeMap[size] || "col-lg-9";
 
 // --- FINE TUNING STYLES ---
 const fineTuneStyle = {
   // 1. Position & Scale
   transform: `translate(${nudge_x}, ${nudge_y}) scale(${content_scale})`,
-  
-  // 2. Variable Injection (Fonts & Gaps)
-  ...(title_font_size && { '--title-font-size': title_font_size }),
-  ...(title_font_family && { '--title-font-family-override': title_font_family }),
-  
-  ...(typing_font_size && { '--hero-typing-font-size': typing_font_size }),
-  ...(typing_font_family && { '--typing-font-family-override': typing_font_family }),
 
-  ...(gap_title_to_typing && { '--gap-title-to-typing': gap_title_to_typing }),
-  ...(gap_typing_to_socials && { '--gap-typing-to-socials': gap_typing_to_socials })
+  // 2. Variable Injection (Fonts & Gaps)
+  ...(title_font_size && { "--title-font-size": title_font_size }),
+  ...(title_font_family && {
+    "--title-font-family-override": title_font_family,
+  }),
+
+  ...(typing_font_size && { "--hero-typing-font-size": typing_font_size }),
+  ...(typing_font_family && {
+    "--typing-font-family-override": typing_font_family,
+  }),
+
+  ...(gap_title_to_typing && { "--gap-title-to-typing": gap_title_to_typing }),
+  ...(gap_typing_to_socials && {
+    "--gap-typing-to-socials": gap_typing_to_socials,
+  }),
 };
 ---
 
 <section id="hero" class={`hero section ${heroAlignClass}`}>
-  {finalImage && (
-    <Image 
-      src={finalImage} 
-      alt="Background"
-      class="hero-bg"
-      width={1920} 
-      height={1080}
-      format="webp"
-      loading="eager"
-    />
-  )}
+  {
+    finalImage && (
+      <Image
+        src={finalImage}
+        alt="Background"
+        class="hero-bg"
+        width={1920}
+        height={1080}
+        format="webp"
+        loading="eager"
+      />
+    )
+  }
 
-  <div class="container" data-aos="zoom-out">
+  <div class="container" data-reveal="zoom-out">
     <div class={`row ${alignSettings.row}`}>
-      
       <div class={`${colClass} ${alignSettings.text}`} style={fineTuneStyle}>
-        
         <h2>{title}</h2>
-        
-        {hero_typing_text && (
-          <div class={`typing-wrapper ${alignSettings.flex}`}>
-            <p>
-              {greeting && <span class="greeting">{greeting} </span>}
-              
-              <span class="typing-lock">
-                <span 
-                  class="typed" 
-                  data-typed-items={hero_typing_text}
-                  data-typing-speed={typing_speed}
-                  data-deleting-speed={deleting_speed}
-                  data-pause-duration={pause_duration}
-                ></span>
-                
-                <span class="typed-cursor" aria-hidden="true">|</span>
-              </span>
 
-              <noscript>
-                <span class="noscript-text">
-                  {hero_typing_text.split(',').join(', ')}
+        {
+          hero_typing_text && (
+            <div class={`typing-wrapper ${alignSettings.flex}`}>
+              <p>
+                {greeting && <span class="greeting">{greeting} </span>}
+
+                <span class="typing-lock">
+                  <span
+                    class="typed"
+                    data-typed-items={hero_typing_text}
+                    data-typing-speed={typing_speed}
+                    data-deleting-speed={deleting_speed}
+                    data-pause-duration={pause_duration}
+                  />
+
+                  <span class="typed-cursor" aria-hidden="true">
+                    |
+                  </span>
                 </span>
-              </noscript>
-            </p>
-          </div>
-        )}
 
-        {social_links && social_links.length > 0 && (
-          <div class={`social-links ${alignSettings.flex}`}>
-            {social_links.map((link) => (
-              <a href={link.url} class={link.name.toLowerCase()} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
-                <i class={link.icon_class}></i>
-              </a>
-            ))}
-          </div>
-        )}
+                <noscript>
+                  <span class="noscript-text">
+                    {hero_typing_text.split(",").join(", ")}
+                  </span>
+                </noscript>
+              </p>
+            </div>
+          )
+        }
 
+        {
+          social_links && social_links.length > 0 && (
+            <div class={`social-links ${alignSettings.flex}`}>
+              {social_links.map((link) => (
+                <a
+                  href={link.url}
+                  class={link.name.toLowerCase()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.name}
+                >
+                  <i class={link.icon_class} />
+                </a>
+              ))}
+            </div>
+          )
+        }
       </div>
     </div>
   </div>
@@ -181,9 +221,9 @@ const fineTuneStyle = {
 
 <script>
   function initTyped() {
-    const typedEl = document.querySelector('.typed');
-    const cursorEl = document.querySelector('.typed-cursor');
-    const lockEl = document.querySelector('.typing-lock');
+    const typedEl = document.querySelector(".typed");
+    const cursorEl = document.querySelector(".typed-cursor");
+    const lockEl = document.querySelector(".typing-lock");
 
     if (!typedEl || !lockEl) return;
 
@@ -191,24 +231,30 @@ const fineTuneStyle = {
     // @ts-ignore
     if (typedEl._stopTyping) typedEl._stopTyping();
 
-    const words = typedEl.getAttribute('data-typed-items')?.split(',') || [];
+    const words = typedEl.getAttribute("data-typed-items")?.split(",") || [];
     if (words.length === 0) return;
 
     // READ CONFIG
-    const speedType = parseInt(typedEl.getAttribute('data-typing-speed') || '100');
-    const speedDelete = parseInt(typedEl.getAttribute('data-deleting-speed') || '50');
-    const speedPause = parseInt(typedEl.getAttribute('data-pause-duration') || '2000');
+    const speedType = parseInt(
+      typedEl.getAttribute("data-typing-speed") || "100",
+    );
+    const speedDelete = parseInt(
+      typedEl.getAttribute("data-deleting-speed") || "50",
+    );
+    const speedPause = parseInt(
+      typedEl.getAttribute("data-pause-duration") || "2000",
+    );
 
     // 2. LAYOUT CALCULATION (Prevents layout shift)
-    const measureSpan = document.createElement('span');
+    const measureSpan = document.createElement("span");
     measureSpan.style.font = window.getComputedStyle(typedEl).font;
-    measureSpan.style.visibility = 'hidden';
-    measureSpan.style.position = 'absolute';
-    measureSpan.style.whiteSpace = 'nowrap';
+    measureSpan.style.visibility = "hidden";
+    measureSpan.style.position = "absolute";
+    measureSpan.style.whiteSpace = "nowrap";
     document.body.appendChild(measureSpan);
 
     let maxWidth = 0;
-    words.forEach(word => {
+    words.forEach((word) => {
       measureSpan.textContent = word;
       const width = measureSpan.getBoundingClientRect().width;
       if (width > maxWidth) maxWidth = width;
@@ -225,7 +271,7 @@ const fineTuneStyle = {
 
     const type = () => {
       const currentWord = words[wordIndex];
-      
+
       if (isDeleting) {
         typedEl.textContent = currentWord.substring(0, charIndex - 1);
         charIndex--;
@@ -238,15 +284,15 @@ const fineTuneStyle = {
 
       if (!isDeleting && charIndex === currentWord.length) {
         isDeleting = true;
-        currentSpeed = speedPause; 
-        cursorEl?.classList.add('blinking');
+        currentSpeed = speedPause;
+        cursorEl?.classList.add("blinking");
       } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
         wordIndex = (wordIndex + 1) % words.length;
-        currentSpeed = 500; 
-        cursorEl?.classList.remove('blinking');
+        currentSpeed = 500;
+        cursorEl?.classList.remove("blinking");
       } else {
-        cursorEl?.classList.remove('blinking');
+        cursorEl?.classList.remove("blinking");
       }
 
       timeoutId = setTimeout(type, currentSpeed);
@@ -260,9 +306,9 @@ const fineTuneStyle = {
   }
 
   initTyped();
-  document.addEventListener('astro:page-load', initTyped);
-  document.addEventListener('astro:before-swap', () => {
-    const typedEl = document.querySelector('.typed');
+  document.addEventListener("astro:page-load", initTyped);
+  document.addEventListener("astro:before-swap", () => {
+    const typedEl = document.querySelector(".typed");
     // @ts-ignore
     if (typedEl && typedEl._stopTyping) typedEl._stopTyping();
   });
@@ -278,17 +324,20 @@ const fineTuneStyle = {
     object-fit: cover;
     z-index: 0;
   }
-  
+
   .typing-wrapper {
     display: flex;
     width: 100%;
   }
 
   /* --- TYPOGRAPHY OVERRIDES --- */
-  
+
   /* TITLE */
   .hero h2 {
-    font-family: var(--title-font-family-override, var(--heading-font, sans-serif));
+    font-family: var(
+      --title-font-family-override,
+      var(--heading-font, sans-serif)
+    );
     /* Font size is handled by inheritance from the wrapper's --title-font-size variable */
   }
 
@@ -297,10 +346,10 @@ const fineTuneStyle = {
     font-family: var(--typing-font-family-override, var(--nav-font));
     font-size: var(--hero-typing-font-size, 1.625rem);
     margin-top: var(--gap-title-to-typing, 0.3125rem);
-    
+
     margin-bottom: 0;
-    white-space: nowrap; 
-    display: inline-flex; 
+    white-space: nowrap;
+    display: inline-flex;
     align-items: center;
   }
 
@@ -327,13 +376,23 @@ const fineTuneStyle = {
     animation: blink 0.7s infinite;
   }
   @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
-  noscript { display: inline; }
-  noscript + .typing-lock { display: none; }
+  noscript {
+    display: inline;
+  }
+  noscript + .typing-lock {
+    display: none;
+  }
 
   /* SOCIALS LOGIC */
   .social-links {
@@ -341,16 +400,16 @@ const fineTuneStyle = {
     display: flex;
     gap: 1.5rem;
   }
-  
+
   .social-links a {
     font-size: 1.25rem; /* 20px -> 1.25rem */
     /* Semi-transparent color mix for the "foggy" effect */
     color: color-mix(in srgb, var(--default-color), transparent 30%);
-    
+
     transition: 0.3s;
     line-height: 1;
   }
-  
+
   .social-links a:hover {
     color: var(--accent-color);
     transform: scale(1.1);

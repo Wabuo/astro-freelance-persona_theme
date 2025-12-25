@@ -8,6 +8,7 @@
   "exports": {
     ".": "./src/freelance-persona/integration.ts",
     "./components/*": "./src/freelance-persona/components/*",
+    "./layouts/*": "./src/freelance-persona/layouts/*",
     "./pages/*": "./src/freelance-persona/pages/*",
     "./styles/*": "./src/freelance-persona/styles/*",
     "./config": "./src/freelance-persona.config.ts",

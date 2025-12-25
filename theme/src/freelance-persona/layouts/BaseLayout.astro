@@ -1,22 +1,28 @@
 ---
 // src/freelance-persona/layouts/BaseLayout.astro
-import { ClientRouter } from 'astro:transitions';
-import Footer from '@freelance-persona/components/Footer.astro';
-import Navigation from '@freelance-persona/components/Navigation.astro';
-import { themeConfig } from '@freelance-persona/config'; 
+import { ClientRouter } from "astro:transitions";
+import Footer from "@freelance-persona/components/Footer.astro";
+import Navigation from "@freelance-persona/components/Navigation.astro";
+import { themeConfig } from "@freelance-persona/config";
 
 // Font imports removed - should be handled by the consumer/starter
 
-
 // Import Global Styles
-import '@freelance-persona/styles/main.scss';
+import "@freelance-persona/styles/main.scss";
 
 // --- SMART ASSET DISCOVERY ---
 async function findAsset(glob: Record<string, () => Promise<any>>) {
   const paths = Object.keys(glob);
   if (paths.length === 0) return null;
   paths.sort((a, b) => {
-    const score = (p: string) => p.endsWith('.svg') ? 4 : p.endsWith('.png') ? 3 : p.endsWith('.ico') ? 2 : 0;
+    const score = (p: string) =>
+      p.endsWith(".svg")
+        ? 4
+        : p.endsWith(".png")
+          ? 3
+          : p.endsWith(".ico")
+            ? 2
+            : 0;
     return score(b) - score(a);
   });
   const selectedPath = paths[0];
@@ -25,109 +31,138 @@ async function findAsset(glob: Record<string, () => Promise<any>>) {
 }
 
 const faviconSrc = await findAsset(
-  import.meta.glob('/src/assets/img/favicon.{svg,ico,png,webp}', { query: { url: '' } })
+  import.meta.glob("/src/assets/img/favicon.{svg,ico,png,webp}", {
+    query: { url: "" },
+  }),
 );
 const appleSrc = await findAsset(
-  import.meta.glob('/src/assets/img/apple-touch-icon.{png,svg,webp}', { query: { url: '' } })
+  import.meta.glob("/src/assets/img/apple-touch-icon.{png,svg,webp}", {
+    query: { url: "" },
+  }),
 );
 
 const getAssetUrl = (asset: any) => {
-  if (!asset) return '';
-  if (typeof asset === 'string') return asset;
-  if (typeof asset === 'object' && asset.src) return asset.src;
-  return '';
+  if (!asset) return "";
+  if (typeof asset === "string") return asset;
+  if (typeof asset === "object" && asset.src) return asset.src;
+  return "";
 };
 
 const getMime = (asset: any) => {
-  if(!asset) return 'image/x-icon';
-  if (typeof asset === 'object' && asset.format) {
-     if (asset.format === 'svg') return 'image/svg+xml';
-     if (asset.format === 'png') return 'image/png';
-     if (asset.format === 'webp') return 'image/webp';
-     return `image/${asset.format}`;
+  if (!asset) return "image/x-icon";
+  if (typeof asset === "object" && asset.format) {
+    if (asset.format === "svg") return "image/svg+xml";
+    if (asset.format === "png") return "image/png";
+    if (asset.format === "webp") return "image/webp";
+    return `image/${asset.format}`;
   }
-  if (typeof asset === 'string') {
-    if (/\.svg($|\?)/.test(asset)) return 'image/svg+xml';
-    if (/\.png($|\?)/.test(asset)) return 'image/png';
-    if (/\.ico($|\?)/.test(asset)) return 'image/x-icon';
-    if (/\.webp($|\?)/.test(asset)) return 'image/webp';
+  if (typeof asset === "string") {
+    if (/\.svg($|\?)/.test(asset)) return "image/svg+xml";
+    if (/\.png($|\?)/.test(asset)) return "image/png";
+    if (/\.ico($|\?)/.test(asset)) return "image/x-icon";
+    if (/\.webp($|\?)/.test(asset)) return "image/webp";
   }
-  return 'image/x-icon';
+  return "image/x-icon";
 };
 
 interface Props {
   title?: string;
   description?: string;
   tex?: boolean;
-  navType?: 'home' | 'page'; 
+  navType?: "home" | "page";
+  page_margin_left?: string;
+  page_margin_right?: string;
 }
 
-const { 
-  title = themeConfig.title, 
+const {
+  title = themeConfig.title,
   description = themeConfig.description,
   tex = false,
-  navType = 'page' 
+  navType = "page",
 } = Astro.props;
 
-const bodyClass = navType === 'home' ? 'home-page' : 'inner-page';
+const bodyClass = navType === "home" ? "home-page" : "inner-page";
 
 // --- LAYOUT LOGIC ---
-const layout = themeConfig.layout || {};
-const globalMarginLeft = layout.margin_left || '140px';
-const globalMarginRight = layout.margin_right || globalMarginLeft;
+const layout = themeConfig.visuals?.layout || {};
+const globalMarginLeft =
+  Astro.props.page_margin_left || layout.page_margin_left || "140px";
+const globalMarginRight =
+  Astro.props.page_margin_right || layout.page_margin_right || globalMarginLeft;
 
 // --- FONTS CONFIGURATION ---
 const fonts = themeConfig.fonts || {};
 
 // Level 4: Code Fallback (Generic System Fonts)
-const headingFont = fonts.headings || 'sans-serif';
-const bodyFont = fonts.body || 'sans-serif';
-const navFont = fonts.navigation || 'sans-serif';
-const monospaceFont = fonts.monospace || 'monospace';
-
+const headingFont = fonts.headings || "sans-serif";
+const bodyFont = fonts.body || "sans-serif";
+const navFont = fonts.navigation || "sans-serif";
+const monospaceFont = fonts.monospace || "monospace";
 ---
 
-<!DOCTYPE html>
-<html lang="en" style={`
+<!doctype html>
+<html
+  lang="en"
+  style={`
   --global-margin-left: ${globalMarginLeft}; 
   --global-margin-right: ${globalMarginRight};
   --heading-font: "${headingFont}";
   --default-font: "${bodyFont}";
   --nav-font: "${navFont}";
   --monospace-font: "${monospaceFont}";
-`}>
+`}
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={themeConfig.author} />
-    
+
     <ClientRouter />
 
-    {faviconSrc && (
-      <link rel="icon" type={getMime(faviconSrc)} href={getAssetUrl(faviconSrc)} />
-    )}
-    {appleSrc && (
-      <link rel="apple-touch-icon" href={getAssetUrl(appleSrc)} />
-    )}
-    
+    {
+      faviconSrc && (
+        <link
+          rel="icon"
+          type={getMime(faviconSrc)}
+          href={getAssetUrl(faviconSrc)}
+        />
+      )
+    }
+    {appleSrc && <link rel="apple-touch-icon" href={getAssetUrl(appleSrc)} />}
+
     <meta name="generator" content={Astro.generator} />
 
-    {/* CRITICAL: Fallback for users without JavaScript.
-      Without this, elements with data-aos will remain invisible (opacity: 0).
-    */}
+    <script is:inline>
+      // SAFETY TIMEOUT PATTERN
+      // 1. We start by assuming JS might be loading.
+      document.documentElement.classList.add("js-loading");
+      document.documentElement.classList.remove("no-js");
+
+      // 2. Safety Net: If the notification script doesn't run within 2 seconds
+      // (due to blocking, network error, crash), we force show everything.
+      setTimeout(function () {
+        document.documentElement.classList.remove("js-loading");
+      }, 2000);
+    </script>
+
+    {
+      /* CRITICAL: Fallback for users without JavaScript.
+      Without this, elements with data-reveal will remain invisible (opacity: 0).
+    */
+    }
     <noscript>
       <style>
         /* 1. Hide the preloader completely if JS is disabled */
         #preloader {
-          display: none !important; 
+          display: none !important;
           visibility: hidden !important;
         }
-        
+
         /* 2. Force all animated elements to be visible and reset their positions */
-        [data-aos] {
+        [data-reveal] {
           opacity: 1 !important;
           transform: none !important;
           transition: none !important;
@@ -137,7 +172,7 @@ const monospaceFont = fonts.monospace || 'monospace';
   </head>
 
   <body class={bodyClass} data-tex={tex}>
-    <Navigation isHome={navType === 'home'} />
+    <Navigation isHome={navType === "home"} />
 
     <i class="nav-toggle d-lg-none bi bi-list"></i>
 
@@ -149,60 +184,164 @@ const monospaceFont = fonts.monospace || 'monospace';
 
     <div id="preloader"></div>
 
-    {/* ASTRO 5 BEST PRACTICE:
-       1. Remove 'is:inline' so the script is processed as a module (loaded once, cached).
-       2. Use 'astro:page-load' to trigger logic on initial visit AND after every transition.
-    */}
-    <script>
-      function onPageLoad() {
-        // --- 1. PRELOADER ---
-        const preloader = document.getElementById('preloader');
+    {/* KATE-X LOADER (Optional) */}
+    {
+      tex && (
+        <script
+          is:inline
+          src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
+        />
+      )
+    }
+
+    <script is:inline>
+      function removePreloader() {
+        const preloader = document.getElementById("preloader");
         if (preloader) {
-          // Optional: If this is an internal navigation (not a full reload), 
-          // you might want to hide it instantly. 
-          // For now, we keep the fade behavior for consistency.
-          preloader.style.opacity = '0';
-          setTimeout(() => { preloader.remove(); }, 600);
-        }
-
-        // --- 2. ANIMATIONS (AOS Style) ---
-        const aosObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('aos-animate');
-              aosObserver.unobserve(entry.target); 
-            }
-          });
-        }, { rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
-
-        document.querySelectorAll('[data-aos]').forEach(el => aosObserver.observe(el));
-
-        // --- 3. SCROLLSPY ---
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-menu a, .nav-link');
-
-        // Only run ScrollSpy if we actually have sections to spy on
-        if (sections.length > 0) {
-          const spyObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                if (id) {
-                  navLinks.forEach(link => link.classList.remove('active'));
-                  const activeLink = document.querySelector(`.nav-menu a[href*="#${id}"]`);
-                  if (activeLink) activeLink.classList.add('active');
-                }
-              }
-            });
-          }, { rootMargin: '-30% 0px -70% 0px' }); // Active when section is near top
-
-          sections.forEach(section => spyObserver.observe(section));
+          preloader.style.opacity = "0";
+          setTimeout(() => {
+            preloader.remove();
+          }, 600);
         }
       }
+      // Run on standard load
+      window.addEventListener("load", removePreloader);
+      // Run on Astro navigation (Client Router)
+      document.addEventListener("astro:page-load", removePreloader);
 
-      // Fires on initial load, view transitions, and history navigation.
-      document.addEventListener('astro:page-load', onPageLoad);
+      // Safety timeout
+      setTimeout(removePreloader, 1500);
     </script>
+
+    {
+      /* 
+        ANIMATION ENGINE (Unified)
+        Replaces AOS with a lightweight, config-driven IntersectionObserver.
+        Uses manual JSON injection to avoid Astro bundling issues.
+    */
+    }
+    <script
+      is:inline
+      set:html={`
+      const animConfig = ${JSON.stringify(themeConfig.visuals?.scroll_animations || { enabled: true, duration: 600, delay: 0, threshold: 0.1, root_margin: "0px 0px -50px 0px" })};
+      const delaysConfig = ${JSON.stringify(themeConfig.visuals?.delays || {})};
+      
+      console.log("[FreelancePersona] Animation Script Loaded (Active Layout)");
+
+      const initScrollAnimations = () => {
+        console.log("[FreelancePersona] Initializing Animations...");
+        
+        // Transition from 'loading' to 'ready' state
+        document.documentElement.classList.add("js-ready");
+        document.documentElement.classList.remove("js-loading");
+
+        if (!animConfig.enabled) {
+          console.log("[FreelancePersona] Animations Disabled via Config");
+          document.querySelectorAll("[data-reveal]").forEach((el) => {
+            el.classList.add("revealed");
+            el.style.opacity = "1";
+            el.style.transform = "none";
+          });
+          return;
+        }
+
+        const elements = document.querySelectorAll("[data-reveal]");
+        console.log("[FreelancePersona] Found " + elements.length + " elements to animate.");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("revealed");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: animConfig.threshold,
+            rootMargin: animConfig.root_margin,
+          },
+        );
+
+        elements.forEach((el) => {
+          // Apply duration from config if not overridden inline
+          if (!el.style.transitionDuration) {
+            el.style.transitionDuration = animConfig.duration + "ms";
+          }
+
+          // --- DELAY LOGIC ---
+          let delay = 0;
+          const inlineDelay = el.getAttribute("data-reveal-delay");
+          
+          if (inlineDelay) {
+            delay = parseInt(inlineDelay, 10);
+          } else {
+            // Check if element is a MAIN heading.
+            // Be stricter: Only H1, H2, or explicit .section-title.
+            // Do NOT count H3-H6 as layout headings (allows 'pills' to be content).
+            const isHeading = 
+              /^(H[1-2])$/i.test(el.tagName) || 
+              el.classList.contains("section-title");
+              
+            if (isHeading) {
+               delay = delaysConfig.heading || 0;
+            } else {
+               delay = delaysConfig.content || 0;
+               // Staggering: If this is a container with columns (e.g. .row), 
+               // we might want its children to animate? 
+               // For now, minimal approach: If this element ITSELF is part of a list/grid
+               // (identified by being a child of a .row or .d-flex), maybe add index-based delay?
+               // But 'el' is the one with [data-reveal].
+               // If the user wants staggering, they should put [data-reveal] on the CHILDREN.
+               // Assuming the user's current structure, likely the container has [data-reveal].
+            }
+            
+            // Fallback to animConfig generic delay if specific ones aren't set
+            if (delay === 0 && animConfig.delay) {
+               delay = animConfig.delay;
+            }
+          }
+
+          if (delay) {
+            el.style.transitionDelay = delay + "ms";
+          }
+          
+          // --- STAGGERING SUPPORT (Minimal) ---
+          // Automatically stagger children if this element is a grid container.
+          // We look for common item patterns: .info-item (Contact), .post-entry (Blog), or columns.
+          // Note: .row > col handles standard grids where valid columns are nested.
+          // For direct flex containers (like Contact pills), we check for .info-item directly.
+          const gridItems = el.querySelectorAll('.info-item, .post-entry, .row > [class*="col-"]');
+          if (gridItems.length > 1) {
+             const staggerTime = delaysConfig.stagger || 150;
+             gridItems.forEach((item, index) => {
+                // Base delay + (Index * staggerTime)
+                // We ensure item inherits transition properties if not set
+                if (!item.style.transition) {
+                   item.style.transition = "all " + animConfig.duration + "ms ease-out";
+                   item.style.transitionDelay = (delay + (index * staggerTime)) + "ms";
+                } else {
+                   // Append delay if existing
+                   item.style.transitionDelay = (delay + (index * staggerTime)) + "ms";
+                }
+             });
+          }
+
+          observer.observe(el);
+        });
+      };
+
+      // C. Navigation Event Listener
+      document.addEventListener("astro:page-load", initScrollAnimations);
+      document.addEventListener("DOMContentLoaded", initScrollAnimations);
+      
+      // IMMEDIATE CHECK
+      if (document.readyState === "interactive" || document.readyState === "complete") {
+        initScrollAnimations();
+      }
+    `}
+    />
+
 
   </body>
 </html>

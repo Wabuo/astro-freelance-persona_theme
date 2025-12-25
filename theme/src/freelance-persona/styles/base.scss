@@ -11,87 +11,72 @@
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
-:root { 
-  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #272829; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #45505b; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #0563bb; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
-  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
-  --transparency: 25%; /* Transparency level for color */
+:root {
+  --background-color: #ffffff; // Background color for the entire website
+  --default-color: #272829; // Default text color
+  --heading-color: #45505b; // Heading color
+  --accent-color: #0563bb; // Brand accent color (buttons, links)
+  --surface-color: #ffffff; // Boxed element background
+  --contrast-color: #ffffff; // Text contrast color
+  --transparency: 25%; // Color transparency level
 }
-
-/* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
-:root {
-  --nav-color: #45505b;  /* The default color of the main navmenu links */
-  --nav-hover-color: #0563bb; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #212529; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #0563bb; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
-}
-
-/* Font Sizes - The following variables define the base font sizes for the website. They can be used to maintain consistency in typography across different sections and elements */
-:root {
-  --normal-font-size: 1rem; /* 16px */
-  --footer-font-size: 0.875rem; /* 14px */
-  --heading-font-size: 2rem; /* 32px */
-  --subtitle-font-size: 1.5rem; /* 24px */
-  --title-font-size: 4rem; /* 64px */
-} 
-
-/* Nav Menu Dimensions */
-:root {
-  --nav-icon-size: 3.5rem; /* 56px */
-  --nav-menu-width: 8.75rem; /* 140px */
-  --nav-menu-mobile-width: 18.75rem; /* 300px */
-  --nav-menu-border-padding: 0.9375rem; /* 15px */
-  --nav-menu-mobile-border-width: 1px; /* 1px - keep as px for crisp borders */
-} 
 
 /* Nav Menu Colors */
 :root {
-  --header-background-color: color-mix(in srgb, var(--default-color), transparent 96%); /* Background color for the header section of the website */
+  --nav-color: #45505b; // Main nav link color
+  --nav-hover-color: #0563bb; // Hover/Active nav link color
+  --nav-mobile-background-color: #ffffff; // Mobile nav background
+  --nav-dropdown-background-color: #ffffff; // Dropdown background
+  --nav-dropdown-color: #212529; // Dropdown link color
+  --nav-dropdown-hover-color: #0563bb; // Dropdown hover color
+}
+
+/* Font Sizes */
+:root {
+  --normal-font-size: 1rem; // 16px
+  --footer-font-size: 0.875rem; // 14px
+  --heading-font-size: 2rem; // 32px
+  --subtitle-font-size: 1.5rem; // 24px
+  --title-font-size: 4rem; // 64px
+}
+
+/* Nav Menu Dimensions */
+:root {
+  --nav-icon-size: 3.5rem; // 56px
+  --nav-menu-width: 8.75rem; // 140px
+  --nav-menu-mobile-width: 18.75rem; // 300px
+  --nav-menu-border-padding: 0.9375rem; // 15px
+  --nav-menu-mobile-border-width: 1px; // 1px
+}
+
+/* Nav Menu Colors (Header) */
+:root {
+  --header-background-color: color-mix(in srgb, var(--default-color), transparent 96%);
   --header-color: #ffffff;
 }
 
-/* Spacing Variables - These variables define the spacing used throughout the website. They can be used to maintain consistent spacing between elements, such as margins and paddings */
+/* Spacing Variables */
 :root {
-  --spacing-xxs: 0.25rem; /* 4px assuming 16px base */
-  --spacing-xs: 0.5rem;   /* 8px */
-  --spacing-sm: 1rem;     /* 16px */
-  --spacing-md: 1.5rem;   /* 24px */
-  --spacing-lg: 2rem;     /* 32px */
-  --spacing-xl: 3rem;     /* 48px */
-  --spacing-xxl: 4rem;    /* 64px */
-}
-
-/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the same color scheme. */
-
-/* .light-background {
-  --background-color: #f9f9f9;
-  --surface-color: #ffffff;
-}
-
-.dark-background {
-  --background-color: #060606;
-  --default-color: #ffffff;
-  --heading-color: #ffffff;
-  --surface-color: #252525;
-  --contrast-color: #ffffff;
-} */
-
-:root {
-  --transition-hover-time: 0.3s; /* Transition time for hover effects */
-  --transition-hover-transparency: var(--transparency); /* Transparency level for hover effects */
+  --spacing-xxs: 0.25rem; // 4px
+  --spacing-xs: 0.5rem; // 8px
+  --spacing-sm: 1rem; // 16px
+  --spacing-md: 1.5rem; // 24px
+  --spacing-lg: 2rem; // 32px
+  --spacing-xl: 3rem; // 48px
+  --spacing-xxl: 4rem; // 64px
 }
 
 :root {
-  --img-border-radius: 0.625rem; /* 10px */
-  --botton-size: 2.5rem; /* 40px */
-  --botton-position-away-from-corner-distance: 0.9375rem; /* 15px */
+  --transition-hover-time: 0.3s; // Hover transition duration
+  --transition-hover-transparency: var(--transparency);
+}
+
+:root {
+  --img-border-radius: 0.625rem; // 10px
+  --botton-size: 2.5rem; // 40px
+  --botton-position-away-from-corner-distance: 0.9375rem; // 15px
   --botton-position-away-from-corner-horizontal-distance: var(--botton-position-away-from-corner-distance);
-  --botton-position-away-from-corner-vertical-distance: 1.875rem; /* 30px */
+  --botton-position-away-from-corner-vertical-distance: 1.875rem; // 30px
 }
 
 /* Smooth scroll */
@@ -130,47 +115,38 @@ h6 {
 }
 
 /*--------------------------------------------------------------
-# Disable aos animation delay on mobile devices
---------------------------------------------------------------*/
-@media screen and (max-width: 767px) {
-  [data-aos-delay] {
-    transition-delay: 0 !important;
-  }
-}
-
-/*--------------------------------------------------------------
 # Native Scroll Animations
 --------------------------------------------------------------*/
-// These mimic Sal.js / AOS behavior but use our custom observer
 
-// 1. Base State (Hidden)
-[data-aos] {
-  opacity: 0;
+// 1. Base State: Default to VISIBLE (Safety First)
+[data-reveal] {
+  opacity: 1;
+  transform: none;
   transition-property: opacity, transform;
   transition-duration: 0.8s;
   transition-timing-function: ease-out;
 }
 
-// 2. Active State (Visible)
-// Added by our script when element enters viewport
-[data-aos].aos-animate {
-  opacity: 1;
-  transform: translate(0, 0) scale(1);
+// 2. Loading State: Explicitly Hidden via JS
+// 'js-ready' ensures elements stay hidden until the observation logic runs.
+html.js-loading [data-reveal],
+html.js-ready [data-reveal]:not(.revealed) {
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
-// 3. Specific Animation Types
-
-// Fade Up (starts lower and slides up)
-[data-aos="fade-up"] {
-  transform: translateY(1.875rem); /* 30px */
+html.js-loading [data-reveal="fade-up"],
+html.js-ready [data-reveal="fade-up"]:not(.revealed) {
+  transform: translateY(1.875rem); // 30px
 }
 
-// Zoom Out (starts slightly larger and scales down)
-[data-aos="zoom-out"] {
+html.js-loading [data-reveal="zoom-out"],
+html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
   transform: scale(1.05);
 }
 
-// Fade In (just opacity, no movement)
-[data-aos="fade-in"] {
-  transform: none;
+// 3. Active State (Visible)
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
 }

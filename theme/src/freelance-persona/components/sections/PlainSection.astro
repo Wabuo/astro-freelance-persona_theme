@@ -1,5 +1,7 @@
 ---
-import SectionTitle from '@freelance-persona/components/ui/SectionTitle.astro';
+import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+
+import { themeConfig } from "@freelance-persona/config";
 
 interface Props {
   id: string;
@@ -10,27 +12,36 @@ interface Props {
   content_scale?: number;
   delay?: number;
 }
-const { id, title, subtitle, nudge_x, nudge_y, content_scale, delay } = Astro.props;
+const { id, title, subtitle, nudge_x, nudge_y, content_scale, delay } =
+  Astro.props;
 
 // Visual Overrides CSS
 const sectionStyle = `
-  ${nudge_x ? `--nudge-x: ${nudge_x};` : ''}
-  ${nudge_y ? `--nudge-y: ${nudge_y};` : ''}
-  ${content_scale ? `--content-scale: ${content_scale};` : ''}
+  ${nudge_x ? `--nudge-x: ${nudge_x};` : ""}
+  ${nudge_y ? `--nudge-y: ${nudge_y};` : ""}
+  ${content_scale ? `--content-scale: ${content_scale};` : ""}
 `;
+
+const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
 ---
 
 <section id={id} class="plain section" style={sectionStyle}>
   <SectionTitle title={title} subtitle={subtitle} />
-  
-  <div class="container" data-reveal="fade-up" data-delay={delay || 100}>
+
+  <div
+    class="container"
+    data-reveal="fade-up"
+    data-reveal-delay={delay || defaultContentDelay}
+  >
     <div class="content">
-      <slot /> </div>
+      <slot />
+    </div>
   </div>
 </section>
 
 <style>
   .plain.section {
-    transform: translate(var(--nudge-x, 0), var(--nudge-y, 0)) scale(var(--content-scale, 1));
+    transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
+      scale(var(--content-scale, 1));
   }
 </style>

@@ -21,7 +21,7 @@ export interface VisualsConfig {
   delays?: {
     heading?: number;
     content?: number;
-    grid_stagger?: number;
+    stagger?: number;
   };
   layout?: {
     page_margin_left?: string;

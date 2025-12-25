@@ -50,6 +50,13 @@ const resolvedItems = contact_items.map((item) => {
 
 const showForm = !!themeConfig.web3form_public_key;
 
+// ----------------------------------------------------------------------------
+// Animation Config (Level 3: User Config)
+// ----------------------------------------------------------------------------
+const headingDelay = themeConfig.visuals?.delays?.heading || 100;
+const contentDelay = themeConfig.visuals?.delays?.content || 200;
+const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
+
 // Visual Overrides CSS
 const sectionStyle = `
   ${nudge_x ? `--nudge-x: ${nudge_x};` : ""}
@@ -59,23 +66,23 @@ const sectionStyle = `
 ---
 
 <section id={entry.id} class="contact section" style={sectionStyle}>
-  <SectionTitle title={title} subtitle={subtitle} />
+  <SectionTitle title={title} subtitle={subtitle} delay={headingDelay} />
 
-  <div class="container" data-reveal data-delay={delay || 200}>
+  <div class="container" data-reveal data-reveal-delay={delay || contentDelay}>
     <div class="row gy-4">
       <div class={showForm ? "col-lg-4" : "col-lg-8 offset-lg-4"}>
-        <div
-          class="info-list d-flex flex-column gap-4"
-          data-reveal="fade-up"
-          data-delay="300"
-        >
+        <div class="info-list d-flex flex-column gap-4">
           {
-            resolvedItems.map((info) => (
+            resolvedItems.map((info, index) => (
               <>
                 {info.type === "email" ? (
                   <a
                     href={`mailto:${info.content}`}
                     class="info-item d-flex email-wrapper"
+                    data-reveal="fade-up"
+                    data-reveal-delay={
+                      (delay || contentDelay) + index * staggerDelay
+                    }
                   >
                     <i class={info.icon} />
                     <div>
@@ -84,7 +91,13 @@ const sectionStyle = `
                     </div>
                   </a>
                 ) : (
-                  <div class="info-item d-flex">
+                  <div
+                    class="info-item d-flex"
+                    data-reveal="fade-up"
+                    data-reveal-delay={
+                      (delay || contentDelay) + index * staggerDelay
+                    }
+                  >
                     <i class={info.icon} />
                     <div>
                       <h3>{info.label}</h3>
@@ -106,7 +119,7 @@ const sectionStyle = `
               method="POST"
               class="contact-form"
               data-reveal="fade-up"
-              data-delay="400"
+              data-reveal-delay="400"
             >
               <input
                 type="hidden"

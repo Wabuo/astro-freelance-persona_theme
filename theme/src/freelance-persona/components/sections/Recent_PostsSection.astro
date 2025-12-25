@@ -1,69 +1,84 @@
 ---
 // src/components/sections/Recent_PostsSection.astro
-import { getCollection } from 'astro:content';
-import SectionTitle from '@freelance-persona/components/ui/SectionTitle.astro';
+import { getCollection } from "astro:content";
+import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 
 interface Props {
   id: string;
   title: string;
   subtitle?: string;
-  tags_to_filter_posts_by?: string; 
+  tags_to_filter_posts_by?: string;
 }
 const { id, title, subtitle, tags_to_filter_posts_by } = Astro.props;
 
 // 1. Fetch ALL posts
-const allPosts = await getCollection('blog');
+const allPosts = await getCollection("blog");
 
 // 2. Filter Logic
 // If a filter is provided, only keep posts that have that specific tag.
 // If no filter is provided, keep everything.
-const filteredPosts = tags_to_filter_posts_by 
-  ? allPosts.filter(post => post.data.tags?.includes(tags_to_filter_posts_by))
+const filteredPosts = tags_to_filter_posts_by
+  ? allPosts.filter((post) => post.data.tags?.includes(tags_to_filter_posts_by))
   : allPosts;
 
 // 3. Sort by Date & LIMIT to 3
 // We only want the 3 newest posts for this specific section.
 const displayedPosts = filteredPosts
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3); 
+  .slice(0, 3);
 ---
 
 {/* Only render the section if we actually found posts for this category */}
-{displayedPosts.length > 0 && (
-  <section id={id} class="recent-posts section">
-    <SectionTitle title={title} subtitle={subtitle} />
+{
+  displayedPosts.length > 0 && (
+    <section id={id} class="recent-posts section">
+      <SectionTitle title={title} subtitle={subtitle} />
 
-    <div class="container" data-aos="fade-up">
-      <div class="row">
-        {displayedPosts.map((post) => (
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="post-entry">
-              {post.data.thumbnail && (
-                <a href={`/blog/${post.id}`} class="thumb">
-                  <img src={post.data.thumbnail} alt={post.data.title} class="img-fluid" />
-                </a>
-              )}
-              
-              <div class="meta">
-                <span class="date">
-                  {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                </span>
-                {/* Optional: Show the tag filter as a badge so users know the context */}
-                {tags_to_filter_posts_by && (
-                  <span class="badge ms-2 text-bg-secondary" style="font-size: 0.75em; vertical-align: middle;">
-                    {tags_to_filter_posts_by}
-                  </span>
+      <div class="container" data-reveal="fade-up">
+        <div class="row">
+          {displayedPosts.map((post) => (
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="post-entry">
+                {post.data.thumbnail && (
+                  <a href={`/blog/${post.id}`} class="thumb">
+                    <img
+                      src={post.data.thumbnail}
+                      alt={post.data.title}
+                      class="img-fluid"
+                    />
+                  </a>
                 )}
-              </div>
-              
-              <div class="post-content">
-                <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
-                <p>{post.data.description || "Click to read more..."}</p>
+
+                <div class="meta">
+                  <span class="date">
+                    {post.data.date.toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
+                  {/* Optional: Show the tag filter as a badge so users know the context */}
+                  {tags_to_filter_posts_by && (
+                    <span
+                      class="badge ms-2 text-bg-secondary"
+                      style="font-size: 0.75em; vertical-align: middle;"
+                    >
+                      {tags_to_filter_posts_by}
+                    </span>
+                  )}
+                </div>
+
+                <div class="post-content">
+                  <h3>
+                    <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                  </h3>
+                  <p>{post.data.description || "Click to read more..."}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-)}
+    </section>
+  )
+}

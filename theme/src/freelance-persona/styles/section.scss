@@ -58,6 +58,8 @@ section,
 }
 
 .section-title em {
+  display: block;
+  margin-top: 1rem;
   font-style: normal;
   font-family: var(--monospace-font);
   font-size: var(--subtitle-font-size);

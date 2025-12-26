@@ -22,6 +22,8 @@ npm create astro@latest -- --template YourGitHubName/astro-freelance-persona/sta
     - Level 4: Code Fallback (sensible defaults, allows for easy code portability)
 3. **Privacy First:** No external CDNs, minimal JS bloat.
 4. **Configuration, Not Prescription:** The `starter` config file should be minimal. Defaults live in the lowest sensible level of code/logic that consumes the value, not in the user's config file or a theme wide shadow config file.
+5. **We are pre alpha:** There is no such thing as backward compatibility.
+6. **We dont care about backward compatibility:** If something breaks, there will be a new major release. No soucht thing as LTS! This is a roaling release kinda model.
 
 ## Configuration
 

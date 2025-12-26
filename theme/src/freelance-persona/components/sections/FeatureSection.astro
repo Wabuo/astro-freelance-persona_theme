@@ -1,0 +1,115 @@
+---
+import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
+import { themeConfig } from "@freelance-persona/config";
+
+interface Props {
+  id: string;
+  title: string;
+  description?: string;
+  features: {
+    title: string;
+    desc: string;
+    icon?: string;
+    link?: string;
+  }[];
+  nudge_x?: string;
+  nudge_y?: string;
+  content_scale?: number;
+  delay?: number;
+}
+
+const {
+  id,
+  title,
+  description,
+  features,
+  nudge_x,
+  nudge_y,
+  content_scale,
+  delay,
+} = Astro.props;
+
+// Visual Overrides CSS
+const sectionStyle = `
+  ${nudge_x ? `--nudge-x: ${nudge_x};` : ""}
+  ${nudge_y ? `--nudge-y: ${nudge_y};` : ""}
+  ${content_scale ? `--content-scale: ${content_scale};` : ""}
+`;
+
+const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
+const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
+---
+
+<section id={id} class="features-section-wrapper" style={sectionStyle}>
+  <div class="features-background"></div>
+  <div class="container features-container">
+    <div class="features-header text-center mb-5">
+      <h2 class="features-title">
+        <span class="hero-title">{title}</span>
+      </h2>
+      {description && <p class="features-description">{description}</p>}
+    </div>
+
+    <div class="features-grid">
+      {
+        features.map((feature, index) => (
+          <div
+            class="feature-group-wrapper"
+            data-reveal="fade-up"
+            data-reveal-delay={
+              delay || defaultContentDelay + index * staggerDelay
+            }
+          >
+            {feature.link ? (
+              <a href={feature.link} class="feature-card-link">
+                <div class="feature-card-shadow" />
+                <div class="feature-card">
+                  {feature.icon && (
+                    <div class="feature-icon-wrapper-outer">
+                      <div class="feature-icon-bg">
+                        {/* Check if it is the special Lance Icon or a standard class-based icon */}
+                        {feature.icon === "lance-icon" ? (
+                          <LanceIcon class="feature-icon lance-icon-svg" />
+                        ) : (
+                          <i class={`${feature.icon} feature-icon`} />
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  <h3 class="feature-title-card">{feature.title}</h3>
+                  <p class="feature-description-card">{feature.desc}</p>
+
+                  <div class="feature-hover-action">
+                    {feature.link.startsWith("#")
+                      ? "Contact Me"
+                      : "Tell Me More"}
+                  </div>
+                </div>
+              </a>
+            ) : (
+              <div class="feature-card">
+                {feature.icon && (
+                  <div class="feature-icon-wrapper-outer">
+                    <div class="feature-icon-bg">
+                      <i class={`${feature.icon} feature-icon`} />
+                    </div>
+                  </div>
+                )}
+                <h3 class="feature-title-card">{feature.title}</h3>
+                <p class="feature-description-card">{feature.desc}</p>
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .features-section-wrapper {
+    transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
+      scale(var(--content-scale, 1));
+  }
+</style>

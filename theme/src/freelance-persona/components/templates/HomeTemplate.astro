@@ -1,86 +1,98 @@
 ---
 // src/freelance-persona/components/templates/HomeTemplate.astro
 
-import { getCollection, getEntry, render } from 'astro:content';
-import BaseLayout from '@freelance-persona/layouts/BaseLayout.astro';
-import { themeConfig } from '@freelance-persona/config';
-import Hero from '@freelance-persona/components/Hero.astro';
-import PlainSection from '@freelance-persona/components/sections/PlainSection.astro';
-import ContactSection from '@freelance-persona/components/sections/ContactSection.astro';
-import Recent_PostsSection from '@freelance-persona/components/sections/Recent_PostsSection.astro';
+import { getCollection, getEntry, render } from "astro:content";
+import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
+import { themeConfig } from "@freelance-persona/config";
+import Hero from "@freelance-persona/components/Hero.astro";
+import PlainSection from "@freelance-persona/components/sections/PlainSection.astro";
+import ContactSection from "@freelance-persona/components/sections/ContactSection.astro";
+import Recent_PostsSection from "@freelance-persona/components/sections/Recent_PostsSection.astro";
+import FeatureSection from "@freelance-persona/components/sections/FeatureSection.astro";
 
 // 1. HERO DATA FETCHING
-const heroEntry = await getEntry('sections', 'hero');
+const heroEntry = await getEntry("sections", "hero");
 const heroData = heroEntry?.data || {};
 
 // 2. CONTENT SECTIONS
-const allSections = await getCollection('sections');
+const allSections = await getCollection("sections");
 const contentSections = allSections
-  .filter(s => s.id !== 'hero')
+  .filter((s) => s.id !== "hero")
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout title={themeConfig.title} navType="home">
-  
-  <Hero 
-    title={heroData.title} 
-    hero_typing_text={heroData.hero_typing_text} 
+  <Hero
+    title={heroData.title}
+    hero_typing_text={heroData.hero_typing_text}
     greeting={heroData.greeting}
     background_image={heroData.background_image}
-    
     typing_speed={heroData.typing_speed}
     deleting_speed={heroData.deleting_speed}
     pause_duration={heroData.pause_duration}
-
     position_x={heroData.position_x}
     position_y={heroData.position_y}
     size={heroData.size}
     nudge_x={heroData.nudge_x}
     nudge_y={heroData.nudge_y}
     content_scale={heroData.content_scale}
-    
     title_font_size={heroData.title_font_size}
     typing_font_size={heroData.typing_font_size}
-    
     gap_title_to_typing={heroData.gap_title_to_typing}
     gap_typing_to_socials={heroData.gap_typing_to_socials}
   />
 
-  {contentSections.map(async (section) => {
-    const { Content } = await render(section);
-    
-    if (section.data.type === 'plain') {
-      return (
-        <PlainSection 
-          id={section.id} 
-          title={section.data.title} 
-          subtitle={section.data.subtitle}
-          nudge_x={section.data.nudge_x}
-          nudge_y={section.data.nudge_y}
-          content_scale={section.data.content_scale}
-          delay={section.data.delay}
-        >
-          <Content />
-        </PlainSection>
-      );
-    }
-    
-    if (section.data.type === 'recent_posts') {
-      return (
-        <Recent_PostsSection 
-          id={section.id} 
-          title={section.data.title} 
-          subtitle={section.data.subtitle}
-          tags_to_filter_posts_by={section.data.tags_to_filter_posts_by}
-        />
-      );
-    }
+  {
+    contentSections.map(async (section) => {
+      const { Content } = await render(section);
 
-    if (section.data.type === 'contact') {
-      return <ContactSection entry={section} />;
-    }
-    
-    return null;
-  })}
-  
+      if (section.data.type === "plain") {
+        return (
+          <PlainSection
+            id={section.id}
+            title={section.data.title}
+            subtitle={section.data.subtitle}
+            nudge_x={section.data.nudge_x}
+            nudge_y={section.data.nudge_y}
+            content_scale={section.data.content_scale}
+            delay={section.data.delay}
+          >
+            <Content />
+          </PlainSection>
+        );
+      }
+
+      if (section.data.type === "recent_posts") {
+        return (
+          <Recent_PostsSection
+            id={section.id}
+            title={section.data.title}
+            subtitle={section.data.subtitle}
+            tags_to_filter_posts_by={section.data.tags_to_filter_posts_by}
+          />
+        );
+      }
+
+      if (section.data.type === "contact") {
+        return <ContactSection entry={section} />;
+      }
+
+      if (section.data.type === "features") {
+        return (
+          <FeatureSection
+            id={section.id}
+            title={section.data.title}
+            description={section.data.description}
+            features={section.data.features}
+            nudge_x={section.data.nudge_x}
+            nudge_y={section.data.nudge_y}
+            content_scale={section.data.content_scale}
+            delay={section.data.delay}
+          />
+        );
+      }
+
+      return null;
+    })
+  }
 </BaseLayout>

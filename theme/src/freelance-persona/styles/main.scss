@@ -11,15 +11,15 @@
 
 // 3. Theme Core Styles
 @import "base";
-@import "footer";
 @import "preloader";
 
 // 4. Global Component Styles
 @import "section";
 @import "hero";
-@import "contact";
-@import "plain";
-@import "category";
+@import 'contact';
+@import 'footer';
+@import 'widgets';
+@import 'features';
 @import "blog";
 @import "blog-post";
 @import "breadcrumbs";

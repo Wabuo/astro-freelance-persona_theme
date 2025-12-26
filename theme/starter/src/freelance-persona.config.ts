@@ -30,6 +30,11 @@ export const themeConfig: PersonaConfig = {
       icon_class: "bi bi-github" // Bootstrap Icon class
     },
     {
+      name: "Instagram",
+      url: "https://instagram.com",
+      icon_class: "bi bi-instagram" // Bootstrap Icon class
+    },
+    {
       name: "LinkedIn",
       url: "https://linkedin.com",
       icon_class: "bi bi-linkedin" // Bootstrap Icon class

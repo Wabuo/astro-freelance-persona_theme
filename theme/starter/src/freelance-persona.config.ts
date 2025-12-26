@@ -8,7 +8,7 @@ export const themeConfig: PersonaConfig = {
   // (Touch to force rebuild)
   title: "freelance-persona — a Astro5 Theme ",
   author: "freelance-persona, Astro Theme", // Used for meta tags and the 'theme_author' token
-  description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.",
+  description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.\nInitally ported from Persona-Zola, modernized and expanded with some custom adptions and the fetures section from Zola-Goyo ",
 
   // ===================================================================================
   // 2. CONTACT DETAILS
@@ -73,9 +73,9 @@ export const themeConfig: PersonaConfig = {
   web3form_public_key: "your-access-key-here",
 
   // Footer Content
-  quote: "There's the private persona and the public persona, and the two shall never meet. --- Liev Schreiber",
+  quote: "Real stupidity beats artificial intelligence every time. --- From Hogfather",
   copyright: "&copy; All Rights Reserved",
-  credits: "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/)\n havily inspired by [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme)"
+  credits: "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/) <br>With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Goyo Persona](https://github.com/hahwul/goyo)"
 };
 
 export default themeConfig;

@@ -1,24 +1,30 @@
 ---
 // src/components/sections/Recent_PostsSection.astro
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 
 interface Props {
   id: string;
   title: string;
   subtitle?: string;
-  tags_to_filter_posts_by?: string;
+  tags_to_filter_posts_by?: string[];
 }
 const { id, title, subtitle, tags_to_filter_posts_by } = Astro.props;
+console.log(
+  `[Recent_PostsSection] id=${id} tags_type=${typeof tags_to_filter_posts_by} value=${JSON.stringify(tags_to_filter_posts_by)}`,
+);
 
 // 1. Fetch ALL posts
 const allPosts = await getCollection("blog");
 
 // 2. Filter Logic
-// If a filter is provided, only keep posts that have that specific tag.
+// If a filter is provided, only keep posts that have at least one of the specified tags.
 // If no filter is provided, keep everything.
 const filteredPosts = tags_to_filter_posts_by
-  ? allPosts.filter((post) => post.data.tags?.includes(tags_to_filter_posts_by))
+  ? allPosts.filter((post) =>
+      post.data.tags?.some((tag) => tags_to_filter_posts_by.includes(tag)),
+    )
   : allPosts;
 
 // 3. Sort by Date & LIMIT to 3
@@ -35,44 +41,151 @@ const displayedPosts = filteredPosts
       <SectionTitle title={title} subtitle={subtitle} />
 
       <div class="container" data-reveal="fade-up">
-        <div class="row">
+        <div class="row gy-4" style="--bs-gutter-x: 1.7rem;">
           {displayedPosts.map((post) => (
             <div class="col-lg-4 col-md-6 mb-4">
-              <div class="post-entry">
-                {post.data.thumbnail && (
+              <div
+                class="post-entry"
+                style="display: flex; flex-direction: column; height: 100%;"
+              >
+                {post.data.thumbnail ? (
                   <a href={`/blog/${post.id}`} class="thumb">
-                    <img
+                    <Image
                       src={post.data.thumbnail}
                       alt={post.data.title}
-                      class="img-fluid"
+                      class="img-fluid rounded mb-2"
+                      style="width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;"
                     />
+                  </a>
+                ) : (
+                  /* Preview Card: Mock Page Screenshot */
+                  <a
+                    href={`/blog/${post.id}`}
+                    class="thumb d-block mb-2 text-decoration-none"
+                  >
+                    <div
+                      class="preview-card rounded border"
+                      style="width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background-color: var(--surface-color, #fff); position: relative;"
+                    >
+                      <div
+                        class="mock-page-content"
+                        style="width: 200%; transform: scale(0.5); transform-origin: top left; padding: 2rem; background-color: var(--surface-color, #fff); color: var(--default-color);"
+                      >
+                        {/* Header Structure mimicking BlogPostTemplate */}
+                        <div class="post-header">
+                          <h2
+                            class="post-title"
+                            style="font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--heading-color);"
+                          >
+                            {post.data.title}
+                          </h2>
+
+                          <div class="post-tags mb-3">
+                            {post.data.tags?.map((tag) => (
+                              <span
+                                class="tag badge me-2"
+                                style="background-color: color-mix(in srgb, var(--default-color), transparent 94%); color: color-mix(in srgb, var(--default-color), transparent 55%); padding: 0.2em 0.6em; border-radius: 0.1875rem; font-size: 0.8em;"
+                              >
+                                {tag.toLowerCase()}
+                              </span>
+                            )) || <span class="tag badge me-2">blog</span>}
+                          </div>
+
+                          <hr style="margin: 1.5rem 0; opacity: 0.2; border-top: 3px solid;" />
+
+                          <div
+                            class="meta-top d-flex align-items-center small text-muted mb-3"
+                            style="font-size: 1.2rem;"
+                          >
+                            <i class="bi bi-calendar-event me-2" />
+                            {post.data.date.toLocaleDateString("en-US", {
+                              month: "long",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                            <span class="mx-3">|</span>
+                            <i class="bi bi-hourglass-split me-2" />1 min read
+                          </div>
+
+                          <hr style="margin: 1.5rem 0; opacity: 0.2; border-top: 3px solid;" />
+
+                          <div
+                            class="post-content"
+                            style="font-size: 1.25rem; line-height: 1.6;"
+                          >
+                            <p>{post.data.description}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </a>
                 )}
 
-                <div class="meta">
-                  <span class="date">
-                    {post.data.date.toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
+                <div
+                  class="post-details"
+                  style="display: flex; flex-direction: column; flex-grow: 1; padding: 0 0;"
+                >
+                  <div class="meta mb-4">
+                    {/* Tags Display */}
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <div class="d-inline-block">
+                        {post.data.tags.map((tag) => {
+                          const isFiltered =
+                            tags_to_filter_posts_by?.includes(tag);
+                          return (
+                            <span
+                              class="badge me-1"
+                              style={`
+                                font-size: 0.75em; 
+                                border-radius: 0.1875rem;
+                                padding: 0.2em 0.6em;
+                                font-weight: 500;
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                                line-height: 1.5;
+                                ${
+                                  isFiltered
+                                    ? "background-color: color-mix(in srgb, var(--accent-color), transparent 92%); color: color-mix(in srgb, var(--accent-color), transparent 15%);"
+                                    : "background-color: color-mix(in srgb, var(--default-color), transparent 94%); color: color-mix(in srgb, var(--default-color), transparent 55%);"
+                                }
+                              `}
+                            >
+                              {tag}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  <div class="post-content" style="flex-grow: 1;">
+                    <h3 style="font-weight: 500; font-size: 1.25rem; margin-bottom: 0.5rem;">
+                      <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                    </h3>
+                    <p style="margin-left: 0;">
+                      {post.data.description || "Click to read more..."}
+                    </p>
+                  </div>
+
+                  {/* Date at Bottom Right */}
+                  <span
+                    class="date"
+                    style={`
+                      align-self: flex-end; 
+                      margin-top: auto;
+                      font-size: 0.75em; 
+                      font-weight: 500;
+                      line-height: 1.5;
+                      color: color-mix(in srgb, var(--default-color), transparent 55%);
+                    `}
+                  >
+                    {post.data.date.toLocaleDateString("en-GB", {
                       day: "numeric",
+                      month: "short",
+                      year: "numeric",
                     })}
                   </span>
-                  {/* Optional: Show the tag filter as a badge so users know the context */}
-                  {tags_to_filter_posts_by && (
-                    <span
-                      class="badge ms-2 text-bg-secondary"
-                      style="font-size: 0.75em; vertical-align: middle;"
-                    >
-                      {tags_to_filter_posts_by}
-                    </span>
-                  )}
-                </div>
-
-                <div class="post-content">
-                  <h3>
-                    <a href={`/blog/${post.id}`}>{post.data.title}</a>
-                  </h3>
-                  <p>{post.data.description || "Click to read more..."}</p>
                 </div>
               </div>
             </div>

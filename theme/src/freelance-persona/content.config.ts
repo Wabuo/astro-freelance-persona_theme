@@ -47,7 +47,7 @@ const sections = defineCollection({
       type: z.literal('recent_posts'),
       title: z.string(),
       subtitle: z.string().optional(),
-      tags_to_filter_posts_by: z.string().optional(),
+      tags_to_filter_posts_by: z.array(z.string()).optional(),
       order: z.number().default(100),
       icon_class: z.string(),
     }),
@@ -94,11 +94,11 @@ const sections = defineCollection({
 
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
-    thumbnail: z.string().optional(),
+    thumbnail: image().optional(),
     tags: z.array(z.string()),
   }),
 });

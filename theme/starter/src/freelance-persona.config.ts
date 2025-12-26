@@ -58,10 +58,10 @@ export const themeConfig: PersonaConfig = {
     // I recommen to use @fontsource/font-name //e.g. run `bun add @fontsource/some-font-name`
     // But you can also use a font CDN(bad for enduser privacy) or standard system fonts.
     // Make sure to import them in src/fonts.ts if using custom ones.
-    headings: "Poppins",
-    body: "Roboto",
+    headings: "Adwaita Sans",
+    body: "Adwaita Sans",
     navigation: "Raleway",
-    monospace: '"Courier New", Courier, monospace'
+    monospace: '"Adwaita Mono", Courier, monospace'
   },
 
   // ===================================================================================

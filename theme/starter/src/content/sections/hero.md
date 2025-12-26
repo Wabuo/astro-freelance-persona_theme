@@ -6,12 +6,14 @@ greeting: ""
 hero_typing_text: "A modern, responsive and lightweight theme for resume, portfolio, and blog"
 
 #### RESTORE YOUR LAYOUT:
+## how much to push away from the left
 position_x: "left"
-nudge_x: "9.5vw"
+nudge_x: "4.5vw"
 
+## how much to push away from the top
 position_y: "middle"
-#nudge_y: "-9.5vh"
-nudge_y: "3vh"
+nudge_y: "-9.5vh"
+#nudge_y: "3vh"
 
 #content_scale: 0.85
 
@@ -19,14 +21,14 @@ nudge_y: "3vh"
 typing_font_family: '"Courier New", Courier, monospace'
 gap_title_to_typing: "0.1125rem"
 gap_typing_to_socials: "1.5625rem"
-
-
-
-
-
-
 ---
 
+
+
+
+
+
+```
 ###############################################################################
 ##                          All posible settings                             ##
 ##               Needed ones are uncommented and have defaults               ##
@@ -92,3 +94,4 @@ gap_typing_to_socials: "1.5625rem"
 # typing_speed: 100
 # deleting_speed: 50
 # pause_duration: 2000
+```

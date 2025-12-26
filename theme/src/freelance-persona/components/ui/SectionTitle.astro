@@ -10,13 +10,6 @@ const { title, subtitle, delay } = Astro.props;
 <div class="section-title" data-reveal="fade-up" data-delay={delay}>
   <h2>
     {title}
-    {
-      subtitle && (
-        <em>
-          <br />
-          {subtitle}
-        </em>
-      )
-    }
   </h2>
+  {subtitle && <em>{subtitle}</em>}
 </div>

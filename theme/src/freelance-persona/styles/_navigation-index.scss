@@ -26,6 +26,7 @@
 }
 
 @media (min-width: 992px) {
+
   /* GLOBAL LAYOUT LOGIC:
      The sidebar (.header) is fixed on the left (hovering).
      The main content margin is controlled entirely by user config via CSS vars.
@@ -63,7 +64,8 @@
 
 .navmenu ul {
   list-style: none;
-  padding: 0 0 1.25rem 0; /* 20px */
+  padding: 0 0 1.25rem 0;
+  /* 20px */
   margin: 0;
   /* Fixed sass calculation spacing */
   width: calc(var(--nav-menu-mobile-width) - 2 * var(--nav-menu-border-padding));
@@ -75,10 +77,14 @@
   font-family: var(--nav-font);
   display: flex;
   align-items: center;
-  padding: 0.625rem 1.125rem; /* 10px 18px */
-  margin-bottom: 0.5rem; /* 8px */
-  font-size: 0.9375rem; /* 15px */
-  border-radius: 3.125rem; /* 50px */
+  padding: 0.625rem 1.125rem;
+  /* 10px 18px */
+  margin-bottom: 0.5rem;
+  /* 8px */
+  font-size: 0.9375rem;
+  /* 15px */
+  border-radius: 3.125rem;
+  /* 50px */
   background: color-mix(in srgb, var(--default-color), transparent 92%);
   height: var(--nav-icon-size);
   width: 100%;
@@ -88,13 +94,38 @@
 
 .navmenu a i,
 .navmenu a:focus i {
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.25rem;
+  /* 20px */
 }
+
+/* Custom SVG Icon Styling */
+.navmenu a svg.navicon {
+  width: 1.5rem;
+  /* Slightly larger for visual balance */
+  height: 1.5rem;
+  min-width: 1.5rem;
+  /* Prevent shrinking */
+  flex-shrink: 0;
+  fill: currentColor;
+  transform: scale(1.8);
+  transform-origin: center;
+  margin-left: -1.659px;
+  vertical-align: -1.875px;
+  transition: all 0.3s;
+}
+
+/* Ensure the colored part turns white on hover for visibility */
+.navmenu a:hover svg.navicon .colored-part,
+.navmenu li:hover>a svg.navicon .colored-part {
+  fill: var(--contrast-color) !important;
+}
+
 
 .navmenu a span,
 .navmenu a:focus span {
-  padding: 0 0.3125rem 0 0.4375rem; /* 0 5px 0 7px */
-} 
+  padding: 0 0.3125rem 0 0.4375rem;
+  /* 0 5px 0 7px */
+}
 
 @media (min-width: 992px) {
 
@@ -139,7 +170,8 @@
 .nav-toggle {
   color: var(--contrast-color);
   background-color: var(--accent-color);
-  font-size: 1.375rem; /* 22px */
+  font-size: 1.375rem;
+  /* 22px */
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,8 +1,8 @@
 ---
 // src/components/Navigation.astro
-import { getCollection } from 'astro:content';
-import { themeConfig } from '@freelance-persona/config';
-
+import { getCollection } from "astro:content";
+import { themeConfig } from "@freelance-persona/config";
+import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
 
 // Props: isHome determines link behavior and styling
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 const { isHome = false } = Astro.props;
 
 // Fetch and sort sections
-const sections = await getCollection('sections');
+const sections = await getCollection("sections");
 const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
 
 // Helper to determine the href
@@ -29,68 +29,84 @@ const getLink = (id: string) => {
   <nav id="navmenu" class="navmenu">
     <ul>
       <li>
-        <a href={isHome ? "#hero" : "/"} class={isHome ? "active" : ""} aria-label="Home">
+        <a
+          href={isHome ? "#hero" : "/"}
+          class={isHome ? "active" : ""}
+          aria-label="Home"
+        >
           <i class="bi bi-house navicon"></i>
           <span>Home</span>
         </a>
       </li>
 
-      {sortedSections.map((section) => (
-        // Only show sections that have an icon (avoids listing non-menu items)
-        section.data.icon_class && (
+      {
+        sortedSections.map(
+          (section) =>
+            // Only show sections that have an icon (avoids listing non-menu items)
+            section.data.icon_class && (
+              <li>
+                <a href={getLink(section.id)} aria-label={section.data.title}>
+                  {section.data.icon_class === "lance-icon" ? (
+                    <LanceIcon class="navicon" />
+                  ) : (
+                    <i class={`${section.data.icon_class} navicon`} />
+                  )}
+                  <span>{section.data.title}</span>
+                </a>
+              </li>
+            ),
+        )
+      }
+
+      {
+        themeConfig.contact_infos && (
           <li>
-            <a href={getLink(section.id)} aria-label={section.data.title}>
-              <i class={`${section.data.icon_class} navicon`}></i>
-              <span>{section.data.title}</span>
+            <a href={getLink("contact")} aria-label="Contact">
+              <i class="bi bi-envelope navicon" />
+              <span>Contact</span>
             </a>
           </li>
         )
-      ))}
-
-      {themeConfig.contact_infos && (
-         <li>
-           <a href={getLink('contact')} aria-label="Contact">
-             <i class="bi bi-envelope navicon"></i>
-             <span>Contact</span>
-           </a>
-         </li>
-      )}
+      }
     </ul>
   </nav>
 </header>
 
 <script>
   // Navigation Interactions
-  
+
   // 1. Mobile Navigation Toggle
-  const toggleBtn = document.querySelector('.nav-toggle');
-  const header = document.querySelector('.header');
-  
-  if(toggleBtn && header) {
-    toggleBtn.addEventListener('click', () => {
-      header.classList.toggle('navmenu-show');
-      toggleBtn.classList.toggle('bi-list');
-      toggleBtn.classList.toggle('bi-x');
+  const toggleBtn = document.querySelector(".nav-toggle");
+  const header = document.querySelector(".header");
+
+  if (toggleBtn && header) {
+    toggleBtn.addEventListener("click", () => {
+      header.classList.toggle("navmenu-show");
+      toggleBtn.classList.toggle("bi-list");
+      toggleBtn.classList.toggle("bi-x");
     });
   }
 
   // 2. ScrollSpy (Highlight active link on scroll)
   // Only run this if we are on the home page (single page scroll)
-  const isHomePage = document.body.classList.contains('home-page');
-  
+  const isHomePage = document.body.classList.contains("home-page");
+
   if (isHomePage) {
-    const navLinks = document.querySelectorAll('#navmenu a');
-    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll("#navmenu a");
+    const sections = document.querySelectorAll("section");
 
     const updateActiveLink = () => {
       let position = window.scrollY + 200; // Offset for better triggering
 
-      sections.forEach(section => {
-        if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-          navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + section.id) {
-              link.classList.add('active');
+      sections.forEach((section) => {
+        if (
+          position >= section.offsetTop &&
+          position <= section.offsetTop + section.offsetHeight
+        ) {
+          navLinks.forEach((link) => {
+            link.classList.remove("active");
+            if (link.getAttribute("href") === "#" + section.id) {
+              link.classList.add("active");
             }
           });
         }
@@ -98,14 +114,14 @@ const getLink = (id: string) => {
 
       // Edge case: Top of page (Hero)
       if (window.scrollY < 100) {
-         navLinks.forEach(link => link.classList.remove('active'));
-         const homeLink = document.querySelector('#navmenu a[href="#hero"]');
-         // Safety check: ensure homeLink exists before accessing classList
-         if(homeLink) homeLink.classList.add('active');
+        navLinks.forEach((link) => link.classList.remove("active"));
+        const homeLink = document.querySelector('#navmenu a[href="#hero"]');
+        // Safety check: ensure homeLink exists before accessing classList
+        if (homeLink) homeLink.classList.add("active");
       }
     };
 
-    window.addEventListener('load', updateActiveLink);
-    document.addEventListener('scroll', updateActiveLink);
+    window.addEventListener("load", updateActiveLink);
+    document.addEventListener("scroll", updateActiveLink);
   }
 </script>

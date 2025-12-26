@@ -67,6 +67,8 @@ const sections = defineCollection({
       delay: z.number().optional(),
     }),
 
+
+
     // D. CONTACT SECTION (New Schema)
     z.object({
       type: z.literal('contact'),
@@ -81,6 +83,28 @@ const sections = defineCollection({
         value: z.string(), // Can be 'theme_email', 'theme_phone', 'theme_address' or raw string
         icon: z.string(),
         type: z.enum(['email', 'phone', 'address', 'text']).optional(), // Helper for formatting
+      })).default([]),
+
+      // Visual Overrides
+      nudge_x: z.string().optional(),
+      nudge_y: z.string().optional(),
+      content_scale: z.number().optional(),
+      delay: z.number().optional(),
+    }),
+
+    // E. FEATURES SECTION
+    z.object({
+      type: z.literal('features'),
+      title: z.string(),
+      description: z.string().optional(),
+      order: z.number().default(100),
+      icon_class: z.string().default('bi bi-card-list'),
+
+      features: z.array(z.object({
+        title: z.string(),
+        desc: z.string(),
+        icon: z.string().optional(),
+        link: z.string().optional(),
       })).default([]),
 
       // Visual Overrides

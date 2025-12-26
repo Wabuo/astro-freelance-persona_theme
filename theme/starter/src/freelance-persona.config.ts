@@ -8,7 +8,8 @@ export const themeConfig: PersonaConfig = {
   // (Touch to force rebuild)
   title: "freelance-persona — a Astro5 Theme ",
   author: "freelance-persona, Astro Theme", // Used for meta tags and the 'theme_author' token
-  description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.\nInitally ported from Persona-Zola, modernized and expanded with some custom adptions and the fetures section from Zola-Goyo ",
+  description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.\
+  Initally ported from Persona-Zola, modernized and expanded with some custom adptions and the fetures section from Zola-Goyo ",
 
   // ===================================================================================
   // 2. CONTACT DETAILS
@@ -27,6 +28,16 @@ export const themeConfig: PersonaConfig = {
       name: "GitHub",
       url: "https://github.com/wabuo/astro_freelance-persona_theme",
       icon_class: "bi bi-github" // Bootstrap Icon class
+    },
+    {
+      name: "LinkedIn",
+      url: "https://linkedin.com",
+      icon_class: "bi bi-linkedin" // Bootstrap Icon class
+    },
+    {
+      name: "Mastodon",
+      url: "https://mastodon.social",
+      icon_class: "bi bi-mastodon" // Bootstrap Icon class
     },
     // Add more links here...
   ],

@@ -2,7 +2,7 @@
 ## Ignore files the user might axidentally commit
 ######################################################
 
-background.jpg
+*.jpg
 
 
 #####################################################

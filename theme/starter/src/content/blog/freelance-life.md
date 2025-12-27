@@ -2,7 +2,7 @@
 title: "The Reality of Freelance Life"
 date: 2025-12-26
 description: "It's not just working from the beach. Here is the truth."
-thumbnail: "/src/assets/img/background.jpg"
+thumbnail: "/src/assets/img/test_blog.jpg"
 tags: ["freelance", "life"]
 ---
 

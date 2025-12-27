@@ -1,8 +1,8 @@
 ---
-title: "Astro Updates"
-subtitle: "Latest news from the Astroverse"
+title: ""
+subtitle: ""
 type: "recent_posts"
 order: 25
-icon_class: "bi bi-rocket-takeoff"
+icon_class: ""
 tags_to_filter_posts_by: ["astro"]
 ---

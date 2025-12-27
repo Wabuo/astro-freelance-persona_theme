@@ -79,28 +79,18 @@
 }
 
 /* Card Container Styling */
+/* .feature-card extends .card-base implicitly by usage in component */
 .feature-card {
-    background: var(--bs-body-bg, #ffffff);
-    border-radius: 0.75rem;
+    /* Override defaults if necessary */
     padding: 2rem;
-    height: 100%;
-
-    position: relative;
-    /* Context for the hover-action element */
-    overflow: hidden;
-    /* Hides the action text when it is off-screen */
-
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-    z-index: 1;
-    border: 1px solid var(--bs-border-color, #f0f0f0);
+    /* The base structure is handled by _cards.scss */
 }
 
 /* Hover effect for the card container */
-.feature-group-wrapper:hover .feature-card {
+/* We target the .card-base inside the wrapper for the lift effect */
+.feature-group-wrapper:hover .card-base {
     transform: translateY(-0.3125rem);
-    /* -5px */
     box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.1);
-    /* 0 10px 20px */
 }
 
 /* --- Icon and Text Styles --- */

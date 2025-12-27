@@ -1,6 +1,7 @@
 ---
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
+import Card from "@freelance-persona/components/ui/Card.astro";
 import { themeConfig } from "@freelance-persona/config";
 
 interface Props {
@@ -61,45 +62,30 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
               delay || defaultContentDelay + index * staggerDelay
             }
           >
-            {feature.link ? (
-              <a href={feature.link} class="feature-card-link">
-                <div class="feature-card-shadow" />
-                <div class="feature-card">
-                  {feature.icon && (
-                    <div class="feature-icon-wrapper-outer">
-                      <div class="feature-icon-bg">
-                        {/* Check if it is the special Lance Icon or a standard class-based icon */}
-                        {feature.icon === "lance-icon" ? (
-                          <LanceIcon class="feature-icon lance-icon-svg" />
-                        ) : (
-                          <i class={`${feature.icon} feature-icon`} />
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  <h3 class="feature-title-card">{feature.title}</h3>
-                  <p class="feature-description-card">{feature.desc}</p>
-
-                  <div class="feature-hover-action">
-                    {feature.link.startsWith("#")
-                      ? "Contact Me"
-                      : "Tell Me More"}
+            <Card href={feature.link} class="feature-card h-100">
+              {/* Card Content - Icon Logic */}
+              {feature.icon && (
+                <div class="feature-icon-wrapper-outer">
+                  <div class="feature-icon-bg">
+                    {feature.icon === "lance-icon" ? (
+                      <LanceIcon class="feature-icon lance-icon-svg" />
+                    ) : (
+                      <i class={`${feature.icon} feature-icon`} />
+                    )}
                   </div>
                 </div>
-              </a>
-            ) : (
-              <div class="feature-card">
-                {feature.icon && (
-                  <div class="feature-icon-wrapper-outer">
-                    <div class="feature-icon-bg">
-                      <i class={`${feature.icon} feature-icon`} />
-                    </div>
-                  </div>
-                )}
-                <h3 class="feature-title-card">{feature.title}</h3>
-                <p class="feature-description-card">{feature.desc}</p>
-              </div>
-            )}
+              )}
+              {feature.link && <div class="feature-card-shadow" />}
+
+              <h3 class="feature-title-card">{feature.title}</h3>
+              <p class="feature-description-card">{feature.desc}</p>
+
+              {feature.link && (
+                <div class="feature-hover-action">
+                  {feature.link.startsWith("#") ? "Contact Me" : "Tell Me More"}
+                </div>
+              )}
+            </Card>
           </div>
         ))
       }

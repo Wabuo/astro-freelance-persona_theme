@@ -1,0 +1,41 @@
+---
+// src/components/ui/Card.astro
+interface Props {
+  href?: string;
+  class?: string;
+  delay?: number;
+  "data-reveal"?: string;
+  "data-reveal-delay"?: number;
+}
+
+const {
+  href,
+  class: className,
+  delay,
+  "data-reveal": dataReveal,
+  "data-reveal-delay": dataRevealDelay,
+} = Astro.props;
+
+// Helper to determine component type
+const Component = href ? "a" : "div";
+const props = href
+  ? { href, class: `card-base ${className || ""}` }
+  : { class: `card-base ${className || ""}` };
+---
+
+<div
+  class="card-wrapper"
+  data-reveal={dataReveal}
+  data-reveal-delay={dataRevealDelay || delay}
+>
+  <Component {...props}>
+    <slot name="image" />
+    <div class="card-content">
+      <slot />
+    </div>
+  </Component>
+</div>
+
+<style>
+  /* Styles moved to styles/_cards.scss */
+</style>

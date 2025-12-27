@@ -3,6 +3,7 @@
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+import Card from "@freelance-persona/components/ui/Card.astro";
 
 interface Props {
   id: string;
@@ -44,75 +45,71 @@ const displayedPosts = filteredPosts
         <div class="row gy-4" style="--bs-gutter-x: 1.7rem;">
           {displayedPosts.map((post) => (
             <div class="col-lg-4 col-md-6 mb-4">
-              <div class="post-entry post-card">
-                {post.data.thumbnail ? (
-                  <a href={`/blog/${post.id}`} class="thumb">
+              <Card href={`/blog/${post.id}`} class="h-100">
+                {/* Image Slot: 16:9 Enforced */}
+                <div slot="image" class="post-image-container">
+                  {post.data.thumbnail ? (
                     <Image
                       src={post.data.thumbnail}
                       alt={post.data.title}
-                      class="img-fluid"
+                      class="img-fluid post-image"
                     />
-                  </a>
-                ) : (
-                  /* Preview Card: Mock Page Screenshot */
-                  <a
-                    href={`/blog/${post.id}`}
-                    class="thumb d-block text-decoration-none"
-                  >
-                    <div class="preview-card">
+                  ) : (
+                    /* Preview Card: Mock Page Screenshot inside 16:9 container */
+                    <div class="preview-card-wrapper h-100 w-100">
                       <div
                         class="mock-page-content"
-                        style="width: 200%; transform: scale(0.5); transform-origin: top left; padding: 2rem; background-color: var(--surface-color, #fff); color: var(--default-color);"
+                        style="width: 100%; height: 100%; padding: 1rem; background-color: var(--surface-color, #fff); color: var(--default-color);"
                       >
-                        {/* Header Structure mimicking BlogPostTemplate */}
+                        {/* Header Structure mimicking BlogPostTemplate - Natively Scaled (50%) */}
                         <div class="post-header">
                           <h2
                             class="post-title"
-                            style="font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--heading-color);"
+                            style="font-size: 1.25rem; margin-bottom: 0.25rem; color: var(--heading-color);"
                           >
                             {post.data.title}
                           </h2>
 
-                          <div class="post-tags mb-3">
+                          <div class="post-tags mb-0">
                             {post.data.tags?.map((tag) => (
                               <span
-                                class="tag badge me-2"
-                                style="background-color: color-mix(in srgb, var(--default-color), transparent 94%); color: color-mix(in srgb, var(--default-color), transparent 55%); padding: 0.2em 0.6em; border-radius: 0.1875rem; font-size: 0.8em;"
+                                class="tag badge me-1"
+                                style="background-color: color-mix(in srgb, var(--default-color), transparent 94%); color: color-mix(in srgb, var(--default-color), transparent 55%); padding: 0.2em 0.6em; border-radius: 0.1rem; font-size: 0.6em;"
                               >
                                 {tag.toLowerCase()}
                               </span>
-                            )) || <span class="tag badge me-2">blog</span>}
+                            )) || <span class="tag badge me-1">blog</span>}
                           </div>
 
-                          <hr style="margin: 1.5rem 0; opacity: 0.2; border-top: 3px solid;" />
+                          <hr style="margin: 0.75rem 0; opacity: 0.2; border-top: 1.5px solid;" />
 
                           <div
-                            class="meta-top d-flex align-items-center small text-muted mb-3"
-                            style="font-size: 1.2rem;"
+                            class="meta-top d-flex align-items-center small text-muted mb-2"
+                            style="font-size: 0.6rem;"
                           >
-                            <i class="bi bi-calendar-event me-2" />
+                            <i class="bi bi-calendar-event me-1" />
                             {post.data.date.toLocaleDateString("en-US", {
                               month: "long",
                               day: "numeric",
                               year: "numeric",
                             })}
-                            <span class="mx-3">|</span>
-                            <i class="bi bi-hourglass-split me-2" />1 min read
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-hourglass-split me-1" />1 min read
                           </div>
 
-                          <hr style="margin: 1.5rem 0; opacity: 0.2; border-top: 3px solid;" />
+                          <hr style="margin: 1.5rem 0; opacity: 0.2; border-top: 1.5px solid;" />
 
                           <div
                             class="post-content"
-                            style="font-size: 1.25rem; line-height: 1.6;"
+                            style="font-size: 0.625rem; line-height: 1.6;"
                           >
                             <p>{post.data.description}</p>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </a>
-                )}
+                  )}
+                </div>
 
                 <div class="post-details">
                   <div class="meta mb-4">
@@ -126,20 +123,20 @@ const displayedPosts = filteredPosts
                             <span
                               class="badge me-1"
                               style={`
-                                font-size: 0.75em; 
-                                border-radius: 0.1875rem;
-                                padding: 0.2em 0.6em;
-                                font-weight: 500;
-                                display: inline-flex;
-                                align-items: center;
-                                justify-content: center;
-                                line-height: 1.5;
-                                ${
-                                  isFiltered
-                                    ? "background-color: color-mix(in srgb, var(--accent-color), transparent 92%); color: color-mix(in srgb, var(--accent-color), transparent 15%);"
-                                    : "background-color: color-mix(in srgb, var(--default-color), transparent 94%); color: color-mix(in srgb, var(--default-color), transparent 55%);"
-                                }
-                              `}
+                                  font-size: 0.75em; 
+                                  border-radius: 0.1875rem;
+                                  padding: 0.2em 0.6em;
+                                  font-weight: 500;
+                                  display: inline-flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                  line-height: 1.5;
+                                  ${
+                                    isFiltered
+                                      ? "background-color: color-mix(in srgb, var(--accent-color), transparent 92%); color: color-mix(in srgb, var(--accent-color), transparent 15%);"
+                                      : "background-color: color-mix(in srgb, var(--default-color), transparent 94%); color: color-mix(in srgb, var(--default-color), transparent 55%);"
+                                  }
+                                `}
                             >
                               {tag}
                             </span>
@@ -151,7 +148,7 @@ const displayedPosts = filteredPosts
 
                   <div class="post-content" style="flex-grow: 1;">
                     <h3 style="font-weight: 500; font-size: 1.25rem; margin-bottom: 0.5rem;">
-                      <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                      {post.data.title}
                     </h3>
                     <p style="margin-left: 0;">
                       {post.data.description || "Click to read more..."}
@@ -162,13 +159,13 @@ const displayedPosts = filteredPosts
                   <span
                     class="date"
                     style={`
-                      align-self: flex-end; 
-                      margin-top: auto;
-                      font-size: 0.75em; 
-                      font-weight: 500;
-                      line-height: 1.5;
-                      color: color-mix(in srgb, var(--default-color), transparent 55%);
-                    `}
+                        align-self: flex-end; 
+                        margin-top: auto;
+                        font-size: 0.75em; 
+                        font-weight: 500;
+                        line-height: 1.5;
+                        color: color-mix(in srgb, var(--default-color), transparent 55%);
+                      `}
                   >
                     {post.data.date.toLocaleDateString("en-GB", {
                       day: "numeric",
@@ -177,7 +174,7 @@ const displayedPosts = filteredPosts
                     })}
                   </span>
                 </div>
-              </div>
+              </Card>
             </div>
           ))}
         </div>
@@ -187,35 +184,5 @@ const displayedPosts = filteredPosts
 }
 
 <style>
-  .post-card {
-    background: var(--bs-body-bg, #ffffff);
-    border-radius: 0.75rem;
-    border: 1px solid var(--bs-border-color, #f0f0f0);
-    position: relative;
-    overflow: hidden;
-    transition:
-      transform 0.3s ease-out,
-      box-shadow 0.3s ease-out;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .post-card:hover {
-    transform: translateY(-0.3125rem); /* -5px */
-    box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.1); /* 0 10px 20px */
-  }
-
-  /* Ensure the image container is flush */
-  .post-card .thumb {
-    margin-bottom: 0 !important;
-  }
-
-  /* Padding for the content area */
-  .post-details {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
+  /* Component styles moved to _recent-posts.scss */
 </style>

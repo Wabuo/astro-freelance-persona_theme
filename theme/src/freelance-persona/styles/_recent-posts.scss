@@ -1,0 +1,46 @@
+/* src/freelance-persona/styles/_recent-posts.scss */
+
+/* ====================================================
+   === COMPONENT: RECENT POSTS SECTION ===
+   ==================================================== */
+
+/* 16:9 Image Container */
+.post-image-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background-color: var(--bs-light, #f8f9fa);
+    position: relative;
+}
+
+.post-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Post Details Container */
+.post-details {
+    /* No padding here, use Card's padding via .card-content */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
+/* Transition base state for text elements */
+.post-details .post-content p,
+.post-details .date {
+    transition: color 0.3s ease-out;
+    /* transition-delay: 0s; Remove delay to match standard */
+    will-change: color;
+}
+
+/* Hover Text Color Changes */
+/* We rely on global selector because Card wrapper handles hover */
+/* Using specificity to target within the card wrapper context */
+.card-wrapper:hover .post-details .post-content p,
+.card-wrapper:hover .post-details .date {
+    color: var(--accent-color);
+}

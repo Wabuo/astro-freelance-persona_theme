@@ -25,26 +25,7 @@
     z-index: 10;
 }
 
-.features-header {
-    margin-bottom: 5rem;
-    text-align: center;
-}
 
-.features-title {
-    font-size: 3rem;
-    font-weight: 900;
-    margin-bottom: 1.5rem;
-    // Use theme font family for headings
-    font-family: var(--theme-font-family-headings, sans-serif);
-}
-
-.features-description {
-    font-size: 1.25rem;
-    max-width: 42rem;
-    margin-left: auto;
-    margin-right: auto;
-    font-family: var(--theme-font-family-body, sans-serif);
-}
 
 /* --- Grid Layout --- */
 .features-grid {

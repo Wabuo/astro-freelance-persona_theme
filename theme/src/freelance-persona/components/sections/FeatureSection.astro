@@ -42,15 +42,10 @@ const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
 const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
 ---
 
-<section id={id} class="features-section-wrapper" style={sectionStyle}>
+<section id={id} class="features-section-wrapper section" style={sectionStyle}>
   <div class="features-background"></div>
   <div class="container features-container">
-    <div class="features-header text-center mb-5">
-      <h2 class="features-title">
-        <span class="hero-title">{title}</span>
-      </h2>
-      {description && <p class="features-description">{description}</p>}
-    </div>
+    <SectionTitle title={title} subtitle={description} />
 
     <div class="features-grid">
       {

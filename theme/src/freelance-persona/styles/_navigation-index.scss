@@ -111,10 +111,16 @@
   transform-origin: center;
   margin-left: -1.659px;
   vertical-align: -1.875px;
-  transition: all 0.3s;
+  /* transition: all 0.3s; -- Optimized below */
+  transition: transform 0.3s ease-in-out, fill 0.3s ease-in-out;
 }
 
 /* Ensure the colored part turns white on hover for visibility */
+.navmenu a svg.navicon .colored-part {
+  transition: fill 0.3s ease-in-out;
+  will-change: fill;
+}
+
 .navmenu a:hover svg.navicon .colored-part,
 .navmenu li:hover>a svg.navicon .colored-part {
   fill: var(--contrast-color) !important;

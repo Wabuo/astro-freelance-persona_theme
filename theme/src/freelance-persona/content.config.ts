@@ -92,6 +92,55 @@ const sections = defineCollection({
       delay: z.number().optional(),
     }),
 
+    // F. BLOG CATEGORIES SECTION
+    z.object({
+      type: z.literal('blog_categories'),
+      title: z.string(),
+      subtitle: z.string().optional(),
+      order: z.number().default(100),
+      icon_class: z.string(),
+      categories: z.array(z.object({
+        title: z.string(),
+        image: z.string().optional(), // Path to image (now optional)
+        background_color: z.string().optional(), // Solid color fallback
+        tags: z.array(z.string()), // Array of tags to filter by
+        description: z.string().optional(),
+
+        // Overlay Configuration
+        overlay_title: z.boolean().default(false),
+        overlay_style: z.enum(['dark', 'light', 'accent', 'custom', 'none']).default('dark'),
+        custom_overlay_color: z.string().optional(),
+        mix_accent: z.number().optional(),
+        overlay_opacity: z.number().optional(),
+        title_style: z.enum(['dark', 'light', 'custom']).default(''),
+        custom_title_color: z.string().optional(),
+      })
+        .refine((data) => {
+          if (data.overlay_style === 'custom' && !data.custom_overlay_color) {
+            return false;
+          }
+          return true;
+        }, {
+          message: "custom_overlay_color is required when overlay_style is 'custom'",
+          path: ["custom_overlay_color"]
+        })
+        .refine((data) => {
+          if (data.title_style === 'custom' && !data.custom_title_color) {
+            return false;
+          }
+          return true;
+        }, {
+          message: "custom_title_color is required when title_style is 'custom'",
+          path: ["custom_title_color"]
+        })).default([]),
+
+      // Visual Overrides
+      nudge_x: z.string().optional(),
+      nudge_y: z.string().optional(),
+      content_scale: z.number().optional(),
+      delay: z.number().optional(),
+    }),
+
     // E. FEATURES SECTION
     z.object({
       type: z.literal('features'),

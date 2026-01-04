@@ -20,5 +20,6 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 
+# Playground, ignore all but provide the folder
 playground/*
 !playground/.gitkeep

@@ -9,6 +9,7 @@ import PlainSection from "@freelance-persona/components/sections/PlainSection.as
 import ContactSection from "@freelance-persona/components/sections/ContactSection.astro";
 import Recent_PostsSection from "@freelance-persona/components/sections/Recent_PostsSection.astro";
 import FeatureSection from "@freelance-persona/components/sections/FeatureSection.astro";
+import BlogCategoriesSection from "@freelance-persona/components/sections/BlogCategoriesSection.astro";
 
 // 1. HERO DATA FETCHING
 const heroEntry = await getEntry("sections", "hero");
@@ -44,6 +45,9 @@ const contentSections = allSections
 
   {
     contentSections.map(async (section) => {
+      console.log(
+        `Rendering section: ${section.id}, type: ${section.data.type}`,
+      );
       const { Content } = await render(section);
 
       if (section.data.type === "plain") {
@@ -84,6 +88,21 @@ const contentSections = allSections
             title={section.data.title}
             description={section.data.description}
             features={section.data.features}
+            nudge_x={section.data.nudge_x}
+            nudge_y={section.data.nudge_y}
+            content_scale={section.data.content_scale}
+            delay={section.data.delay}
+          />
+        );
+      }
+
+      if (section.data.type === "blog_categories") {
+        return (
+          <BlogCategoriesSection
+            id={section.id}
+            title={section.data.title}
+            subtitle={section.data.subtitle}
+            categories={section.data.categories}
             nudge_x={section.data.nudge_x}
             nudge_y={section.data.nudge_y}
             content_scale={section.data.content_scale}

@@ -1,0 +1,179 @@
+---
+import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+import Card from "@freelance-persona/components/ui/Card.astro";
+import { themeConfig } from "@freelance-persona/config";
+import { Image } from "astro:assets";
+
+interface Props {
+  id: string;
+  title: string;
+  subtitle?: string;
+  categories: {
+    title: string;
+    image?: string;
+    background_color?: string;
+    tags: string[];
+    description?: string;
+    overlay_title?: boolean;
+    overlay_style?: "dark" | "light" | "accent" | "custom" | "none";
+    custom_overlay_color?: string;
+    mix_accent?: number;
+    overlay_opacity?: number;
+    title_style?: "dark" | "light" | "custom";
+    custom_title_color?: string;
+  }[];
+  nudge_x?: string;
+  nudge_y?: string;
+  content_scale?: number;
+  delay?: number;
+}
+
+const {
+  id,
+  title,
+  subtitle,
+  categories,
+  nudge_x,
+  nudge_y,
+  content_scale,
+  delay,
+} = Astro.props;
+
+// Visual Overrides CSS
+const sectionStyle = `
+  ${nudge_x ? `--nudge-x: ${nudge_x};` : ""}
+  ${nudge_y ? `--nudge-y: ${nudge_y};` : ""}
+  ${content_scale ? `--content-scale: ${content_scale};` : ""}
+`;
+
+const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
+const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
+
+// Helper to resolve images (assuming public folder for now if string)
+// If you want robust image optimization, we might need a dynamic import map or glob
+// For now, we'll try to use standard img tag or Image if it's a URL
+---
+
+<section id={id} class="blog-categories-section section" style={sectionStyle}>
+  <div class="container">
+    <SectionTitle title={title} subtitle={subtitle} />
+
+    <div class="blog-categories-grid">
+      {
+        categories.map((category, index) => {
+          // Basic link construction - filters by the first tag or all tags joined?
+          // The user asked for filtering. linking to /blog?tags=... is standard pattern if supported.
+          // For now, let's assume we link to /blog with the first tag as primary filter.
+          const linkUrl = `/blog?tag=${category.tags[0]}`;
+
+          // Resolve Overlay Colors
+          const opacity = category.overlay_opacity ?? 0.4;
+          const mixAccent = category.mix_accent; // Undefined or number
+
+          let baseColor = "transparent";
+
+          // 1. Resolve Base Color
+          if (category.overlay_title) {
+            if (category.overlay_style === "dark") {
+              baseColor = "var(--default-color)";
+            } else if (category.overlay_style === "light") {
+              baseColor = "var(--contrast-color)";
+            } else if (category.overlay_style === "custom") {
+              baseColor = category.custom_overlay_color || "transparent";
+            } else if (category.overlay_style === "none") {
+              baseColor = "transparent";
+            }
+          }
+
+          // 2. Apply Accent Mix (Tint)
+          // If mixAccent is defined (number), we mix it in at that percentage
+          if (mixAccent !== undefined && mixAccent !== null) {
+            // Mix accent into the base (mixAccent% accent, Remainder base)
+            baseColor = `color-mix(in srgb, var(--accent-color) ${mixAccent}%, ${baseColor})`;
+          }
+
+          // 3. Apply Transparency
+          // Mix the resulting Base Tint with transparent
+          let overlayBg = `color-mix(in srgb, ${baseColor}, transparent ${(1 - opacity) * 100}%)`;
+
+          if (category.overlay_style === "none") {
+            overlayBg = "transparent";
+          }
+
+          // Resolve Title Color
+          let titleColor = "inherit";
+          if (category.overlay_title) {
+            if (category.title_style === "light")
+              titleColor = "var(--contrast-color)"; // Use theme contrast variable
+            else if (category.title_style === "dark")
+              titleColor = "var(--default-color)"; // Use theme text variable
+            else if (category.title_style === "custom")
+              titleColor = category.custom_title_color || "inherit";
+            else {
+              // Auto-resolve based on Base Style if not set
+              if (category.overlay_style === "light")
+                titleColor = "var(--default-color)";
+              else titleColor = "var(--contrast-color)";
+            }
+          }
+
+          const cardStyle = `
+            --overlay-bg: ${overlayBg};
+            --overlay-title-color: ${titleColor};
+          `;
+
+          return (
+            <div
+              class="category-card-wrapper"
+              data-reveal="fade-up"
+              data-reveal-delay={
+                delay || defaultContentDelay + index * staggerDelay
+              }
+              style={cardStyle}
+            >
+              <Card href={linkUrl} class="category-card h-100">
+                <div slot="image" class="category-image-container">
+                  {category.image ? (
+                    <img
+                      src={category.image}
+                      alt={category.title}
+                      class="category-image"
+                    />
+                  ) : (
+                    <div
+                      class="category-image"
+                      style={`background-color: ${category.background_color || "var(--surface-color)"}; width: 100%; height: 100%;`}
+                    />
+                  )}
+                  {category.overlay_title && (
+                    <div class="overlay-title-wrapper">
+                      <h3 class="overlay-title-text">{category.title}</h3>
+                    </div>
+                  )}
+                </div>
+
+                {!category.overlay_title && (
+                  <h3 class="category-title">{category.title}</h3>
+                )}
+
+                {category.description && (
+                  <p
+                    class={`category-description ${category.overlay_title ? "prominent" : ""}`}
+                  >
+                    {category.description}
+                  </p>
+                )}
+
+                <div class="category-tags">
+                  {category.tags.map((tag) => (
+                    <span class="badge">{tag}</span>
+                  ))}
+                </div>
+              </Card>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

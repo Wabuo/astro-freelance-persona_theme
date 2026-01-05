@@ -60,6 +60,7 @@
   transition: background 0.3s ease;
   z-index: 2;
   /* Ensure it stays on top */
+  pointer-events: none;
 }
 
 .card-wrapper:hover .overlay-title-wrapper,
@@ -86,6 +87,7 @@
   will-change: transform;
   backface-visibility: hidden;
   transform: scale(1) translateZ(0);
+  pointer-events: none;
 }
 
 /* ZOOM TITLE ON HOVER */
@@ -127,4 +129,105 @@
   border-radius: 999px;
   background: color-mix(in srgb, var(--accent-color), transparent 90%);
   color: var(--accent-color);
+}
+
+/* Stretched Link & Interactions */
+.category-card {
+  position: relative;
+  /* Ensure card is checking context */
+}
+
+.card-link-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  /* Below interactive elements */
+}
+
+/* Ensure interactive elements inside are clickable */
+.category-tags,
+.category-description,
+.category-title {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+  /* Allow clicks to pass through to the card link */
+}
+
+.latest-posts {
+  position: relative;
+  z-index: 2;
+  /* Keep default pointer-events (auto) so empty areas capture clicks if desired,
+     but user specifically wanted TOP part to be clickable.
+     If user wants empty latest-posts area to act as dead zone, we leave it auto. */
+  margin-top: 1.5rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 5.5rem;
+  /* ~88px to align with 2-post cards */
+}
+
+.latest-posts-separator {
+  /* Optional: Could use this for a styled line if border-top is not enough */
+}
+
+.latest-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    margin-bottom: 0.7rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  /* The Link is now the Flex Container */
+  a.recent-post-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    width: 100%;
+
+    .post-title {
+      text-decoration: underline;
+    }
+
+    /* Target Title specifically for underline */
+    &:hover .post-title {
+      color: var(--accent-color);
+    }
+
+    /* Target Date specifically for color change */
+    &:hover .post-date {
+      /* Slightly muted accent color (similar to active tags) */
+      color: color-mix(in srgb, var(--accent-color), transparent 25%);
+    }
+  }
+
+  .post-date {
+    font-size: 0.75rem;
+    text-decoration: none !important;
+    /* Never underline the date */
+    display: inline-block;
+    color: color-mix(in srgb, var(--default-color), transparent 50%);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
 }

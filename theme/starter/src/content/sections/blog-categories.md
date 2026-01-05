@@ -6,11 +6,11 @@ order: 25
 icon_class: "bi bi-grid"
 categories:
   - title: "Geek Land"
-    overlay_title: false
+    overlay_title: true
     overlay_style: "none"
     title_style: "light"
     background_color: "#333"
-    tags: ["it", "maker", "code"]
+    tags: ["it", "maker", "coding"]
     description: "Coding, hardware hacking, and all things tech."
   - title: "Permaculture"
     image: "/src/assets/img/test_blog.jpg"
@@ -23,7 +23,7 @@ categories:
     description: "Ecosystem restoration and sustainable living."
   - title: "Beekeeping"
     background_color: "#f8cd20ff"
-    overlay_title: true
+    overlay_title: false
     title_style: "dark"
     overlay_style: "none"
     tags: ["beekeeping"]

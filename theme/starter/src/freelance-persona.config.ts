@@ -91,7 +91,7 @@ export const themeConfig: PersonaConfig = {
   // Footer Content
   quote: "Real stupidity beats artificial intelligence every time. --- From Hogfather",
   copyright: "&copy; All Rights Reserved",
-  credits: "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/) <br>With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Goyo Persona](https://github.com/hahwul/goyo)"
+  credits: "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/) <br>With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)"
 };
 
 export default themeConfig;

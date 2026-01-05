@@ -3,6 +3,7 @@ import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
 import { themeConfig } from "@freelance-persona/config";
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 
 interface Props {
   id: string;
@@ -39,6 +40,12 @@ const {
   delay,
 } = Astro.props;
 
+// Fetch all blog posts once
+const allPosts = await getCollection("blog");
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
 // Visual Overrides CSS
 const sectionStyle = `
   ${nudge_x ? `--nudge-x: ${nudge_x};` : ""}
@@ -48,7 +55,6 @@ const sectionStyle = `
 
 const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
 const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
-
 // Helper to resolve images (assuming public folder for now if string)
 // If you want robust image optimization, we might need a dynamic import map or glob
 // For now, we'll try to use standard img tag or Image if it's a URL
@@ -61,6 +67,13 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
     <div class="blog-categories-grid">
       {
         categories.map((category, index) => {
+          // Filter posts for this category
+          const categoryPosts = sortedPosts
+            .filter((post) =>
+              post.data.tags.some((tag) => category.tags.includes(tag)),
+            )
+            .slice(0, 2);
+
           // Basic link construction - filters by the first tag or all tags joined?
           // The user asked for filtering. linking to /blog?tags=... is standard pattern if supported.
           // For now, let's assume we link to /blog with the first tag as primary filter.
@@ -131,7 +144,12 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
               }
               style={cardStyle}
             >
-              <Card href={linkUrl} class="category-card h-100">
+              <Card class="category-card h-100">
+                <a
+                  href={linkUrl}
+                  class="card-link-overlay"
+                  aria-label={category.title}
+                />
                 <div slot="image" class="category-image-container">
                   {category.image ? (
                     <img
@@ -168,6 +186,35 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                   {category.tags.map((tag) => (
                     <span class="badge">{tag}</span>
                   ))}
+                </div>
+
+                <div class="latest-posts">
+                  <div class="latest-posts-separator" />
+                  {categoryPosts.length > 0 ? (
+                    <ul class="latest-posts-list">
+                      {categoryPosts.map((post) => (
+                        <li class="recent-post-item">
+                          <a href={`/blog/${post.id}`} class="recent-post-link">
+                            <span class="post-title">{post.data.title}</span>
+                            <span class="post-date">
+                              {post.data.date.toLocaleDateString("en-GB", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              })}
+                            </span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p
+                      class="no-posts-message"
+                      style="font-size: 0.8rem; opacity: 0.6; font-style: italic;"
+                    >
+                      No recent posts
+                    </p>
+                  )}
                 </div>
               </Card>
             </div>

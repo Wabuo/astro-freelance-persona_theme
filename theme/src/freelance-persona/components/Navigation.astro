@@ -43,7 +43,9 @@ const getLink = (id: string) => {
         sortedSections.map(
           (section) =>
             // Only show sections that have an icon (avoids listing non-menu items)
-            section.data.icon_class && (
+            // Fix: Hide 'lance-icon' (Hero/Brand) on inner pages where top-nav is used
+            section.data.icon_class &&
+            (isHome || section.data.icon_class !== "lance-icon") && (
               <li>
                 <a href={getLink(section.id)} aria-label={section.data.title}>
                   {section.data.icon_class === "lance-icon" ? (

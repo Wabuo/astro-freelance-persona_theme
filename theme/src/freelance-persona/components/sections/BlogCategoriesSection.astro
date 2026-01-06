@@ -82,10 +82,17 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
             )
             .slice(0, 2);
 
-          // Basic link construction - filters by the first tag or all tags joined?
-          // The user asked for filtering. linking to /blog?tags=... is standard pattern if supported.
-          // For now, let's assume we link to /blog with the first tag as primary filter.
-          const linkUrl = `/blog?tag=${category.tags[0]}`;
+          // Basic link construction - Link to the dedicated category page
+          const slugify = (text: string) =>
+            text
+              .toString()
+              .toLowerCase()
+              .trim()
+              .replace(/\s+/g, "-")
+              .replace(/[^\w-]+/g, "")
+              .replace(/--+/g, "-");
+
+          const linkUrl = `/blogs/${slugify(category.title)}`;
 
           // Resolve Overlay Colors
           const opacity = category.overlay_opacity ?? 0.4;

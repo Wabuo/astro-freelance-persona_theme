@@ -1,0 +1,135 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
+import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+
+// Generate paths for all categories defined in the section config
+export async function getStaticPaths() {
+  const sections = await getCollection("sections");
+  // Find the blog_categories section
+  // Note: There might be multiple if user defines multiples, but typically there's one main one.
+  // We'll iterate all sections of type 'blog_categories' and flatten their categories.
+  const blogSections = sections.filter(
+    (s: any) => s.data.type === "blog_categories",
+  );
+
+  if (blogSections.length === 0) {
+    return [];
+  }
+
+  // Helper to slugify - MUST MATCH the one in BlogCategoriesSection.astro
+  const slugify = (text: string) =>
+    text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]+/g, "")
+      .replace(/--+/g, "-");
+
+  const paths: any[] = [];
+
+  blogSections.forEach((section: any) => {
+    if (section.data.type === "blog_categories" && section.data.categories) {
+      section.data.categories.forEach((category: any) => {
+        paths.push({
+          params: { category: slugify(category.title) },
+          props: {
+            title: category.title,
+            description: category.description,
+            tags: category.tags,
+          },
+        });
+      });
+    }
+  });
+
+  return paths;
+}
+
+const { title, description, tags } = Astro.props;
+const allPosts = await getCollection("blog");
+
+// Filter posts that match ANY of the category tags
+const filteredPosts = allPosts
+  .filter((post: any) =>
+    post.data.tags.some((tag: string) => tags.includes(tag)),
+  )
+  .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
+---
+
+<BaseLayout title={`${title} - Blog`}>
+  <div class="container section" style="padding-top: var(--nav-height, 80px);">
+    <div style="margin-bottom: 3rem; margin-top: 2rem;">
+      <SectionTitle title={title} subtitle={description} />
+    </div>
+
+    {
+      filteredPosts.length > 0 ? (
+        <div class="posts-list" style="max-width: 800px; margin: 0 auto;">
+          {filteredPosts.map((post: any) => (
+            <article
+              class="post-entry"
+              style="margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color, rgba(0,0,0,0.1));"
+            >
+              <header>
+                <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem; font-weight: 700;">
+                  <a href={`/blog/${post.id}`} class="post-link">
+                    {post.data.title}
+                  </a>
+                </h2>
+                <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; font-family: var(--monospace-font);">
+                  {formatDate(post.data.date)}
+                </div>
+              </header>
+              <p style="margin-bottom: 1.5rem; opacity: 0.9; line-height: 1.6;">
+                {post.data.description}
+              </p>
+              <a href={`/blog/${post.id}`} class="read-more-link">
+                Read more &rarr;
+              </a>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center" style="padding: 4rem 0; opacity: 0.6;">
+          <p>No posts found in this category yet.</p>
+          <a href="/" class="btn btn-outline-primary" style="margin-top: 1rem;">
+            Return Home
+          </a>
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .post-link {
+    text-decoration: none;
+    color: var(--default-color);
+    transition: color 0.2s;
+  }
+  .post-link:hover {
+    color: var(--accent-color);
+  }
+
+  .read-more-link {
+    color: var(--accent-color);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+
+  .read-more-link:hover {
+    transform: translateX(5px);
+  }
+</style>

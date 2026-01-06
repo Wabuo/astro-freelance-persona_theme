@@ -134,6 +134,14 @@ const sections = defineCollection({
           path: ["custom_title_color"]
         })).default([]),
 
+      mini_categories: z.array(z.object({
+        title: z.string(),
+        description: z.string().optional(),
+        tags: z.array(z.string()),
+        background_color: z.string().optional(),
+        color: z.string().optional(),
+      })).optional(),
+
       // Visual Overrides
       nudge_x: z.string().optional(),
       nudge_y: z.string().optional(),

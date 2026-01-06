@@ -28,4 +28,14 @@ categories:
     overlay_style: "none"
     tags: ["beekeeping"]
     description: "The sweet science of apiary maintenance."
+mini_categories:
+  - title: "Legacy Tech"
+    description: "Old but gold."
+    tags: ["retro"]
+  - title: "Random"
+    description: "Things that don't fit."
+    tags: ["misc"]
+  - title: "Archive"
+    description: "Old projects."
+    tags: ["archive"]
 ---

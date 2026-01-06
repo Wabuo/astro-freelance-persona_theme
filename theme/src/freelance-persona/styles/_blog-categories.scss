@@ -1,13 +1,20 @@
 /* Blog Categories Section */
 
 .blog-categories-section {
+  --grid-gap: 2rem;
+  --mini-group-gap: 5rem;
+  /* Gap between standard cards and mini cards */
+  --mini-card-min-height: 6rem;
+  --mini-card-padding-y: 0.8rem;
+  /* New variable for internal top/bottom spacing */
+
   transform: translate(var(--nudge-x, 0), var(--nudge-y, 0)) scale(var(--content-scale, 1));
 }
 
 .blog-categories-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: var(--grid-gap);
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -17,6 +24,7 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
 
 .category-image-container {
   width: 100%;
@@ -106,12 +114,20 @@
   font-family: var(--monospace-font);
   font-size: 0.9rem;
   margin-bottom: 1rem;
-  //color: var(--text-muted);
+  color: var(--text-muted);
   //color: var(--accent-color);
 
   &.prominent {
     font-size: 1rem;
     font-weight: 600;
+  }
+
+  transition: color 0.3s ease;
+}
+
+.category-card-wrapper:hover {
+  .category-description:not(.prominent) {
+    color: var(--accent-color);
   }
 }
 
@@ -206,6 +222,7 @@
 
     .post-title {
       text-decoration: underline;
+      text-decoration-color: var(--accent-color);
     }
 
     /* Target Title specifically for underline */
@@ -229,5 +246,64 @@
     white-space: nowrap;
     flex-shrink: 0;
     transition: color 0.2s ease;
+  }
+}
+
+
+/* Mini Category Card */
+.mini-category-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Center content vertically if brief */
+  min-height: var(--mini-card-min-height);
+  /* Sufficient height to stand out but smaller than full cards */
+  padding: var(--mini-card-padding-y) 0;
+  /* Drastically reduced padding */
+  position: relative;
+
+  /* Remove default inner card padding so variable controls everything */
+  .card-content {
+    padding: 0 1.5rem;
+    /* Remove vertical, keep default horizontal */
+  }
+
+  .category-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    /* Restored to match standard */
+    margin-top: 0;
+    color: var(--default-color);
+    transition: color 0.3s ease;
+    line-height: 1.2;
+  }
+
+  .category-description {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+    /* Restored to match standard */
+    line-height: 1.4;
+  }
+
+  .category-tags {
+    margin-top: 0;
+    /* Removing auto margin to keep it compact if needed, or keep auto if height is fixed */
+    margin-top: auto;
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.4rem;
+    }
+  }
+
+  /* Interaction: Hover */
+  &:hover {
+    .category-description {
+      color: var(--accent-color);
+    }
+
+    /* Title remains static color as requested */
   }
 }

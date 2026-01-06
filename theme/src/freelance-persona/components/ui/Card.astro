@@ -6,6 +6,7 @@ interface Props {
   delay?: number;
   "data-reveal"?: string;
   "data-reveal-delay"?: number;
+  [key: string]: any;
 }
 
 const {
@@ -14,13 +15,14 @@ const {
   delay,
   "data-reveal": dataReveal,
   "data-reveal-delay": dataRevealDelay,
+  ...rest
 } = Astro.props;
 
 // Helper to determine component type
 const Component = href ? "a" : "div";
 const props = href
-  ? { href, class: `card-base ${className || ""}` }
-  : { class: `card-base ${className || ""}` };
+  ? { href, class: `card-base ${className || ""}`, ...rest }
+  : { class: `card-base ${className || ""}`, ...rest };
 ---
 
 <div

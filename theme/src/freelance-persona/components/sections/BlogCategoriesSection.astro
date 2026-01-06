@@ -23,6 +23,13 @@ interface Props {
     title_style?: "dark" | "light" | "custom";
     custom_title_color?: string;
   }[];
+  mini_categories?: {
+    title: string;
+    description?: string;
+    tags: string[];
+    background_color?: string;
+    color?: string;
+  }[];
   nudge_x?: string;
   nudge_y?: string;
   content_scale?: number;
@@ -34,6 +41,7 @@ const {
   title,
   subtitle,
   categories,
+  mini_categories,
   nudge_x,
   nudge_y,
   content_scale,
@@ -212,7 +220,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                       class="no-posts-message"
                       style="font-size: 0.8rem; opacity: 0.6; font-style: italic;"
                     >
-                      No recent posts
+                      No posts yet
                     </p>
                   )}
                 </div>
@@ -222,5 +230,83 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
         })
       }
     </div>
+
+    {/* Mini Categories Grid - Separate container for layout control */}
+    {
+      mini_categories && mini_categories.length > 0 && (
+        <div
+          class="blog-categories-grid mini-categories-grid"
+          style="margin-top: var(--mini-group-gap, 2rem);"
+        >
+          {mini_categories?.map((category, index) => {
+            const miniCardStyle = category.background_color
+              ? `background-color: ${category.background_color};`
+              : "";
+            const textColorStyle = category.color
+              ? `color: ${category.color};`
+              : "";
+            const combinedStyle = [miniCardStyle, textColorStyle]
+              .filter(Boolean)
+              .join(" ");
+
+            return (
+              <div
+                class="mini-category-card-wrapper"
+                data-reveal="fade-up"
+                data-reveal-delay={
+                  delay ||
+                  defaultContentDelay +
+                    (categories.length + index) * staggerDelay
+                }
+              >
+                <Card class="mini-category-card h-100" style={combinedStyle}>
+                  <a
+                    href={`/blog?tag=${category.tags[0]}`}
+                    class="card-link-overlay"
+                    aria-label={category.title}
+                  />
+                  <h3
+                    class="category-title"
+                    style={
+                      category.color
+                        ? `color: ${category.color} !important; margin-top: 0;`
+                        : "margin-top: 0;"
+                    }
+                  >
+                    {category.title}
+                  </h3>
+                  {category.description && (
+                    <p
+                      class="category-description"
+                      style={
+                        category.color
+                          ? `color: ${category.color}; opacity: 0.9;`
+                          : ""
+                      }
+                    >
+                      {category.description}
+                    </p>
+                  )}
+                  <div class="category-tags">
+                    {category.tags.map((tag) => (
+                      <span
+                        class="badge"
+                        style={
+                          category.color
+                            ? `background: rgba(0,0,0,0.1); color: ${category.color};`
+                            : ""
+                        }
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </Card>
+              </div>
+            );
+          })}
+        </div>
+      )
+    }
   </div>
 </section>

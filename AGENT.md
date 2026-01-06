@@ -14,6 +14,10 @@
 - **Isolate your environment:** Run `bun run dev` (or `setup` then `preview`) yourself.
 - **Parse output for ports:** Do not assume `localhost:4321`. There might be multiple instances (ghost processes). unexpected "Page Not Found" errors are often due to connecting to the wrong (stale) instance.
 - **Kill Responsibly:** when killing processes to free up ports, **ONLY kill processes you know are yours** or clearly zombies. Other agents or humans may be working on the server. Always cleanup/kill your *own* processes when finishing a task.
+- **Stopping Servers Correctly:**
+  - 🛑 **DO NOT** try to run `pkill` or input commands into the *same* terminal where the server is running. It will just be treated as text input (stdin) and will do nothing.
+  - ✅ **Method 1:** Use `send_command_input` with `Terminate: true`.
+  - ✅ **Method 2:** Open a **NEW** terminal instance to run shell commands like `pkill -f "astro"`.
 
 ### 2. 🎡 The Playground & Gitignore "Gotcha"
 

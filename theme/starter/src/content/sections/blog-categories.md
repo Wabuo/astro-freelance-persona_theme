@@ -1,7 +1,7 @@
 ---
 type: "blog_categories"
-title: "Blog"
-subtitle: "Dive into my specific areas of interest"
+title: "Blogs"
+#subtitle: "Dive into my specific areas of interest"
 order: 25
 icon_class: "bi bi-grid"
 categories:

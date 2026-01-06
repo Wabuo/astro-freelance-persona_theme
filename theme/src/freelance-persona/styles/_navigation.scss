@@ -17,9 +17,9 @@
     flex-direction: row;
     backdrop-filter: blur(12px);
     /* Glass effect */
-    -webkit-backdrop-filter: blur(12px);
+    //-webkit-backdrop-filter: blur(12px);
     /* Safari support */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent-color), transparent 85%);
     /* Subtle separation */
   }
 
@@ -104,9 +104,9 @@
   .navmenu a,
   .navmenu a:focus {
     color: var(--nav-color);
-    padding: 1.125rem 0.9375rem;
+    padding: 1rem 0.9375rem;
     /* 18px 15px */
-    font-size: 1rem;
+    font-size: 1.15rem;
     /* 16px */
     font-family: var(--nav-font);
     font-weight: 400;

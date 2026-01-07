@@ -83,6 +83,11 @@ rm -rf playground/node_modules/.vite playground/.astro
     3. User Config (Theme-wide)
     4. **Code Fallback** (Your defaults go here)
 4. **Privacy First:** No external CDNs. Minimal JS.
+5. **User-Centric Routing & Naming:**
+    - Hyperlinks and slugs must reflect the *User's Content* (titles/frontmatter), not internal filenames/IDs.
+    - **Bad:** Link text "Blog" pointing to `/blog-categories` (internal ID).
+    - **Good:** Link text "Blog" pointing to `/blog` (or whatever the User defined as the slug/title).
+    - **Rule:** If the theme generates a link, the URL should match the expectation set by the label.
 
 ---
 

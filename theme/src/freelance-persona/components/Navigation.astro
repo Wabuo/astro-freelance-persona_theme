@@ -40,14 +40,41 @@ const getLink = (id: string) => {
       </li>
 
       {
-        sortedSections.map(
-          (section) =>
+        sortedSections.map((section) => {
+          // Determine if this section is "active" based on current URL
+          // 1. Exact match for single-page sections (e.g. #hero on home) - handled by scrollspy script mostly
+          // 2. Path prefix match for inner pages (e.g. /blogs/xyz -> highlights blog-categories)
+
+          let isActive = false;
+          const currentPath = Astro.url.pathname;
+          // Use custom_id if available (e.g. "blogs" instead of "blog-categories")
+          const sectionId = (section.data as any).custom_id || section.id;
+
+          // Special mapping for known sections with different URL structures
+          // If the section ID is "blogs" (custom or default) and we are on a /blogs/ path
+          if (
+            (sectionId === "blog-categories" || sectionId === "blogs") &&
+            (currentPath.startsWith("/blogs") ||
+              currentPath.startsWith("/blog/"))
+          ) {
+            isActive = true;
+          }
+          // Generic fallback: if path matches section id (e.g. /projects/...)
+          else if (currentPath.startsWith(`/${sectionId}`)) {
+            isActive = true;
+          }
+
+          return (
             // Only show sections that have an icon (avoids listing non-menu items)
             // Fix: Hide 'lance-icon' (Hero/Brand) on inner pages where top-nav is used
             section.data.icon_class &&
             (isHome || section.data.icon_class !== "lance-icon") && (
               <li>
-                <a href={getLink(section.id)} aria-label={section.data.title}>
+                <a
+                  href={getLink(sectionId)}
+                  aria-label={section.data.title}
+                  class={!isHome && isActive ? "active" : ""}
+                >
                   {section.data.icon_class === "lance-icon" ? (
                     <LanceIcon class="navicon" />
                   ) : (
@@ -56,8 +83,9 @@ const getLink = (id: string) => {
                   <span>{section.data.title}</span>
                 </a>
               </li>
-            ),
-        )
+            )
+          );
+        })
       }
 
       {

@@ -97,6 +97,7 @@ const sections = defineCollection({
       type: z.literal('blog_categories'),
       title: z.string(),
       subtitle: z.string().optional(),
+      custom_id: z.string().optional(),
       order: z.number().default(100),
       icon_class: z.string(),
       categories: z.array(z.object({

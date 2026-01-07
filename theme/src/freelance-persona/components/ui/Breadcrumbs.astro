@@ -1,25 +1,28 @@
 ---
 interface Props {
   crumbs: { label: string; href?: string }[];
+  showTitle?: boolean;
 }
-const { crumbs } = Astro.props;
+const { crumbs, showTitle = true } = Astro.props;
 ---
 
 <section id="breadcrumbs" class="page-title">
   <div class="container d-flex flex-column justify-content-center">
     <div class="breadcrumbs">
       <ol>
-        {crumbs.map((crumb, index) => (
-          <li>
-            {index === crumbs.length - 1 || !crumb.href ? (
-              <span>{crumb.label}</span>
-            ) : (
-              <a href={crumb.href}>{crumb.label}</a>
-            )}
-          </li>
-        ))}
+        {
+          crumbs.map((crumb, index) => (
+            <li>
+              {index === crumbs.length - 1 || !crumb.href ? (
+                <span>{crumb.label}</span>
+              ) : (
+                <a href={crumb.href}>{crumb.label}</a>
+              )}
+            </li>
+          ))
+        }
       </ol>
     </div>
-    <h1>{crumbs[crumbs.length - 1].label}</h1>
+    {showTitle && <h1>{crumbs[crumbs.length - 1].label}</h1>}
   </div>
 </section>

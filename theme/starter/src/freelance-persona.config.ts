@@ -76,7 +76,7 @@ export const themeConfig: PersonaConfig = {
     // Make sure to import them in src/fonts.ts if using custom ones.
     headings: "Adwaita Sans",
     body: "Adwaita Sans",
-    navigation: "Raleway",
+    navigation: '"sans-serif", "Raleway"',
     monospace: '"Adwaita Mono", Courier, monospace'
   },
 

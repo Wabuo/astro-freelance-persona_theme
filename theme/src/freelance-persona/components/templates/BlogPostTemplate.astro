@@ -1,27 +1,75 @@
 ---
 // src/freelance-persona/components/templates/BlogPostTemplate.astro
+import { getCollection } from "astro:content";
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
 import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
 import BlogSidebar from "@freelance-persona/components/blog/BlogSidebar.astro";
 
 const { post } = Astro.props;
 
-// FIX: Removed 'render(post)' to avoid double-rendering and the crash.
-// The content is now received via <slot />
+// Helper to slugify category names
+const slugify = (text: string) =>
+  text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/--+/g, "-");
+
+// Fetch sections to find the "blogs" section or "recent posts" fallback
+const sections = await getCollection("sections");
+const blogsSection = sections.find(
+  (s: any) => s.data.type === "blog_categories",
+);
+const recentPostsSection = sections.find((s: any) => s.id === "recent_posts");
+
+// Determine the primary parent section for breadcrumbs
+// Priority: Blog Categories > Recent Posts
+const parentSection = blogsSection || recentPostsSection;
+
+let categoryCrumb = null;
+
+if (blogsSection && blogsSection.data.categories && post.data.tags) {
+  // Find which category this post belongs to based on shared tags
+  const matchedCategory = blogsSection.data.categories.find((cat: any) =>
+    cat.tags.some((tag: string) => post.data.tags.includes(tag)),
+  );
+
+  if (matchedCategory) {
+    categoryCrumb = {
+      label: matchedCategory.title,
+      href: `/blogs/${slugify(matchedCategory.title)}`,
+    };
+  }
+}
 
 // Helper for approximate reading time
 const wordCount = post.body ? post.body.split(/\s+/g).length : 0;
 const readingTime = Math.ceil(wordCount / 200);
+
+const crumbs: { label: string; href?: string }[] = [
+  { label: "Home", href: "/" },
+];
+
+if (parentSection) {
+  // Use custom_id if available, otherwise default to section id
+  const sectionId = (parentSection.data as any).custom_id || parentSection.id;
+  crumbs.push({
+    label: parentSection.data.title,
+    href: `/#${sectionId}`,
+  });
+}
+
+if (categoryCrumb) {
+  crumbs.push(categoryCrumb);
+}
+
+crumbs.push({ label: post.data.title });
 ---
 
 <BaseLayout title={post.data.title} navType="page" tex={true}>
-  <Breadcrumbs
-    crumbs={[
-      { label: "Home", href: "/" },
-      { label: "Blog", href: "/#blogs" },
-      { label: post.data.title },
-    ]}
-  />
+  <Breadcrumbs crumbs={crumbs} />
 
   <div class="container">
     <div class="row">

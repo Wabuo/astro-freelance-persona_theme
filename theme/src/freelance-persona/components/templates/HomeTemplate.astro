@@ -99,7 +99,7 @@ const contentSections = allSections
       if (section.data.type === "blog_categories") {
         return (
           <BlogCategoriesSection
-            id={section.id}
+            id={section.data.custom_id || section.id}
             title={section.data.title}
             subtitle={section.data.subtitle}
             categories={section.data.categories}

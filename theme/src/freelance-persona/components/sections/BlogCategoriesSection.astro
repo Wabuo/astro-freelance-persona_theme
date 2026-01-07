@@ -256,6 +256,17 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
               .filter(Boolean)
               .join(" ");
 
+            const slugify = (text: string) =>
+              text
+                .toString()
+                .toLowerCase()
+                .trim()
+                .replace(/\s+/g, "-")
+                .replace(/[^\w-]+/g, "")
+                .replace(/--+/g, "-");
+
+            const linkUrl = `/blogs/${slugify(category.title)}`;
+
             return (
               <div
                 class="mini-category-card-wrapper"
@@ -268,7 +279,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
               >
                 <Card class="mini-category-card h-100" style={combinedStyle}>
                   <a
-                    href={`/blog?tag=${category.tags[0]}`}
+                    href={linkUrl}
                     class="card-link-overlay"
                     aria-label={category.title}
                   />

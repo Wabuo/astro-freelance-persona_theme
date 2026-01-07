@@ -1,6 +1,7 @@
 ---
 type: "blog_categories"
 title: "Blogs"
+custom_id: "blogs"
 #subtitle: "Dive into my specific areas of interest"
 order: 25
 icon_class: "bi bi-grid"

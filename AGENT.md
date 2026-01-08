@@ -60,6 +60,16 @@
 rm -rf playground/node_modules/.vite playground/.astro
 ```
 
+### 🧩 Content Collections in Monorepos
+
+**Symptom:** Theme schema updates (e.g., adding `unavailable: true`) are ignored by the playground.
+**Cause:** The playground (and starter) MUST have its own `src/content.config.ts` that imports the theme's schema. If missing, Astro falls back to a default/inferred schema and ignores your theme's definitions.
+**Fix:** Ensure `starter/src/content.config.ts` exists and re-exports `collections` from the theme.
+
+```typescript
+export { collections } from 'astro-freelance-persona_theme/content.config';
+```
+
 > **CRITICAL:** You **MUST** restart your dev server after running this command. If you don't, you will see a cascade of confusing errors.
 
 ### 👻 Ghost Servers

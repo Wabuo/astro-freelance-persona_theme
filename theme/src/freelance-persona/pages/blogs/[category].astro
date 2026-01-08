@@ -110,20 +110,15 @@ const formatDate = (date: Date) => {
       filteredPosts.length > 0 ? (
         <div class="posts-list">
           {filteredPosts.map((post: any) => (
-            <article class="post-entry border-bottom">
-              <div class="post-meta d-flex justify-content-between align-items-center">
-                <h4 class="post-title">
-                  <a href={`/blog/${post.id}`} class="post-link">
-                    {post.data.title}
-                  </a>
-                </h4>
-                <div class="post-date">{formatDate(post.data.date)}</div>
-              </div>
-              <p class="post-description">{post.data.description}</p>
-              <a href={`/blog/${post.id}`} class="read-more-link">
-                Read more &rarr;
-              </a>
-            </article>
+            <a href={`/blog/${post.id}`} class="post-entry-link">
+              <article class="post-entry border-bottom">
+                <div class="post-meta d-flex justify-content-between align-items-center">
+                  <h4 class="post-title">{post.data.title}</h4>
+                  <div class="post-date">{formatDate(post.data.date)}</div>
+                </div>
+                <p class="post-description">{post.data.description}</p>
+              </article>
+            </a>
           ))}
         </div>
       ) : (
@@ -151,10 +146,25 @@ const formatDate = (date: Date) => {
     margin: 0 auto;
   }
 
+  .post-entry-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-hover-time, 0.2s);
+  }
+
   .post-entry {
     padding-bottom: var(--spacing-lg); /* 30px -> 32px */
     margin-bottom: var(--spacing-lg);
     border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    transition:
+      border-color var(--transition-hover-time, 0.2s),
+      transform 0.3s ease-out;
+  }
+
+  .post-entry-link:hover .post-entry {
+    border-color: var(--accent-color);
+    /* transform: translateX(5px); // Optional: slide effect */
   }
 
   /* Flexbox Layout for Title + Date */
@@ -168,17 +178,11 @@ const formatDate = (date: Date) => {
     font-size: var(--subtitle-font-size); /* 24px */
     font-family: var(--heading-font);
     font-weight: 500;
-  }
-
-  .post-link {
-    text-decoration: none;
-    color: var(
-      --accent-color
-    ); /* Zola reference shows titles in accent color */
+    color: var(--accent-color);
     transition: color var(--transition-hover-time, 0.2s);
   }
 
-  .post-link:hover {
+  .post-entry-link:hover .post-title {
     color: color-mix(
       in srgb,
       var(--accent-color),
@@ -186,13 +190,19 @@ const formatDate = (date: Date) => {
     );
   }
 
-  .post-date {
-    font-size: var(--normal-font-size);
-    /* Use color-mix for muted text if variable doesn't exist */
-    color: color-mix(in srgb, var(--default-color), transparent 40%);
+  /* Increase specificity to override global .post-entry .post-meta .post-date */
+  .post-entry .post-meta .post-date {
+    font-size: var(--default-font-size);
+    color: color-mix(in srgb, var(--default-color), transparent 50%);
     white-space: nowrap;
     margin-left: var(--spacing-sm);
     font-family: var(--default-font);
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .post-entry-link:hover .post-entry .post-meta .post-date {
+    color: color-mix(in srgb, var(--accent-color), transparent 25%);
   }
 
   .post-description {
@@ -200,18 +210,11 @@ const formatDate = (date: Date) => {
     margin-bottom: var(--spacing-md);
     line-height: 1.6;
     color: var(--default-color);
+    transition: color var(--transition-hover-time, 0.2s);
   }
 
-  .read-more-link {
+  .post-entry-link:hover .post-description {
     color: var(--accent-color);
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-block;
-    transition: transform var(--transition-hover-time, 0.2s);
-  }
-
-  .read-more-link:hover {
-    transform: translateX(5px);
   }
 
   .empty-state {

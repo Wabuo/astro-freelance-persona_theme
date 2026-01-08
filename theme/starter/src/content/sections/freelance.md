@@ -28,7 +28,7 @@ features:
 
   - title: "Digital Maps"
     desc: "Geospatial maps needed for good permaculture designs and many other decisions about Land."
-    icon: "bi bi-geo-alt-fill" # Inferred for Maps
+    icon: "bi bi-globe-americas" # Inferred for Maps
     link: "/services/webdev-details"
 
   - title: "Web Devolopmen"

@@ -118,6 +118,11 @@ bun run --filter playground preview
 - **`playground/package.json`**: During local development, this uses the local version of the theme. When published as a template, it uses the version from the npm registry.
 - **Imports**: The starter imports components from the theme package (e.g., `astro-freelance-persona/components/...`) just like a real user would.
 
+### Custom services/products pages
+
+Linked to by freelance features should follow the following setup:
+"Create a new file at `src/pages/services/your-service-name.astro` and then link to it in your `freelance.md` config."
+
 <br>
 <br>
 <br>

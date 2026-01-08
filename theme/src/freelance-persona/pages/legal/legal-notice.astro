@@ -1,0 +1,203 @@
+---
+import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
+import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+import { themeConfig } from "@freelance-persona/config";
+import { parse } from "marked";
+
+const { legal, email, phone, address, author } = themeConfig;
+
+if (!legal?.enabled) {
+  return Astro.redirect("/");
+}
+
+// Token Resolution Logic
+const resolve = (
+  val: string | undefined,
+  token: string,
+  fallback: string | undefined,
+) => {
+  if (!val) return fallback;
+  if (val === token) return fallback;
+  return val;
+};
+
+const legalName = resolve(legal.legal_name, "theme_name", author);
+const legalEmail = resolve(legal.legal_email, "theme_email", email);
+const legalPhone = resolve(legal.legal_phone, "theme_phone", phone);
+const legalAddress = resolve(legal.legal_address, "theme_address", address);
+
+const pageTitle = legal.link_text || "Legal Notice / Impressum";
+
+// Parse optional markdown content
+let disclaimerContent = "";
+const rawDisclaimer = legal.disclaimer;
+
+// Use Vite's import.meta.glob to load raw markdown content at build time
+// eager: true since we want the content immediately for SSG
+const disclaimerFiles = import.meta.glob("/src/**/*.{md,mdx}", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
+const getFileContent = (pathStrOrKey: string) => {
+  if (!pathStrOrKey) return undefined;
+  // Vite glob keys are relative to root, starting with /
+  // e.g., "/src/content/legal.md"
+  // User config might be "src/content/legal.md"
+  const key = pathStrOrKey.startsWith("/") ? pathStrOrKey : "/" + pathStrOrKey;
+  return disclaimerFiles[key] as string | undefined;
+};
+
+if (rawDisclaimer) {
+  // Check if it looks like a path
+  if (rawDisclaimer.endsWith(".md") || rawDisclaimer.endsWith(".mdx")) {
+    const foundContent = getFileContent(rawDisclaimer);
+
+    if (foundContent) {
+      disclaimerContent = foundContent;
+    } else {
+      // Fallback: Try to read LEGAL_RESOURCES.md
+      const resourcesContent = getFileContent("src/LEGAL_RESOURCES.md");
+
+      if (resourcesContent) {
+        disclaimerContent = `> **⚠️ Configuration Warning**\n> \n> The disclaimer file configured at \`${rawDisclaimer}\` was not found in the build.\n> Ensure the file exists and restart the dev server/rebuild.\n> \n> Displaying \`src/LEGAL_RESOURCES.md\` help guide:\n\n---\n\n${resourcesContent}`;
+      } else {
+        disclaimerContent = `*Error: Disclaimer file not found at \`${rawDisclaimer}\`, and no fallback resources found.*`;
+      }
+    }
+  } else {
+    // Treat as literal string content
+    disclaimerContent = rawDisclaimer;
+  }
+}
+
+const disclaimerHtml = disclaimerContent ? await parse(disclaimerContent) : "";
+---
+
+<BaseLayout title={pageTitle}>
+  <section class="section">
+    <div class="container" style="max-width: 800px;">
+      <SectionTitle title={pageTitle} />
+
+      <div class="legal-content animate-in">
+        <div class="legal-block">
+          <h4>Responsible for Content</h4>
+          <p>
+            <strong>{legalName}</strong><br />
+            {
+              legalAddress && (
+                <span>
+                  {legalAddress}
+                  <br />
+                </span>
+              )
+            }
+          </p>
+        </div>
+
+        <div class="legal-block">
+          <h4>Contact</h4>
+          <p>
+            {
+              email && (
+                <span>
+                  <strong>Email:</strong> {email}
+                  <br />
+                </span>
+              )
+            }
+            {
+              phone && (
+                <span>
+                  <strong>Phone:</strong> {phone}
+                  <br />
+                </span>
+              )
+            }
+            {
+              legal.legal_note && (
+                <span
+                  class="legal-note d-block mt-3"
+                  set:html={legal.legal_note}
+                />
+              )
+            }
+          </p>
+        </div>
+
+        {
+          legal.vat_id && (
+            <div class="legal-block">
+              <h4>VAT ID</h4>
+              <p>{legal.vat_id}</p>
+            </div>
+          )
+        }
+
+        {
+          legal.business_license && (
+            <div class="legal-block">
+              <h4>Business License / Registry</h4>
+              <p>{legal.business_license}</p>
+            </div>
+          )
+        }
+
+        {
+          legal.jurisdiction && (
+            <div class="legal-block">
+              <h4>Jurisdiction</h4>
+              <p>{legal.jurisdiction}</p>
+            </div>
+          )
+        }
+
+        {/* Disclaimer / Additional Legal Text */}
+        {
+          disclaimerHtml && (
+            <div class="legal-text mt-5" set:html={disclaimerHtml} />
+          )
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-content {
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    padding: var(--spacing-lg) 0;
+    font-family: var(--font-body);
+  }
+
+  .legal-block {
+    margin-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--bs-border-color);
+    padding-bottom: var(--spacing-md);
+  }
+
+  .legal-block:last-child {
+    border-bottom: none;
+  }
+
+  h4 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--bs-heading-color);
+    opacity: 0.8;
+  }
+
+  .legal-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  .legal-note {
+    opacity: 0.6;
+    font-size: 0.9em;
+  }
+</style>

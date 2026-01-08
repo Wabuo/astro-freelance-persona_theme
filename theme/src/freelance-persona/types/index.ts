@@ -60,4 +60,19 @@ export interface PersonaConfig {
     navigation?: string;
     monospace?: string;
   };
+
+  // Legal / Impressum Configuration
+  legal?: {
+    enabled?: boolean;
+    link_text?: string; // e.g., "Legal Notice" or "Impressum"
+    legal_name?: string; // Full legal name if different from author
+    legal_address?: string; // Specific legal address or "theme_address"
+    legal_email?: string; // Specific legal email or "theme_email"
+    legal_phone?: string; // Specific legal phone or "theme_phone"
+    business_license?: string;
+    vat_id?: string;
+    jurisdiction?: string;
+    disclaimer?: string; // Optional markdown for legal disclaimer
+    legal_note?: string; // Optional unintrusive note
+  };
 }

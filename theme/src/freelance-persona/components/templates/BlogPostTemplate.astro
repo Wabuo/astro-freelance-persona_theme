@@ -105,9 +105,9 @@ crumbs.push({ label: post.data.title });
                       <i class="bi bi-calendar-event me-2"></i>
                       <time
                         >{
-                          post.data.date.toLocaleDateString("en-US", {
-                            month: "long",
-                            day: "numeric",
+                          post.data.date.toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
                             year: "numeric",
                           })
                         }</time

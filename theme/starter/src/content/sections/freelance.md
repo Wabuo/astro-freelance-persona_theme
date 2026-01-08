@@ -7,7 +7,7 @@ icon_class: "lance-icon"
 
 features:
   - title: "SysAdmin"
-    desc: "Building fast, secure, and modern websites."
+    desc: "Linux server administration, automation, and security\n — focused on reliability and performance."
     icon: "bi bi-code-slash" # Was fa-code
     link: "/services/sys_admin"
     
@@ -32,7 +32,8 @@ features:
     link: "/services/digital_maps"
 
   - title: "Web Devolopmen"
-    desc: "Simple static websits\n — focused on Soletraders."
+    desc: "Building simple, fast, secure, and modern static websites.\n — focused on Soletraders."
     icon: "bi bi-window-sidebar" # Inferred for Web Dev
     link: "#contact"
+    unavailable: true
 ---

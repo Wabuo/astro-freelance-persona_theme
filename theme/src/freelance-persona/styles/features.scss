@@ -146,6 +146,26 @@
     will-change: transform;
 }
 
+/* Unavailable State */
+.feature-card.unavailable {
+    opacity: 0.7;
+    filter: grayscale(100%);
+    cursor: not-allowed !important;
+}
+
+/* Custom style for the unavailable badge */
+.feature-card.unavailable .feature-hover-action {
+    background-color: var(--bs-gray-600, #6c757d);
+    color: white;
+    cursor: not-allowed;
+}
+
+/* Optional: reduce hover lift for unavailable cards to feel 'heavier' */
+.card-wrapper:hover .feature-card.unavailable {
+    transform: translateY(-2px);
+    /* Reduced lift */
+}
+
 /* Slides the element up when the user hovers over the card group */
 .feature-group-wrapper:hover .feature-hover-action {
     transform: translateY(0);

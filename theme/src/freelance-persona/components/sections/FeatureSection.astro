@@ -13,6 +13,7 @@ interface Props {
     desc: string;
     icon?: string;
     link?: string;
+    unavailable?: boolean;
   }[];
   nudge_x?: string;
   nudge_y?: string;
@@ -49,40 +50,66 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
 
     <div class="features-grid">
       {
-        features.map((feature, index) => (
-          <div
-            class="feature-group-wrapper"
-            data-reveal="fade-up"
-            data-reveal-delay={
-              delay || defaultContentDelay + index * staggerDelay
-            }
-          >
-            <Card href={feature.link} class="feature-card h-100">
-              {/* Card Content - Icon Logic */}
-              {feature.icon && (
-                <div class="feature-icon-wrapper-outer">
-                  <div class="feature-icon-bg">
-                    {feature.icon === "lance-icon" ? (
-                      <LanceIcon class="feature-icon lance-icon-svg" />
-                    ) : (
-                      <i class={`${feature.icon} feature-icon`} />
-                    )}
+        features.map((feature, index) => {
+          const slugify = (text: string) =>
+            text
+              .toString()
+              .toLowerCase()
+              .trim()
+              .replace(/\s+/g, "-")
+              .replace(/[^\w-]+/g, "")
+              .replace(/--+/g, "-");
+
+          const isUnavailable = feature.unavailable === true;
+
+          const finalLink = isUnavailable
+            ? undefined
+            : feature.link && !feature.link.startsWith("#")
+              ? `/services/${slugify(feature.title)}`
+              : feature.link;
+
+          return (
+            <div
+              class="feature-group-wrapper"
+              data-reveal="fade-up"
+              data-reveal-delay={
+                delay || defaultContentDelay + index * staggerDelay
+              }
+            >
+              <Card
+                href={finalLink}
+                class={`feature-card h-100 ${isUnavailable ? "unavailable" : ""}`}
+              >
+                {/* Card Content - Icon Logic */}
+                {feature.icon && (
+                  <div class="feature-icon-wrapper-outer">
+                    <div class="feature-icon-bg">
+                      {feature.icon === "lance-icon" ? (
+                        <LanceIcon class="feature-icon lance-icon-svg" />
+                      ) : (
+                        <i class={`${feature.icon} feature-icon`} />
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-              {feature.link && <div class="feature-card-shadow" />}
+                )}
+                {finalLink && <div class="feature-card-shadow" />}
 
-              <h3 class="feature-title-card">{feature.title}</h3>
-              <p class="feature-description-card">{feature.desc}</p>
+                <h3 class="feature-title-card">{feature.title}</h3>
+                <p class="feature-description-card">{feature.desc}</p>
 
-              {feature.link && (
-                <div class="feature-hover-action">
-                  {feature.link.startsWith("#") ? "Contact Me" : "Tell Me More"}
-                </div>
-              )}
-            </Card>
-          </div>
-        ))
+                {(finalLink || isUnavailable) && (
+                  <div class="feature-hover-action">
+                    {isUnavailable
+                      ? "currently unavailable"
+                      : finalLink && finalLink.startsWith("#")
+                        ? "Contact Me"
+                        : "Tell Me More"}
+                  </div>
+                )}
+              </Card>
+            </div>
+          );
+        })
       }
     </div>
   </div>

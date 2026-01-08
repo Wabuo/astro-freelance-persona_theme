@@ -163,6 +163,7 @@ const sections = defineCollection({
         desc: z.string(),
         icon: z.string().optional(),
         link: z.string().optional(),
+        unavailable: z.boolean().optional(),
       })).default([]),
 
       // Visual Overrides

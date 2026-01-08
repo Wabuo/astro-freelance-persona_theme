@@ -154,7 +154,7 @@ const formatDate = (date: Date) => {
   }
 
   .post-entry {
-    padding-bottom: var(--spacing-lg); /* 30px -> 32px */
+    padding-bottom: 1.5rem; /* Match reference gap (24px) */
     margin-bottom: var(--spacing-lg);
     border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
     transition:
@@ -207,7 +207,7 @@ const formatDate = (date: Date) => {
 
   .post-description {
     text-align: justify;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 0; /* Remove browser default margin */
     line-height: 1.6;
     color: var(--default-color);
     transition: color var(--transition-hover-time, 0.2s);

@@ -88,6 +88,9 @@ rm -rf playground/node_modules/.vite playground/.astro
     - **Bad:** Link text "Blog" pointing to `/blog-categories` (internal ID).
     - **Good:** Link text "Blog" pointing to `/blog` (or whatever the User defined as the slug/title).
     - **Rule:** If the theme generates a link, the URL should match the expectation set by the label.
+6. **Date Formatting:**
+    - **Strict Format:** `dd Mon yyyy` (e.g., `01 Jan 2026`).
+    - **Uniformity:** Use this format for all visible dates unless explicitly overridden by user config.
 
 ---
 

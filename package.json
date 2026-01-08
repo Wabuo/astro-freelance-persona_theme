@@ -7,7 +7,8 @@
   ],
   "scripts": {
     "dev": "bun --filter my-freelance-portfolio dev",
-    "build": "bun --filter theme build",
-    "test": "bun --filter theme test"
+    "build": "bun --filter my-freelance-portfolio build",
+    "preview": "bun --filter my-freelance-portfolio preview",
+    "check": "bun --filter my-freelance-portfolio check"
   }
 }

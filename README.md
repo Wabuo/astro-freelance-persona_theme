@@ -104,13 +104,13 @@ Before submitting changes, ensure the production build works:<br>
 
 ```fish
 # Runs astro check 
-# !FixMe! add astro check
+bun run check
 
 # Build the playground site using the local theme
-bun run --filter playground build
+bun run build
 
 # Preview the built site
-bun run --filter playground preview
+bun run preview
 ```
 
 ### Architecture Notes

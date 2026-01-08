@@ -2,7 +2,7 @@
 title: "Why Bun is the Future"
 date: 2024-03-25
 description: "Exploring the speed and developer experience of the Bun runtime."
-thumbnail: "/src/assets/img/background.jpg"
+thumbnail: "../../assets/img/background.jpg"
 tags: ["coding", "it"]
 ---
 

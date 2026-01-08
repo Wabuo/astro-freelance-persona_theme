@@ -5,13 +5,15 @@ import { themeConfig } from "@freelance-persona/config";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 
+import type { ImageMetadata } from "astro";
+
 interface Props {
   id: string;
   title: string;
   subtitle?: string;
   categories: {
     title: string;
-    image?: string;
+    image?: ImageMetadata;
     background_color?: string;
     tags: string[];
     description?: string;
@@ -167,10 +169,11 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                 />
                 <div slot="image" class="category-image-container">
                   {category.image ? (
-                    <img
+                    <Image
                       src={category.image}
                       alt={category.title}
                       class="category-image"
+                      width={600}
                     />
                   ) : (
                     <div

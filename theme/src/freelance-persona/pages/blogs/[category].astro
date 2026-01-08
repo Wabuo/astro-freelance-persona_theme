@@ -128,6 +128,17 @@ const formatDate = (date: Date) => {
     padding-bottom: var(--spacing-xxl);
   }
 
+  .breadcrumbs-wrapper {
+    position: relative;
+    z-index: 20;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  /* Override internal Breadcrumbs component style to prevent hiding the title */
+  .breadcrumbs-wrapper :global(.page-title) {
+    background-color: transparent;
+  }
+
   /* Mimic Zola's airy layout */
   .posts-list {
     max-width: 80rem; /* 960px -> 60rem assuming 16px base */

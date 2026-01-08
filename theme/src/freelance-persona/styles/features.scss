@@ -140,6 +140,10 @@
     transform: translateY(100%);
     transition: transform 0.3s ease-in-out;
     font-family: var(--theme-font-family-navigation, sans-serif);
+
+    /* Fix Chrome rendering artifact */
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
 /* Slides the element up when the user hovers over the card group */

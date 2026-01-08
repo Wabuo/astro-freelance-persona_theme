@@ -18,7 +18,7 @@ export const themeConfig: PersonaConfig = {
     legal_address: "theme_address",
     legal_email: "theme_email",
     legal_phone: "theme_phone", //can be empty if unaplicable
-    legal_note: "I love remote places. If I'm unavailable, I'm likely off-grid: flying, spelunking, or exploring. <br> Please email or SMS, and I'll reply upon my return to civilization.",
+    legal_note: "I love remote places. If I'm unavailable, I'm likely off-grid: flying, spelunking, or exploring. <br> Please email or SMS, and I'll reply upon my return to civilization.", // optional
     business_license: "Sole Proprietor / Put your business license here", //can be empty if unaplicable
     vat_id: "PUT YOUR VAT ID HERE", //can be empty if unaplicable
     jurisdiction: "PersonaCity, Country", // can be empty if unaplicable

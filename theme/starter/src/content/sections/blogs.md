@@ -13,6 +13,8 @@ categories:
     background_color: "#333"
     tags: ["it", "maker", "coding"]
     description: "Coding, hardware hacking, and all things tech."
+    show_subtitle: false
+    style: "cards"
   - title: "Permaculture"
     image: "../../assets/img/test_blog.jpg"
     overlay_title: true

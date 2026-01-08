@@ -42,9 +42,9 @@ const sections = defineCollection({
       gap_typing_to_socials: z.string().optional(),
     }),
 
-    // B. RECENT POSTS
+    // B. FILTERED POSTS (Formerly Recent Posts)
     z.object({
-      type: z.literal('recent_posts'),
+      type: z.literal('filtered_posts'),
       title: z.string(),
       subtitle: z.string().optional(),
       tags_to_filter_posts_by: z.array(z.string()).optional(),
@@ -106,6 +106,8 @@ const sections = defineCollection({
         background_color: z.string().optional(), // Solid color fallback
         tags: z.array(z.string()), // Array of tags to filter by
         description: z.string().optional(),
+        show_subtitle: z.boolean().default(false),
+        style: z.enum(['simple', 'cards']).default('simple'),
 
         // Overlay Configuration
         overlay_title: z.boolean().default(false),

@@ -1,10 +1,10 @@
 ---
 // src/components/blog/BlogSidebar.astro
-import { themeConfig } from '@freelance-persona/config';
-import { getCollection } from 'astro:content';
+import { themeConfig } from "@freelance-persona/config";
+import { getCollection } from "astro:content";
 
 // Fetch recent posts (limit 5)
-const allPosts = await getCollection('blog');
+const allPosts = await getCollection("blog");
 const recentPosts = allPosts
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 5);
@@ -12,24 +12,26 @@ const recentPosts = allPosts
 
 <aside id="sidebar" class="sidebar col-lg-4">
   <div class="widgets-container">
-    
     <div class="recent-posts-widget widget-item">
       <h3 class="widget-title">Recent Posts</h3>
       <ul id="post-entries">
-        {recentPosts.map((post) => (
-          <li class="post-item">
-            <h4><a href={`/blog/${post.id}`}>{post.data.title}</a></h4>
-            <time datetime={post.data.date.toISOString()}>
-              {post.data.date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-              })}
-            </time>
-          </li>
-        ))}
+        {
+          recentPosts.map((post) => (
+            <li class="post-item">
+              <h4>
+                <a href={`/blog/${post.id}`}>{post.data.title}</a>
+              </h4>
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </time>
+            </li>
+          ))
+        }
       </ul>
     </div>
-    
-    </div>
+  </div>
 </aside>

@@ -70,21 +70,19 @@ const formatDate = (date: Date) => {
 ---
 
 <BaseLayout title={`${title} - Blog`}>
-  <div class="category-page-container section">
-    <div class="breadcrumbs-wrapper">
-      <Breadcrumbs
-        crumbs={[
-          { label: "Home", href: "/" },
-          {
-            label: parentTitle || "Blogs",
-            href: `/#${parentId || "blog-categories"}`,
-          },
-          { label: title },
-        ]}
-        showTitle={false}
-      />
-    </div>
+  <Breadcrumbs
+    crumbs={[
+      { label: "Home", href: "/" },
+      {
+        label: parentTitle || "Blogs",
+        href: `/#${parentId || "blog-categories"}`,
+      },
+      { label: title },
+    ]}
+    showTitle={false}
+  />
 
+  <div class="category-page-container section">
     <div class="section-header">
       <SectionTitle title={title} subtitle={description} />
     </div>
@@ -126,17 +124,6 @@ const formatDate = (date: Date) => {
   .category-page-container {
     padding-top: var(--spacing-xxl);
     padding-bottom: var(--spacing-xxl);
-  }
-
-  .breadcrumbs-wrapper {
-    position: relative;
-    z-index: 20;
-    margin-bottom: var(--spacing-xl);
-  }
-
-  /* Override internal Breadcrumbs component style to prevent hiding the title */
-  .breadcrumbs-wrapper :global(.page-title) {
-    background-color: transparent;
   }
 
   /* Mimic Zola's airy layout */

@@ -11,7 +11,8 @@
 .card-base {
     background: var(--bs-body-bg, #ffffff);
     border-radius: 0.75rem;
-    border: 1px solid var(--bs-border-color, #f0f0f0);
+    /* Border moved to ::after for strict overlay */
+    border: none;
     position: relative;
     overflow: hidden;
     transition:
@@ -22,8 +23,21 @@
     height: 100%;
     text-decoration: none;
     color: inherit;
-    /* Optimize Performance */
+    /* Optimize Performance & Fix Chrome Sub-pixel Glitch */
     will-change: transform, box-shadow;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+/* Overlay Border to cover sub-pixel content bleed */
+.card-base::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid var(--bs-border-color, #f0f0f0);
+    pointer-events: none;
+    z-index: 10;
 }
 
 /* Hover Effect triggers on wrapper, affects card */

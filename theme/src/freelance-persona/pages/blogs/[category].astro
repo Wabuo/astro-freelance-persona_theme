@@ -218,23 +218,42 @@ const formatDate = (date: Date) => {
     text-align: center;
     padding: var(--spacing-xxl) 0;
     opacity: 0.6;
+    position: relative;
+    min-height: 30vh; /* Create a separate visual pane */
+    display: flex;
+    flex-direction: column; /* Ensure p is at top */
+    align-items: center;
   }
 
   .btn-return {
-    display: inline-block;
-    margin-top: var(--spacing-md);
+    position: absolute;
+    bottom: -3rem;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    width: fit-content;
     padding: 0.625rem 1.875rem;
-    border: 1px solid var(--accent-color);
+    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
     color: var(--accent-color);
     text-decoration: none;
+    border: none;
     border-radius: 3.125rem;
-    transition: all var(--transition-hover-time, 0.3s);
+    transition:
+      background-color var(--transition-hover-time, 0.3s),
+      color var(--transition-hover-time, 0.3s),
+      transform var(--transition-hover-time, 0.3s);
     font-weight: 600;
+    /* Fix for Firefox font jitter: Force steady state rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .btn-return:hover {
-    background: var(--accent-color);
+    background-color: var(--accent-color);
     color: var(--contrast-color, #fff);
+    transform: translateY(-2px) translateZ(0);
   }
 
   /* Responsive Adjustments */

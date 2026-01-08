@@ -32,6 +32,7 @@
 
   ```bash
   cp -r theme/starter/* playground/
+  bun install
   ```
 
 ### 3. 📦 Project Architecture (Monorepo)

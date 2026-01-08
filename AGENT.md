@@ -10,6 +10,9 @@
 
 ### 1. ⚡ Server Management & Process Control
 
+> [!IMPORTANT]
+> **ALWAYS check if the dev server is running** before attempting browser verification. If a page load fails (e.g. `chrome-error://chromewebdata/`), CHECK THE SERVER STATUS immediately. Restart it if necessary.
+
 - **ALWAYS start your own server:** Never assume a dev server or preview server is already running for you.
 - **Isolate your environment:** Run `bun run dev` (or `setup` then `preview`) yourself.
 - **Parse output for ports:** Do not assume `localhost:4321`. There might be multiple instances (ghost processes). unexpected "Page Not Found" errors are often due to connecting to the wrong (stale) instance.

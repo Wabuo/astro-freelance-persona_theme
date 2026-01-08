@@ -31,19 +31,38 @@ export async function getStaticPaths() {
   const paths: any[] = [];
 
   blogSections.forEach((section: any) => {
-    if (section.data.type === "blog_categories" && section.data.categories) {
-      section.data.categories.forEach((category: any) => {
-        paths.push({
-          params: { category: slugify(category.title) },
-          props: {
-            title: category.title,
-            description: category.description,
-            tags: category.tags,
-            parentId: section.data.custom_id || section.id,
-            parentTitle: section.data.title,
-          },
+    if (section.data.type === "blog_categories") {
+      // Process Main Categories
+      if (section.data.categories) {
+        section.data.categories.forEach((category: any) => {
+          paths.push({
+            params: { category: slugify(category.title) },
+            props: {
+              title: category.title,
+              description: category.description,
+              tags: category.tags,
+              parentId: section.data.custom_id || section.id,
+              parentTitle: section.data.title,
+            },
+          });
         });
-      });
+      }
+
+      // Process Mini Categories
+      if (section.data.mini_categories) {
+        section.data.mini_categories.forEach((category: any) => {
+          paths.push({
+            params: { category: slugify(category.title) },
+            props: {
+              title: category.title,
+              description: category.description,
+              tags: category.tags,
+              parentId: section.data.custom_id || section.id,
+              parentTitle: section.data.title,
+            },
+          });
+        });
+      }
     }
   });
 

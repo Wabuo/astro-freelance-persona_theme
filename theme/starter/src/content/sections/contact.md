@@ -3,7 +3,7 @@ type: contact
 title: Contact
 #subtitle: Get in Touch
 order: 1000
-icon_class: bi bi-envelope
+icon_class: bi bi-envelope-open
 
 contact_items:
   - label: Name

@@ -111,7 +111,8 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 7. **Modern CSS Standards:**
     - **Prefer Modern Syntax:** Use new standard features where sensible.
     - **Specific Rule:** Use `color-mix(in srgb, var(--color), transparent 50%)` instead of `opacity` or `rgba` hacks for transparency. This keeps custom properties (variables) intact and themeable.
-8. **Image Attribution & Licensing:**
+8. **Image Attribution & Licensing & Optimization:**
+    - **Optimization:** All images MUST have explicit sizing data (width/height) to allow Vite/Astro to optimize them. Eliminate CLS.
     - **Logic:** ALL visual media must have `img_credit` and `img_license` fields in Zod.
     - **Valid `img_credit`:** Social link (icon+name), URL, String (Name/Pseudonym), or "hidden". Cannot be empty/undefined.
     - **Valid `img_license`:** Well-known license (CC-BY, Unsplash, etc. - formatted as legal short form), Custom String, "All Rights Reserved", or "hidden". Cannot be empty/undefined.

@@ -3,6 +3,9 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
+import FilteredPostsSection from "@freelance-persona/components/sections/FilteredPostsSection.astro";
+import Card from "@freelance-persona/components/ui/Card.astro";
+import { Image } from "astro:assets";
 
 // Generate paths for all categories defined in the section config
 export async function getStaticPaths() {
@@ -36,13 +39,15 @@ export async function getStaticPaths() {
       if (section.data.categories) {
         section.data.categories.forEach((category: any) => {
           paths.push({
-            params: { category: slugify(category.title) },
+            params: { BlogCategory: slugify(category.title) },
             props: {
               title: category.title,
               description: category.description,
               tags: category.tags,
               parentId: section.data.custom_id || section.id,
               parentTitle: section.data.title,
+              show_subtitle: category.show_subtitle,
+              style: category.style,
             },
           });
         });
@@ -52,13 +57,15 @@ export async function getStaticPaths() {
       if (section.data.mini_categories) {
         section.data.mini_categories.forEach((category: any) => {
           paths.push({
-            params: { category: slugify(category.title) },
+            params: { BlogCategory: slugify(category.title) },
             props: {
               title: category.title,
               description: category.description,
               tags: category.tags,
               parentId: section.data.custom_id || section.id,
               parentTitle: section.data.title,
+              show_subtitle: category.show_subtitle,
+              style: category.style,
             },
           });
         });
@@ -69,7 +76,15 @@ export async function getStaticPaths() {
   return paths;
 }
 
-const { title, description, tags, parentId, parentTitle } = Astro.props;
+const {
+  title,
+  description,
+  tags,
+  parentId,
+  parentTitle,
+  show_subtitle,
+  style,
+} = Astro.props;
 const allPosts = await getCollection("blog");
 
 // Filter posts that match ANY of the category tags
@@ -103,24 +118,41 @@ const formatDate = (date: Date) => {
 
   <div class="category-page-container section">
     <div class="section-header">
-      <SectionTitle title={title} subtitle={description} />
+      <SectionTitle
+        title={title}
+        subtitle={show_subtitle ? description : undefined}
+      />
     </div>
 
     {
       filteredPosts.length > 0 ? (
-        <div class="posts-list">
-          {filteredPosts.map((post: any) => (
-            <a href={`/blog/${post.id}`} class="post-entry-link">
-              <article class="post-entry border-bottom">
-                <div class="post-meta d-flex justify-content-between align-items-center">
-                  <h4 class="post-title">{post.data.title}</h4>
-                  <div class="post-date">{formatDate(post.data.date)}</div>
-                </div>
-                <p class="post-description">{post.data.description}</p>
-              </article>
-            </a>
-          ))}
-        </div>
+        style === "cards" ? (
+          /* Cards Layout (Reused Section) */
+          <FilteredPostsSection
+            id="blog-category-posts"
+            title=""
+            posts={filteredPosts}
+            limit={-1}
+            columns={4}
+            scale={0.9}
+            tags_to_filter_posts_by={tags}
+          />
+        ) : (
+          /* Simple Layout (List) - Existing Default */
+          <div class="posts-list">
+            {filteredPosts.map((post: any) => (
+              <a href={`/blog/${post.id}`} class="post-entry-link">
+                <article class="post-entry border-bottom">
+                  <div class="post-meta d-flex justify-content-between align-items-center">
+                    <h4 class="post-title">{post.data.title}</h4>
+                    <div class="post-date">{formatDate(post.data.date)}</div>
+                  </div>
+                  <p class="post-description">{post.data.description}</p>
+                </article>
+              </a>
+            ))}
+          </div>
+        )
       ) : (
         <div class="empty-state">
           <p>No posts found in this category yet.</p>

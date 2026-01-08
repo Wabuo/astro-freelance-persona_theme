@@ -6,47 +6,79 @@ import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
 
 interface Props {
-  id: string;
-  title: string;
+  id?: string;
+  title?: string;
   subtitle?: string;
   tags_to_filter_posts_by?: string[];
+  posts?: any[];
+  limit?: number;
+  columns?: number;
+  scale?: number;
 }
-const { id, title, subtitle, tags_to_filter_posts_by } = Astro.props;
+const {
+  id,
+  title,
+  subtitle,
+  tags_to_filter_posts_by,
+  posts,
+  limit = 3,
+  columns = 3,
+  scale = 1,
+} = Astro.props;
+
 console.log(
-  `[Recent_PostsSection] id=${id} tags_type=${typeof tags_to_filter_posts_by} value=${JSON.stringify(tags_to_filter_posts_by)}`,
+  `[FilteredPostsSection] id=${id} tags=${tags_to_filter_posts_by} posts=${posts?.length} limit=${limit} scale=${scale}`,
 );
 
-// 1. Fetch ALL posts
-const allPosts = await getCollection("blog");
+// 1. Fetch ALL posts (only if posts not provided)
+const allPosts = posts ? [] : await getCollection("blog");
 
 // 2. Filter Logic
-// If a filter is provided, only keep posts that have at least one of the specified tags.
-// If no filter is provided, keep everything.
-const filteredPosts = tags_to_filter_posts_by
-  ? allPosts.filter((post) =>
-      post.data.tags?.some((tag) => tags_to_filter_posts_by.includes(tag)),
-    )
-  : allPosts;
+let filteredPosts = posts || [];
+if (!posts) {
+  filteredPosts = tags_to_filter_posts_by
+    ? allPosts.filter((post) =>
+        post.data.tags?.some((tag: string) =>
+          tags_to_filter_posts_by.includes(tag),
+        ),
+      )
+    : allPosts;
+}
 
-// 3. Sort by Date & LIMIT to 3
-// We only want the 3 newest posts for this specific section.
+// 3. Sort by Date & LIMIT
 const displayedPosts = filteredPosts
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+  .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, limit === -1 ? undefined : limit);
+// 4. Determine Column Class
+const colClass =
+  columns === 4 ? "col-xl-3 col-lg-4 col-md-6 mb-4" : "col-lg-4 col-md-6 mb-4";
 ---
 
 {/* Only render the section if we actually found posts for this category */}
 {
   displayedPosts.length > 0 && (
-    <section id={id} class="recent-posts section">
+    <section
+      id={id}
+      class="filtered-posts section"
+      style={`
+        --scale-factor: ${scale};
+        /* Downsize key variables by the scale factor */
+        --h2-font-size: calc(2rem * var(--scale-factor)); 
+        --h3-font-size: calc(1.75rem * var(--scale-factor));
+        --normal-font-size: calc(1rem * var(--scale-factor));
+        --small-font-size: calc(0.875rem * var(--scale-factor));
+        --spacing-sm: calc(1rem * var(--scale-factor));
+        --spacing-md: calc(2rem * var(--scale-factor));
+      `}
+    >
       <SectionTitle title={title} subtitle={subtitle} />
 
       <div class="container" data-reveal="fade-up">
-        <div class="row gy-4" style="--bs-gutter-x: 1.7rem;">
+        <div class="row gy-4" style="--bs-gutter-x: 1.5rem;">
           {displayedPosts.map((post) => (
-            <div class="col-lg-4 col-md-6 mb-4">
+            <div class={colClass}>
               <Card href={`/blog/${post.id}`} class="h-100">
-                {/* Image Slot: 16:9 Enforced */}
+                {/* Image Slot */}
                 <div slot="image" class="post-image-container">
                   {post.data.thumbnail ? (
                     <Image
@@ -58,17 +90,15 @@ const displayedPosts = filteredPosts
                       format="webp"
                     />
                   ) : (
-                    /* Preview Card: Mock Page Screenshot inside 16:9 container */
                     <div class="preview-card-wrapper h-100 w-100">
                       <div
                         class="mock-page-content"
                         style="width: 100%; height: 100%; padding: 1rem; background-color: var(--surface-color, #fff); color: var(--default-color);"
                       >
-                        {/* Header Structure mimicking BlogPostTemplate - Natively Scaled (50%) */}
                         <div class="post-header">
                           <h2
                             class="post-title"
-                            style="font-size: 1.25rem; margin-bottom: 0.25rem; color: var(--heading-color);"
+                            style="font-size: calc(1.25rem * var(--scale-factor)); margin-bottom: 0.25rem; color: var(--heading-color);"
                           >
                             {post.data.title}
                           </h2>
@@ -126,7 +156,7 @@ const displayedPosts = filteredPosts
                             <span
                               class="badge me-1"
                               style={`
-                                  font-size: 0.75em; 
+                                  font-size: calc(0.75em * var(--scale-factor)); 
                                   border-radius: 0.1875rem;
                                   padding: 0.2em 0.6em;
                                   font-weight: 500;
@@ -150,10 +180,10 @@ const displayedPosts = filteredPosts
                   </div>
 
                   <div class="post-content" style="flex-grow: 1;">
-                    <h3 style="font-weight: 500; font-size: 1.25rem; margin-bottom: 0.5rem;">
+                    <h3 style="font-weight: 500; font-size: calc(1.25rem * var(--scale-factor)); margin-bottom: 0.5rem;">
                       {post.data.title}
                     </h3>
-                    <p style="margin-left: 0;">
+                    <p style="margin-left: 0; font-size: calc(1rem * var(--scale-factor));">
                       {post.data.description || "Click to read more..."}
                     </p>
                   </div>
@@ -164,7 +194,7 @@ const displayedPosts = filteredPosts
                     style={`
                         align-self: flex-end; 
                         margin-top: auto;
-                        font-size: 0.75em; 
+                        font-size: calc(0.75em * var(--scale-factor)); 
                         font-weight: 500;
                         line-height: 1.5;
                         color: color-mix(in srgb, var(--default-color), transparent 55%);

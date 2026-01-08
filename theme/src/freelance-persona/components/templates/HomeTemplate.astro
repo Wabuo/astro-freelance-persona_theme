@@ -7,7 +7,7 @@ import { themeConfig } from "@freelance-persona/config";
 import Hero from "@freelance-persona/components/Hero.astro";
 import PlainSection from "@freelance-persona/components/sections/PlainSection.astro";
 import ContactSection from "@freelance-persona/components/sections/ContactSection.astro";
-import Recent_PostsSection from "@freelance-persona/components/sections/Recent_PostsSection.astro";
+import FilteredPostsSection from "@freelance-persona/components/sections/FilteredPostsSection.astro";
 import FeatureSection from "@freelance-persona/components/sections/FeatureSection.astro";
 import BlogCategoriesSection from "@freelance-persona/components/sections/BlogCategoriesSection.astro";
 
@@ -66,9 +66,9 @@ const contentSections = allSections
         );
       }
 
-      if (section.data.type === "recent_posts") {
+      if (section.data.type === "filtered_posts") {
         return (
-          <Recent_PostsSection
+          <FilteredPostsSection
             id={section.id}
             title={section.data.title}
             subtitle={section.data.subtitle}

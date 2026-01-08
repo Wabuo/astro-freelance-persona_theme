@@ -2,6 +2,7 @@
 // src/freelance-persona/components/templates/BlogPostTemplate.astro
 import { getCollection } from "astro:content";
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
 import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
 import BlogSidebar from "@freelance-persona/components/blog/BlogSidebar.astro";
 
@@ -79,7 +80,11 @@ crumbs.push({ label: post.data.title });
             {
               post.data.thumbnail && (
                 <div class="post-img">
-                  <img src={post.data.thumbnail} alt="" class="img-fluid" />
+                  <Image
+                    src={post.data.thumbnail}
+                    alt={post.data.title}
+                    class="img-fluid"
+                  />
                 </div>
               )
             }

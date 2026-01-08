@@ -6,7 +6,7 @@ import { glob } from 'astro/loaders';
 const sections = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/sections" }),
 
-  schema: z.discriminatedUnion('type', [
+  schema: ({ image }) => z.discriminatedUnion('type', [
 
     // A. HERO SECTION
     z.object({
@@ -102,7 +102,7 @@ const sections = defineCollection({
       icon_class: z.string(),
       categories: z.array(z.object({
         title: z.string(),
-        image: z.string().optional(), // Path to image (now optional)
+        image: image().optional(), // Path to image (now optional)
         background_color: z.string().optional(), // Solid color fallback
         tags: z.array(z.string()), // Array of tags to filter by
         description: z.string().optional(),

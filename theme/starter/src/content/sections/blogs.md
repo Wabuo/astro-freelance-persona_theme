@@ -14,7 +14,7 @@ categories:
     tags: ["it", "maker", "coding"]
     description: "Coding, hardware hacking, and all things tech."
   - title: "Permaculture"
-    image: "/src/assets/img/test_blog.jpg"
+    image: "../../assets/img/test_blog.jpg"
     overlay_title: true
     overlay_style: "dark"
     mix_accent: 55

@@ -2,7 +2,7 @@
 title: "Sustainable Living 101"
 date: 2024-03-20
 description: "How to get started with permaculture in your own backyard."
-thumbnail: "/src/assets/img/test_blog.jpg"
+thumbnail: "../../assets/img/test_blog.jpg"
 tags: ["permaculture", "eco"]
 ---
 

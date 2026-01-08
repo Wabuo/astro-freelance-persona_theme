@@ -212,7 +212,10 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                     <ul class="latest-posts-list">
                       {categoryPosts.map((post) => (
                         <li class="recent-post-item">
-                          <a href={`/blog/${post.id}`} class="recent-post-link">
+                          <a
+                            href={`/posts/${post.id}`}
+                            class="recent-post-link"
+                          >
                             <span class="post-title">{post.data.title}</span>
                             <span class="post-date">
                               {post.data.date.toLocaleDateString("en-GB", {

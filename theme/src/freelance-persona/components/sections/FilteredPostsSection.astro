@@ -77,7 +77,7 @@ const colClass =
         <div class="row gy-4" style="--bs-gutter-x: 1.5rem;">
           {displayedPosts.map((post) => (
             <div class={colClass}>
-              <Card href={`/blog/${post.id}`} class="h-100">
+              <Card href={`/posts/${post.id}`} class="h-100">
                 {/* Image Slot */}
                 <div slot="image" class="post-image-container">
                   {post.data.thumbnail ? (

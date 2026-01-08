@@ -1,37 +1,51 @@
 ---
 // src/freelance-persona/components/Footer.astro
-import { themeConfig } from '@freelance-persona/config';
-import { parse } from 'marked'; // <--- The "real" parser
+import { themeConfig } from "@freelance-persona/config";
+import { parse } from "marked"; // <--- The "real" parser
 
 const { title, quote, social_links, copyright, credits } = themeConfig;
 
 // Use 'parse' to convert the markdown string to HTML
 // We use 'await' because marked can be async, though usually sync for strings
-const creditsHtml = await parse(credits || '');
+const creditsHtml = await parse(credits || "");
 ---
 
 <footer id="footer" class="footer position-relative">
   <div class="container">
     <h3 class="sitename">{title}</h3>
     <p class="quote">{quote}</p>
-    
+
     <div class="social-links d-flex justify-content-center">
-      {social_links.map((link: any) => (
-        <a 
-          href={link.url} 
-          aria-label={`Link to my ${link.name} profile`}
-          target="_blank" 
-          rel="noopener noreferrer"
-        >
-          <i class={link.icon_class} aria-hidden="true"></i>
-        </a>
-      ))}
+      {
+        social_links.map((link: any) => (
+          <a
+            href={link.url}
+            aria-label={`Link to my ${link.name} profile`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class={link.icon_class} aria-hidden="true" />
+          </a>
+        ))
+      }
     </div>
-    
+
     <div class="container">
-      <div class="copyright" set:html={copyright}></div>
+      <div class="copyright">
+        <span set:html={copyright} />
+        {
+          themeConfig.legal?.enabled && (
+            <>
+              <span class="legal-separator mx-2">|</span>
+              <a href="/legal/legal-notice" class="legal-link">
+                {themeConfig.legal.link_text || "Legal Notice"}
+              </a>
+            </>
+          )
+        }
+      </div>
       {/* Render the fully parsed HTML */}
-      <div class="credits" set:html={creditsHtml}></div>
+      <div class="credits" set:html={creditsHtml} />
     </div>
   </div>
 </footer>

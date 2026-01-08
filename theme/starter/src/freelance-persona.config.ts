@@ -11,10 +11,26 @@ export const themeConfig: PersonaConfig = {
   description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.\
   Initally ported from Persona-Zola, modernized and expanded with some custom adptions and the fetures section from Zola-Goyo ",
 
+  legal: {
+    enabled: true,
+    link_text: "Legal Notice",
+    legal_name: "PUT YOUR LEGAL NAME HERE", //can be theme_name
+    legal_address: "theme_address",
+    legal_email: "theme_email",
+    legal_phone: "theme_phone", //can be empty if unaplicable
+    legal_note: "I love remote places. If I'm unavailable, I'm likely off-grid: flying, spelunking, or exploring. <br> Please email or SMS, and I'll reply upon my return to civilization.",
+    business_license: "Sole Proprietor / Put your business license here",
+    vat_id: "PUT YOUR VAT ID HERE", //can be empty if unaplicable
+    jurisdiction: "PersonaCity, Country",
+    disclaimer: "src/content/legal/disclaimer.md",
+  },
+
+
   // ===================================================================================
   // 2. CONTACT DETAILS
   // ===================================================================================
-  // These values are used in the Contact section when you use tokens like 'theme_email'.
+  // This will be used for the Lagal notice and in the Contact section
+  // when you use tokens like 'theme_email'.
   email: "example@example.com",
   phone: "+1234567890",
   address: "123 Persona Way, Remote City",

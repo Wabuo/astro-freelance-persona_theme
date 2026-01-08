@@ -84,7 +84,10 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 
 **Adopt these principles when writing code:**
 
-1. **No Hardcoded Pixels:** Use CSS variables or relative units.
+1. **Semantic Tokens over Raw Units:**
+    - **Rule:** Always prefer semantic variables (e.g., `var(--default-font-size)`) over raw units (`1rem`, `16px`).
+    - **Reasoning:** `1rem` is a constant. Variables allow the entire theme (fonts, spacing, colors) to be reconfigured globally without hunting for hardcoded values.
+    - **No Pixels:** `px` is strictly forbidden for layout/typography (accessibility).
 2. **Configuration, Not Prescription:**
     - Defaults live in the *code*, not in user config.
     - User config (`src/freelance-persona.config.ts`) is only for overrides.

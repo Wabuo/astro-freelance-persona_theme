@@ -102,6 +102,9 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 6. **Date Formatting:**
     - **Strict Format:** `dd Mon yyyy` (e.g., `01 Jan 2026`).
     - **Uniformity:** Use this format for all visible dates unless explicitly overridden by user config.
+7. **Modern CSS Standards:**
+    - **Prefer Modern Syntax:** Use new standard features where sensible.
+    - **Specific Rule:** Use `color-mix(in srgb, var(--color), transparent 50%)` instead of `opacity` or `rgba` hacks for transparency. This keeps custom properties (variables) intact and themeable.
 
 ---
 

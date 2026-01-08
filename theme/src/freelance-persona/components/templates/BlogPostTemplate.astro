@@ -69,7 +69,7 @@ crumbs.push({ label: post.data.title });
 ---
 
 <BaseLayout title={post.data.title} navType="page" tex={true}>
-  <Breadcrumbs crumbs={crumbs} />
+  <Breadcrumbs crumbs={crumbs} showTitle={false} />
 
   <div class="container">
     <div class="row">
@@ -85,7 +85,7 @@ crumbs.push({ label: post.data.title });
             }
 
             <div class="post-header">
-              <h2 class="post-title">{post.data.title}</h2>
+              <h1 class="post-title">{post.data.title}</h1>
 
               <div class="post-tags">
                 {

@@ -9,7 +9,7 @@ features:
   - title: "SysAdmin"
     desc: "Building fast, secure, and modern websites."
     icon: "bi bi-code-slash" # Was fa-code
-    link: "/services/webdev-details"
+    link: "/services/sys_admin"
     
   - title: "LQA"
     desc: "Localization Quality Assurance\n — focused on X → DE & DE ⇒ EN."
@@ -29,7 +29,7 @@ features:
   - title: "Digital Maps"
     desc: "Geospatial maps needed for good permaculture designs and many other decisions about Land."
     icon: "bi bi-globe-americas" # Inferred for Maps
-    link: "/services/webdev-details"
+    link: "/services/digital_maps"
 
   - title: "Web Devolopmen"
     desc: "Simple static websits\n — focused on Soletraders."

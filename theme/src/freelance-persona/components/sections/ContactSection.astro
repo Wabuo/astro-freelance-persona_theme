@@ -48,11 +48,59 @@ const resolvedItems = contact_items.map((item) => {
   return { ...item, content };
 });
 
-const showForm = !!themeConfig.web3form_public_key;
+// FORM PROVIDER LOGIC
+// Defaults to 'formspark' via optional chain fallback or explicit config
+const provider = themeConfig.contact_form?.provider || "formspark";
 
-// ----------------------------------------------------------------------------
-// Animation Config (Level 3: User Config)
-// ----------------------------------------------------------------------------
+// Resolve Access Key
+const accessKey = themeConfig.contact_form?.access_key;
+
+// Resolve Action URL
+let actionUrl = themeConfig.contact_form?.action || "";
+let formMethod = "POST";
+
+// Provider Specific Setup
+switch (provider) {
+  case "formspark":
+    if (!actionUrl && accessKey) {
+      actionUrl = `https://submit-form.com/${accessKey}`;
+    }
+    break;
+  case "web3forms":
+    if (!actionUrl) {
+      actionUrl = "https://api.web3forms.com/submit";
+    }
+    break;
+  case "ntfy":
+    // Ntfy Logic: Server + Topic
+    if (!actionUrl) {
+      const server = themeConfig.contact_form?.ntfy_server || "https://ntfy.sh";
+      const topic = themeConfig.contact_form?.ntfy_topic;
+      // Force HTTPS unless strict local dev override (left as exercise for user manual config)
+      // We default to secure.
+      if (!server.startsWith("http")) {
+        // user just put 'ntfy.sh'
+        actionUrl = `https://${server}/${topic}`;
+      } else {
+        actionUrl = `${server}/${topic}`;
+      }
+    }
+    break;
+  case "netlify":
+    actionUrl = "/"; // Netlify handles submission on same-page POST
+    break;
+  case "mailto":
+    actionUrl = `mailto:${themeConfig.email}`;
+    formMethod = "POST"; // Standard form behavior for mailto
+    break;
+  case "custom":
+    // actionUrl must be provided in config
+    break;
+}
+
+const showForm = provider !== "custom" || !!actionUrl;
+
+// Animation Config
 const headingDelay = themeConfig.visuals?.delays?.heading || 100;
 const contentDelay = themeConfig.visuals?.delays?.content || 200;
 const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
@@ -115,22 +163,37 @@ const sectionStyle = `
         showForm && (
           <div class="col-lg-8">
             <form
-              action="https://api.web3forms.com/submit"
-              method="POST"
+              action={actionUrl}
+              method={formMethod}
+              enctype={provider === "mailto" ? "text/plain" : undefined}
               class="contact-form"
               data-reveal="fade-up"
               data-reveal-delay="400"
+              data-provider={provider}
+              data-netlify={provider === "netlify" ? "true" : undefined}
+              name={provider === "netlify" ? "contact" : undefined}
             >
-              <input
-                type="hidden"
-                name="access_key"
-                value={themeConfig.web3form_public_key}
-              />
+              {/* Access Key input only needed for Formspark/Web3 if not in URL */}
+              {provider === "web3forms" && (
+                <input type="hidden" name="access_key" value={accessKey} />
+              )}
+
+              {/* Ntfy Headers (Hidden inputs for NoScript fallback) can vary,
+                   but Ntfy generally supports headers or JSON.
+                   HTML Form POST to ntfy.sh sends body.
+                   We rely on JS adapter for advanced Title/Priority.
+               */}
 
               <div class="row gy-4">
                 <div class="col-md-6">
                   <div class="input-box">
-                    <input type="text" name="name" id="name-field" required />
+                    <input
+                      type="text"
+                      name="name"
+                      id="name-field"
+                      autocomplete="name"
+                      required
+                    />
                     <label for="name-field" class="label">
                       Your Name
                     </label>
@@ -143,6 +206,7 @@ const sectionStyle = `
                       type="email"
                       name="email"
                       id="email-field"
+                      autocomplete="email"
                       required
                     />
                     <label for="email-field" class="label">
@@ -157,6 +221,7 @@ const sectionStyle = `
                       type="text"
                       name="subject"
                       id="subject-field"
+                      autocomplete="off"
                       required
                     />
                     <label for="subject-field" class="label">
@@ -171,6 +236,7 @@ const sectionStyle = `
                       name="message"
                       rows="6"
                       id="message-field"
+                      autocomplete="off"
                       required
                     />
                     <label for="message-field" class="label">
@@ -195,6 +261,79 @@ const sectionStyle = `
     </div>
   </div>
 </section>
+
+<script>
+  // Progressive Improvement Adapter
+  // This script runs only if JS is enabled, intercepting the form submission.
+  const forms = document.querySelectorAll(
+    "form.contact-form",
+  ) as NodeListOf<HTMLFormElement>;
+
+  forms.forEach((form) => {
+    // If provider is mailto or netlify, we might want default behavior or specific handling.
+    // Netlify works best with default submission or specific fetch.
+    // Mailto must work with default submission.
+    const provider = form.dataset.provider;
+
+    if (provider === "mailto") return; // Let browser handle mailto
+    if (provider === "netlify") return; // Let Netlify standard form handling (or add AJAX later if requested)
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const loading = form.querySelector(".loading") as HTMLElement;
+      const errorMessage = form.querySelector(".error-message") as HTMLElement;
+      const sentMessage = form.querySelector(".sent-message") as HTMLElement;
+
+      if (loading) loading.style.display = "block";
+      if (errorMessage) errorMessage.style.display = "none";
+      if (sentMessage) sentMessage.style.display = "none";
+
+      const formData = new FormData(form);
+      const action = form.getAttribute("action");
+
+      // payload construction
+      let body: any = formData;
+      let headers: HeadersInit = {
+        Accept: "application/json",
+      };
+
+      // Provider Specific Transformations
+      if (provider === "web3forms" || provider === "formspark") {
+        // These accept JSON best
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+        body = json;
+        headers = {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        };
+      }
+
+      try {
+        const response = await fetch(action!, {
+          method: "POST", // Always POST (except Custom override maybe? but assuming POST)
+          body: body instanceof FormData ? body : body,
+          headers: headers,
+        });
+
+        if (response.ok) {
+          if (loading) loading.style.display = "none";
+          if (sentMessage) sentMessage.style.display = "block";
+          form.reset();
+        } else {
+          throw new Error(`${response.status} ${response.statusText}`);
+        }
+      } catch (error: any) {
+        if (loading) loading.style.display = "none";
+        if (errorMessage) {
+          errorMessage.textContent = error.message || "Form submission failed.";
+          errorMessage.style.display = "block";
+        }
+      }
+    });
+  });
+</script>
 
 <style>
   .contact.section {

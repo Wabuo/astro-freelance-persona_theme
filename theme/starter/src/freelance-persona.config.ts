@@ -71,7 +71,7 @@ export const themeConfig: PersonaConfig = {
     layout: {
       // Defines the empty area/gap on the left side of the page.
       // The sidebar floats over this area.
-      page_margin_left: "142px", // "140px"
+      page_margin_left: "8.875rem", // "140px"
 
       //page_margin_right: "1em", // <- Uncomment to set manually. Defaults to page_margin_left
       // Note: You can use any CSS unit (em, px, vw, etc.)
@@ -101,14 +101,36 @@ export const themeConfig: PersonaConfig = {
   // 5. INTEGRATIONS & EXTRAS
   // ===================================================================================
 
-  // Power your contact form with Web3Forms (https://web3forms.com/)
-  // Leave empty if you don't want to use the form.
-  web3form_public_key: "your-access-key-here",
+  // Depending on your setup checkout https://forwardemail.net/en/faq#quick-start for an
+  // awsome opensource email forwarder and email alsias provider
+
+  /**
+   * Contact Form Provider Configuration
+   *
+   * Options:
+   * - "formspark" (Default): Requires 'access_key' (Your Formspark Form ID)
+   * - "web3forms": Requires 'access_key' (Your Web3Forms Access Key)
+   * - "ntfy": Self-hosted or Public ntfy.sh. Requires 'ntfy_topic'.
+   * - "netlify": standard Netlify form handling (automatic)
+   * - "mailto": browser-only, opens user's email client
+   * - "custom": Requires 'action' URL defined manually below
+   */
+  contact_form: {
+    provider: "formspark", // "formspark" | "web3forms" | "ntfy" | "netlify" | "mailto" | "custom"
+    access_key: "your-access-key-here", // Formspark ID or Web3Forms Key
+
+    // Ntfy Configuration (only used if provider is 'ntfy')
+    // ntfy_topic: "my-secret-topic",
+    // ntfy_server: "https://ntfy.sh", // Change if self-hosting
+
+    // Custom Action URL (if provider is 'custom' or overriding others)
+    // action: "https://my-backend.com/contact",
+  },
 
   // Footer Content
   quote: "Real stupidity beats artificial intelligence every time. --- From Hogfather",
   copyright: "&copy; All Rights Reserved",
-  credits: "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/) <br>With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)"
+  credits: "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/)" // Removed hardcoded Web3Forms credit
 };
 
 export default themeConfig;

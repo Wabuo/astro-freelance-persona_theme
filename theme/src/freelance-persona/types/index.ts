@@ -41,10 +41,26 @@ export interface PersonaConfig {
   phone?: string;
   address?: string;
 
-  // Legacy Contact Structure (Deprecated - prefer contact.md + theme_* vars)
+  // Contact Form Configuration
+  contact_form?: {
+    provider:
+    | "formspark"
+    | "web3forms"
+    | "ntfy"
+    | "netlify"
+    | "mailto"
+    | "custom";
+    action?: string; // For explicit URLs or custom endpoints
+    access_key?: string; // For Web3/Formspark
+    ntfy_topic?: string;
+    ntfy_server?: string; // Default: https://ntfy.sh
+  };
+
+  /**
+   * @deprecated Use theme_* vars in contact.md instead
+   */
   contact_infos?: ContactInfo[];
 
-  web3form_public_key?: string;
 
   quote: string;
   copyright: string;

@@ -5,6 +5,7 @@ title: Contact
 order: 1000
 icon_class: bi bi-envelope-open
 
+# Note: Form provider settings (Web3Forms/Formspark/Ntfy) are configured in src/freelance-persona.config.ts
 contact_items:
   - label: Name
     value: theme_author

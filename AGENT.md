@@ -49,6 +49,10 @@
 - **Workspace Naming Confusion:**
   - `playground/package.json` is a copy of `starter/package.json`.
   - It might retain the name from starter (EXP: `astro-freelance-persona-starter`) which can be confusing when listing workspaces. Rely on directory paths, not just package names.
+- **Path Aliases:**
+  - **Strict Requirement:** ALL `tsconfig.json` files (theme, playground, starter) MUST explicitly define path aliases.
+  - **Rule:** always include `"paths": { "@/*": ["src/*"] }` in `compilerOptions`.
+  - **Reason:** Astro aliases (like `@/assets`) fail in monorepo workspaces if the consuming project (playground) doesn't have the explicit mapping to its own `src`.
 
 ---
 

@@ -85,7 +85,7 @@ const {
   show_subtitle,
   style,
 } = Astro.props;
-const allPosts = await getCollection("blog");
+const allPosts = await getCollection("blog_posts");
 
 // Filter posts that match ANY of the category tags
 const filteredPosts = allPosts

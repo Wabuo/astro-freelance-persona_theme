@@ -69,7 +69,31 @@ const sections = defineCollection({
 
 
 
-    // D. CONTACT SECTION (New Schema)
+    // D. ABOUT SECTION (New)
+    z.object({
+      type: z.literal('about'),
+      title: z.string(),
+      subtitle: z.string().optional(),
+      order: z.number().default(100),
+      icon_class: z.string(),
+
+      // Profile / Sidebar Elements
+      avatar: image().optional(),
+      profile_sidebar: z.array(z.object({
+        text: z.string(),
+        icon: z.string().optional(),
+        image: image().optional(),
+        link: z.string().optional(),
+      })).optional(),
+
+      // Visual Overrides
+      nudge_x: z.string().optional(),
+      nudge_y: z.string().optional(),
+      content_scale: z.number().optional(),
+      delay: z.number().optional(),
+    }),
+
+    // E. CONTACT SECTION (New Schema)
     z.object({
       type: z.literal('contact'),
       title: z.string(),

@@ -4,9 +4,20 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@freelance-persona/*": ["src/freelance-persona/*"],
-      "@freelance-persona/config": ["src/freelance-persona.config.ts"]
+      "@freelance-persona/*": [
+        "src/freelance-persona/*"
+      ],
+      "@freelance-persona/config": [
+        "src/freelance-persona.config.ts"
+      ],
+      "@/*": [
+        "src/*"
+      ]
     }
   },
-   "include": [".astro/types.d.ts", "src/**/*", "astro.config.mjs"]
+  "include": [
+    ".astro/types.d.ts",
+    "src/**/*",
+    "astro.config.mjs"
+  ]
 }

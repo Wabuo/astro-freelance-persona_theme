@@ -1,10 +1,10 @@
 ---
 // src/freelance-persona/pages/blog/BlogPost.astro
-import { getCollection, render } from 'astro:content';
-import BlogPostTemplate from '@freelance-persona/components/templates/BlogPostTemplate.astro';
+import { getCollection, render } from "astro:content";
+import BlogPostTemplate from "@freelance-persona/components/templates/BlogPostTemplate.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection("blog_posts");
   return posts.map((post) => ({
     params: { id: post.id },
     props: { post },

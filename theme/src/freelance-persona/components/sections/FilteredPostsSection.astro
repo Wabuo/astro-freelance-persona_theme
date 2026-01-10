@@ -31,7 +31,7 @@ console.log(
 );
 
 // 1. Fetch ALL posts (only if posts not provided)
-const allPosts = posts ? [] : await getCollection("blog");
+const allPosts = posts ? [] : await getCollection("blog_posts");
 
 // 2. Filter Logic
 let filteredPosts = posts || [];

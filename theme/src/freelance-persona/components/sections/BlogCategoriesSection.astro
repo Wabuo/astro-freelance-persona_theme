@@ -51,7 +51,7 @@ const {
 } = Astro.props;
 
 // Fetch all blog posts once
-const allPosts = await getCollection("blog");
+const allPosts = await getCollection("blog_posts");
 const sortedPosts = allPosts.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );

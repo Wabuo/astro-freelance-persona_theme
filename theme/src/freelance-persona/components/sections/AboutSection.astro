@@ -1,0 +1,250 @@
+---
+import { Image } from "astro:assets";
+import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+import { themeConfig } from "@freelance-persona/config";
+
+interface Props {
+  id: string;
+  title: string;
+  subtitle?: string;
+  avatar?: ImageMetadata;
+  profile_sidebar?: {
+    text: string;
+    icon?: string;
+    image?: ImageMetadata;
+    link?: string;
+  }[];
+  nudge_x?: string;
+  nudge_y?: string;
+  content_scale?: number;
+  delay?: number;
+}
+const {
+  id,
+  title,
+  subtitle,
+  avatar,
+  profile_sidebar,
+  nudge_x,
+  nudge_y,
+  content_scale,
+  delay,
+} = Astro.props;
+
+// Visual Overrides CSS
+const sectionStyle = `
+  ${nudge_x ? `--nudge-x: ${nudge_x};` : ""}
+  ${nudge_y ? `--nudge-y: ${nudge_y};` : ""}
+  ${content_scale ? `--content-scale: ${content_scale};` : ""}
+`;
+
+const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
+
+// Determine Layout Mode
+const hasSidebar = !!(
+  avatar ||
+  (profile_sidebar && profile_sidebar.length > 0)
+);
+---
+
+<section id={id} class="about section" style={sectionStyle}>
+  <SectionTitle title={title} subtitle={subtitle} />
+
+  <div
+    class={`container ${hasSidebar ? "container-grid" : ""}`}
+    data-reveal="fade-up"
+    data-reveal-delay={delay || defaultContentDelay}
+  >
+    <!-- Left Column: Main Content -->
+    <div class="content main-content">
+      <slot />
+    </div>
+
+    <!-- Right Column: Sidebar (Avatar + Profile Box) -->
+    {
+      hasSidebar && (
+        <aside class="profile-sidebar">
+          {avatar && (
+            <div class="avatar-container">
+              <Image
+                src={avatar}
+                alt="Profile Avatar"
+                class="avatar-image"
+                width={200}
+                height={200}
+              />
+            </div>
+          )}
+
+          {profile_sidebar && profile_sidebar.length > 0 && (
+            <div class="profile-box">
+              <ul class="profile-list">
+                {profile_sidebar.map((item) => (
+                  <li class="profile-item">
+                    {item.link ? (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="profile-link"
+                      >
+                        {item.image && (
+                          <div class="profile-icon-img">
+                            <Image
+                              src={item.image}
+                              alt={item.text}
+                              width={24}
+                              height={24}
+                            />
+                          </div>
+                        )}
+                        {!item.image && item.icon && (
+                          <i class={`${item.icon} profile-icon`} />
+                        )}
+                        <span class="profile-text">{item.text}</span>
+                      </a>
+                    ) : (
+                      <div class="profile-item-content">
+                        {item.image && (
+                          <div class="profile-icon-img">
+                            <Image
+                              src={item.image}
+                              alt={item.text}
+                              width={24}
+                              height={24}
+                            />
+                          </div>
+                        )}
+                        {!item.image && item.icon && (
+                          <i class={`${item.icon} profile-icon`} />
+                        )}
+                        <span class="profile-text">{item.text}</span>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </aside>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .about.section {
+    transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
+      scale(var(--content-scale, 1));
+  }
+
+  /* Grid Layout for Desktop */
+  @media (min-width: 992px) {
+    .container-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr; /* 2/3 Content, 1/3 Sidebar */
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+
+  /* Avatar Styling */
+  .avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .avatar-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 4px solid var(--surface-color, #fff);
+  }
+
+  /* Profile Box Styling */
+  .profile-box {
+    border: 2px solid var(--accent-color);
+    padding: 2rem;
+    position: relative; /* For potential decorative elements */
+    background: var(--surface-color, #fff); /* Ensure contrast */
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.05); /* Subtle depth */
+    transition: transform 0.3s ease;
+  }
+
+  .profile-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.05);
+  }
+
+  .profile-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center; /* Center items as per mockup vibe */
+  }
+
+  .profile-item-content,
+  .profile-link {
+    display: flex;
+    flex-direction: column; /* Stack symbol and text */
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--default-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .profile-link:hover {
+    color: var(--accent-color);
+  }
+
+  /* Large Typography for Sidebar Items */
+  .profile-text {
+    font-size: 1.25rem;
+    font-family: var(--heading-font);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .profile-icon {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 0.25rem;
+  }
+
+  .profile-icon-img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-icon-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Responsive Mobile Tweaks */
+  @media (max-width: 991px) {
+    .profile-sidebar {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .profile-box {
+      width: 100%;
+      max-width: 350px;
+    }
+  }
+</style>

@@ -10,6 +10,7 @@ import ContactSection from "@freelance-persona/components/sections/ContactSectio
 import FilteredPostsSection from "@freelance-persona/components/sections/FilteredPostsSection.astro";
 import FeatureSection from "@freelance-persona/components/sections/FeatureSection.astro";
 import BlogCategoriesSection from "@freelance-persona/components/sections/BlogCategoriesSection.astro";
+import AboutSection from "@freelance-persona/components/sections/AboutSection.astro";
 
 // 1. HERO DATA FETCHING
 const heroEntry = await getEntry("sections", "hero");
@@ -66,21 +67,6 @@ const contentSections = allSections
         );
       }
 
-      if (section.data.type === "filtered_posts") {
-        return (
-          <FilteredPostsSection
-            id={section.id}
-            title={section.data.title}
-            subtitle={section.data.subtitle}
-            tags_to_filter_posts_by={section.data.tags_to_filter_posts_by}
-          />
-        );
-      }
-
-      if (section.data.type === "contact") {
-        return <ContactSection entry={section} />;
-      }
-
       if (section.data.type === "features") {
         return (
           <FeatureSection
@@ -92,6 +78,35 @@ const contentSections = allSections
             nudge_y={section.data.nudge_y}
             content_scale={section.data.content_scale}
             delay={section.data.delay}
+          />
+        );
+      }
+
+      if (section.data.type === "about") {
+        return (
+          <AboutSection
+            id={section.id}
+            title={section.data.title}
+            subtitle={section.data.subtitle}
+            avatar={section.data.avatar}
+            profile_sidebar={section.data.profile_sidebar}
+            nudge_x={section.data.nudge_x}
+            nudge_y={section.data.nudge_y}
+            content_scale={section.data.content_scale}
+            delay={section.data.delay}
+          >
+            <Content />
+          </AboutSection>
+        );
+      }
+
+      if (section.data.type === "filtered_posts") {
+        return (
+          <FilteredPostsSection
+            id={section.id}
+            title={section.data.title}
+            subtitle={section.data.subtitle}
+            tags_to_filter_posts_by={section.data.tags_to_filter_posts_by}
           />
         );
       }
@@ -110,6 +125,10 @@ const contentSections = allSections
             delay={section.data.delay}
           />
         );
+      }
+
+      if (section.data.type === "contact") {
+        return <ContactSection entry={section} />;
       }
 
       return null;

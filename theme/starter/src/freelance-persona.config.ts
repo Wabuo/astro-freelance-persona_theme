@@ -130,7 +130,9 @@ export const themeConfig: PersonaConfig = {
   // Footer Content
   quote: "Real stupidity beats artificial intelligence every time. --- From Hogfather",
   copyright: "&copy; All Rights Reserved",
-  credits: "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/)" // Removed hardcoded Web3Forms credit
+  // Removed hardcoded Web3Forms credit, !FixME! outofetsh the right form provider and add to credits
+  // ignor unaplicable ones like custom and mailtoform
+  credits: "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/) <br> With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)"
 };
 
 export default themeConfig;

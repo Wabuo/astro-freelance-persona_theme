@@ -133,7 +133,7 @@ export const themeConfig: PersonaConfig = {
   // Note: The theme automatically appends the configured contact form provider
   // (Formspark, Web3Forms, Ntfy, or Netlify) to the credits link in the footer.
   credits: [
-    "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/)", // form provider gets put here
+    "Powered by [Freelance Persona](https://github.com/wabuo/astro_freelance-persona_theme), [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/)", // form provider gets put here
     "With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)"
   ]
 };

@@ -1,6 +1,6 @@
 # Legal Disclaimer
 
-This theme demo page and content are controlled by its Git repository. If you have any issues or concerns, please reach out by opening a [GitHub issue](https://github.com/your-username/your-repo/issues).
+This ***theme demo*** page and **demo** content are controlled by its Git repository. If you have any issues or concerns, please reach out by opening a [GitHub issue](https://github.com/your-username/your-repo/issues).
 
 <br>
 <br>

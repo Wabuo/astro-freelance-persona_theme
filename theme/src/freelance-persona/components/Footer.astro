@@ -5,9 +5,32 @@ import { parse } from "marked"; // <--- The "real" parser
 
 const { title, quote, social_links, copyright, credits } = themeConfig;
 
-// Use 'parse' to convert the markdown string to HTML
-// We use 'await' because marked can be async, though usually sync for strings
-const creditsHtml = await parse(credits || "");
+// Logic to append dynamic credits (e.g., Form Provider)
+let providerCredit = "";
+
+if (themeConfig.contact_form?.provider === "formspark") {
+  providerCredit = ", contact form via [Formspark](https://formspark.io)";
+} else if (themeConfig.contact_form?.provider === "web3forms") {
+  providerCredit = ", contact form via [Web3Forms](https://web3forms.com)";
+} else if (themeConfig.contact_form?.provider === "ntfy") {
+  const ntfyServer = themeConfig.contact_form?.ntfy_server || "https://ntfy.sh";
+  providerCredit = `, contact form via [ntfy](https://github.com/binwiederhier/ntfy) hosted at [${ntfyServer}](${ntfyServer})`;
+} else if (themeConfig.contact_form?.provider === "netlify") {
+  providerCredit =
+    ", contact form via [Netlify Forms](https://www.netlify.com/products/forms/)";
+}
+
+// Normalize credits to array for manipulation
+let creditsArray = Array.isArray(credits) ? [...credits] : [credits || ""];
+
+// Append provider credit to the FIRST line (Powered By...)
+if (providerCredit && creditsArray.length > 0) {
+  creditsArray[0] += providerCredit;
+}
+
+// Join lines with explicit break and parse
+const finalCreditsString = creditsArray.join(" <br> ");
+const creditsHtml = await parse(finalCreditsString);
 ---
 
 <footer id="footer" class="footer position-relative">

@@ -8,7 +8,7 @@ avatar: "@/assets/img/avatar.jpg"
 avatar_styles:
   z_index: 10
   float_margin_top: "-5rem"
-  float_margin_right: "5rem"    # Should be at screen edge
+  float_margin_right: "18rem"    # Should be at screen edge
   float_margin_left: "clamp(2rem, 6%, 5rem)" # 5% of content width (Responsive)
 qualifications_sidebar:
   - text: "PDC"

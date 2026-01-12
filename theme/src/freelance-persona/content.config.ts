@@ -199,6 +199,7 @@ const sections = defineCollection({
         title: z.string(),
         desc: z.string(),
         icon: z.string().optional(),
+        hover_icon: z.string().optional(),
         link: z.string().optional(),
         unavailable: z.boolean().optional(),
       })).default([]),

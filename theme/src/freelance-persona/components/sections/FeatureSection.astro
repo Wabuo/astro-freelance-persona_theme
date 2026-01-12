@@ -12,6 +12,7 @@ interface Props {
     title: string;
     desc: string;
     icon?: string;
+    hover_icon?: string;
     link?: string;
     unavailable?: boolean;
   }[];
@@ -83,11 +84,21 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                 {/* Card Content - Icon Logic */}
                 {feature.icon && (
                   <div class="feature-icon-wrapper-outer">
-                    <div class="feature-icon-bg">
+                    <div
+                      class={`feature-icon-bg ${feature.hover_icon ? "has-hover-icon" : ""}`}
+                    >
+                      {/* Main Icon */}
                       {feature.icon === "lance-icon" ? (
-                        <LanceIcon class="feature-icon lance-icon-svg" />
+                        <LanceIcon class="feature-icon lance-icon-svg icon-main" />
                       ) : (
-                        <i class={`${feature.icon} feature-icon`} />
+                        <i class={`${feature.icon} feature-icon icon-main`} />
+                      )}
+
+                      {/* Hover Icon */}
+                      {feature.hover_icon && (
+                        <i
+                          class={`${feature.hover_icon} feature-icon icon-hover`}
+                        />
                       )}
                     </div>
                   </div>
@@ -119,5 +130,47 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
   .features-section-wrapper {
     transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
       scale(var(--content-scale, 1));
+  }
+
+  /* Hover Icon Logic */
+  .feature-icon-bg {
+    position: relative; /* Context for absolute hover icon */
+    display: inline-flex; /* Ensure centering */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .feature-icon {
+    /* 
+      Pure CSS Transition:
+      Reliable, smooth cross-fade.
+      0.2s Delay: Button moves first.
+      0.8s Duration: Very slow and subtle.
+    */
+    transition: opacity 0.8s ease-in-out;
+    transition-delay: 0.2s;
+  }
+
+  /* Default state for Hover Icon */
+  .feature-icon.icon-hover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+
+  /* Card Hover Triggers */
+  :global(.feature-card:hover) .has-hover-icon .icon-main {
+    /* 
+      "Render Bug" / Overlay Strategy:
+      Don't fully hide the main icon. Let them overlap.
+      Dimming slightly (0.3) allows the new icon to stand out without a hard "swap".
+    */
+    opacity: 0.3;
+  }
+
+  :global(.feature-card:hover) .icon-hover {
+    opacity: 1; /* Fully visible on top */
   }
 </style>

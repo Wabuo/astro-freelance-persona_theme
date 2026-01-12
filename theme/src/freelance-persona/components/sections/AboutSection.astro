@@ -8,27 +8,40 @@ interface Props {
   title: string;
   subtitle?: string;
   avatar?: ImageMetadata;
-  profile_sidebar?: {
+  qualifications_sidebar?: {
     text: string;
+    subtitle?: string | string[];
     icon?: string;
     image?: ImageMetadata;
     link?: string;
   }[];
+
   nudge_x?: string;
   nudge_y?: string;
   content_scale?: number;
   delay?: number;
+
+  avatar_styles?: {
+    z_index?: number;
+    float_margin_top?: string;
+    float_margin_right?: string;
+    float_margin_left?: string;
+    grid_gap?: string;
+    shape_outside_circle?: boolean;
+  };
 }
 const {
   id,
   title,
   subtitle,
   avatar,
-  profile_sidebar,
+  qualifications_sidebar,
+
   nudge_x,
   nudge_y,
   content_scale,
   delay,
+  avatar_styles,
 } = Astro.props;
 
 // Visual Overrides CSS
@@ -36,15 +49,21 @@ const sectionStyle = `
   ${nudge_x ? `--nudge-x: ${nudge_x};` : ""}
   ${nudge_y ? `--nudge-y: ${nudge_y};` : ""}
   ${content_scale ? `--content-scale: ${content_scale};` : ""}
+  --z-index: ${avatar_styles?.z_index || 10};
+  --float-margin-top: ${avatar_styles?.float_margin_top || "0rem"};
+  --float-margin-right: ${avatar_styles?.float_margin_right || "0rem"};
+  --float-margin-left: ${avatar_styles?.float_margin_left || "2rem"};
+  --shape-outside: ${avatar_styles?.shape_outside_circle === false ? "none" : "circle(50%)"};
 `;
 
 const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
 
 // Determine Layout Mode
 const hasSidebar = !!(
-  avatar ||
-  (profile_sidebar && profile_sidebar.length > 0)
+  qualifications_sidebar && qualifications_sidebar.length > 0
 );
+
+console.log("AboutSection props:", { hasSidebar, avatar_styles });
 ---
 
 <section id={id} class="about section" style={sectionStyle}>
@@ -55,80 +74,122 @@ const hasSidebar = !!(
     data-reveal="fade-up"
     data-reveal-delay={delay || defaultContentDelay}
   >
-    <!-- Left Column: Main Content -->
-    <div class="content main-content">
-      <slot />
-    </div>
-
-    <!-- Right Column: Sidebar (Avatar + Profile Box) -->
+    <!-- Sidebar (Avatar + Profile Box) - Floated Right (Must be first in DOM for float) -->
     {
       hasSidebar && (
-        <aside class="profile-sidebar">
-          {avatar && (
-            <div class="avatar-container">
-              <Image
-                src={avatar}
-                alt="Profile Avatar"
-                class="avatar-image"
-                width={200}
-                height={200}
-              />
-            </div>
-          )}
+        <aside class="qualifications-sidebar">
+          <div class="sidebar-content-wrapper">
+            {avatar && (
+              <div class="avatar-container">
+                <Image
+                  src={avatar}
+                  alt="Profile Avatar"
+                  class="avatar-image"
+                  width={800}
+                  height={800}
+                />
+              </div>
+            )}
 
-          {profile_sidebar && profile_sidebar.length > 0 && (
-            <div class="profile-box">
-              <ul class="profile-list">
-                {profile_sidebar.map((item) => (
-                  <li class="profile-item">
-                    {item.link ? (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="profile-link"
-                      >
-                        {item.image && (
-                          <div class="profile-icon-img">
-                            <Image
-                              src={item.image}
-                              alt={item.text}
-                              width={24}
-                              height={24}
-                            />
+            {qualifications_sidebar && qualifications_sidebar.length > 0 && (
+              <div class="qualifications-box">
+                <ul class="qualifications-list">
+                  {qualifications_sidebar.map((item) => (
+                    <li class="qualifications-item">
+                      {item.link ? (
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="qualifications-link"
+                        >
+                          {item.icon && (
+                            <i class={`${item.icon} qualifications-icon`} />
+                          )}
+
+                          <div class="qualifications-text-col">
+                            <span class="qualifications-text">{item.text}</span>
+                            {item.subtitle &&
+                              (Array.isArray(item.subtitle)
+                                ? item.subtitle
+                                : [item.subtitle]
+                              ).map((sub) => (
+                                <span class="qualifications-subtitle">
+                                  {sub}
+                                </span>
+                              ))}
                           </div>
-                        )}
-                        {!item.image && item.icon && (
-                          <i class={`${item.icon} profile-icon`} />
-                        )}
-                        <span class="profile-text">{item.text}</span>
-                      </a>
-                    ) : (
-                      <div class="profile-item-content">
-                        {item.image && (
-                          <div class="profile-icon-img">
-                            <Image
-                              src={item.image}
-                              alt={item.text}
-                              width={24}
-                              height={24}
-                            />
+
+                          {item.image && (
+                            <div class="qualifications-cert-img">
+                              <Image
+                                src={item.image}
+                                alt={item.text}
+                                width={50}
+                                height={50}
+                              />
+                            </div>
+                          )}
+                        </a>
+                      ) : (
+                        <div class="qualifications-item-content">
+                          {item.icon && (
+                            <i class={`${item.icon} qualifications-icon`} />
+                          )}
+
+                          <div class="qualifications-text-col">
+                            <span class="qualifications-text">{item.text}</span>
+                            {item.subtitle &&
+                              (Array.isArray(item.subtitle)
+                                ? item.subtitle
+                                : [item.subtitle]
+                              ).map((sub) => (
+                                <span class="qualifications-subtitle">
+                                  {sub}
+                                </span>
+                              ))}
                           </div>
-                        )}
-                        {!item.image && item.icon && (
-                          <i class={`${item.icon} profile-icon`} />
-                        )}
-                        <span class="profile-text">{item.text}</span>
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+
+                          {item.image && (
+                            <div class="qualifications-cert-img">
+                              <Image
+                                src={item.image}
+                                alt={item.text}
+                                width={50}
+                                height={50}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </aside>
       )
     }
+
+    <!-- Main Content (Text) - Flows around the float -->
+    <div class="content main-content">
+      {/* Floating Avatar (Fallback for no sidebar) */}
+      {
+        avatar && !hasSidebar && (
+          <div class="avatar-float">
+            <Image
+              src={avatar}
+              alt="Profile Avatar"
+              class="avatar-image"
+              width={800}
+              height={800}
+            />
+          </div>
+        )
+      }
+      <slot />
+    </div>
   </div>
 </section>
 
@@ -136,15 +197,69 @@ const hasSidebar = !!(
   .about.section {
     transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
       scale(var(--content-scale, 1));
+    margin-bottom: 3rem; /* Add spacing to prevent crowding */
+    overflow: visible; /* Allow float to hang out */
   }
 
-  /* Grid Layout for Desktop */
+  /* Ensure content container hugs the text bottom */
+  :global(.content.main-content > :last-child) {
+    margin-bottom: 0 !important;
+  }
+
+  /* Mobile Stacked Layout (Default) */
+  .container-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .qualifications-sidebar {
+    order: -1; /* Sidebar TOP on mobile */
+    width: 100%;
+    margin-top: 2rem;
+    z-index: 1;
+  }
+
+  .sidebar-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .content.main-content {
+    /* Natural flow */
+  }
+
+  /* Desktop Float Layout */
   @media (min-width: 992px) {
     .container-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr; /* 2/3 Content, 1/3 Sidebar */
-      gap: 3rem;
-      align-items: start;
+      display: block; /* Disable Flex/Grid to allow float */
+    }
+
+    .qualifications-sidebar {
+      float: right;
+      width: fit-content;
+      clear: right;
+      order: unset;
+
+      /* Apply dynamic positioning variables */
+      z-index: var(--z-index);
+      margin-top: var(--float-margin-top);
+      margin-right: calc(((100% - 100vw) / 2) + var(--float-margin-right));
+      margin-left: var(--float-margin-left);
+      position: relative;
+    }
+
+    .sidebar-content-wrapper {
+      width: fit-content;
+      align-items: center;
+    }
+
+    .content.main-content {
+      display: block;
+      width: 100%;
+      order: unset;
     }
   }
 
@@ -153,6 +268,7 @@ const hasSidebar = !!(
     display: flex;
     justify-content: center;
     margin-bottom: 2rem;
+    flex-shrink: 0; /* Prevent avatar from squishing */
   }
 
   .avatar-image {
@@ -162,87 +278,170 @@ const hasSidebar = !!(
     object-fit: cover;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border: 4px solid var(--surface-color, #fff);
+    background-color: var(--surface-color, #fff); /* Prevents bleed-through */
+  }
+
+  /* Floating Avatar (when sidebar is disabled) */
+  .avatar-float {
+    /* Mobile Default: Stacked & Centered */
+    float: none;
+    display: block;
+    margin: 0 auto 2rem auto; /* Center horizontally, push text down */
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 1;
+    position: relative;
+
+    /* Apply styles usually handled by Image but good for wrapper too just in case */
+    shape-outside: none;
+  }
+
+  @media (min-width: 992px) {
+    .avatar-float {
+      float: right;
+      margin-top: var(--float-margin-top);
+      margin-right: var(--float-margin-right);
+      margin-left: var(--float-margin-left);
+      shape-outside: var(--shape-outside, circle(50%));
+      z-index: var(--z-index);
+    }
   }
 
   /* Profile Box Styling */
-  .profile-box {
-    border: 2px solid var(--accent-color);
-    padding: 2rem;
-    position: relative; /* For potential decorative elements */
-    background: var(--surface-color, #fff); /* Ensure contrast */
-    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.05); /* Subtle depth */
+  .qualifications-box {
+    /* Style matched to .widget-item (Recent Posts) */
+    background-color: color-mix(in srgb, var(--default-color), transparent 98%);
+    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    padding: 1.875rem;
+    border-radius: 0.3125rem; /* Match widget styling (5px) */
+
+    position: relative;
+    width: 100%; /* controlled by grid column */
+    max-width: 20rem;
+    margin: 0; /* Changed from 0 auto to align left */
+
+    /* Equal Height Logic */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
     transition: transform 0.3s ease;
   }
 
-  .profile-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.05);
-  }
+  /* REMOVED .profile-box:hover HERE */
 
-  .profile-list {
+  .qualifications-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    text-align: center; /* Center items as per mockup vibe */
+    gap: 1.5rem; /* Increased gap between rows */
   }
 
-  .profile-item-content,
-  .profile-link {
+  .qualifications-item-content,
+  .qualifications-link {
     display: flex;
-    flex-direction: column; /* Stack symbol and text */
+    flex-direction: row; /* Horizontal layout */
     align-items: center;
-    gap: 0.5rem;
+    justify-content: flex-start; /* Align left? Or center? User didn't specify alignment but 'in front' implies sequence. Let's try standard flow. */
+    gap: 1rem;
     color: var(--default-color);
     text-decoration: none;
     transition: color 0.3s ease;
+    text-align: left;
   }
 
-  .profile-link:hover {
+  /* If we want them centered in the box, we can do justify-content: center; or use margin auto on the box content? 
+     The previous implementation had text-align: center on results. 
+     Let's stick to left alignment for horizontal lists as it reads better (Icon Text Img). 
+  */
+
+  .qualifications-link:hover {
     color: var(--accent-color);
   }
 
   /* Large Typography for Sidebar Items */
-  .profile-text {
-    font-size: 1.25rem;
+  .qualifications-text {
+    font-size: 1.15rem; /* Slightly smaller to fit row */
     font-family: var(--heading-font);
     font-weight: 500;
     line-height: 1.2;
+    flex: 1; /* Allow text to take space */
   }
 
-  .profile-icon {
+  .qualifications-icon {
     font-size: 1.5rem;
     color: var(--accent-color);
-    margin-bottom: 0.25rem;
+    flex-shrink: 0;
   }
 
-  .profile-icon-img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 0.25rem;
+  .qualifications-cert-img {
+    width: 50px; /* Bigger size */
+    height: 50px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 4px; /* Slight roundness */
+    overflow: hidden;
+    background: #f8f9fa; /* Subtle background for transparency */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease; /* smooth hover */
   }
 
-  .profile-icon-img img {
+  /* Trigger on Link Hover (Row) */
+  .qualifications-link:hover .qualifications-cert-img {
+    transform: translateY(-1.5px); /* Subtle lift */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Card-like shadow */
+    border-color: color-mix(
+      in srgb,
+      var(--accent-color),
+      transparent 65%
+    ); /* Outline */
+  }
+
+  .qualifications-cert-img img {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
 
+  /* Subtitles Logic */
+  .qualifications-text-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Take simplified space */
+    justify-content: center;
+    margin-right: 0.5rem;
+  }
+
+  .qualifications-subtitle {
+    font-size: 0.75em;
+    font-weight: 500;
+    color: color-mix(in srgb, var(--default-color), transparent 55%);
+    line-height: 1.2;
+    display: block;
+    margin-top: 0.1rem;
+    transition: color 0.3s ease;
+  }
+
+  .qualifications-link:hover .qualifications-subtitle {
+    color: color-mix(in srgb, var(--accent-color), transparent 55%);
+  }
+
   /* Responsive Mobile Tweaks */
   @media (max-width: 991px) {
-    .profile-sidebar {
+    .qualifications-sidebar {
       margin-top: 3rem;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    .profile-box {
+    .qualifications-box {
       width: 100%;
       max-width: 350px;
     }

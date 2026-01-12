@@ -53,6 +53,7 @@
   - **Strict Requirement:** ALL `tsconfig.json` files (theme, starter) (playground is manually populated from startter) MUST explicitly define path aliases.
   - **Rule:** always include `"paths": { "@/*": ["src/*"] }` in `compilerOptions`.
   - **Reason:** Astro aliases (like `@/assets`) fail in monorepo workspaces if the consuming project (playground) doesn't have the explicit mapping to its own `src`.
+  - **Prefere Path Aliases:** Use path aliases (`@/assets/img/avatar.jpg`) instead of relative paths (`../../assets/img/avatar.jpg`) for better code maintainability and to avoid issues with nested directory structures, relative paths are considdered bad practice!
 
 ---
 
@@ -60,11 +61,11 @@
 
 ### 🚧 Cache & Schema Issues
 
-**Symptom:** Props missing (e.g., `mini_categories`), schema validation errors, or weird type mismatches that shouldn't exist.
-**Fix:** The Vite/Astro cache is likely stale.
+**Symptom:** Props missing (e.g., `mini_categories`), schema validation errors, or weird type mismatches that shouldn't exist. "Unreachability" of sections. Global weirdness.
+**Fix:** The Vite/Astro cache is likely stale. Perform a CLEAN REBUILD:
 
 ```bash
-rm -rf playground/node_modules/.vite playground/.astro
+pkill -f "bun run dev"; rm -rf playground/node_modules/.vite playground/.astro; bun run dev
 ```
 
 ### 🧩 Content Collections in Monorepos
@@ -121,7 +122,7 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
     - **Valid `img_credit`:** Social link (icon+name), URL, String (Name/Pseudonym), or "hidden". Cannot be empty/undefined.
     - **Valid `img_license`:** Well-known license (CC-BY, Unsplash, etc. - formatted as legal short form), Custom String, "All Rights Reserved", or "hidden". Cannot be empty/undefined.
     - **Display:**
-        - **Placement:** Bottom-right, tiny/unobtrusive (similar to date styling).
+        - **Placement:** Bottom-right, tiny/unobtrusive (similar to date styling). Or if unfeasable like for a round avatar image, it can be below the actual image.
         - **Layout:**
             - *Large Images (Hero/Post Header):* 2 Lines (Credit \n License).
             - *Small Cards:* 1 Line (Credit | License).

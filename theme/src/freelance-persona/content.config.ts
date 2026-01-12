@@ -79,12 +79,23 @@ const sections = defineCollection({
 
       // Profile / Sidebar Elements
       avatar: image().optional(),
-      profile_sidebar: z.array(z.object({
+      qualifications_sidebar: z.array(z.object({
         text: z.string(),
+        subtitle: z.union([z.string(), z.array(z.string())]).optional(),
         icon: z.string().optional(),
+
         image: image().optional(),
         link: z.string().optional(),
       })).optional(),
+
+      avatar_styles: z.object({
+        z_index: z.number().default(1),
+        float_margin_top: z.string().optional(),
+        float_margin_right: z.string().optional(),
+        float_margin_left: z.string().optional(),
+        grid_gap: z.string().optional(),
+        shape_outside_circle: z.boolean().default(true),
+      }).optional(),
 
       // Visual Overrides
       nudge_x: z.string().optional(),

@@ -12,7 +12,10 @@ interface Props {
     title: string;
     desc: string;
     icon?: string;
-    hover_icon?: string;
+    title: string;
+    desc: string;
+    icon?: string;
+    secondary_icon?: string;
     link?: string;
     unavailable?: boolean;
   }[];
@@ -85,7 +88,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                 {feature.icon && (
                   <div class="feature-icon-wrapper-outer">
                     <div
-                      class={`feature-icon-bg ${feature.hover_icon ? "has-hover-icon" : ""}`}
+                      class={`feature-icon-bg ${feature.secondary_icon ? "has-secondary-icon" : ""}`}
                     >
                       {/* Main Icon */}
                       {feature.icon === "lance-icon" ? (
@@ -94,10 +97,10 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                         <i class={`${feature.icon} feature-icon icon-main`} />
                       )}
 
-                      {/* Hover Icon */}
-                      {feature.hover_icon && (
+                      {/* Secondary Icon */}
+                      {feature.secondary_icon && (
                         <i
-                          class={`${feature.hover_icon} feature-icon icon-hover`}
+                          class={`${feature.secondary_icon} feature-icon icon-secondary`}
                         />
                       )}
                     </div>
@@ -132,27 +135,20 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
       scale(var(--content-scale, 1));
   }
 
-  /* Hover Icon Logic */
+  /* Icon Logic */
   .feature-icon-bg {
-    position: relative; /* Context for absolute hover icon */
+    position: relative; /* Context for absolute icon */
     display: inline-flex; /* Ensure centering */
     justify-content: center;
     align-items: center;
   }
 
   .feature-icon {
-    /* 
-      Pure CSS Transition:
-      Reliable, smooth cross-fade.
-      0.2s Delay: Button moves first.
-      0.8s Duration: Very slow and subtle.
-    */
-    transition: opacity 0.8s ease-in-out;
-    transition-delay: 0.2s;
+    /* No transitions - Static Layout */
   }
 
-  /* Default state for Hover Icon */
-  .feature-icon.icon-hover {
+  /* Default state for Secondary Icon is hidden (unless parent has-secondary-icon) */
+  .feature-icon.icon-secondary {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -160,17 +156,24 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
     opacity: 0;
   }
 
-  /* Card Hover Triggers */
-  :global(.feature-card:hover) .has-hover-icon .icon-main {
-    /* 
-      "Render Bug" / Overlay Strategy:
-      Don't fully hide the main icon. Let them overlap.
-      Dimming slightly (0.3) allows the new icon to stand out without a hard "swap".
-    */
-    opacity: 0.3;
+  /* 
+    Permanent Dual Icon Layout (Flexbox)
+    - Automatically centers the pair.
+    - Gap controls spacing.
+  */
+  .feature-icon-bg.has-secondary-icon {
+    gap: 0.25rem; /* Adjust this to change spacing transparently */
   }
 
-  :global(.feature-card:hover) .icon-hover {
-    opacity: 1; /* Fully visible on top */
+  .feature-icon-bg.has-secondary-icon .icon-main {
+    transform: none; /* No manual shifting needed */
   }
+
+  .feature-icon-bg.has-secondary-icon .icon-secondary {
+    position: static; /* Join the flex flow */
+    transform: none;
+    opacity: 1;
+  }
+
+  /* Removed Hover Triggers - No animation */
 </style>

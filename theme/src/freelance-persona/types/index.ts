@@ -64,7 +64,8 @@ export interface PersonaConfig {
 
   quote: string;
   copyright: string;
-  credits: string;
+  copyright: string;
+  credits: string | string[];
 
   // New Visuals Config
   visuals?: VisualsConfig;

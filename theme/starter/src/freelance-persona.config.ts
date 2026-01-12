@@ -130,9 +130,12 @@ export const themeConfig: PersonaConfig = {
   // Footer Content
   quote: "Real stupidity beats artificial intelligence every time. --- From Hogfather",
   copyright: "&copy; All Rights Reserved",
-  // Removed hardcoded Web3Forms credit, !FixME! outofetsh the right form provider and add to credits
-  // ignor unaplicable ones like custom and mailtoform
-  credits: "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/) <br> With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)"
+  // Note: The theme automatically appends the configured contact form provider
+  // (Formspark, Web3Forms, Ntfy, or Netlify) to the credits link in the footer.
+  credits: [
+    "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/)", // form provider gets put here
+    "With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)"
+  ]
 };
 
 export default themeConfig;

@@ -19,7 +19,7 @@ features:
   - title: "Testing"
     desc: "Game and Softwar testing — focused on Linux."
     icon: "bi bi-controller" # Inferred for Game testing
-    hover_icon: "bi bi-bug"
+    secondary_icon: "bi bi-bug"
     link: "#contact"
 
   - title: "Permaculture & Ecosystem-restoration Consulting"

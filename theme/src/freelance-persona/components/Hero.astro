@@ -7,6 +7,7 @@ interface Props {
   hero_typing_text?: string;
   greeting?: string;
   background_image?: ImageMetadata;
+  background_overlay_transparency?: string;
 
   // Typing Config
   typing_speed?: number;
@@ -34,6 +35,7 @@ interface Props {
 
 const {
   background_image: explicitImage,
+  background_overlay_transparency = undefined,
 
   title = "CONFIG MISSING",
   hero_typing_text = "Error: src/content/sections/hero.md not found",
@@ -145,9 +147,19 @@ const fineTuneStyle = {
     "--gap-typing-to-socials": gap_typing_to_socials,
   }),
 };
+
+const heroSectionStyle = {
+  ...(background_overlay_transparency && {
+    "--transparency": background_overlay_transparency,
+  }),
+};
 ---
 
-<section id="hero" class={`hero section ${heroAlignClass}`}>
+<section
+  id="hero"
+  class={`hero section ${heroAlignClass}`}
+  style={heroSectionStyle}
+>
   {
     finalImage && (
       <Image

@@ -15,7 +15,8 @@ const sections = defineCollection({
       greeting: z.string().optional(),
       hero_typing_text: z.string().optional(),
       order: z.number().default(0),
-      background_image: z.string().optional(),
+      background_image: image().optional(),
+      background_overlay_transparency: z.string().optional(),
 
       // Typing Config
       typing_speed: z.number().optional(),
@@ -89,7 +90,7 @@ const sections = defineCollection({
       })).optional(),
 
       avatar_styles: z.object({
-        z_index: z.number().default(1),
+        z_index: z.number().default(10),
         float_margin_top: z.string().optional(),
         float_margin_right: z.string().optional(),
         float_margin_left: z.string().optional(),

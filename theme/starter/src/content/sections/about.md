@@ -16,13 +16,15 @@ qualifications_sidebar:
     subtitle:
       - "MIT Open Source"
       - "2026"
+      - "Lance Icon"
+      - "OFL 1.1+"
     icon: "bi bi-award"
     image: "@/assets/img/theme_certificate.svg"
     link: "https://github.com/wabuo/astro_freelance-persona_theme"
 
   - text: "Tech Stack"
     subtitle: 
-      - "Astro 5"
+      - "Astro 5.0"
       - "Bootstrap 5.3"
       - "TypeScript"
     icon: "bi bi-stack"

@@ -2,7 +2,7 @@
 title: "2024 Design Trends to Watch"
 date: 2024-02-28
 description: "From Bento grids to neo-brutalism, what's hot this year?"
-thumbnail: "/src/assets/img/background.jpg"
+thumbnail: "/src/assets/img/background_empty.svg"
 tags: ["design", "ux"]
 ---
 

@@ -1,9 +1,11 @@
 ---
 order: 0
 type: hero
-title: "Fabio Rieker"
+title: "Freelance — Persona"
 greeting: ""
 hero_typing_text: "A modern, responsive and lightweight theme for resume, portfolio, and blog"
+#background_image: "@/assets/img/lancy.png"
+background_overlay_transparency: 35% # default 25%
 
 #### RESTORE YOUR LAYOUT:
 ## how much to push away from the left
@@ -22,6 +24,7 @@ typing_font_family: '"Courier New", Courier, monospace'
 gap_title_to_typing: "0.1125rem"
 gap_typing_to_socials: "1.5625rem"
 ---
+
 
 
 

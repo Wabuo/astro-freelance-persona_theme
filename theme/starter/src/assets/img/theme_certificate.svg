@@ -1,0 +1,37 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Paper Background -->
+  <rect x="25" y="25" width="350" height="250" fill="url(#grad1)" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+  
+  <!-- Border Design -->
+  <rect x="40" y="40" width="320" height="220" fill="none" stroke="#0563bb" stroke-width="2" stroke-dasharray="5,5"/>
+  <rect x="45" y="45" width="310" height="210" fill="none" stroke="#0563bb" stroke-width="1"/>
+
+  <!-- Seal -->
+  <circle cx="320" cy="220" r="30" fill="#0563bb" opacity="0.8"/>
+  <circle cx="320" cy="220" r="25" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="3,2"/>
+  <text x="320" y="225" font-family="serif" font-size="24" fill="white" text-anchor="middle" font-weight="bold">★</text>
+
+  <!-- Content -->
+  <text x="200" y="90" font-family="sans-serif" font-size="24" fill="#212529" text-anchor="middle" font-weight="bold">Theme Certificate</text>
+  
+  <text x="200" y="130" font-family="serif" font-size="16" fill="#495057" text-anchor="middle" font-style="italic">This certifies that</text>
+  
+  <text x="200" y="160" font-family="sans-serif" font-size="20" fill="#0563bb" text-anchor="middle" font-weight="bold">Freelance Persona</text>
+  
+  <text x="200" y="190" font-family="serif" font-size="14" fill="#495057" text-anchor="middle">is a 100% valid Astro 5 Theme</text>
+  
+  <!-- Signature Line -->
+  <line x1="80" y1="230" x2="180" y2="230" stroke="#212529" stroke-width="1"/>
+  <text x="130" y="245" font-family="sans-serif" font-size="10" fill="#6c757d" text-anchor="middle">Lancy</text>
+
+</svg>

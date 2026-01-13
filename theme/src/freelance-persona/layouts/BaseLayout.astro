@@ -93,6 +93,7 @@ const globalMarginRight =
 
 // --- FONTS CONFIGURATION ---
 const fonts = themeConfig.fonts || {};
+const colors = themeConfig.colors || {};
 
 // Level 4: Code Fallback (Generic System Fonts)
 const headingFont = fonts.headings || "sans-serif";
@@ -111,6 +112,34 @@ const monospaceFont = fonts.monospace || "monospace";
   --default-font: "${bodyFont}";
   --nav-font: "${navFont}";
   --monospace-font: ${monospaceFont};
+
+  /* Color Overrides */
+  ${colors.background ? `--background-color: ${colors.background};` : ""}
+  ${colors.text ? `--default-color: ${colors.text};` : ""}
+  ${colors.heading ? `--heading-color: ${colors.heading};` : ""}
+  ${colors.accent ? `--accent-color: ${colors.accent};` : ""}
+  ${colors.surface ? `--surface-color: ${colors.surface};` : ""}
+  ${colors.contrast ? `--contrast-color: ${colors.contrast};` : ""}
+  ${colors.muted ? `--text-muted: ${colors.muted};` : ""}
+  ${colors.transparency ? `--transparency: ${colors.transparency};` : ""}
+
+  /* Navigation Color Overrides */
+  ${colors.nav?.link ? `--nav-color: ${colors.nav.link};` : ""}
+  ${colors.nav?.hover ? `--nav-hover-color: ${colors.nav.hover};` : ""}
+  ${colors.nav?.mobile_background ? `--nav-mobile-background-color: ${colors.nav.mobile_background};` : ""}
+  ${colors.nav?.dropdown_background ? `--nav-dropdown-background-color: ${colors.nav.dropdown_background};` : ""}
+  ${colors.nav?.dropdown_link ? `--nav-dropdown-color: ${colors.nav.dropdown_link};` : ""}
+  ${colors.nav?.dropdown_hover ? `--nav-dropdown-hover-color: ${colors.nav.dropdown_hover};` : ""}
+  ${colors.nav?.header_background ? `--header-background-color: ${colors.nav.header_background};` : ""}
+  ${colors.nav?.header_color ? `--header-color: ${colors.nav.header_color};` : ""}
+
+  /* Font Size Overrides */
+  ${fonts.sizes?.normal ? `--normal-font-size: ${fonts.sizes.normal};` : ""}
+  ${fonts.sizes?.footer ? `--footer-font-size: ${fonts.sizes.footer};` : ""}
+  ${fonts.sizes?.heading ? `--heading-font-size: ${fonts.sizes.heading};` : ""}
+  ${fonts.sizes?.subtitle ? `--subtitle-font-size: ${fonts.sizes.subtitle};` : ""}
+  ${fonts.sizes?.title ? `--title-font-size: ${fonts.sizes.title};` : ""}
+  ${fonts.sizes?.nav_icon ? `--nav-icon-size: ${fonts.sizes.nav_icon};` : ""}
 `}
 >
   <head>

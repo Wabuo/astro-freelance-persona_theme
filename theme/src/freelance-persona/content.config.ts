@@ -93,6 +93,7 @@ const sections = defineCollection({
         float_margin_top: z.string().optional(),
         float_margin_right: z.string().optional(),
         float_margin_left: z.string().optional(),
+        float_margin_bottom: z.string().optional(),
         grid_gap: z.string().optional(),
         shape_outside_circle: z.boolean().default(true),
       }).optional(),

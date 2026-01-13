@@ -26,6 +26,7 @@ interface Props {
     float_margin_top?: string;
     float_margin_right?: string;
     float_margin_left?: string;
+    float_margin_bottom?: string;
     grid_gap?: string;
     shape_outside_circle?: boolean;
   };
@@ -53,6 +54,7 @@ const sectionStyle = `
   --float-margin-top: ${avatar_styles?.float_margin_top || "0rem"};
   --float-margin-right: ${avatar_styles?.float_margin_right || "0rem"};
   --float-margin-left: ${avatar_styles?.float_margin_left || "2rem"};
+  --float-margin-bottom: ${avatar_styles?.float_margin_bottom || "2rem"};
   --shape-outside: ${avatar_styles?.shape_outside_circle === false ? "none" : "circle(50%)"};
 `;
 
@@ -248,6 +250,7 @@ console.log("AboutSection props:", { hasSidebar, avatar_styles });
       margin-top: var(--float-margin-top);
       margin-right: calc(((100% - 100vw) / 2) + var(--float-margin-right));
       margin-left: var(--float-margin-left);
+      margin-bottom: var(--float-margin-bottom);
       position: relative;
     }
 

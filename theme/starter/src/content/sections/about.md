@@ -9,7 +9,9 @@ avatar_styles:
   z_index: 10
   float_margin_top: "-5rem"
   float_margin_right: "18rem"    # Should be at screen edge
-  float_margin_left: "clamp(2rem, 6%, 5rem)" # 5% of content width (Responsive)
+  float_margin_left: "clamp(2rem, 6%, 5rem)" # 6% of content width (Responsive)
+  # Can also be set to something like 30rem, to ensure no text below it for the rest of the about page
+  float_margin_bottom: "clamp(2rem, 2%, 5rem)
 qualifications_sidebar:
   - text: "PDC"
     subtitle:
@@ -60,4 +62,4 @@ Still, if your own path has led you here, and you've found a landmark you really
 Please don't.
 But you could.
 
-Wishing you an amazing week, an awesome month, and an astonishing year!
+Wishing you an amazing week, an awesome month, and an astonishing year! to discuss, you can try the email form at the bottom.

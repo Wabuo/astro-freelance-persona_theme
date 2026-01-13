@@ -1,8 +1,8 @@
 ---
-title: ""
-subtitle: ""
+title: "Astro Posts"
+subtitle: "Posts filtered by tag 'astro'"
 type: "filtered_posts"
 order: 30
-icon_class: ""
+icon_class: "bi bi-braces-asterisk"
 tags_to_filter_posts_by: ["astro"]
 ---

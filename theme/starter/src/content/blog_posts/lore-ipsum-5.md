@@ -1,0 +1,9 @@
+---
+title: "Lore Ipsum 5"
+date: 2026-01-10
+description: "Dummy post 5."
+thumbnail: "../../assets/img/background_empty.svg"
+tags: ["dev", "astro", "coding"]
+---
+
+Lorem ipsum text for post 5.

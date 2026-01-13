@@ -5,7 +5,7 @@ title: "Freelance — Persona"
 greeting: ""
 hero_typing_text: "A modern, responsive and lightweight theme for resume, portfolio, and blog"
 #background_image: "@/assets/img/lancy.png"
-background_overlay_transparency: 35% # default 25%
+background_overlay_transparency: 35% # default 25% | given the muted colors of the sample image less was needed
 
 #### RESTORE YOUR LAYOUT:
 ## how much to push away from the left

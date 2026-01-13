@@ -131,12 +131,13 @@ export const themeConfig: PersonaConfig = {
   quote: "Real stupidity beats artificial intelligence every time. --- From Hogfather",
   copyright: "&copy; All Rights Reserved",
   credits: [
-    "",
+    "", // empty row at the top
     "Theme: [Freelance Persona](https://github.com/wabuo/astro_freelance-persona_theme)",
-    //"Contact form via [Formspark](https://formspark.io)",
+    // uncomment the form provider you are using
+    "Contact form via [Formspark](https://formspark.io)", // default
     //"Contact form via [Web3Forms](https://web3forms.com)",
     //"Contact form via [Netlify Forms](https://www.netlify.com/products/forms/)",
-    "Contact form via [ntfy](https://github.com/binwiederhier/ntfy) hosted at [https://ntfy.sh](https://ntfy.sh)",
+    //"Contact form via [ntfy](https://github.com/binwiederhier/ntfy) hosted at [https://ntfy.sh](https://ntfy.sh)",
     "With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)",
     "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), [Fontsource](https://fontsource.org/), [Akademicons](https://akademiicons.com/), [Katex](https://katex.org/) & [Marked](https://github.com/markedjs/marked)",
   ],

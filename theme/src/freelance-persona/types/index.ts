@@ -64,8 +64,36 @@ export interface PersonaConfig {
 
   quote: string;
   copyright: string;
-  copyright: string;
   credits: string | string[];
+
+  // Color Configuration (Overrides base.scss)
+  colors?: {
+    primary?: string; // (Unused in base, but common alias)
+    secondary?: string; // --default-color (Text)
+
+    // Core Colors
+    background?: string; // --background-color
+    text?: string; // --default-color
+    heading?: string; // --heading-color
+    accent?: string; // --accent-color
+    surface?: string; // --surface-color
+    contrast?: string; // --contrast-color
+    muted?: string; // --text-muted
+
+    transparency?: string; // --transparency (e.g. "25%")
+
+    // Navigation Colors
+    nav?: {
+      link?: string; // --nav-color
+      hover?: string; // --nav-hover-color
+      mobile_background?: string; // --nav-mobile-background-color
+      dropdown_background?: string; // --nav-dropdown-background-color
+      dropdown_link?: string; // --nav-dropdown-color
+      dropdown_hover?: string; // --nav-dropdown-hover-color
+      header_background?: string; // --header-background-color
+      header_color?: string; // --header-color
+    };
+  };
 
   // New Visuals Config
   visuals?: VisualsConfig;
@@ -76,6 +104,16 @@ export interface PersonaConfig {
     body?: string;
     navigation?: string;
     monospace?: string;
+
+    // Font Sizes (Overrides base.scss)
+    sizes?: {
+      normal?: string; // --normal-font-size
+      footer?: string; // --footer-font-size
+      heading?: string; // --heading-font-size
+      subtitle?: string; // --subtitle-font-size
+      title?: string; // --title-font-size
+      nav_icon?: string; // --nav-icon-size
+    };
   };
 
   // Legal / Impressum Configuration

@@ -52,6 +52,20 @@ const displayedPosts = filteredPosts
 // 4. Determine Column Class
 const colClass =
   columns === 4 ? "col-xl-3 col-lg-4 col-md-6 mb-4" : "col-lg-4 col-md-6 mb-4";
+
+// 5. Excerpt Helper
+const getExcerpt = (body: string) => {
+  if (!body) return "";
+  let text = body
+    .replace(/^#+\s+/gm, "") // Remove headers
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1") // Remove links, keep text
+    .replace(/[*_`]/g, "") // Remove formatting chars
+    .replace(/!\[[^\]]*\]\([^\)]+\)/g, "") // Remove images
+    .replace(/<br\s*\/?>/gi, "\n") // Convert <br> to newline
+    .trim();
+
+  return text; // Return full text, allow CSS to handle overflow/fade
+};
 ---
 
 {/* Only render the section if we actually found posts for this category */}
@@ -93,8 +107,22 @@ const colClass =
                     <div class="preview-card-wrapper h-100 w-100">
                       <div
                         class="mock-page-content"
-                        style="width: 100%; height: 100%; padding: 1rem; background-color: var(--surface-color, #fff); color: var(--default-color);"
+                        style="width: 100%; height: 100%; padding: 1rem; background-color: var(--surface-color, #fff); color: var(--text-muted); overflow: hidden; position: relative;"
                       >
+                        {/* Fade Out Mask Overlay - Applied to container to fade content at bottom */}
+                        <div
+                          style="
+                            position: absolute; 
+                            bottom: 0; 
+                            left: 0; 
+                            width: 100%; 
+                            height: 25%; /* FADE START POINT: Adjust height% to control where fade begins (25% = starts lower) */
+                            background: linear-gradient(to bottom, transparent, var(--surface-color, #fff)); 
+                            z-index: 2;
+                            pointer-events: none;
+                          "
+                        />
+
                         <div class="post-header">
                           <h2
                             class="post-title"
@@ -134,9 +162,9 @@ const colClass =
 
                           <div
                             class="post-content"
-                            style="font-size: 0.625rem; line-height: 1.6;"
+                            style="font-size: 0.77rem; line-height: 1.2; white-space: pre-line;"
                           >
-                            <p>{post.data.description}</p>
+                            <p>{getExcerpt(post.body)}</p>
                           </div>
                         </div>
                       </div>

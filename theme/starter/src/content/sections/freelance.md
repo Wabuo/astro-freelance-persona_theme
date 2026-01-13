@@ -6,35 +6,35 @@ order: 5
 icon_class: "lance-icon"
 
 features:
-  - title: "SysAdmin"
-    desc: "Linux server administration, automation, and security\n — focused on reliability and performance."
-    icon: "bi bi-code-slash" # Was fa-code
-    link: "/services/sys_admin"
+  - title: "Blazing Fast"
+    desc: "Built with Astro 5 and zero-JS core. Scores 100/100 on Lighthouse/PageSpeed."
+    icon: "bi bi-lightning-charge"
+    link: "#"
     
-  - title: "LQA"
-    desc: "Localization Quality Assurance\n — focused on X → DE & DE ⇒ EN."
-    icon: "bi bi-translate" # Inferred from context
-    link: "#contact"
+  - title: "SEO Optimized"
+    desc: "Semantic HTML, meta tags, and Open Graph support out of the box."
+    icon: "bi bi-search"
+    link: "#"
 
-  - title: "Testing"
-    desc: "Game and Softwar testing — focused on Linux."
-    icon: "bi bi-controller" # Inferred for Game testing
-    secondary_icon: "bi bi-bug"
-    link: "#contact"
+  - title: "Responsive Design"
+    desc: "Mobile-first approach. Looks great on phones, tablets, and desktops."
+    icon: "bi bi-phone"
+    secondary_icon: "bi bi-laptop"
+    link: "#"
 
-  - title: "Permaculture & Ecosystem-restoration Consulting"
-    desc: "Lets Grow."
-    icon: "lance-icon" # Substitute for missing seedling
-    link: "/services/webdev-details"
+  - title: "Static & Secure"
+    desc: "No database, no backend to hack. Just pure, secure static HTML."
+    icon: "bi bi-shield-check" 
+    link: "#"
 
-  - title: "Digital Maps"
-    desc: "Geospatial maps needed for good permaculture designs and many other decisions about Land."
-    icon: "bi bi-globe-americas" # Inferred for Maps
-    link: "/services/digital_maps"
+  - title: "Easy Configuration"
+    desc: "Control colors, fonts, and settings via a single config file."
+    icon: "bi bi-sliders"
+    link: "#"
 
-  - title: "Web Devolopmen"
-    desc: "Building simple, fast, secure, and modern static websites.\n — focused on Soletraders."
-    icon: "bi bi-window-sidebar" # Inferred for Web Dev
-    link: "#contact"
+  - title: "User Analytics"
+    desc: "Sorry, unavailable. We treasure our visitors' privacy (and yours)."
+    icon: "bi bi-bar-chart" 
+    link: "#"
     unavailable: true
 ---

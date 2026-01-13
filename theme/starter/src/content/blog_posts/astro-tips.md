@@ -2,7 +2,7 @@
 title: "Top 5 Astro Tips for 2024"
 date: 2024-03-15
 description: "Boost your Astro development workflow with these essential tips."
-thumbnail: "/src/assets/img/background.jpg"
+thumbnail: "/src/assets/img/background_empty.svg"
 tags: ["astro", "coding"]
 ---
 

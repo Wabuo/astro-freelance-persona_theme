@@ -4,9 +4,8 @@ type: "about"
 icon_class: "bi bi-person-vcard"
 subtitle: "Public Self & Private Soul"
 order: 10
-avatar: "@/assets/img/avatar.jpg"
+avatar: "@/assets/img/avatar.svg"
 avatar_styles:
-  z_index: 10
   float_margin_top: "-5rem"
   float_margin_right: "18rem"    # Should be at screen edge
   float_margin_left: "clamp(2rem, 6%, 5rem)" # 6% of content width (Responsive)

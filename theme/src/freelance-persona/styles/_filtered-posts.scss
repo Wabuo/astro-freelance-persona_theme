@@ -36,11 +36,3 @@
     /* transition-delay: 0s; Remove delay to match standard */
     will-change: color;
 }
-
-/* Hover Text Color Changes */
-/* We rely on global selector because Card wrapper handles hover */
-/* Using specificity to target within the card wrapper context */
-.card-wrapper:hover .post-details .post-content p,
-.card-wrapper:hover .post-details .date {
-    color: var(--accent-color);
-}

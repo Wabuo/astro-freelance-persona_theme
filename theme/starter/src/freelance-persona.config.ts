@@ -88,7 +88,7 @@ export const themeConfig: PersonaConfig = {
     background: "#ffffff",      // Main site background
     surface: "#ffffff",         // Cards and boxed elements
     text: "#272829",            // Main body text
-    muted: "#999999",           // Secondary text (dates, metadata)
+    muted: "#6c757d",           // Secondary text (dates, metadata)
     heading: "#45505b",         // Headers (h1-h6)
     
     // Brand Colors

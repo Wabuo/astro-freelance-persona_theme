@@ -82,7 +82,7 @@ export const themeConfig: PersonaConfig = {
   // -----------------------------------------------------------------------------------
   // Uncomment and adjust these values to override the theme's core colors.
   // Values can be hex codes (#ffffff), rgb(), rgba(), or hsl().
-  /*
+
   colors: {
     // Core Interface Colors
     background: "#ffffff",      // Main site background
@@ -90,11 +90,11 @@ export const themeConfig: PersonaConfig = {
     text: "#272829",            // Main body text
     muted: "#6c757d",           // Secondary text (dates, metadata)
     heading: "#45505b",         // Headers (h1-h6)
-    
+
     // Brand Colors
     accent: "#0563bb",          // Primary action color (links, buttons)
     contrast: "#ffffff",        // Text on accent background
-    
+
     // Transparency Settings
     transparency: "25%",        // General overlay transparency (e.g. Hero)
 
@@ -110,7 +110,7 @@ export const themeConfig: PersonaConfig = {
       header_color: "#ffffff"
     }
   },
-  */
+
 
   // -----------------------------------------------------------------------------------
   // B. Typography & Fonts

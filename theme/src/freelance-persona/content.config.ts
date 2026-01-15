@@ -204,6 +204,8 @@ const sections = defineCollection({
         secondary_icon: z.string().optional(),
         link: z.string().optional(),
         unavailable: z.boolean().optional(),
+        button_text: z.string().optional(),
+        unavailable_button_text: z.string().default("Sorry, currently unavailable"),
       })).default([]),
 
       // Visual Overrides

@@ -9,6 +9,11 @@
     "dev": "bun --filter my-freelance-portfolio dev",
     "build": "bun --filter my-freelance-portfolio build",
     "preview": "bun --filter my-freelance-portfolio preview",
-    "check": "bun --filter my-freelance-portfolio check"
+    "check": "bun --filter my-freelance-portfolio check",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0"
   }
 }

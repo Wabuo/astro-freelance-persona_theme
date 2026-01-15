@@ -15,6 +15,8 @@ interface Props {
     secondary_icon?: string;
     link?: string;
     unavailable?: boolean;
+    button_text?: string;
+    unavailable_button_text: string;
   }[];
   nudge_x?: string;
   nudge_y?: string;
@@ -108,13 +110,11 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                 <h3 class="feature-title-card">{feature.title}</h3>
                 <p class="feature-description-card">{feature.desc}</p>
 
-                {(finalLink || isUnavailable) && (
+                {(feature.button_text || isUnavailable) && (
                   <div class="feature-hover-action">
                     {isUnavailable
-                      ? "Sorry, currently unavailable"
-                      : finalLink && finalLink.startsWith("#")
-                        ? "Contact Me"
-                        : "Tell Me More"}
+                      ? feature.unavailable_button_text
+                      : feature.button_text}
                   </div>
                 )}
               </Card>

@@ -2,7 +2,7 @@
 title: "Hello World"
 description: "This is a post without an image. It should display as a text-only card."
 date: 2026-01-13
-tags: ["General"]
+tags: ["general", "astro"]
 ---
 
 Welcome to my new blog! This is the first post. It doesn't have a picture, so it relies on the text content to draw you in.

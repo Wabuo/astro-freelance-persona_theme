@@ -152,7 +152,7 @@ const sections = defineCollection({
         custom_overlay_color: z.string().optional(),
         mix_accent: z.number().optional(),
         overlay_opacity: z.number().optional(),
-        title_style: z.enum(['dark', 'light', 'custom']).default(''),
+        title_style: z.enum(['dark', 'light', 'custom', '']).default(''),
         custom_title_color: z.string().optional(),
       })
         .refine((data) => {

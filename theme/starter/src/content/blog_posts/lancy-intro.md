@@ -2,7 +2,9 @@
 title: "Hi, I'm Lancy!"
 date: 2026-01-14
 description: "Meet the bot behind the build. The official mascot of Freelance Persona."
-thumbnail: "/src/assets/img/lancy_blog.svg"
+thumbnail: "@/assets/img/lancy_blog.svg"
+img_credit: "Fabio Lenherr"
+img_license: "All Rights Reserved"
 tags: ["theme", "mascot", "update"]
 ---
 

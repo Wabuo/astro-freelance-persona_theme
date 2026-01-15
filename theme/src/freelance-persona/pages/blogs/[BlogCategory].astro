@@ -188,7 +188,11 @@ const formatDate = (date: Date) => {
   .post-entry {
     padding-bottom: 1.5rem; /* Match reference gap (24px) */
     margin-bottom: var(--spacing-lg);
-    border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border-bottom: 1px solid
+      var(
+        --border-color,
+        color-mix(in srgb, var(--default-color), transparent 90%)
+      );
     transition:
       border-color var(--transition-hover-time, 0.2s),
       transform 0.3s ease-out;
@@ -252,7 +256,7 @@ const formatDate = (date: Date) => {
   .empty-state {
     text-align: center;
     padding: var(--spacing-xxl) 0;
-    opacity: 0.6;
+    color: color-mix(in srgb, var(--default-color), transparent 40%);
     position: relative;
     min-height: 30vh; /* Create a separate visual pane */
     display: flex;

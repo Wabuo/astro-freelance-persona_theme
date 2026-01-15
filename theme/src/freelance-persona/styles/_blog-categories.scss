@@ -62,7 +62,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--overlay-bg, rgba(0, 0, 0, 0.4));
+  background: var(--overlay-bg, color-mix(in srgb, black, transparent 60%));
   text-align: center;
   padding-block: 0.75rem;
   transition: background 0.3s ease;
@@ -73,7 +73,7 @@
 
 .card-wrapper:hover .overlay-title-wrapper,
 .category-card-wrapper:hover .overlay-title-wrapper {
-  background: var(--overlay-bg, rgba(0, 0, 0, 0.24));
+  background: var(--overlay-bg, color-mix(in srgb, black, transparent 76%));
 }
 
 .overlay-title-text {
@@ -181,7 +181,7 @@
      If user wants empty latest-posts area to act as dead zone, we leave it auto. */
   margin-top: 1.5rem;
   padding-top: 1.6rem;
-  border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+  border-top: 1px solid var(--border-color, color-mix(in srgb, var(--default-color), transparent 90%));
 
   // /* Second line for double-border effect with custom gap */
   // &::before {
@@ -294,7 +294,7 @@
 
   .category-description {
     font-size: 0.95rem;
-    opacity: 0.8;
+    color: color-mix(in srgb, currentColor, transparent 20%);
     margin-bottom: 1rem;
     /* Restored to match standard */
     line-height: 1.4;

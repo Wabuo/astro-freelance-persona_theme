@@ -224,6 +224,33 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     thumbnail: image().optional(),
+
+    // Image Attribution (AGENT.md Rule 8 - Legal Requirement)
+    img_credit: z.union([
+      z.string(),  // Name/Pseudonym or URL
+      z.object({   // Social link (icon+name)
+        name: z.string(),
+        url: z.string(),
+        icon: z.string().optional(),
+      }),
+      z.literal('hidden'),
+    ]).refine((val) => {
+      if (typeof val === 'string' && val.trim() === '') return false;
+      return true;
+    }, {
+      message: "img_credit cannot be empty. Use a name, URL, social link object, or 'hidden'",
+    }),
+
+    img_license: z.union([
+      z.string(),  // License name (e.g., "CC-BY-4.0", "Unsplash", "All Rights Reserved")
+      z.literal('hidden'),
+    ]).refine((val) => {
+      if (typeof val === 'string' && val.trim() === '') return false;
+      return true;
+    }, {
+      message: "img_license cannot be empty. Use a license name or 'hidden'",
+    }),
+
     tags: z.array(z.string()),
   }),
 });

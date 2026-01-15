@@ -231,7 +231,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                   ) : (
                     <p
                       class="no-posts-message"
-                      style="font-size: 0.8rem; opacity: 0.6; font-style: italic;"
+                      style="font-size: 0.8rem; color: color-mix(in srgb, var(--default-color), transparent 40%); font-style: italic;"
                     >
                       No posts yet
                     </p>
@@ -302,11 +302,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                   {category.description && (
                     <p
                       class="category-description"
-                      style={
-                        category.color
-                          ? `color: ${category.color}; opacity: 0.9;`
-                          : ""
-                      }
+                      style={category.color ? `color: ${category.color};` : ""}
                     >
                       {category.description}
                     </p>
@@ -317,7 +313,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                         class="badge"
                         style={
                           category.color
-                            ? `background: rgba(0,0,0,0.1); color: ${category.color};`
+                            ? `background: color-mix(in srgb, black, transparent 90%); color: ${category.color};`
                             : ""
                         }
                       >

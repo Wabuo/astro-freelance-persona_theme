@@ -187,17 +187,17 @@ const disclaimerHtml = disclaimerContent ? await parse(disclaimerContent) : "";
     font-size: 1.2rem;
     margin-bottom: var(--spacing-sm);
     color: var(--bs-heading-color);
-    opacity: 0.8;
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
   }
 
   .legal-text {
     font-size: 0.95rem;
     line-height: 1.6;
-    opacity: 0.9;
+    color: color-mix(in srgb, var(--heading-color), transparent 10%);
   }
 
   .legal-note {
-    opacity: 0.6;
+    color: color-mix(in srgb, var(--default-color), transparent 40%);
     font-size: 0.9em;
   }
 </style>

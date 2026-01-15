@@ -4,7 +4,7 @@ title: "Blogs"
 custom_id: "blogs"
 #subtitle: "Explore the documentation"
 order: 25
-icon_class: "bi bi-grid-3x3-gap-fill"
+icon_class: "bi bi-grid"
 categories:
   - title: "Development"
     overlay_title: true
@@ -12,7 +12,7 @@ categories:
     title_style: "light"
     background_color: "#333"
     tags: ["dev", "astro", "coding"]
-    description: "Core features, API updates, and performance tuning."
+    description: "Core features, API updates, and performance tuning. (Grid example)"
     show_subtitle: false
     style: "cards"
   - title: "Design System"
@@ -23,14 +23,14 @@ categories:
     overlay_opacity: 0.5
     title_style: "light"
     tags: ["design", "css"]
-    description: "Layouts, components, and visual guidelines."
+    description: "Layouts, components, and visual guidelines. (List example)"
   - title: "Community"
     background_color: "#f8cd20ff"
     overlay_title: false
     title_style: "dark"
     overlay_style: "none"
     tags: ["community"]
-    description: "Showcases, tutorials, and success stories."
+    description: "Showcases, tutorials, and success stories. (No posts yet example)"
 mini_categories:
   - title: "Deprecated"
     description: "Old patterns."

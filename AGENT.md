@@ -27,11 +27,17 @@
 
 - **Execution Environment:** Tests MUST be run against a **production build** (`bun run build` + `bun run preview`), NOT the dev server.
 - **Report Handling:** ALWAYS suppress the interactive HTML report to prevent the terminal from hanging. Use a CLI reporter like `--reporter=list` or `--reporter=line`.
-- **Standard Command:** Use the following oneliner to ensure a clean state and proper environment before testing:
+- **Playwright auto starts the server** no manual server startup should be needed for a normal test, this should be enougth:
+
+fuser -k 4321/tcp; fuser -k 4322/tcp; bun x playwright test testing/tests/search.spec.ts --reporter=list
+
+```
+
+- **Backup Command:** Only use this if there is a special need or a need to debug the server startup or build process in conjuncture with runnin tests! Use the following oneliner to ensure a clean state and proper environment before testing:
 
   ```fish
   pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run build; bun run preview
-  ```
+  
 
   In a seperate terminal run: (after parsing the above terminals output to insure the preview server is ready)
 

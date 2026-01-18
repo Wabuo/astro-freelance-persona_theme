@@ -5,10 +5,15 @@ import BlogPostTemplate from "@freelance-persona/components/templates/BlogPostTe
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog_posts");
-  return posts.map((post) => ({
-    params: { id: post.id },
-    props: { post },
-  }));
+  return posts.map((post) => {
+    // Flatten ID: remove subdirectory paths (e.g., 'archive/post' -> 'post')
+    // This allows nested organization without changing URLs.
+    const flatId = post.id.split("/").pop() || post.id;
+    return {
+      params: { id: flatId },
+      props: { post },
+    };
+  });
 }
 
 const { post } = Astro.props;

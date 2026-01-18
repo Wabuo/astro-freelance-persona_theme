@@ -24,3 +24,7 @@ pnpm-debug.log*
 ##  Ignore everything but keep the empty folder to not confuese users
 playground/*
 !playground/.gitkeep
+
+### Testing Artifacts
+testing/test-results/
+testing/playwright-report/

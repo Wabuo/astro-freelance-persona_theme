@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@starter/*": [
+                "theme/starter/src/*"
+            ],
+            "@theme/*": [
+                "theme/src/*"
+            ]
+        },
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable"
+        ]
+    },
+    "include": [
+        "testing/**/*.ts",
+        "playwright.config.ts"
+    ]
+}

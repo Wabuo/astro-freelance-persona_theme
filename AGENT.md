@@ -8,98 +8,76 @@
 
 ## 🚨 CRITICAL OPERATIONAL RULES
 
-### 1. ⚡ Server Management & Process Control
+### 1. ⚡ Server Management (Automated)
 
 > [!IMPORTANT]
-> **ALWAYS check if the dev server is running** before attempting browser verification. If a page load fails (e.g. `chrome-error://chromewebdata/`), CHECK THE SERVER STATUS immediately. Restart it if necessary.
+> **Playwright is configured to auto-start the server.** logic: `bun run build && bun run preview`.
 
-- **ALWAYS start your own server:** Never assume a dev server or preview server is already running for you.
-- **Isolate your environment:** Run `pkill -f "bun run dev"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install;` plus any of the following commands: `bun run dev` (or `bun run build` then `bun run preview`) or `bun run check` yourself, Insure you propagate any changes from starter to playground by following the relevant instructions
-- **Parse output for ports:** Do not assume `localhost:4321`. There might be multiple instances (ghost processes). Unexpected "Page Not Found" errors are often due to connecting to the wrong (stale) instance.
-- **Connection Errors:** If you encounter "This site can't be reached" or `chrome-error://chromewebdata/`, **IMMEDIATELY** check if a dev server is running and **confirm the port** it is serving on. Read the terminal output.
-- **Kill Responsibly:** When killing processes to free up ports, **ONLY kill processes you know are yours** or clearly zombies. Other agents or humans may be working on the server. Always cleanup/kill your *own* processes when finishing a task.
-- **Stopping Servers Correctly:**
-  - 🛑 **DO NOT** try to run `pkill` or input commands into the *same* terminal where the server is running. It will just be treated as text input (stdin) and will do nothing.
-  - ✅ **Method 1:** Use `send_command_input` with `Terminate: true`.
-  - ✅ **Method 2:** Open a **NEW** terminal instance to run shell commands like `pkill -f "astro"`.
+- **Auto-Server:** You generally do **NOT** need to manually start a server for tests. Just run `bun x playwright test`.
+- **Manual Verification:** If you *must* open the site manually:
+  - ✅ **Preferred:** `bun run build && bun run preview` (Matches test environment).
+  - ⚠️ **Dev Mode:** `bun run dev` (Only for rapid iteration, may differ from build).
+- **Port Conflicts:** If `4321` is taken by a zombie process, tests/server will fail.
+  - **Fix:** `fuser -k 4321/tcp; fuser -k 4322/tcp;`
 
-### 1a. 🧪 Testing Standards (Playwright)
+### 2. 🧪 Testing Standards (Playwright)
 
-- **Execution Environment:** Tests MUST be run against a **production build** (`bun run build` + `bun run preview`), NOT the dev server.
-- **Report Handling:** ALWAYS suppress the interactive HTML report to prevent the terminal from hanging. Use a CLI reporter like `--reporter=list` or `--reporter=line`.
-- **Playwright auto starts the server** no manual server startup should be needed for a normal test, this should be enougth:
-
-fuser -k 4321/tcp; fuser -k 4322/tcp; bun x playwright test testing/tests/search.spec.ts --reporter=list
-
-```
-
-- **Backup Command:** Only use this if there is a special need or a need to debug the server startup or build process in conjuncture with runnin tests! Use the following oneliner to ensure a clean state and proper environment before testing:
-
-  ```fish
-  pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run build; bun run preview
-  
-
-  In a seperate terminal run: (after parsing the above terminals output to insure the preview server is ready)
-
-  ```fish
-  bun x playwright test --reporter=list
-  ```
-
-  *(Note: Run `bun run preview` in background or wait for it, then test. If running manually, background logic applies).*
-
-### 2. 🎡 The Playground & Gitignore "Gotcha"
-
-- **Ephemerality:** The `playground/` directory is **NOT** part of the permanent repo (it is git-ignored). It exists solely for testing and development.
-- **Data Persistence:**
-  - ❌ **NEVER** write final code changes to `playground/`.
-  - ✅ **ALWAYS** write final code changes to `theme/`.
-  - 🔄 **Workflow:** Test in `playground` → Verify → Move/Replicate changes to `theme/`.
-- **Visibility:** Since `playground` is git-ignored, some agent tools (like generic file searchers) might skip it.
-  - **Tip:** You may need to temporarily comment out the `playground` exclusion in `.gitignore` if you are doing massive automated refactors there, but remember to revert it.
-- **Resetting:** `playground` can be deleted/reset at any time. Populate it by copying from `starter/`:
-
-  ```fish
-  pkill -f "bun run dev"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install
-  ```
+- **Directory:** Tests are in `testing/tests/`.
+- **Config:** `playwright.config.ts` handles the `webServer`, `noscript` project, and default reporters.
+- **Reporting:** **ALWAYS** use `--reporter=list` or `--reporter=line` to prevent hanging the terminal validation.
+- **NoScript Testing:**
+  - Used for verification of graceful degradation.
+  - Project: `bun x playwright test --project=noscript`
+  - **Rule:** Preloader must be hidden (`display: none`), Content must be visible (`opacity: 1`).
+- **Path Aliases:** Tests **MUST** use `@starter/*` (e.g., `import { themeConfig } from '@starter/freelance-persona.config'`) instead of fragile relative paths (`../../theme/starter/...`).
 
 ### 3. 📦 Project Architecture (Monorepo)
 
-- **Runtime:** `bun` (Strictly). Do not use `npm` or `yarn`.
+- **Runtime:** `bun` (Strictly).
 - **Structure:**
-  - `.` (Root): Theme package workspace.
-  - `./theme`: The actual source code of the theme.
-  - `./starter`: Public template (Read-only reference for dev).
-  - `./playground`: **Your active dev environment.**
-- **Workspace Naming Confusion:**
-  - `playground/package.json` is a copy of `starter/package.json`.
-  - It might retain the name from starter (e.g., `astro-freelance-persona-starter`) which can be confusing when listing workspaces. Rely on directory paths, not just package names.
-
-### 4. 🔗 Path Aliases (STRICT REQUIREMENT)
-
-- **ALL** `tsconfig.json` files (theme, starter, playground) MUST explicitly define path aliases.
-- **Rule:** Always include `"paths": { "@/*": ["src/*"] }` in `compilerOptions`.
-- **Reason:** Astro aliases (like `@/assets`) fail in monorepo workspaces if the consuming project (playground) doesn't have the explicit mapping to its own `src`.
-- **Prefer Path Aliases:** Use `@/assets/img/avatar.jpg` instead of `../../assets/img/avatar.jpg` for better code maintainability and to avoid issues with nested directory structures. Relative paths are considered bad practice!
-
-### 5. 🎨 Styling Architecture (SCSS Preferred)
-
-- **AVOID** inline `<style>` blocks in Astro components when styles are complex or reusable.
-- **PREFER** external SCSS files (`_component-name.scss`) in `/styles/` directory.
-- **Benefits:**
-  - SCSS partials can `@import` other partials (e.g., `_attribution.scss`)
-  - Better code reuse and consistency
-  - Easier to maintain and override
-- **Pattern:** Create `_section-name.scss`, import in `main.scss`, remove inline `<style>` from `.astro` file.
-- **Exception:** Very small, component-specific styles (< 20 lines) may remain inline.
+  - `.` (Root): Workspace root.
+  - `theme/`: Source code.
+  - `theme/starter/`: Public template / active dev content.
+  - `testing/`: Dedicated test suite & artifacts.
+  - `playground/`: **Ephemeral/Git-ignored**. Use for throwaway tests only.
+- **Aliases (STRICT):** `tsconfig.json` defines `@theme` and `@starter`. **Use them.**
 
 ---
 
-## 🛠️ DEBUGGING & TROUBLESHOOTING
+## 🧠 DESIGN PATTERNS
+
+### 1. 📂 Flat Blog Routing (Regression Prevention)
+
+- **Requirement:** Users must be allowed to organize `blog_posts/` with any folder structure (e.g., `blog_posts/archive/2025/post.md`).
+- **Implementation:** `BlogPost.astro` logic MUST flatten the ID: `post.id.split('/').pop()`.
+- **Result:** URL is always `/posts/post-name` regardless of depth. Do NOT introduce nested URLs (like `/posts/archive/...`) for blog posts.
+
+### 2. 🎨 Styling & NoScript
+
+- **SCSS:** Prefer `_partial.scss` over inline `<style>`.
+- **NoScript Fallback:**
+  - `BaseLayout.astro` contains a `<noscript>` block.
+  - It forces `[data-reveal] { opacity: 1 !important }` so content is visible without JS animations.
+
+### 3. 📋 Content Schema & Privacy
+
+- **Attribution:** `img_credit` and `img_license` are **REQUIRED** for all content images (Hero, Blog, Avatar).
+- **Date Formatting:** Strict `dd Mon yyyy` (e.g., `01 Jan 2026`) for visual consistency.
+- **Privacy:** No external CDNs. Minimal JS.
+
+### 4. User-Centric Routing
+
+- **Rule:** Links must match user content, not internal file IDs.
+  - **Bad:** Link "Blog" -> `/blog-categories`
+  - **Good:** Link "Blog" -> `/blog`
+
+---
+
+## 🛠️ TROUBLESHOOTING
 
 ### 🚧 Cache & Schema Issues
 
-**Symptom:** Props missing (e.g., `mini_categories`), schema validation errors, or weird type mismatches that shouldn't exist. "Unreachability" of sections. Global weirdness.
-
+**Symptom:** Props missing, schema validation errors, or weird type mismatches.
 **Fix:** The Vite/Astro cache is likely stale. Perform a CLEAN REBUILD:
 
 ```fish
@@ -108,94 +86,15 @@ pkill -f "bun run dev"; rm -rf playground; mkdir -p playground/; cp -a theme/sta
 
 ### 🧩 Content Collections in Monorepos
 
-**Symptom:** Theme schema updates (e.g., adding `unavailable: true`) are ignored by the playground.
-
-**Cause:** The playground (and starter) MUST have its own `src/content.config.ts` that imports the theme's schema. If missing, Astro falls back to a default/inferred schema and ignores your theme's definitions.
-
-**Fix:** Ensure `starter/src/content.config.ts` exists and re-exports `collections` from the theme.
+**Symptom:** Theme schema updates are ignored by `playground` or `starter`.
+**Fix:** Ensure `starter/src/content.config.ts` re-exports the theme's collections:
 
 ```typescript
 export { collections } from 'astro-freelance-persona_theme/content.config';
 ```
 
-> **CRITICAL:** You **MUST** restart your dev server after running this command. If you don't, you will see a cascade of confusing errors.
-
 ### 👻 Ghost Servers
 
-**Symptom:** Changes not reflecting, 404s on existing pages.
-
-**Cause:** You are looking at port `4321` but `bun` started on `4322` because `4321` was taken by a zombie process.
-
-**Fix:** Check terminal output carefully. Kill zombies (that are yours!).
-
----
-
-## 🧠 DESIGN PHILOSOPHY & CODING STANDARDS
-
-**Adopt these principles when writing code:**
-
-### 1. Semantic Tokens over Raw Units
-
-- **Rule:** Always prefer semantic variables (e.g., `var(--default-font-size)`) over raw units (`1rem`, `16px`).
-- **Reasoning:** `1rem` is a constant. Variables allow the entire theme (fonts, spacing, colors) to be reconfigured globally without hunting for hardcoded values.
-- **No Pixels:** `px` is strictly forbidden for layout/typography (accessibility). Only acceptable in comments, media queries, and 1px borders.
-
-### 2. Configuration, Not Prescription
-
-- Defaults live in the *code*, not in user config.
-- User config (`src/freelance-persona.config.ts`) is only for overrides.
-
-### 3. 4-Level Hierarchy (Strict Priority)
-
-1. **Frontmatter** (Content specific)
-2. **Component Role** (Context)
-3. **User Config** (Theme-wide)
-4. **Code Fallback** (Your defaults go here)
-
-### 4. Privacy First
-
-- No external CDNs.
-- Minimal JS.
-
-### 5. User-Centric Routing & Naming
-
-- Hyperlinks and slugs must reflect the *User's Content* (titles/frontmatter), not internal filenames/IDs.
-- **Bad:** Link text "Blog" pointing to `/blog-categories` (internal ID).
-- **Good:** Link text "Blog" pointing to `/blog` (or whatever the User defined as the slug/title).
-- **Rule:** If the theme generates a link, the URL should match the expectation set by the label.
-
-### 6. Date Formatting
-
-- **Strict Format:** `dd Mon yyyy` (e.g., `01 Jan 2026`).
-- **Uniformity:** Use this format for all visible dates unless explicitly overridden by user config.
-
-### 7. Modern CSS Standards
-
-- **Prefer Modern Syntax:** Use new standard features where posible.
-- **Example:** Use `color-mix(in srgb, var(--color), transparent 50%)` instead of `opacity` or `rgba()` for transparency. This keeps custom properties (variables) intact and themeable.
-- **Browser Support:** If a feature is available in the 3 big browser engines for more than 3 months (check the current date!), it is OK to use it. We want modern, nearly bleeding-edge solutions, not compatibility for years-old browsers.
-
-### 8. Image Attribution & Licensing & Optimization
-
-- **Optimization:** All images MUST have explicit sizing data (width/height) to allow Vite/Astro to optimize them. Eliminate CLS.
-- **Conditional Enforcement:** `img_credit` and `img_license` fields are **required when an image field is present** (enforced via Zod `superRefine`).
-  - **Applies to:** `hero.background_image`, `about.avatar`, `blog_categories.categories[].image`, `blog_posts.thumbnail`, and `about.qualifications_sidebar[].image`.
-- **Valid `img_credit`:** Social link (icon+name), URL, String (Name/Pseudonym), or "hidden". Cannot be empty/undefined.
-- **Valid `img_license`:** Well-known license (CC-BY, Unsplash, etc. - formatted as legal short form), Custom String, "All Rights Reserved", or "hidden". Cannot be empty/undefined.
-- **Display:**
-  - **Placement:** Bottom-right, tiny/unobtrusive (similar to date styling). Or if unfeasible like for a round avatar image, it can be below the actual image.
-  - **Layout:**
-    - *Large Images (Hero/Post Header):* 2 Lines (Credit \n License).
-    - *Small Cards:* 1 Line (Credit | License).
-
----
-
-## 📂 FILE SYSTEM MAP
-
-- **Theme Logic:** `theme/src/freelance-persona/**/*.astro` (Edit here for logic changes)
-- **Styles:** `theme/src/freelance-persona/**/*.scss`
-- **Content Schema:** `theme/src/freelance-persona/content.config.ts`
-- **Starter Template:** `theme/starter/` (Public template - replicate changes here)
-- **Playground:** `playground/` (Git-ignored - testing only)
-- **Config:** `package.json` (Workspaces defined here)
-- **Docs:** `README.md` (Contains detailed specific setup steps if you get stuck)
+**Symptom:** 404s on existing pages, changes not reflecting.
+**Cause:** `bun` started on port `4322` because `4321` is zombie.
+**Fix:** `fuser -k 4321/tcp; fuser -k 4322/tcp;`

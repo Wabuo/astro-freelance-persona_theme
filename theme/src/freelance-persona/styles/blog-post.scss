@@ -17,12 +17,19 @@
   overflow: hidden;
   border-radius: 0.25rem;
   aspect-ratio: 16/9;
+  position: relative; // For attribution overlay positioning
+
+  // Attribution size override for blog posts
+  --attribution-font-size: 0.65rem;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
+  // Import attribution styles
+  @import 'attribution';
 }
 
 .blog-post .title {

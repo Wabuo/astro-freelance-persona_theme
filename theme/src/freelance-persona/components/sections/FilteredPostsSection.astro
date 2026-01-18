@@ -2,6 +2,7 @@
 // src/components/sections/Recent_PostsSection.astro
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
+import ImageAttribution from "../ui/ImageAttribution.astro";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
 
@@ -95,14 +96,23 @@ const getExcerpt = (body: string) => {
                 {/* Image Slot */}
                 <div slot="image" class="post-image-container">
                   {post.data.thumbnail ? (
-                    <Image
-                      src={post.data.thumbnail}
-                      alt={post.data.title}
-                      class="img-fluid post-image"
-                      width={600}
-                      quality="high"
-                      format="webp"
-                    />
+                    <>
+                      <Image
+                        src={post.data.thumbnail}
+                        alt={post.data.title}
+                        class="img-fluid post-image"
+                        width={600}
+                        quality="high"
+                        format="webp"
+                      />
+                      {/* Attribution overlay */}
+                      <ImageAttribution
+                        img_credit={post.data.img_credit}
+                        img_copyright={post.data.img_copyright}
+                        img_license={post.data.img_license}
+                        disableLinks={true}
+                      />
+                    </>
                   ) : (
                     <div class="preview-card-wrapper h-100 w-100">
                       <div
@@ -142,7 +152,7 @@ const getExcerpt = (body: string) => {
                             )) || <span class="tag badge me-1">blog</span>}
                           </div>
 
-                          <hr style="margin: 0.75rem 0; border-top: 1.5px solid color-mix(in srgb, var(--default-color), transparent 80%);" />
+                          <hr style="margin: 0.75rem 0; opacity: 0.2; border-top: 1.5px solid;" />
 
                           <div
                             class="meta-top d-flex align-items-center small text-muted mb-2"
@@ -158,7 +168,7 @@ const getExcerpt = (body: string) => {
                             <i class="bi bi-hourglass-split me-1" />1 min read
                           </div>
 
-                          <hr style="margin: 0.5rem 0; border-top: 1.5px solid color-mix(in srgb, var(--default-color), transparent 80%);" />
+                          <hr style="margin: 0.5rem 0; opacity: 0.2; border-top: 1.5px solid;" />
 
                           <div
                             class="post-content"
@@ -247,4 +257,11 @@ const getExcerpt = (body: string) => {
 
 <style>
   /* Component styles moved to _recent-posts.scss */
+  @import "@freelance-persona/styles/_filtered-posts.scss";
+
+  /* Local Fix for Attribution Positioning */
+  :global(.post-image-container) {
+    position: relative;
+    overflow: hidden; /* Ensure attribution stays within image bounds */
+  }
 </style>

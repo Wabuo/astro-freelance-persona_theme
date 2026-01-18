@@ -2,7 +2,15 @@
 title: "Top 5 Astro Tips for 2024"
 date: 2024-03-15
 description: "Boost your Astro development workflow with these essential tips."
-thumbnail: "/src/assets/img/background_empty.svg"
+thumbnail: "@/assets/img/background_empty.svg"
+img_credit: "hidden"
+img_copyright: "Gemini"
+# img_license: Auto-links known licenses (CC0, CC BY, etc.) defined in licenseUtils.ts.
+# To override/custom link, use object format:
+# img_license:
+#   license: "Custom"
+#   url: "..."
+img_license: "CC0"
 tags: ["astro", "coding"]
 ---
 

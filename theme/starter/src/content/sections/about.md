@@ -5,6 +5,15 @@ icon_class: "bi bi-person-vcard"
 subtitle: "Public Self & Private Soul"
 order: 10
 avatar: "@/assets/img/avatar.svg"
+# img_license/avatar_license: Auto-links known licenses defined in licenseUtils.ts.
+# To override/custom link, use object format:
+# img_license:
+#   license: "Custom"
+#   url: "..."
+avatar_credit: 
+  name: "Fabio Rieker"
+  url: "https://github.com/wabuo/astro_freelance-persona_theme"  
+avatar_license: "CC BY-SA 4.0"
 avatar_styles:
   float_margin_top: "-5rem"
   float_margin_right: "18rem"    # Should be at screen edge
@@ -20,7 +29,10 @@ qualifications_sidebar:
       - "OFL 1.1+"
     icon: "bi bi-award"
     image: "@/assets/img/theme_certificate.svg"
-    link: "https://github.com/wabuo/astro_freelance-persona_theme"
+    img_credit: "hidden"
+    img_copyright: "Gemini"
+    img_license: "CC0"
+    link: "https://github.com/wabuo/astro_freelance-persona_theme/blob/main/LICENSE"
 
   - text: "Tech Stack"
     subtitle: 

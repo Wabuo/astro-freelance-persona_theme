@@ -36,6 +36,10 @@
   /* Placeholder */
   position: relative;
   /* Context for overlay */
+
+  // Attribution: smaller size for cards
+  --attribution-font-size: 0.6rem;
+  @import 'attribution';
 }
 
 .category-image {

@@ -4,7 +4,18 @@ type: hero
 title: "Freelance — Persona"
 greeting: ""
 hero_typing_text: "A modern, responsive and lightweight theme for resume, portfolio, and blog"
-#background_image: "@/assets/img/lancy.png"
+background_image: "@/assets/img/background.svg"
+# img_license: Auto-links known licenses (CC0, CC BY, etc.) defined in licenseUtils.ts.
+# To override/custom link, use object format:
+# img_license:
+#   license: "Custom"
+#   url: "..."
+img_credit: 
+  name: "Your Photographers social"
+  url: "https://instagram.com"
+  icon: "bi bi-instagram"
+img_copyright: "Fabio Rieker"
+img_license: "CC BY-SA 4.0"
 background_overlay_transparency: 35% # default 25% | given the muted colors of the sample image less was needed
 
 #### RESTORE YOUR LAYOUT:
@@ -31,7 +42,7 @@ gap_typing_to_socials: "1.5625rem"
 
 
 
-```
+```yaml
 ###############################################################################
 ##                          All posible settings                             ##
 ##               Needed ones are uncommented and have defaults               ##

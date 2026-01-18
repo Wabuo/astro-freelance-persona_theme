@@ -7,11 +7,13 @@ test.describe('Legal Page', () => {
         if (!themeConfig.legal?.enabled) test.skip();
 
         await page.goto('/');
+        await page.waitForLoadState('domcontentloaded');
 
         const legalLink = page.getByRole('link', { name: themeConfig.legal?.link_text || "Legal Notice" });
         await legalLink.scrollIntoViewIfNeeded();
         await legalLink.click();
 
+        await page.waitForLoadState('domcontentloaded');
         await expect(page).toHaveURL(/\/legal\/legal-notice/);
     });
 

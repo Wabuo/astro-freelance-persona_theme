@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+import ImageAttribution from "../ui/ImageAttribution.astro";
 import { themeConfig } from "@freelance-persona/config";
 
 interface Props {
@@ -8,11 +9,17 @@ interface Props {
   title: string;
   subtitle?: string;
   avatar?: ImageMetadata;
+  avatar_credit?: { name: string; url: string; icon?: string } | "hidden";
+  avatar_copyright?: string;
+  avatar_license?: string | "hidden";
   qualifications_sidebar?: {
     text: string;
     subtitle?: string | string[];
     icon?: string;
     image?: ImageMetadata;
+    img_credit?: { name: string; url: string; icon?: string } | "hidden";
+    img_copyright?: string;
+    img_license?: string | "hidden";
     link?: string;
   }[];
 
@@ -36,6 +43,9 @@ const {
   title,
   subtitle,
   avatar,
+  avatar_credit,
+  avatar_copyright,
+  avatar_license,
   qualifications_sidebar,
 
   nudge_x,
@@ -90,20 +100,37 @@ console.log("AboutSection props:", { hasSidebar, avatar_styles });
                   width={800}
                   height={800}
                 />
+                <ImageAttribution
+                  img_credit={avatar_credit}
+                  img_copyright={avatar_copyright}
+                  img_license={avatar_license}
+                />
               </div>
             )}
 
             {qualifications_sidebar && qualifications_sidebar.length > 0 && (
               <div class="qualifications-box">
                 <ul class="qualifications-list">
-                  {qualifications_sidebar.map((item) => (
-                    <li class="qualifications-item">
-                      {item.link ? (
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="qualifications-link"
+                  {qualifications_sidebar.map((item) => {
+                    const LinkTag = item.link ? "a" : "div";
+                    const linkProps = item.link
+                      ? {
+                          href: item.link,
+                          target: "_blank",
+                          rel: "noopener noreferrer",
+                        }
+                      : {};
+
+                    return (
+                      <li class="qualifications-item">
+                        {/* 1. Main Text/Icon Column */}
+                        <LinkTag
+                          {...linkProps}
+                          class={
+                            item.link
+                              ? "qualifications-link"
+                              : "qualifications-item-content"
+                          }
                         >
                           {item.icon && (
                             <i class={`${item.icon} qualifications-icon`} />
@@ -121,51 +148,40 @@ console.log("AboutSection props:", { hasSidebar, avatar_styles });
                                 </span>
                               ))}
                           </div>
+                        </LinkTag>
 
-                          {item.image && (
-                            <div class="qualifications-cert-img">
-                              <Image
-                                src={item.image}
-                                alt={item.text}
-                                width={50}
-                                height={50}
-                              />
-                            </div>
-                          )}
-                        </a>
-                      ) : (
-                        <div class="qualifications-item-content">
-                          {item.icon && (
-                            <i class={`${item.icon} qualifications-icon`} />
-                          )}
+                        {/* 2. Image + Attribution Column (Sibling) */}
+                        {item.image && (
+                          <div style="display: flex; flex-direction: column; align-items: center; margin-left: 0.5rem;">
+                            {/* Image Wrapper (Linked if item has link) */}
+                            <LinkTag
+                              {...linkProps}
+                              class="cert-img-only-link"
+                              style="display: block; line-height: 0;"
+                            >
+                              <div class="qualifications-cert-img">
+                                <Image
+                                  src={item.image}
+                                  alt={item.text}
+                                  width={50}
+                                  height={50}
+                                />
+                              </div>
+                            </LinkTag>
 
-                          <div class="qualifications-text-col">
-                            <span class="qualifications-text">{item.text}</span>
-                            {item.subtitle &&
-                              (Array.isArray(item.subtitle)
-                                ? item.subtitle
-                                : [item.subtitle]
-                              ).map((sub) => (
-                                <span class="qualifications-subtitle">
-                                  {sub}
-                                </span>
-                              ))}
+                            {/* Attribution (Outside Link) */}
+                            <ImageAttribution
+                              img_credit={item.img_credit}
+                              img_copyright={item.img_copyright}
+                              img_license={item.img_license}
+                              containerClass="cert-attribution"
+                              disableLinks={false}
+                            />
                           </div>
-
-                          {item.image && (
-                            <div class="qualifications-cert-img">
-                              <Image
-                                src={item.image}
-                                alt={item.text}
-                                width={50}
-                                height={50}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </li>
-                  ))}
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
@@ -194,259 +210,3 @@ console.log("AboutSection props:", { hasSidebar, avatar_styles });
     </div>
   </div>
 </section>
-
-<style>
-  .about.section {
-    transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
-      scale(var(--content-scale, 1));
-    margin-bottom: 3rem; /* Add spacing to prevent crowding */
-    overflow: visible; /* Allow float to hang out */
-  }
-
-  /* Ensure content container hugs the text bottom */
-  :global(.content.main-content > :last-child) {
-    margin-bottom: 0 !important;
-  }
-
-  /* Mobile Stacked Layout (Default) */
-  .container-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .qualifications-sidebar {
-    order: -1; /* Sidebar TOP on mobile */
-    width: 100%;
-    margin-top: 2rem;
-    z-index: 1;
-  }
-
-  .sidebar-content-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  .content.main-content {
-    /* Natural flow */
-  }
-
-  /* Desktop Float Layout */
-  @media (min-width: 992px) {
-    .container-grid {
-      display: block; /* Disable Flex/Grid to allow float */
-    }
-
-    .qualifications-sidebar {
-      float: right;
-      width: fit-content;
-      clear: right;
-      order: unset;
-
-      /* Apply dynamic positioning variables */
-      z-index: var(--z-index);
-      margin-top: var(--float-margin-top);
-      margin-right: calc(((100% - 100vw) / 2) + var(--float-margin-right));
-      margin-left: var(--float-margin-left);
-      margin-bottom: var(--float-margin-bottom);
-      position: relative;
-    }
-
-    .sidebar-content-wrapper {
-      width: fit-content;
-      align-items: center;
-    }
-
-    .content.main-content {
-      display: block;
-      width: 100%;
-      order: unset;
-    }
-  }
-
-  /* Avatar Styling */
-  .avatar-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-    flex-shrink: 0; /* Prevent avatar from squishing */
-  }
-
-  .avatar-image {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border: 4px solid var(--surface-color, #fff);
-    background-color: var(--surface-color, #fff); /* Prevents bleed-through */
-  }
-
-  /* Floating Avatar (when sidebar is disabled) */
-  .avatar-float {
-    /* Mobile Default: Stacked & Centered */
-    float: none;
-    display: block;
-    margin: 0 auto 2rem auto; /* Center horizontally, push text down */
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    z-index: 1;
-    position: relative;
-
-    /* Apply styles usually handled by Image but good for wrapper too just in case */
-    shape-outside: none;
-  }
-
-  @media (min-width: 992px) {
-    .avatar-float {
-      float: right;
-      margin-top: var(--float-margin-top);
-      margin-right: var(--float-margin-right);
-      margin-left: var(--float-margin-left);
-      shape-outside: var(--shape-outside, circle(50%));
-      z-index: var(--z-index);
-    }
-  }
-
-  /* Profile Box Styling */
-  .qualifications-box {
-    /* Style matched to .widget-item (Recent Posts) */
-    background-color: color-mix(in srgb, var(--default-color), transparent 98%);
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-    padding: 1.875rem;
-    border-radius: 0.3125rem; /* Match widget styling (5px) */
-
-    position: relative;
-    width: 100%; /* controlled by grid column */
-    max-width: 20rem;
-    margin: 0; /* Changed from 0 auto to align left */
-
-    /* Equal Height Logic */
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-
-    transition: transform 0.3s ease;
-  }
-
-  /* REMOVED .profile-box:hover HERE */
-
-  .qualifications-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem; /* Increased gap between rows */
-  }
-
-  .qualifications-item-content,
-  .qualifications-link {
-    display: flex;
-    flex-direction: row; /* Horizontal layout */
-    align-items: center;
-    justify-content: flex-start; /* Align left? Or center? User didn't specify alignment but 'in front' implies sequence. Let's try standard flow. */
-    gap: 1rem;
-    color: var(--default-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    text-align: left;
-  }
-
-  /* If we want them centered in the box, we can do justify-content: center; or use margin auto on the box content? 
-     The previous implementation had text-align: center on results. 
-     Let's stick to left alignment for horizontal lists as it reads better (Icon Text Img). 
-  */
-
-  .qualifications-link:hover {
-    color: var(--accent-color);
-  }
-
-  /* Large Typography for Sidebar Items */
-  .qualifications-text {
-    font-size: 1.15rem; /* Slightly smaller to fit row */
-    font-family: var(--heading-font);
-    font-weight: 500;
-    line-height: 1.2;
-    flex: 1; /* Allow text to take space */
-  }
-
-  .qualifications-icon {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    flex-shrink: 0;
-  }
-
-  .qualifications-cert-img {
-    width: 50px; /* Bigger size */
-    height: 50px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px; /* Slight roundness */
-    overflow: hidden;
-    background: #f8f9fa; /* Subtle background for transparency */
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 95%);
-    transition: all 0.3s ease; /* smooth hover */
-  }
-
-  /* Trigger on Link Hover (Row) */
-  .qualifications-link:hover .qualifications-cert-img {
-    transform: translateY(-1.5px); /* Subtle lift */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Card-like shadow */
-    border-color: color-mix(
-      in srgb,
-      var(--accent-color),
-      transparent 65%
-    ); /* Outline */
-  }
-
-  .qualifications-cert-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  /* Subtitles Logic */
-  .qualifications-text-col {
-    display: flex;
-    flex-direction: column;
-    flex: 1; /* Take simplified space */
-    justify-content: center;
-    margin-right: 0.5rem;
-  }
-
-  .qualifications-subtitle {
-    font-size: 0.75em;
-    font-weight: 500;
-    color: color-mix(in srgb, var(--default-color), transparent 55%);
-    line-height: 1.2;
-    display: block;
-    margin-top: 0.1rem;
-    transition: color 0.3s ease;
-  }
-
-  .qualifications-link:hover .qualifications-subtitle {
-    color: color-mix(in srgb, var(--accent-color), transparent 55%);
-  }
-
-  /* Responsive Mobile Tweaks */
-  @media (max-width: 991px) {
-    .qualifications-sidebar {
-      margin-top: 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .qualifications-box {
-      width: 100%;
-      max-width: 350px;
-    }
-  }
-</style>

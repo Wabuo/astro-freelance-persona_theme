@@ -11,6 +11,21 @@
     overflow: hidden;
     background-color: var(--bs-light, #f8f9fa);
     position: relative;
+
+    // Attribution: smaller size for cards
+    --attribution-font-size: 0.6rem;
+
+    // Import attribution styles FIRST
+    @import 'attribution';
+
+    // Override for 2-line layout on cards
+    .img-attribution {
+        bottom: 0.25rem;
+        right: 0.5rem;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0;
+    }
 }
 
 .post-image {

@@ -1,0 +1,346 @@
+/*--------------------------------------------------------------
+# About Section Styles
+# Extracted from AboutSection.astro inline styles
+--------------------------------------------------------------*/
+
+.about.section {
+    transform: translate(var(--nudge-x, 0), var(--nudge-y, 0)) scale(var(--content-scale, 1));
+    margin-bottom: 3rem;
+    /* Add spacing to prevent crowding */
+    overflow: visible;
+    /* Allow float to hang out */
+}
+
+/* Ensure content container hugs the text bottom */
+.content.main-content> :last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Mobile Stacked Layout (Default) */
+.container-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.qualifications-sidebar {
+    order: -1;
+    /* Sidebar TOP on mobile */
+    width: 100%;
+    margin-top: 2rem;
+    z-index: 1;
+}
+
+.sidebar-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+/* Desktop Float Layout */
+@media (min-width: 992px) {
+    .container-grid {
+        display: block;
+        /* Disable Flex/Grid to allow float */
+    }
+
+    .qualifications-sidebar {
+        float: right;
+        width: fit-content;
+        clear: right;
+        order: unset;
+
+        /* Apply dynamic positioning variables */
+        z-index: var(--z-index);
+        margin-top: var(--float-margin-top);
+        margin-right: calc(((100% - 100vw) / 2) + var(--float-margin-right));
+        margin-left: var(--float-margin-left);
+        margin-bottom: var(--float-margin-bottom);
+        position: relative;
+    }
+
+    .sidebar-content-wrapper {
+        width: fit-content;
+        align-items: center;
+    }
+
+    .content.main-content {
+        display: block;
+        width: 100%;
+        order: unset;
+    }
+}
+
+/* Avatar Styling */
+.avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-shrink: 0;
+    /* Prevent avatar from squishing */
+    position: relative;
+    /* For attribution positioning */
+
+    // Size override for avatar attribution
+    --attribution-font-size: 0.55rem;
+
+    // Import attribution base styles FIRST
+    @import 'attribution';
+
+    // Then override positioning for avatar context
+    .img-attribution {
+        bottom: -0.3rem;
+        right: -1.5rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+    }
+}
+
+.avatar-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 4px solid var(--surface-color, #fff);
+    background-color: var(--surface-color, #fff);
+    /* Prevents bleed-through */
+}
+
+/* Floating Avatar (when sidebar is disabled) */
+.avatar-float {
+    /* Mobile Default: Stacked & Centered */
+    float: none;
+    display: block;
+    margin: 0 auto 2rem auto;
+    /* Center horizontally, push text down */
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 1;
+    position: relative;
+
+    /* Apply styles usually handled by Image but good for wrapper too just in case */
+    shape-outside: none;
+}
+
+@media (min-width: 992px) {
+    .avatar-float {
+        float: right;
+        margin-top: var(--float-margin-top);
+        margin-right: var(--float-margin-right);
+        margin-left: var(--float-margin-left);
+        shape-outside: var(--shape-outside, circle(50%));
+        z-index: var(--z-index);
+    }
+}
+
+/* Profile Box Styling */
+.qualifications-box {
+    /* Style matched to .widget-item (Recent Posts) */
+    background-color: color-mix(in srgb, var(--default-color), transparent 98%);
+    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    padding: 1.875rem;
+    border-radius: 0.3125rem;
+    /* Match widget styling (5px) */
+
+    position: relative;
+    width: 100%;
+    /* controlled by grid column */
+    max-width: 20rem;
+    margin: 0;
+    /* Changed from 0 auto to align left */
+
+    /* Equal Height Logic */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    transition: transform 0.3s ease;
+}
+
+.qualifications-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    /* Increased gap between rows */
+}
+
+.qualifications-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.qualifications-item-content,
+.qualifications-link {
+    display: flex;
+    flex-direction: row;
+    /* Horizontal layout */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    color: var(--default-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    text-align: left;
+    flex: 1; // Take available space
+}
+
+.qualifications-link:hover {
+    color: var(--default-color);
+    text-decoration: none;
+}
+
+
+/* Large Typography for Sidebar Items */
+.qualifications-text {
+    font-size: 1.15rem;
+    /* Slightly smaller to fit row */
+    font-family: var(--heading-font);
+    font-weight: 500;
+    line-height: 1.2;
+    flex: 1;
+    /* Allow text to take space */
+}
+
+.qualifications-icon {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.qualifications-cert-img {
+    width: 50px;
+    /* Bigger size */
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    /* Slight roundness */
+    overflow: hidden;
+    background: #f8f9fa;
+    /* Subtle background for transparency */
+    border: 1px solid color-mix(in srgb, var(--default-color), transparent 95%);
+
+    // Animation Performance Optimization (Fix jitter)
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0); // Promote to layer to avoid repaint jitter
+}
+
+
+
+// Hover Effect Updates for :has() logic
+.qualifications-item:has(.qualifications-link:hover) .qualifications-cert-img,
+.qualifications-item:has(.cert-img-only-link:hover) .qualifications-cert-img {
+    transform: translateY(-1.5px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-color: color-mix(in srgb, var(--accent-color), transparent 65%);
+}
+
+.qualifications-item:has(.qualifications-link:hover) .qualifications-subtitle,
+.qualifications-item:has(.cert-img-only-link:hover) .qualifications-subtitle {
+    color: color-mix(in srgb, var(--accent-color), transparent 55%);
+}
+
+.qualifications-cert-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+// User requested "tiny tiny writing just below the certificate"
+// User requested "tiny tiny writing just below the certificate"
+.img-attribution.cert-attribution {
+    position: static !important;
+    margin-top: 0.25rem;
+    width: 100%;
+
+    // FORCE Layout
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    text-align: center !important;
+    border: none !important;
+
+    // FORCE Size (Variable isn't cascading reliably?)
+    font-size: 0.35rem !important;
+    line-height: 1.1 !important;
+    --attribution-font-size: 0.35rem; // Keep var for consistency if it works
+
+    // Ensure children inherit tiny size
+    a,
+    span,
+    i {
+        font-size: inherit !important;
+        line-height: inherit !important;
+    }
+
+    // Color Logic (Already confirmed working)
+    --attribution-color: color-mix(in srgb, var(--default-color), transparent 50%);
+    color: var(--attribution-color) !important;
+
+    // Fixed Link Color
+    a {
+        color: var(--attribution-color) !important;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+        color: var(--accent-color) !important;
+    }
+}
+
+
+
+/* Subtitles Logic */
+.qualifications-text-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    /* Take simplified space */
+    justify-content: center;
+    margin-right: 0.5rem;
+}
+
+.qualifications-subtitle {
+    font-size: 0.75em;
+    font-weight: 500;
+    color: color-mix(in srgb, var(--default-color), transparent 55%);
+    line-height: 1.2;
+    display: block;
+    margin-top: 0.1rem;
+    transition: color 0.3s ease;
+}
+
+
+
+/* Responsive Mobile Tweaks */
+@media (max-width: 991px) {
+    .qualifications-sidebar {
+        margin-top: 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .qualifications-box {
+        width: 100%;
+        max-width: 350px;
+    }
+}

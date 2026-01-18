@@ -1,0 +1,155 @@
+---
+import { getLicenseLink } from "../../utils/licenseUtils"; // Adjust import path if needed
+
+interface Props {
+  img_credit?: { name: string; url?: string; icon?: string } | "hidden"; // Credit MUST be an object or "hidden" in new schema
+  img_copyright?: string; // Owner
+  img_license?: string | { license: string; url: string } | "hidden";
+
+  // Styling overrides
+  containerClass?: string;
+  // Functional overrides
+  disableLinks?: boolean; // Prevent nested <a> tags in Cards
+}
+
+const {
+  img_credit,
+  img_copyright,
+  img_license,
+  containerClass = "",
+  disableLinks = false,
+} = Astro.props;
+
+// LOGIC PREPARATION
+
+// 1. Credit (Line 1)
+// If "hidden" or undefined, skip. Else, render [Icon] Name.
+const showCredit = img_credit && img_credit !== "hidden";
+const creditName = showCredit ? img_credit.name : null;
+const creditUrl = showCredit ? img_credit.url : null;
+// Default icon logic
+const creditIcon = showCredit ? img_credit.icon : null; // No default fallback
+
+const promoteCopyright = !showCredit && !!img_copyright;
+
+// 2. Copyright & License (Line 2)
+const licenseInfo = getLicenseLink(img_license);
+// licenseInfo = { license: "CC BY 4.0", url: "..." } or null
+
+// Display Text construction
+const parts = [];
+if (img_copyright) {
+  parts.push(img_copyright);
+}
+if (licenseInfo) {
+  parts.push(licenseInfo.license);
+}
+
+const line2Text = parts.join(", ");
+
+// Don't render anything if all empty
+if (!showCredit && !line2Text) {
+  // Hidden
+}
+---
+
+{
+  (showCredit || line2Text) && (
+    <div class={`img-attribution ${containerClass}`}>
+      {/* Line 1: Credit OR Promoted Copyright */}
+      {(showCredit || promoteCopyright) && (
+        <span class="credit-line">
+          {showCredit ? (
+            <>
+              {/* Standard Credit with Camera Icon */}
+              <i class="bi bi-camera-fill" />:{" "}
+              {creditUrl && !disableLinks ? (
+                <a href={creditUrl} target="_blank" rel="noopener noreferrer">
+                  {creditName}
+                  {creditIcon && (
+                    <>
+                      {" "}
+                      @ <i class={creditIcon} />
+                    </>
+                  )}
+                </a>
+              ) : (
+                <span>
+                  {creditName}
+                  {creditIcon && (
+                    <>
+                      {" "}
+                      @ <i class={creditIcon} />
+                    </>
+                  )}
+                </span>
+              )}
+            </>
+          ) : (
+            <>
+              {/* Promoted Copyright (No link usually, or distinct icon?) */}
+              {/* User said "kinda take its place", so we allow it to fill the spot */}
+              <span class="promoted-copyright">{img_copyright}</span>
+            </>
+          )}
+        </span>
+      )}
+
+      {/* Line 2: License (and Copyright if NOT promoted) */}
+      {line2Text && (
+        <span class="license-line">
+          {/* If copyright was promoted, Line 2 is JUST license */}
+          {promoteCopyright ? (
+            licenseInfo?.url && !disableLinks ? (
+              <a
+                href={licenseInfo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {licenseInfo.license}
+              </a>
+            ) : (
+              licenseInfo?.license || ""
+            )
+          ) : // Standard Logic: Copyright + License
+          img_copyright && licenseInfo?.url ? (
+            <>
+              {img_copyright},{" "}
+              {disableLinks ? (
+                <span>{licenseInfo.license}</span>
+              ) : (
+                <a
+                  href={licenseInfo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {licenseInfo.license}
+                </a>
+              )}
+            </>
+          ) : img_copyright ? (
+            licenseInfo ? (
+              `${img_copyright}, ${licenseInfo.license}`
+            ) : (
+              img_copyright
+            )
+          ) : licenseInfo?.url ? (
+            disableLinks ? (
+              <span>{licenseInfo.license}</span>
+            ) : (
+              <a
+                href={licenseInfo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {licenseInfo.license}
+              </a>
+            )
+          ) : (
+            licenseInfo?.license
+          )}
+        </span>
+      )}
+    </div>
+  )
+}

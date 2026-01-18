@@ -16,7 +16,10 @@ categories:
     show_subtitle: false
     style: "cards"
   - title: "Design System"
-    image: "../../assets/img/background.svg"
+    image: "@/assets/img/background.svg"
+    img_credit: "hidden"
+    img_copyright: "Fabio Rieker"
+    img_license: "CC BY-SA 4.0"
     overlay_title: true
     overlay_style: "dark"
     mix_accent: 55

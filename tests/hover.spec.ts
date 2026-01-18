@@ -8,7 +8,7 @@ test.describe('Visual Hover States', () => {
 
     test.beforeEach(async ({ page }) => {
         await page.goto('/');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
     });
 
     test('Hero Section: Social Links', async ({ page }) => {

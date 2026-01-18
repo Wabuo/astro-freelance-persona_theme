@@ -2,6 +2,27 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+// Shared Attribution Schemas (AGENT.md Rule 9)
+const creditSchema = z.union([
+  z.object({
+    name: z.string(), // MANDATORY name
+    url: z.string().optional(), // OPTIONAL link to creator
+    icon: z.string().optional(), // OPTIONAL icon class
+  }),
+  z.literal('hidden'),
+]);
+
+const copyrightSchema = z.string().optional(); // OPTIONAL owner
+
+const licenseSchema = z.union([
+  z.string(), // Auto-linked known license string
+  z.object({ // Custom license
+    license: z.string(),
+    url: z.string(),
+  }),
+  z.literal('hidden'),
+]);
+
 // 1. SECTIONS COLLECTION
 const sections = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/sections" }),
@@ -16,6 +37,10 @@ const sections = defineCollection({
       hero_typing_text: z.string().optional(),
       order: z.number().default(0),
       background_image: image().optional(),
+      // Hero Config
+      img_credit: creditSchema.optional(), // Required check done in superRefine
+      img_copyright: copyrightSchema,
+      img_license: licenseSchema.optional(), // Required check done in superRefine
       background_overlay_transparency: z.string().optional(),
 
       // Typing Config
@@ -68,8 +93,6 @@ const sections = defineCollection({
       delay: z.number().optional(),
     }),
 
-
-
     // D. ABOUT SECTION (New)
     z.object({
       type: z.literal('about'),
@@ -80,12 +103,17 @@ const sections = defineCollection({
 
       // Profile / Sidebar Elements
       avatar: image().optional(),
+      avatar_credit: creditSchema.optional(), // Required when avatar is present
+      avatar_copyright: copyrightSchema,
+      avatar_license: licenseSchema.optional(), // Required when avatar is present
       qualifications_sidebar: z.array(z.object({
         text: z.string(),
         subtitle: z.union([z.string(), z.array(z.string())]).optional(),
         icon: z.string().optional(),
-
         image: image().optional(),
+        img_credit: creditSchema.optional(), // Required when image is present
+        img_copyright: copyrightSchema,
+        img_license: licenseSchema.optional(), // Required when image is present
         link: z.string().optional(),
       })).optional(),
 
@@ -140,6 +168,9 @@ const sections = defineCollection({
       categories: z.array(z.object({
         title: z.string(),
         image: image().optional(), // Path to image (now optional)
+        img_credit: creditSchema.optional(), // Image attribution (required when image is present)
+        img_copyright: copyrightSchema,
+        img_license: licenseSchema.optional(), // Image license (required when image is present)
         background_color: z.string().optional(), // Solid color fallback
         tags: z.array(z.string()), // Array of tags to filter by
         description: z.string().optional(),
@@ -154,25 +185,7 @@ const sections = defineCollection({
         overlay_opacity: z.number().optional(),
         title_style: z.enum(['dark', 'light', 'custom', '']).default(''),
         custom_title_color: z.string().optional(),
-      })
-        .refine((data) => {
-          if (data.overlay_style === 'custom' && !data.custom_overlay_color) {
-            return false;
-          }
-          return true;
-        }, {
-          message: "custom_overlay_color is required when overlay_style is 'custom'",
-          path: ["custom_overlay_color"]
-        })
-        .refine((data) => {
-          if (data.title_style === 'custom' && !data.custom_title_color) {
-            return false;
-          }
-          return true;
-        }, {
-          message: "custom_title_color is required when title_style is 'custom'",
-          path: ["custom_title_color"]
-        })).default([]),
+      })).default([]),
 
       mini_categories: z.array(z.object({
         title: z.string(),
@@ -189,7 +202,7 @@ const sections = defineCollection({
       delay: z.number().optional(),
     }),
 
-    // E. FEATURES SECTION
+    // G. FEATURES SECTION
     z.object({
       type: z.literal('features'),
       title: z.string(),
@@ -214,7 +227,91 @@ const sections = defineCollection({
       content_scale: z.number().optional(),
       delay: z.number().optional(),
     }),
-  ]),
+
+  ]).superRefine((data, ctx) => {
+    // Global image attribution enforcement
+    // Hero: background_image requires attribution
+    if (data.type === 'hero' && data.background_image) {
+      if (!data.img_credit) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "img_credit is required when background_image is present",
+          path: ["img_credit"],
+        });
+      }
+      if (!data.img_license) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "img_license is required when background_image is present",
+          path: ["img_license"],
+        });
+      }
+    }
+
+    // About: avatar requires attribution
+    if (data.type === 'about') {
+      if (data.avatar) {
+        if (!data.avatar_credit) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "avatar_credit is required when avatar is present",
+            path: ["avatar_credit"],
+          });
+        }
+        if (!data.avatar_license) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "avatar_license is required when avatar is present",
+            path: ["avatar_license"],
+          });
+        }
+      }
+
+      // About: qualifications sidebar images require attribution
+      if (data.qualifications_sidebar) {
+        data.qualifications_sidebar.forEach((item, index) => {
+          if (item.image) {
+            if (!item.img_credit) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `qualifications_sidebar[${index}].img_credit is required when image is present`,
+                path: ["qualifications_sidebar", index, "img_credit"],
+              });
+            }
+            if (!item.img_license) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `qualifications_sidebar[${index}].img_license is required when image is present`,
+                path: ["qualifications_sidebar", index, "img_license"],
+              });
+            }
+          }
+        });
+      }
+    }
+
+    // Blog Categories: each category image requires attribution
+    if (data.type === 'blog_categories' && data.categories) {
+      data.categories.forEach((cat, index) => {
+        if (cat.image) {
+          if (!cat.img_credit) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: `categories[${index}].img_credit is required when image is present`,
+              path: ["categories", index, "img_credit"],
+            });
+          }
+          if (!cat.img_license) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: `categories[${index}].img_license is required when image is present`,
+              path: ["categories", index, "img_license"],
+            });
+          }
+        }
+      });
+    }
+  }),
 });
 
 const blog = defineCollection({
@@ -225,33 +322,48 @@ const blog = defineCollection({
     date: z.coerce.date(),
     thumbnail: image().optional(),
 
-    // Image Attribution (AGENT.md Rule 8 - Legal Requirement)
+    // Image Attribution
+    // Optional fields, but REQUIRED when thumbnail is present
     img_credit: z.union([
       z.string(),  // Name/Pseudonym or URL
       z.object({   // Social link (icon+name)
         name: z.string(),
-        url: z.string(),
+        url: z.string().optional(),
         icon: z.string().optional(),
       }),
       z.literal('hidden'),
-    ]).refine((val) => {
-      if (typeof val === 'string' && val.trim() === '') return false;
-      return true;
-    }, {
-      message: "img_credit cannot be empty. Use a name, URL, social link object, or 'hidden'",
-    }),
+    ]).optional(),
+
+    img_copyright: z.string().optional(),
 
     img_license: z.union([
       z.string(),  // License name (e.g., "CC-BY-4.0", "Unsplash", "All Rights Reserved")
       z.literal('hidden'),
-    ]).refine((val) => {
-      if (typeof val === 'string' && val.trim() === '') return false;
-      return true;
-    }, {
-      message: "img_license cannot be empty. Use a license name or 'hidden'",
-    }),
+      z.object({
+        name: z.string(),
+        url: z.string(),
+      }),
+    ]).optional(),
 
     tags: z.array(z.string()),
+  }).superRefine((data, ctx) => {
+    // If thumbnail is present, require attribution fields
+    if (data.thumbnail) {
+      if (!data.img_credit) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "img_credit is required when thumbnail is provided. Use a name, URL, or 'hidden'.",
+          path: ["img_credit"],
+        });
+      }
+      if (!data.img_license) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "img_license is required when thumbnail is provided. Use a license name or 'hidden'.",
+          path: ["img_license"],
+        });
+      }
+    }
   }),
 });
 

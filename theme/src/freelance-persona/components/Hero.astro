@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { themeConfig } from "@freelance-persona/config";
+import ImageAttribution from "./ui/ImageAttribution.astro";
 
 interface Props {
   title?: string;
@@ -8,6 +9,11 @@ interface Props {
   greeting?: string;
   background_image?: ImageMetadata;
   background_overlay_transparency?: string;
+
+  // Image Attribution (Updated Schema)
+  img_credit?: { name: string; url?: string; icon?: string } | "hidden";
+  img_copyright?: string;
+  img_license?: string | { name: string; url: string } | "hidden";
 
   // Typing Config
   typing_speed?: number;
@@ -36,6 +42,11 @@ interface Props {
 const {
   background_image: explicitImage,
   background_overlay_transparency = undefined,
+
+  // Attribution
+  img_credit,
+  img_copyright,
+  img_license,
 
   title = "CONFIG MISSING",
   hero_typing_text = "Error: src/content/sections/hero.md not found",
@@ -66,30 +77,8 @@ const {
 const { social_links } = themeConfig;
 
 // --- DYNAMIC BACKGROUND LOGIC ---
-let finalImage = explicitImage;
-if (!finalImage) {
-  const bgGlob = import.meta.glob(
-    "/src/assets/img/background.{jpg,jpeg,png,webp,avif,svg}",
-  );
-  const paths = Object.keys(bgGlob);
-  if (paths.length > 0) {
-    paths.sort((a, b) => {
-      const score = (p: string) =>
-        p.endsWith(".jpg")
-          ? 4
-          : p.endsWith(".png")
-            ? 3
-            : p.endsWith(".webp")
-              ? 2
-              : p.endsWith(".svg")
-                ? 1
-                : 0;
-      return score(b) - score(a);
-    });
-    const imageModule = await bgGlob[paths[0]]();
-    finalImage = imageModule.default;
-  }
-}
+const finalImage = explicitImage;
+// Fallback removed as per user request (controlled via hero.md)
 
 // --- CSS CLASS MAPPING ---
 const xMap = {
@@ -162,15 +151,24 @@ const heroSectionStyle = {
 >
   {
     finalImage && (
-      <Image
-        src={finalImage}
-        alt="Background"
-        class="hero-bg"
-        width={1920}
-        height={1080}
-        format="webp"
-        loading="eager"
-      />
+      <>
+        <Image
+          src={finalImage}
+          alt="Background"
+          class="hero-bg"
+          width={1920}
+          height={1080}
+          format="webp"
+          loading="eager"
+        />
+        {/* Hero Background Attribution */}
+        {/* Pass all attribution data to the centralized component */}
+        <ImageAttribution
+          img_credit={img_credit}
+          img_copyright={img_copyright}
+          img_license={img_license}
+        />
+      </>
     )
   }
 

@@ -148,7 +148,8 @@
 
 /* Unavailable State */
 .feature-card.unavailable {
-    color: color-mix(in srgb, var(--default-color), transparent 30%);
+    opacity: 0.7;
+    /* Exception: needs to affect entire element including images with grayscale */
     filter: grayscale(100%);
     cursor: not-allowed !important;
 }

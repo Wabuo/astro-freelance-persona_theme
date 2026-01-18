@@ -2,6 +2,7 @@
 // src/freelance-persona/components/templates/BlogPostTemplate.astro
 import { getCollection } from "astro:content";
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
+import ImageAttribution from "../ui/ImageAttribution.astro";
 import { Image } from "astro:assets";
 import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
 import BlogSidebar from "@freelance-persona/components/blog/BlogSidebar.astro";
@@ -87,6 +88,12 @@ crumbs.push({ label: post.data.title });
                     width={1100}
                     quality="high"
                     format="webp"
+                  />
+                  {/* Attribution overlay */}
+                  <ImageAttribution
+                    img_credit={post.data.img_credit}
+                    img_copyright={post.data.img_copyright}
+                    img_license={post.data.img_license}
                   />
                 </div>
               )

@@ -41,6 +41,15 @@ export default defineConfig({
             name: 'firefox',
             use: { ...devices['Desktop Firefox'] },
         },
+        /* NoScript Environment */
+        {
+            name: 'noscript',
+            use: {
+                ...devices['Desktop Chrome'],
+                javaScriptEnabled: false
+            },
+            testMatch: ['**/noscript.spec.ts', '**/seo.spec.ts', '**/legal.spec.ts'],
+        },
         /* WebKit disabled locally due to missing system dependencies (libicu). 
            Playwright bundled WebKit does not use system libraries on Linux. 
            Enable in CI environment. */

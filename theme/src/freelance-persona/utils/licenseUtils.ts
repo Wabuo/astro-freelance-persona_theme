@@ -20,7 +20,7 @@ export const LICENSE_URLS: Record<string, string> = {
     // Open Source
     "MIT": "https://opensource.org/licenses/MIT",
     "Apache 2.0": "https://www.apache.org/licenses/LICENSE-2.0",
-    "BSD0": "https://opensource.org/license/0bsd",
+    "0BSD": "https://opensource.org/license/0bsd",
     "GPL 3.0": "https://www.gnu.org/licenses/gpl-3.0.html",
 
     // No Link needed

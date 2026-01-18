@@ -12,7 +12,7 @@ categories:
     title_style: "light"
     background_color: "#333"
     tags: ["dev", "astro", "coding"]
-    description: "Core features, API updates, and performance tuning. (Grid example)"
+    description: "Core features, API updates, and performance tuning. (Overlay Title) + (Grid example inside) "
     show_subtitle: false
     style: "cards"
   - title: "Design System"
@@ -26,14 +26,14 @@ categories:
     overlay_opacity: 0.5
     title_style: "light"
     tags: ["design", "css"]
-    description: "Layouts, components, and visual guidelines. (List example)"
+    description: "Layouts, components, and visual guidelines. (Overlay Title with ribbon) + (List example)"
   - title: "Community"
     background_color: "#f8cd20ff"
     overlay_title: false
     title_style: "dark"
     overlay_style: "none"
     tags: ["community"]
-    description: "Showcases, tutorials, and success stories. (No posts yet example)"
+    description: "Showcases, tutorials, and success stories. (No Overlay) + (No posts yet example)"
 mini_categories:
   - title: "Deprecated"
     description: "Old patterns."

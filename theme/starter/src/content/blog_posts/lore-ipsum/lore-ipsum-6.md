@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+#
+# SPDX-License-Identifier: MIT
+
 title: "Lore Ipsum 6"
 date: 2026-01-06
 description: "Dummy post 6."

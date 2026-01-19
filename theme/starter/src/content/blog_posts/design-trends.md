@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+#
+# SPDX-License-Identifier: MIT
+
 title: "2026 Design Trends to Watch"
 date: 2025-12-17
 description: "From Bento grids to neo-brutalism, what's hot this year?"

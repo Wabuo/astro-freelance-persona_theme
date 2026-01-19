@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
 // index.js
 // This file allows users to import components nicely
 // e.g., import { BaseLayout } from 'astro-persona-theme';

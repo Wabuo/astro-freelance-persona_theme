@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+
+SPDX-License-Identifier: MIT
+-->
+
 # Astro freelance-persona theme
 
 A modern, responsive, and lightweight theme for freelancing, portfolios, and blogs. Initially ported from Zola Persona, customized and expanded for the freelancing focus with elements from Zola Gouyu.
@@ -41,6 +47,19 @@ To change fonts:
 2. **Import the CSS**: Add the import to `src/fonts.ts`.
 3. **Update Config**: Update the `fonts` section in `src/freelance-persona.config.ts`.
 4. **Don't Forget**: to uninstall unneeded font package(s).
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 ## 🛠️ Local Development Setup (For Contributors)
 

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+
+SPDX-License-Identifier: MIT
+-->
+
 # 🤖 AGENT KNOWLEDGE BASE & OPERATIONAL RULES
 
 > **SYSTEM INSTRUCTION:** This file is the single source of truth for recurring issues, project-specific workflows, and latent tribal knowledge. **Before starting any task, you MUST check this file.**

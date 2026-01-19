@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+#
+# SPDX-License-Identifier: MIT
+
 title: "Why Bun is the Future"
 date: 2026-1-12
 description: "Exploring the speed and developer experience of the Bun runtime. (a post with picture)"

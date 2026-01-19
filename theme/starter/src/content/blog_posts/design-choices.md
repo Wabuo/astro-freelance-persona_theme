@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+#
+# SPDX-License-Identifier: MIT
+
 title: "Card grid or sleek list"
 date: 2026-01-11
 description: "As you can see the theme offers multiple options to display blog posts in blog categories."

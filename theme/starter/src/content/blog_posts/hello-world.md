@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+#
+# SPDX-License-Identifier: MIT
+
 title: "Hello World"
 description: "This is a post without an image. It should display as a text-only card."
 date: 2026-01-13

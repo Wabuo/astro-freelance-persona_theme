@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+#
+# SPDX-License-Identifier: MIT
+
 title: "Hi, I'm Lancy!"
 date: 2026-01-14
 description: "Meet the bot behind the build. The official mascot of Freelance Persona."

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
 // This file is used to import fonts for the website.
 // You can add your own fonts here.
 

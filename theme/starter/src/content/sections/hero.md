@@ -18,7 +18,7 @@ img_credit:
   name: "Your Photographers social"
   url: "https://instagram.com"
   icon: "bi bi-instagram"
-img_copyright: "Fabio Rieker"
+img_copyright: "freelance-persona"
 img_license: "CC BY-SA 4.0"
 background_overlay_transparency: 35% # default 25% | given the muted colors of the sample image less was needed
 

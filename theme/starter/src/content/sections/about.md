@@ -34,7 +34,7 @@ qualifications_sidebar:
     icon: "bi bi-award"
     image: "@/assets/img/theme_certificate.svg"
     img_credit: "hidden"
-    img_copyright: "Gemini"
+    img_copyright: "freelance-persona"
     img_license: "CC0"
     link: "https://github.com/wabuo/astro_freelance-persona_theme/blob/main/LICENSE"
 

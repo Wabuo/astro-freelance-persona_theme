@@ -11,7 +11,7 @@ img_credit:
   name: "Fabio Rieker"
   url: "https://www.linkedin.com/in/fabiorieker/"
   icon: "bi bi-linkedin"
-img_copyright: "Fabio Rieker"
+img_copyright: "freelance-persona"
 # License auto-links: CC0, CC BY 4.0, MIT, Apache 2.0, GPL 3.0, etc.
 # Use object {name, url} for custom license links.
 # img_license: Auto-links known licenses (CC0, CC BY, etc.) defined in licenseUtils.ts.

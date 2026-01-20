@@ -15,7 +15,7 @@ avatar: "@/assets/img/avatar.svg"
 #   license: "Custom"
 #   url: "..."
 avatar_credit: 
-  name: "Fabio Rieker"
+  name: "freelance-persona"
   url: "https://github.com/wabuo/astro_freelance-persona_theme"  
 avatar_license: "CC BY-SA 4.0"
 avatar_styles:

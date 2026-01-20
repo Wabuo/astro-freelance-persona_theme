@@ -8,8 +8,8 @@ date: 2026-01-14
 description: "Meet the bot behind the build. The official mascot of Freelance Persona."
 thumbnail: "@/assets/img/lancy_blog.svg"
 img_credit: 
-  name: "Fabio Rieker"
-  url: "https://www.linkedin.com/in/fabiorieker/"
+  name: "freelance-persona"
+  url: "https://www.linkedin.com/"
   icon: "bi bi-linkedin"
 img_copyright: "freelance-persona"
 # License auto-links: CC0, CC BY 4.0, MIT, Apache 2.0, GPL 3.0, etc.

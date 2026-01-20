@@ -8,7 +8,7 @@ date: 2026-01-06
 description: "Dummy post 6."
 thumbnail: "@/assets/img/background_empty.svg"
 img_credit: "hidden"
-img_copyright: "Gemini"
+img_copyright: "freelance-persona"
 # License auto-links: CC0, CC BY 4.0, MIT, Apache 2.0, GPL 3.0, etc.
 # Use object {name, url} for custom license links.
 # img_license: Auto-links known licenses (CC0, CC BY, etc.) defined in licenseUtils.ts.

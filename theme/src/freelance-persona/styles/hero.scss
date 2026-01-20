@@ -12,10 +12,13 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
-  padding: 5rem 0; // 80px
+  // Padding removed to ensure full-bleed background without box-model conflicts
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--background-color); // Match theme color to hide sub-pixel gaps
+  overflow: hidden;
 
   // Hero attribution: positioned bottom-right, above overlay
   --attribution-font-size: 0.65rem;
@@ -23,9 +26,9 @@
   @import 'attribution';
 
   .img-attribution {
-    z-index: 5; // Above the :before overlay (z-index: 2)
+    z-index: 5;
     bottom: 1rem;
-    right: 2.5rem; // Moved left to avoid browser scrollbars
+    right: 2.5rem;
     flex-direction: column;
     align-items: flex-end;
     gap: 0;
@@ -34,15 +37,18 @@
 
 .hero img {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+
+  // Aggressive fix: Oversize by 2px on all sides to cover any sub-pixel left/bottom gaps
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  // Ensure no rounding leaks background
+  border-radius: 0 !important;
   object-fit: cover;
   object-position: right bottom;
   z-index: 0;
 
-  // SAFETY RULE: On short screens (landscape mobile), 'bottom' alignment cuts off the head.
-  // Switch to 'center' to prioritize the face.
   @media (max-height: 500px) {
     object-position: right center;
   }
@@ -52,7 +58,12 @@
   content: "";
   background: color-mix(in srgb, var(--background-color), transparent var(--transparency));
   position: absolute;
-  inset: 0;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  // Ensure overlay also matches
+  border-radius: 0 !important;
   z-index: 2;
 }
 

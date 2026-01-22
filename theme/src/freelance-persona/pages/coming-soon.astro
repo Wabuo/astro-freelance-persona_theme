@@ -1,0 +1,109 @@
+---
+// theme/src/freelance-persona/pages/coming-soon.astro
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ * SPDX-License-Identifier: MIT
+ */
+
+import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+// Using the "lancy_blog" image which usually looks like Lancy reading or writing, fitting for "work in progress"
+// Or we can use the default if available. Let's stick to the one we know exists via alias.
+import lancyImage from "@/assets/img/lancy.svg";
+
+const title = "Coming Soon";
+const description = "We are working hard to bring you this page.";
+---
+
+<BaseLayout title={title} description={description} navType="page">
+  <section
+    class="section coming-soon d-flex flex-column align-items-center justify-content-center"
+  >
+    <div class="container text-center" data-reveal="fade-up">
+      <div class="mascot-container mb-4">
+        <Image
+          src={lancyImage}
+          alt="Lancy working on something new"
+          width={350}
+          height={350}
+          class="img-fluid lancy-working"
+        />
+      </div>
+
+      <h1>Watch This Space!</h1>
+      <h2>Something Awesome is Brewing</h2>
+      <p class="mb-4">
+        Lancy is currently coding this feature.<br />
+        Check back soon for updates!
+      </p>
+
+      <a href="/" class="btn-get-started"> Back to Home </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .coming-soon {
+    min-height: 80vh;
+    padding: 4rem 0;
+
+    h1 {
+      font-size: 4.5rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-bottom: 1.5rem;
+      font-family: var(--heading-font);
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+    }
+
+    .lancy-working {
+      max-width: 100%;
+      height: auto;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+      // Pulse animation for "working" vibe
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    .btn-get-started {
+      margin-top: 2rem;
+      font-family: var(--heading-font);
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      transition: 0.5s;
+      color: #fff;
+      background: var(--accent-color);
+
+      &:hover {
+        background: color-mix(in srgb, var(--accent-color), black 10%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+</style>

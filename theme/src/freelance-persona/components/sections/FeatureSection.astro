@@ -67,7 +67,10 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
 
           const finalLink = isUnavailable
             ? undefined
-            : feature.link && !feature.link.startsWith("#")
+            : feature.link &&
+                !feature.link.startsWith("#") &&
+                !feature.link.startsWith("/") &&
+                !feature.link.startsWith("http")
               ? `/services/${slugify(feature.title)}`
               : feature.link;
 

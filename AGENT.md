@@ -14,19 +14,25 @@ SPDX-License-Identifier: MIT
 
 ## 🚨 CRITICAL OPERATIONAL RULES
 
-### 1. ⚡ Server Management (Automated)
+### 1. Manual dev or build and preview server
+
+- **Manual Verification:** If you want view the site manually via the browser:
+  - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run dev`
+  - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run build; bun run preview`
+
+### 2. ⚡ Server Management (Automated)
 
 > [!IMPORTANT]
-> **Playwright is configured to auto-start the server.** logic: `bun run build && bun run preview`.
+> **Playwright is configured to auto-start the server.** logic: `bun run build; bun run preview`.
 
 - **Auto-Server:** You generally do **NOT** need to manually start a server for tests. Just run `bun x playwright test`.
 - **Manual Verification:** If you *must* open the site manually:
-  - ✅ **Preferred:** `bun run build && bun run preview` (Matches test environment).
+  - ✅ **Preferred:** `bun run build; bun run preview` (Matches test environment).
   - ⚠️ **Dev Mode:** `bun run dev` (Only for rapid iteration, may differ from build).
 - **Port Conflicts:** If `4321` is taken by a zombie process, tests/server will fail.
   - **Fix:** `fuser -k 4321/tcp; fuser -k 4322/tcp;`
 
-### 2. 🧪 Testing Standards (Playwright)
+### 3. 🧪 Testing Standards (Playwright)
 
 - **Directory:** Tests are in `testing/tests/`.
 - **Config:** `playwright.config.ts` handles the `webServer`, `noscript` project, and default reporters.
@@ -37,7 +43,7 @@ SPDX-License-Identifier: MIT
   - **Rule:** Preloader must be hidden (`display: none`), Content must be visible (`opacity: 1`).
 - **Path Aliases:** Tests **MUST** use `@starter/*` (e.g., `import { themeConfig } from '@starter/freelance-persona.config'`) instead of fragile relative paths (`../../theme/starter/...`).
 
-### 3. 📦 Project Architecture (Monorepo)
+### 4. 📦 Project Architecture (Monorepo)
 
 - **Runtime:** `bun` (Strictly).
 - **Structure:**

@@ -47,6 +47,16 @@ SPDX-License-Identifier: MIT
   - `testing/`: Dedicated test suite & artifacts.
   - `playground/`: **Ephemeral/Git-ignored**. Use for throwaway tests only.
 - **Aliases (STRICT):** `tsconfig.json` defines `@theme` and `@starter`. **Use them.**
+- **Path Aliases:**
+  - **Strict Requirement:** ALL `tsconfig.json` files (theme, starter) MUST explicitly define path aliases.
+  - **Rule:** always include `"paths": { "@/*": ["src/*"] }` in `compilerOptions`.
+  - **Reason:** Astro aliases (like `@/assets`) fail in monorepo workspaces if the consuming project (playground) doesn't have the explicit mapping to its own `src`.
+  - **Prefer Path Aliases:** Use path aliases (`@/assets/img/avatar.jpg`) instead of relative paths (`../../assets/img/avatar.jpg`) for better code maintainability and to avoid issues with nested directory structures, relative paths are considered bad practice!
+- **Path Aliases:**
+  - **Strict Requirement:** ALL `tsconfig.json` files (theme, starter) MUST explicitly define path aliases.
+  - **Rule:** always include `"paths": { "@/*": ["src/*"] }` in `compilerOptions`.
+  - **Reason:** Astro aliases (like `@/assets`) fail in monorepo workspaces if the consuming project (playground) doesn't have the explicit mapping to its own `src`.
+  - **Prefer Path Aliases:** Use path aliases (`@/assets/img/avatar.jpg`) instead of relative paths (`../../assets/img/avatar.jpg`) for better code maintainability and to avoid issues with nested directory structures, relative paths are considered bad practice!
 
 ---
 

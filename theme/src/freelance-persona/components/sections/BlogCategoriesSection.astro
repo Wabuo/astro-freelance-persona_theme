@@ -225,7 +225,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                       {categoryPosts.map((post) => (
                         <li class="recent-post-item">
                           <a
-                            href={`/posts/${post.id}`}
+                            href={`/posts/${post.id.split("/").pop()}`}
                             class="recent-post-link"
                           >
                             <span class="post-title">{post.data.title}</span>

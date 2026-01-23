@@ -132,6 +132,23 @@ bun run build
 bun run preview
 ```
 
+### Running Tests
+
+The starter template includes a Playwright test suite that validates your content and theme functionality. Tests automatically parse your content files, so they work with your customized content.
+
+```fish
+# Install Playwright browsers (first time only)
+bunx playwright install
+
+# Run all tests
+bun run test
+
+# Run tests with verbose output
+bunx playwright test --reporter=list
+```
+
+Tests are located in `testing/tests/` and use the `testing/utils/content-parser.ts` utility to dynamically read expected values from your content files.
+
 ### Architecture Notes
 
 - **`playground/package.json`**: During local development, this uses the local version of the theme. When published as a template, it uses the version from the npm registry.

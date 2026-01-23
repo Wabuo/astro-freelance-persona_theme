@@ -34,14 +34,15 @@ SPDX-License-Identifier: MIT
 
 ### 3. 🧪 Testing Standards (Playwright)
 
-- **Directory:** Tests are in `testing/tests/`.
-- **Config:** `playwright.config.ts` handles the `webServer`, `noscript` project, and default reporters.
+- **Directory:** Tests are in `theme/starter/testing/tests/` (part of the starter template).
+- **Config:** `theme/starter/playwright.config.ts` handles the `webServer`, `noscript` project, and default reporters.
 - **Reporting:** **ALWAYS** use `--reporter=list` or `--reporter=line` to prevent hanging the terminal validation.
+- **Dynamic Content Parsing:** Tests use `testing/utils/content-parser.ts` to read expected values from content files dynamically. **NEVER** hardcode content values in tests.
 - **NoScript Testing:**
   - Used for verification of graceful degradation.
   - Project: `bun x playwright test --project=noscript`
   - **Rule:** Preloader must be hidden (`display: none`), Content must be visible (`opacity: 1`).
-- **Path Aliases:** Tests **MUST** use `@starter/*` (e.g., `import { themeConfig } from '@starter/freelance-persona.config'`) instead of fragile relative paths (`../../theme/starter/...`).
+- **Path Aliases:** Tests use `@/*` (e.g., `import { themeConfig } from '@/freelance-persona.config'`) which maps to `src/*` in the starter context.
 
 ### 4. 📦 Project Architecture (Monorepo)
 
@@ -50,9 +51,9 @@ SPDX-License-Identifier: MIT
   - `.` (Root): Workspace root.
   - `theme/`: Source code.
   - `theme/starter/`: Public template / active dev content.
-  - `testing/`: Dedicated test suite & artifacts.
+  - `theme/starter/testing/`: Playwright test suite (included in template for users).
   - `playground/`: **Ephemeral/Git-ignored**. Use for throwaway tests only.
-- **Aliases (STRICT):** `tsconfig.json` defines `@theme` and `@starter`. **Use them.**
+- **Aliases (STRICT):** `tsconfig.json` defines `@theme` and `@starter`. Starter defines `@/*` and `@content/*`. **Use them.**
 - **Path Aliases:**
   - **Strict Requirement:** ALL `tsconfig.json` files (theme, starter) MUST explicitly define path aliases.
   - **Rule:** always include `"paths": { "@/*": ["src/*"] }` in `compilerOptions`.
@@ -71,8 +72,10 @@ SPDX-License-Identifier: MIT
 ### 1. 📂 Flat Blog Routing (Regression Prevention)
 
 - **Requirement:** Users must be allowed to organize `blog_posts/` with any folder structure (e.g., `blog_posts/archive/2025/post.md`).
-- **Implementation:** `BlogPost.astro` logic MUST flatten the ID: `post.id.split('/').pop()`.
-- **Result:** URL is always `/posts/post-name` regardless of depth. Do NOT introduce nested URLs (like `/posts/archive/...`) for blog posts.
+- **Route Generation:** `BlogPost.astro` `getStaticPaths` MUST flatten the ID: `post.id.split('/').pop()`.
+- **Link Generation:** All `href` attributes linking to posts MUST also flatten: `/posts/${post.id.split('/').pop()}`.
+  - **Affected components:** `FilteredPostsSection`, `BlogCategoriesSection`, `[BlogCategory]`, `BlogSidebar`.
+- **Result:** URL is always `/posts/post-name` regardless of depth. Do NOT use raw `post.id` in links.
 
 ### 2. 🎨 Styling & NoScript
 

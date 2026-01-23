@@ -17,9 +17,5 @@
             "DOM",
             "DOM.Iterable"
         ]
-    },
-    "include": [
-        "testing/**/*.ts",
-        "playwright.config.ts"
-    ]
+    }
 }

@@ -19,7 +19,9 @@ const recentPosts = allPosts
           recentPosts.map((post) => (
             <li class="post-item">
               <h4>
-                <a href={`/posts/${post.id}`}>{post.data.title}</a>
+                <a href={`/posts/${post.id.split("/").pop()}`}>
+                  {post.data.title}
+                </a>
               </h4>
               <time datetime={post.data.date.toISOString()}>
                 {post.data.date.toLocaleDateString("en-GB", {

@@ -6,9 +6,18 @@
             "@/*": [
                 "src/*"
             ],
+            "@content/*": [
+                "src/content/*"
+            ],
             "@freelance-persona/*": [
                 "../src/freelance-persona/*"
             ]
         }
-    }
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.astro",
+        "testing/**/*.ts",
+        "playwright.config.ts"
+    ]
 }

@@ -1,0 +1,595 @@
+
+Running 123 tests using 4 workers
+
+  ✓    4 [chromium] › testing/tests/attribution.spec.ts:68:9 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction (4.3s)
+  ✓    5 [chromium] › testing/tests/blog.spec.ts:13:13 › Blog Visuals & Functionality › Category Views › List View Layout (Default) (463ms)
+  ✓    6 [chromium] › testing/tests/blog.spec.ts:25:13 › Blog Visuals & Functionality › Category Views › Grid View Layout (configured) (734ms)
+  ✘    3 [chromium] › testing/tests/attribution.spec.ts:14:9 › Attribution Logic & Interactions › Hero Section: Standard Credit (6.0s)
+  ✘    1 [chromium] › testing/tests/attribution.spec.ts:37:9 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright (6.1s)
+  ✓    9 [chromium] › testing/tests/config.spec.ts:13:9 › Configuration Integrity › Page Title matches Config (598ms)
+  ✓   10 [chromium] › testing/tests/config.spec.ts:19:9 › Configuration Integrity › Social Links are rendered correctly (356ms)
+  ✓   11 [chromium] › testing/tests/config.spec.ts:29:9 › Configuration Integrity › Contact Form Provider is applied (282ms)
+  ✓   12 [chromium] › testing/tests/contact.spec.ts:7:5 › Contact Form Submission (2.0s)
+  ✓   13 [chromium] › testing/tests/error.spec.ts:7:5 › 404 Page Visual Regression (582ms)
+  ✓    7 [chromium] › testing/tests/blog.spec.ts:60:9 › Blog Visuals & Functionality › Post View: With Image (6.2s)
+  ✓    8 [chromium] › testing/tests/blog.spec.ts:73:9 › Blog Visuals & Functionality › Post View: Text Only (4.8s)
+  ✓   14 [chromium] › testing/tests/features.spec.ts:14:9 › Features/Services Section Links › Services section should have variable link types (2.4s)
+  ✓   16 [chromium] › testing/tests/home.spec.ts:7:5 › Home Visual Regression (1.7s)
+  ✘    2 [chromium] › testing/tests/attribution.spec.ts:105:9 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic (13.8s)
+  ✓   15 [chromium] › testing/tests/hero-safety.spec.ts:7:5 › Hero Layout Safety Check (4.4s)
+  ✓   17 [chromium] › testing/tests/hover.spec.ts:18:9 › Visual Hover States › Hero Section: Social Links (2.9s)
+  ✓   18 [chromium] › testing/tests/hover.spec.ts:40:9 › Visual Hover States › Features: Available vs Unavailable Cards (2.8s)
+  ✓   19 [chromium] › testing/tests/hover.spec.ts:58:9 › Visual Hover States › Navigation: Side/Top Nav Pills (2.2s)
+  ✓   20 [chromium] › testing/tests/hover.spec.ts:79:9 › Visual Hover States › Blog: Recent Post Card (Home) (2.4s)
+  ✓   21 [chromium] › testing/tests/hover.spec.ts:89:9 › Visual Hover States › Footer: Socials & Legal (2.3s)
+  -   25 [chromium] › testing/tests/interactions.spec.ts:27:9 › Interactions & Responsiveness › Mobile Menu Interaction
+  ✓   26 [chromium] › testing/tests/interactions.spec.ts:47:9 › Interactions & Responsiveness › Layout Stability on Resize (259ms)
+  ✓   22 [chromium] › testing/tests/hover.spec.ts:110:9 › Visual Hover States › Contact: Inputs & Button (3.4s)
+  ✓   24 [chromium] › testing/tests/interactions.spec.ts:9:9 › Interactions & Responsiveness › Scrollspy Updates Active Nav Link (1.4s)
+  ✓   23 [chromium] › testing/tests/hover.spec.ts:138:9 › Blog Category Card Hovers › Category Cards variants (2.9s)
+  ✓   27 [chromium] › testing/tests/legal.spec.ts:10:9 › Legal Page › Footer Link Navigates to Legal (1.5s)
+  ✓   31 [chromium] › testing/tests/noscript.spec.ts:35:9 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (184ms)
+  ✓   28 [chromium] › testing/tests/legal.spec.ts:24:9 › Legal Page › Legal Page Visual Regression (1.2s)
+  ✓   29 [chromium] › testing/tests/navigation.spec.ts:13:9 › Navigation › Header Links work (1.6s)
+  ✓   34 [chromium] › testing/tests/routing.spec.ts:21:9 › Flat Blog Routing › Nested URL should NOT exist (196ms)
+  ✓   32 [chromium] › testing/tests/routing.spec.ts:9:9 › Flat Blog Routing › Access nested post at root URL (Archive) (1.1s)
+  ✓   30 [chromium] › testing/tests/noscript.spec.ts:12:9 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (1.9s)
+  ✓   35 [chromium] › testing/tests/seo.spec.ts:8:9 › SEO Checks › Homepage Meta Tags (326ms)
+  ✓   33 [chromium] › testing/tests/routing.spec.ts:15:9 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) (1.3s)
+  ✓   37 [chromium] › testing/tests/status-pages.spec.ts:10:9 › New Pages Verification › 404 Page should load with Lancy mascot (244ms)
+  ✓   38 [chromium] › testing/tests/status-pages.spec.ts:28:9 › New Pages Verification › 403 Page should load with "You Shall Not Pass" theme (247ms)
+  ✓   39 [chromium] › testing/tests/status-pages.spec.ts:45:9 › New Pages Verification › Coming Soon Page should load with "Watch This Space" (243ms)
+  ✓   36 [chromium] › testing/tests/seo.spec.ts:21:9 › SEO Checks › Blog Post Meta Tags (1.9s)
+  ✓   42 [Mobile Chrome] › testing/tests/attribution.spec.ts:68:9 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction (4.3s)
+  ✓   44 [Mobile Chrome] › testing/tests/blog.spec.ts:13:13 › Blog Visuals & Functionality › Category Views › List View Layout (Default) (362ms)
+  ✓   45 [Mobile Chrome] › testing/tests/blog.spec.ts:25:13 › Blog Visuals & Functionality › Category Views › Grid View Layout (configured) (760ms)
+  ✘   40 [Mobile Chrome] › testing/tests/attribution.spec.ts:14:9 › Attribution Logic & Interactions › Hero Section: Standard Credit (5.9s)
+  ✘   41 [Mobile Chrome] › testing/tests/attribution.spec.ts:37:9 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright (5.9s)
+  ✓   46 [Mobile Chrome] › testing/tests/blog.spec.ts:60:9 › Blog Visuals & Functionality › Post View: With Image (1.1s)
+  ✓   47 [Mobile Chrome] › testing/tests/config.spec.ts:19:9 › Configuration Integrity › Social Links are rendered correctly (389ms)
+  ✓   50 [Mobile Chrome] › testing/tests/config.spec.ts:29:9 › Configuration Integrity › Contact Form Provider is applied (287ms)
+  ✓   48 [Mobile Chrome] › testing/tests/blog.spec.ts:73:9 › Blog Visuals & Functionality › Post View: Text Only (894ms)
+  ✓   49 [Mobile Chrome] › testing/tests/config.spec.ts:13:9 › Configuration Integrity › Page Title matches Config (643ms)
+  ✓   52 [Mobile Chrome] › testing/tests/error.spec.ts:7:5 › 404 Page Visual Regression (385ms)
+  ✘   43 [Mobile Chrome] › testing/tests/attribution.spec.ts:105:9 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic (7.0s)
+  ✓   51 [Mobile Chrome] › testing/tests/contact.spec.ts:7:5 › Contact Form Submission (1.9s)
+  ✓   56 [Mobile Chrome] › testing/tests/home.spec.ts:7:5 › Home Visual Regression (1.6s)
+  -   57 [Mobile Chrome] › testing/tests/hover.spec.ts:40:9 › Visual Hover States › Features: Available vs Unavailable Cards
+  ✓   53 [Mobile Chrome] › testing/tests/features.spec.ts:14:9 › Features/Services Section Links › Services section should have variable link types (3.7s)
+  ✓   55 [Mobile Chrome] › testing/tests/hover.spec.ts:18:9 › Visual Hover States › Hero Section: Social Links (2.8s)
+  ✓   54 [Mobile Chrome] › testing/tests/hero-safety.spec.ts:7:5 › Hero Layout Safety Check (4.5s)
+  ✘   58 [Mobile Chrome] › testing/tests/hover.spec.ts:58:9 › Visual Hover States › Navigation: Side/Top Nav Pills (2.1s)
+  ✓   59 [Mobile Chrome] › testing/tests/hover.spec.ts:79:9 › Visual Hover States › Blog: Recent Post Card (Home) (2.4s)
+  ✓   60 [Mobile Chrome] › testing/tests/hover.spec.ts:89:9 › Visual Hover States › Footer: Socials & Legal (2.1s)
+  -   64 [Mobile Chrome] › testing/tests/hover.spec.ts:138:9 › Blog Category Card Hovers › Category Cards variants
+  ✓   62 [Mobile Chrome] › testing/tests/interactions.spec.ts:9:9 › Interactions & Responsiveness › Scrollspy Updates Active Nav Link (1.3s)
+  ✓   65 [Mobile Chrome] › testing/tests/interactions.spec.ts:47:9 › Interactions & Responsiveness › Layout Stability on Resize (553ms)
+  ✓   63 [Mobile Chrome] › testing/tests/interactions.spec.ts:27:9 › Interactions & Responsiveness › Mobile Menu Interaction (1.4s)
+  -   68 [Mobile Chrome] › testing/tests/navigation.spec.ts:13:9 › Navigation › Header Links work
+  ✓   61 [Mobile Chrome] › testing/tests/hover.spec.ts:110:9 › Visual Hover States › Contact: Inputs & Button (3.3s)
+  ✓   67 [Mobile Chrome] › testing/tests/legal.spec.ts:24:9 › Legal Page › Legal Page Visual Regression (755ms)
+  ✓   70 [Mobile Chrome] › testing/tests/noscript.spec.ts:35:9 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (186ms)
+  ✓   66 [Mobile Chrome] › testing/tests/legal.spec.ts:10:9 › Legal Page › Footer Link Navigates to Legal (1.5s)
+  ✓   73 [Mobile Chrome] › testing/tests/routing.spec.ts:21:9 › Flat Blog Routing › Nested URL should NOT exist (187ms)
+  ✓   74 [Mobile Chrome] › testing/tests/seo.spec.ts:8:9 › SEO Checks › Homepage Meta Tags (259ms)
+  ✓   69 [Mobile Chrome] › testing/tests/noscript.spec.ts:12:9 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (1.5s)
+  ✓   76 [Mobile Chrome] › testing/tests/status-pages.spec.ts:10:9 › New Pages Verification › 404 Page should load with Lancy mascot (227ms)
+  ✓   77 [Mobile Chrome] › testing/tests/status-pages.spec.ts:28:9 › New Pages Verification › 403 Page should load with "You Shall Not Pass" theme (217ms)
+  ✓   78 [Mobile Chrome] › testing/tests/status-pages.spec.ts:45:9 › New Pages Verification › Coming Soon Page should load with "Watch This Space" (216ms)
+  ✓   72 [Mobile Chrome] › testing/tests/routing.spec.ts:15:9 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) (2.8s)
+  ✓   75 [Mobile Chrome] › testing/tests/seo.spec.ts:21:9 › SEO Checks › Blog Post Meta Tags (2.7s)
+  ✓   71 [Mobile Chrome] › testing/tests/routing.spec.ts:9:9 › Flat Blog Routing › Access nested post at root URL (Archive) (4.3s)
+  ✘   81 [firefox] › testing/tests/attribution.spec.ts:68:9 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction (5.0s)
+  ✘   79 [firefox] › testing/tests/attribution.spec.ts:14:9 › Attribution Logic & Interactions › Hero Section: Standard Credit (7.8s)
+  ✘   80 [firefox] › testing/tests/attribution.spec.ts:37:9 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright (8.1s)
+  ✓   83 [firefox] › testing/tests/blog.spec.ts:13:13 › Blog Visuals & Functionality › Category Views › List View Layout (Default) (2.5s)
+  ✘   82 [firefox] › testing/tests/attribution.spec.ts:105:9 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic (9.3s)
+  ✓   84 [firefox] › testing/tests/blog.spec.ts:25:13 › Blog Visuals & Functionality › Category Views › Grid View Layout (configured) (3.0s)
+  ✓   87 [firefox] › testing/tests/config.spec.ts:19:9 › Configuration Integrity › Social Links are rendered correctly (1.1s)
+  ✓   89 [firefox] › testing/tests/config.spec.ts:29:9 › Configuration Integrity › Contact Form Provider is applied (822ms)
+  ✓   88 [firefox] › testing/tests/config.spec.ts:13:9 › Configuration Integrity › Page Title matches Config (2.2s)
+  ✓   90 [firefox] › testing/tests/contact.spec.ts:7:5 › Contact Form Submission (2.8s)
+  ✓   91 [firefox] › testing/tests/error.spec.ts:7:5 › 404 Page Visual Regression (924ms)
+  ✓   92 [firefox] › testing/tests/features.spec.ts:14:9 › Features/Services Section Links › Services section should have variable link types (3.0s)
+  ✓   94 [firefox] › testing/tests/home.spec.ts:7:5 › Home Visual Regression (1.5s)
+  ✓   93 [firefox] › testing/tests/hero-safety.spec.ts:7:5 › Hero Layout Safety Check (5.0s)
+  ✓   95 [firefox] › testing/tests/hover.spec.ts:18:9 › Visual Hover States › Hero Section: Social Links (3.2s)
+  ✓   96 [firefox] › testing/tests/hover.spec.ts:40:9 › Visual Hover States › Features: Available vs Unavailable Cards (3.2s)
+  ✓   97 [firefox] › testing/tests/hover.spec.ts:58:9 › Visual Hover States › Navigation: Side/Top Nav Pills (2.3s)
+  ✓   98 [firefox] › testing/tests/hover.spec.ts:79:9 › Visual Hover States › Blog: Recent Post Card (Home) (3.0s)
+  ✓   99 [firefox] › testing/tests/hover.spec.ts:89:9 › Visual Hover States › Footer: Socials & Legal (2.8s)
+  ✓  100 [firefox] › testing/tests/hover.spec.ts:110:9 › Visual Hover States › Contact: Inputs & Button (3.7s)
+  ✓  101 [firefox] › testing/tests/hover.spec.ts:138:9 › Blog Category Card Hovers › Category Cards variants (3.3s)
+  -  103 [firefox] › testing/tests/interactions.spec.ts:27:9 › Interactions & Responsiveness › Mobile Menu Interaction
+  ✓  102 [firefox] › testing/tests/interactions.spec.ts:9:9 › Interactions & Responsiveness › Scrollspy Updates Active Nav Link (1.8s)
+  ✓  104 [firefox] › testing/tests/interactions.spec.ts:47:9 › Interactions & Responsiveness › Layout Stability on Resize (603ms)
+  ✓  106 [firefox] › testing/tests/legal.spec.ts:24:9 › Legal Page › Legal Page Visual Regression (1.2s)
+  ✓  105 [firefox] › testing/tests/legal.spec.ts:10:9 › Legal Page › Footer Link Navigates to Legal (2.2s)
+  ✓  107 [firefox] › testing/tests/navigation.spec.ts:13:9 › Navigation › Header Links work (2.2s)
+  ✓  108 [firefox] › testing/tests/noscript.spec.ts:12:9 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (1.8s)
+  ✓  109 [firefox] › testing/tests/noscript.spec.ts:35:9 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (498ms)
+  ✘   85 [firefox] › testing/tests/blog.spec.ts:60:9 › Blog Visuals & Functionality › Post View: With Image (30.2s)
+  ✘   86 [firefox] › testing/tests/blog.spec.ts:73:9 › Blog Visuals & Functionality › Post View: Text Only (30.2s)
+  ✓  112 [firefox] › testing/tests/routing.spec.ts:21:9 › Flat Blog Routing › Nested URL should NOT exist (2.1s)
+  ✓  113 [firefox] › testing/tests/seo.spec.ts:8:9 › SEO Checks › Homepage Meta Tags (2.9s)
+  ✓  115 [firefox] › testing/tests/status-pages.spec.ts:10:9 › New Pages Verification › 404 Page should load with Lancy mascot (794ms)
+  ✓  116 [firefox] › testing/tests/status-pages.spec.ts:28:9 › New Pages Verification › 403 Page should load with "You Shall Not Pass" theme (779ms)
+  ✓  117 [firefox] › testing/tests/status-pages.spec.ts:45:9 › New Pages Verification › Coming Soon Page should load with "Watch This Space" (664ms)
+  ✓  118 [noscript] › testing/tests/legal.spec.ts:10:9 › Legal Page › Footer Link Navigates to Legal (901ms)
+  ✓  119 [noscript] › testing/tests/legal.spec.ts:24:9 › Legal Page › Legal Page Visual Regression (994ms)
+  ✓  120 [noscript] › testing/tests/noscript.spec.ts:12:9 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (1.7s)
+  ✓  121 [noscript] › testing/tests/noscript.spec.ts:35:9 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (203ms)
+  ✓  122 [noscript] › testing/tests/seo.spec.ts:8:9 › SEO Checks › Homepage Meta Tags (280ms)
+  ✓  123 [noscript] › testing/tests/seo.spec.ts:21:9 › SEO Checks › Blog Post Meta Tags (184ms)
+  ✘  111 [firefox] › testing/tests/routing.spec.ts:15:9 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) (30.2s)
+  ✘  110 [firefox] › testing/tests/routing.spec.ts:9:9 › Flat Blog Routing › Access nested post at root URL (Archive) (30.2s)
+  ✘  114 [firefox] › testing/tests/seo.spec.ts:21:9 › SEO Checks › Blog Post Meta Tags (30.2s)
+
+
+  1) [chromium] › testing/tests/attribution.spec.ts:14:9 › Attribution Logic & Interactions › Hero Section: Standard Credit 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.hero .img-attribution').first().locator('.license-line')
+    Expected pattern: [32m/Fabio Rieker/[39m
+    Received string:  [31m"freelance-persona, CC BY-SA 4.0"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.hero .img-attribution').first().locator('.license-line')[22m
+    [2m    9 × locator resolved to <span class="license-line">…</span>[22m
+    [2m      - unexpected value "freelance-persona, CC BY-SA 4.0"[22m
+
+
+      31 |         const licenseLine = attribution.locator('.license-line');
+      32 |         await expect(licenseLine).toBeVisible();
+    > 33 |         await expect(licenseLine).toHaveText(/Fabio Rieker/); // Copyright owner
+         |                                   ^
+      34 |         await expect(licenseLine).toHaveText(/CC BY-SA 4.0/); // License
+      35 |     });
+      36 |
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:33:35
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-de532-ero-Section-Standard-Credit-chromium/error-context.md
+
+  2) [chromium] › testing/tests/attribution.spec.ts:37:9 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('#about').locator('.qualifications-item').filter({ hasText: 'Theme License' }).first().locator('.cert-attribution').locator('.credit-line')
+    Expected pattern: [32m/Gemini/[39m
+    Received string:  [31m"freelance-persona"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('#about').locator('.qualifications-item').filter({ hasText: 'Theme License' }).first().locator('.cert-attribution').locator('.credit-line')[22m
+    [2m    9 × locator resolved to <span class="credit-line">…</span>[22m
+    [2m      - unexpected value "freelance-persona"[22m
+
+
+      53 |         const line1 = attribution.locator('.credit-line');
+      54 |         await expect(line1).toBeVisible();
+    > 55 |         await expect(line1).toHaveText(/Gemini/);
+         |                             ^
+      56 |         await expect(line1.locator('.bi-camera-fill')).not.toBeVisible();
+      57 |         await expect(line1).not.toHaveText(/©/);
+      58 |
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:55:29
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-4dfde-n-Credit-Promoted-Copyright-chromium/error-context.md
+
+  3) [chromium] › testing/tests/attribution.spec.ts:105:9 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.post-img .img-attribution').locator('.credit-line')
+    Expected pattern: [32m/Gemini/[39m
+    Received string:  [31m"freelance-persona"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.post-img .img-attribution').locator('.credit-line')[22m
+    [2m    9 × locator resolved to <span class="credit-line">…</span>[22m
+    [2m      - unexpected value "freelance-persona"[22m
+
+
+      113 |         // Line 1: Gemini (Promoted)
+      114 |         const line1 = attribution.locator('.credit-line');
+    > 115 |         await expect(line1).toHaveText(/Gemini/);
+          |                             ^
+      116 |         await expect(line1.locator('.bi-camera-fill')).not.toBeVisible();
+      117 |
+      118 |         // Line 2: CC0
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:115:29
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-4deb9-og-Post-Hidden-Credit-Logic-chromium/error-context.md
+
+  4) [Mobile Chrome] › testing/tests/attribution.spec.ts:14:9 › Attribution Logic & Interactions › Hero Section: Standard Credit 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.hero .img-attribution').first().locator('.license-line')
+    Expected pattern: [32m/Fabio Rieker/[39m
+    Received string:  [31m"freelance-persona, CC BY-SA 4.0"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.hero .img-attribution').first().locator('.license-line')[22m
+    [2m    9 × locator resolved to <span class="license-line">…</span>[22m
+    [2m      - unexpected value "freelance-persona, CC BY-SA 4.0"[22m
+
+
+      31 |         const licenseLine = attribution.locator('.license-line');
+      32 |         await expect(licenseLine).toBeVisible();
+    > 33 |         await expect(licenseLine).toHaveText(/Fabio Rieker/); // Copyright owner
+         |                                   ^
+      34 |         await expect(licenseLine).toHaveText(/CC BY-SA 4.0/); // License
+      35 |     });
+      36 |
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:33:35
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-de532-ero-Section-Standard-Credit-Mobile-Chrome/error-context.md
+
+  5) [Mobile Chrome] › testing/tests/attribution.spec.ts:37:9 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('#about').locator('.qualifications-item').filter({ hasText: 'Theme License' }).first().locator('.cert-attribution').locator('.credit-line')
+    Expected pattern: [32m/Gemini/[39m
+    Received string:  [31m"freelance-persona"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('#about').locator('.qualifications-item').filter({ hasText: 'Theme License' }).first().locator('.cert-attribution').locator('.credit-line')[22m
+    [2m    9 × locator resolved to <span class="credit-line">…</span>[22m
+    [2m      - unexpected value "freelance-persona"[22m
+
+
+      53 |         const line1 = attribution.locator('.credit-line');
+      54 |         await expect(line1).toBeVisible();
+    > 55 |         await expect(line1).toHaveText(/Gemini/);
+         |                             ^
+      56 |         await expect(line1.locator('.bi-camera-fill')).not.toBeVisible();
+      57 |         await expect(line1).not.toHaveText(/©/);
+      58 |
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:55:29
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-4dfde-n-Credit-Promoted-Copyright-Mobile-Chrome/error-context.md
+
+  6) [Mobile Chrome] › testing/tests/attribution.spec.ts:105:9 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.post-img .img-attribution').locator('.credit-line')
+    Expected pattern: [32m/Gemini/[39m
+    Received string:  [31m"freelance-persona"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.post-img .img-attribution').locator('.credit-line')[22m
+    [2m    9 × locator resolved to <span class="credit-line">…</span>[22m
+    [2m      - unexpected value "freelance-persona"[22m
+
+
+      113 |         // Line 1: Gemini (Promoted)
+      114 |         const line1 = attribution.locator('.credit-line');
+    > 115 |         await expect(line1).toHaveText(/Gemini/);
+          |                             ^
+      116 |         await expect(line1.locator('.bi-camera-fill')).not.toBeVisible();
+      117 |
+      118 |         // Line 2: CC0
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:115:29
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-4deb9-og-Post-Hidden-Credit-Logic-Mobile-Chrome/error-context.md
+
+  7) [Mobile Chrome] › testing/tests/hover.spec.ts:58:9 › Visual Hover States › Navigation: Side/Top Nav Pills 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('#navmenu')
+      284 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: mobile-nav-hover.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(mobile-nav-hover.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - waiting for locator('#navmenu')[22m
+    [2m    - locator resolved to <nav id="navmenu" class="navmenu">…</nav>[22m
+    [2m  - taking element screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - attempting scroll into view action[22m
+    [2m    - waiting for element to be stable[22m
+    [2m  - 284 pixels (ratio 0.01 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - waiting for locator('#navmenu')[22m
+    [2m    - locator resolved to <nav id="navmenu" class="navmenu">…</nav>[22m
+    [2m  - taking element screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - attempting scroll into view action[22m
+    [2m    - waiting for element to be stable[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 284 pixels (ratio 0.01 of all image pixels) are different.[22m
+
+
+      65 |             const firstLink = page.locator('#navmenu a').first();
+      66 |             await firstLink.hover(); // Emulate touch/active
+    > 67 |             await expect(page.locator('#navmenu')).toHaveScreenshot('mobile-nav-hover.png');
+         |                                                    ^
+      68 |         } else {
+      69 |             // Desktop Side Nav
+      70 |             const navLinks = page.locator('#navmenu a');
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/hover.spec.ts:67:52
+
+    attachment #1: mobile-nav-hover (image/png) ────────────────────────────────────────────────────
+    Expected: testing/tests/hover.spec.ts-snapshots/mobile-nav-hover-Mobile-Chrome-linux.png
+    Received: testing/test-results/hover-Visual-Hover-States-Navigation-Side-Top-Nav-Pills-Mobile-Chrome/mobile-nav-hover-actual.png
+    Diff:     testing/test-results/hover-Visual-Hover-States-Navigation-Side-Top-Nav-Pills-Mobile-Chrome/mobile-nav-hover-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: testing/test-results/hover-Visual-Hover-States-Navigation-Side-Top-Nav-Pills-Mobile-Chrome/error-context.md
+
+  8) [firefox] › testing/tests/attribution.spec.ts:14:9 › Attribution Logic & Interactions › Hero Section: Standard Credit 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.hero .img-attribution').first().locator('.license-line')
+    Expected pattern: [32m/Fabio Rieker/[39m
+    Received string:  [31m"freelance-persona, CC BY-SA 4.0"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.hero .img-attribution').first().locator('.license-line')[22m
+    [2m    8 × locator resolved to <span class="license-line">…</span>[22m
+    [2m      - unexpected value "freelance-persona, CC BY-SA 4.0"[22m
+
+
+      31 |         const licenseLine = attribution.locator('.license-line');
+      32 |         await expect(licenseLine).toBeVisible();
+    > 33 |         await expect(licenseLine).toHaveText(/Fabio Rieker/); // Copyright owner
+         |                                   ^
+      34 |         await expect(licenseLine).toHaveText(/CC BY-SA 4.0/); // License
+      35 |     });
+      36 |
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:33:35
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-de532-ero-Section-Standard-Credit-firefox/error-context.md
+
+  9) [firefox] › testing/tests/attribution.spec.ts:37:9 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('#about').locator('.qualifications-item').filter({ hasText: 'Theme License' }).first().locator('.cert-attribution').locator('.credit-line')
+    Expected pattern: [32m/Gemini/[39m
+    Received string:  [31m"freelance-persona"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('#about').locator('.qualifications-item').filter({ hasText: 'Theme License' }).first().locator('.cert-attribution').locator('.credit-line')[22m
+    [2m    8 × locator resolved to <span class="credit-line">…</span>[22m
+    [2m      - unexpected value "freelance-persona"[22m
+
+
+      53 |         const line1 = attribution.locator('.credit-line');
+      54 |         await expect(line1).toBeVisible();
+    > 55 |         await expect(line1).toHaveText(/Gemini/);
+         |                             ^
+      56 |         await expect(line1.locator('.bi-camera-fill')).not.toBeVisible();
+      57 |         await expect(line1).not.toHaveText(/©/);
+      58 |
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:55:29
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-4dfde-n-Credit-Promoted-Copyright-firefox/error-context.md
+
+  10) [firefox] › testing/tests/attribution.spec.ts:68:9 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('#about .qualifications-item').filter({ hasText: 'Theme License' }).first()
+      197 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: cert-hover-title.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(cert-hover-title.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - waiting for locator('#about .qualifications-item').filter({ hasText: 'Theme License' }).first()[22m
+    [2m    - locator resolved to <li class="qualifications-item">…</li>[22m
+    [2m  - taking element screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - attempting scroll into view action[22m
+    [2m    - waiting for element to be stable[22m
+    [2m    - element is not stable[22m
+    [2m  - retrying scroll into view action[22m
+    [2m    - waiting for element to be stable[22m
+    [2m  - 197 pixels (ratio 0.01 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - waiting for locator('#about .qualifications-item').filter({ hasText: 'Theme License' }).first()[22m
+    [2m    - locator resolved to <li class="qualifications-item">…</li>[22m
+    [2m  - taking element screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - attempting scroll into view action[22m
+    [2m    - waiting for element to be stable[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 197 pixels (ratio 0.01 of all image pixels) are different.[22m
+
+
+      82 |         await titleLink.locator('.qualifications-text').hover();
+      83 |         await page.waitForTimeout(300);
+    > 84 |         await expect(certItem).toHaveScreenshot('cert-hover-title.png');
+         |                                ^
+      85 |
+      86 |         // 2. Hover Image
+      87 |         await page.mouse.move(0, 0); // Reset
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:84:32
+
+    attachment #1: cert-hover-title (image/png) ────────────────────────────────────────────────────
+    Expected: testing/tests/attribution.spec.ts-snapshots/cert-hover-title-firefox-linux.png
+    Received: testing/test-results/attribution-Attribution-Lo-9db56-rtificate-Hover-Interaction-firefox/cert-hover-title-actual.png
+    Diff:     testing/test-results/attribution-Attribution-Lo-9db56-rtificate-Hover-Interaction-firefox/cert-hover-title-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-9db56-rtificate-Hover-Interaction-firefox/error-context.md
+
+  11) [firefox] › testing/tests/attribution.spec.ts:105:9 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.post-img .img-attribution').locator('.credit-line')
+    Expected pattern: [32m/Gemini/[39m
+    Received string:  [31m"freelance-persona"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.post-img .img-attribution').locator('.credit-line')[22m
+    [2m    9 × locator resolved to <span class="credit-line">…</span>[22m
+    [2m      - unexpected value "freelance-persona"[22m
+
+
+      113 |         // Line 1: Gemini (Promoted)
+      114 |         const line1 = attribution.locator('.credit-line');
+    > 115 |         await expect(line1).toHaveText(/Gemini/);
+          |                             ^
+      116 |         await expect(line1.locator('.bi-camera-fill')).not.toBeVisible();
+      117 |
+      118 |         // Line 2: CC0
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/attribution.spec.ts:115:29
+
+    Error Context: testing/test-results/attribution-Attribution-Lo-4deb9-og-Post-Hidden-Credit-Logic-firefox/error-context.md
+
+  12) [firefox] › testing/tests/blog.spec.ts:60:9 › Blog Visuals & Functionality › Post View: With Image 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - navigating to "http://localhost:4321/posts/lancy-intro", waiting until "load"[22m
+
+
+      60 |     test('Post View: With Image', async ({ page }) => {
+      61 |         // 'lancy-intro' has a thumbnail
+    > 62 |         await page.goto('/posts/lancy-intro');
+         |                    ^
+      63 |
+      64 |         // Verify Image is present (Correct selector from BlogPostTemplate)
+      65 |         const heroImage = page.locator('.post-img img');
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/blog.spec.ts:62:20
+
+    Error Context: testing/test-results/blog-Blog-Visuals-Functionality-Post-View-With-Image-firefox/error-context.md
+
+  13) [firefox] › testing/tests/blog.spec.ts:73:9 › Blog Visuals & Functionality › Post View: Text Only 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - navigating to "http://localhost:4321/posts/first-post", waiting until "load"[22m
+
+
+      73 |     test('Post View: Text Only', async ({ page }) => {
+      74 |         // 'hello-world' (or 'first-post') has no image
+    > 75 |         await page.goto('/posts/first-post');
+         |                    ^
+      76 |
+      77 |         // Verify Image is NOT present
+      78 |         const heroImage = page.locator('.post-img img');
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/blog.spec.ts:75:20
+
+    Error Context: testing/test-results/blog-Blog-Visuals-Functionality-Post-View-Text-Only-firefox/error-context.md
+
+  14) [firefox] › testing/tests/routing.spec.ts:9:9 › Flat Blog Routing › Access nested post at root URL (Archive) 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - navigating to "http://localhost:4321/posts/astro-tips", waiting until "load"[22m
+
+
+       9 |     test('Access nested post at root URL (Archive)', async ({ page }) => {
+      10 |         // Test case: archive/2024/astro-tips.md -> /posts/astro-tips
+    > 11 |         await page.goto('/posts/astro-tips');
+         |                    ^
+      12 |         await expect(page.locator('h1.post-title')).toHaveText(/Astro Tips/i);
+      13 |     });
+      14 |
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/routing.spec.ts:11:20
+
+    Error Context: testing/test-results/routing-Flat-Blog-Routing--6a6b3-d-post-at-root-URL-Archive--firefox/error-context.md
+
+  15) [firefox] › testing/tests/routing.spec.ts:15:9 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - navigating to "http://localhost:4321/posts/lore-ipsum-1", waiting until "load"[22m
+
+
+      15 |     test('Access nested post at root URL (Lore Ipsum)', async ({ page }) => {
+      16 |         // Test case: lore-ipsum/lore-ipsum-1.md -> /posts/lore-ipsum-1
+    > 17 |         await page.goto('/posts/lore-ipsum-1');
+         |                    ^
+      18 |         await expect(page.locator('h1.post-title')).toBeVisible(); // Just check it loads a post
+      19 |     });
+      20 |
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/routing.spec.ts:17:20
+
+    Error Context: testing/test-results/routing-Flat-Blog-Routing--1b2f9-ost-at-root-URL-Lore-Ipsum--firefox/error-context.md
+
+  16) [firefox] › testing/tests/seo.spec.ts:21:9 › SEO Checks › Blog Post Meta Tags ────────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - navigating to "http://localhost:4321/posts/first-post", waiting until "load"[22m
+
+
+      20 |
+      21 |     test('Blog Post Meta Tags', async ({ page }) => {
+    > 22 |         await page.goto('/posts/first-post');
+         |                    ^
+      23 |
+      24 |         const desc = page.locator('meta[name="description"]');
+      25 |         await expect(desc).toHaveCount(1);
+        at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/testing/tests/seo.spec.ts:22:20
+
+    Error Context: testing/test-results/seo-SEO-Checks-Blog-Post-Meta-Tags-firefox/error-context.md
+
+  16 failed
+    [chromium] › testing/tests/attribution.spec.ts:14:9 › Attribution Logic & Interactions › Hero Section: Standard Credit 
+    [chromium] › testing/tests/attribution.spec.ts:37:9 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright 
+    [chromium] › testing/tests/attribution.spec.ts:105:9 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic 
+    [Mobile Chrome] › testing/tests/attribution.spec.ts:14:9 › Attribution Logic & Interactions › Hero Section: Standard Credit 
+    [Mobile Chrome] › testing/tests/attribution.spec.ts:37:9 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright 
+    [Mobile Chrome] › testing/tests/attribution.spec.ts:105:9 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic 
+    [Mobile Chrome] › testing/tests/hover.spec.ts:58:9 › Visual Hover States › Navigation: Side/Top Nav Pills 
+    [firefox] › testing/tests/attribution.spec.ts:14:9 › Attribution Logic & Interactions › Hero Section: Standard Credit 
+    [firefox] › testing/tests/attribution.spec.ts:37:9 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright 
+    [firefox] › testing/tests/attribution.spec.ts:68:9 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction 
+    [firefox] › testing/tests/attribution.spec.ts:105:9 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic 
+    [firefox] › testing/tests/blog.spec.ts:60:9 › Blog Visuals & Functionality › Post View: With Image 
+    [firefox] › testing/tests/blog.spec.ts:73:9 › Blog Visuals & Functionality › Post View: Text Only 
+    [firefox] › testing/tests/routing.spec.ts:9:9 › Flat Blog Routing › Access nested post at root URL (Archive) 
+    [firefox] › testing/tests/routing.spec.ts:15:9 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) 
+    [firefox] › testing/tests/seo.spec.ts:21:9 › SEO Checks › Blog Post Meta Tags ──────────────────
+  5 skipped
+  102 passed (2.2m)

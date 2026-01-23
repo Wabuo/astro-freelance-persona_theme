@@ -115,6 +115,20 @@ pkill -f "bun run dev"; rm -rf playground; mkdir -p playground/; cp -a theme/sta
 export { collections } from 'astro-freelance-persona_theme/content.config';
 ```
 
+### 📄 REUSE Compliance in Astro
+
+**Symptom:** Astro complains about "Unsupported file type" for `*.astro.license` sidecar files.
+**Rule:** Do **NOT** use sidecar `.license` files or `.reuse/dep5` for `.astro` pages.
+**Fix:** Add the SPDX header directly to the `.astro` file frontmatter:
+
+```astro
+---
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+---
+```
+
 ### 👻 Ghost Servers
 
 **Symptom:** 404s on existing pages, changes not reflecting.

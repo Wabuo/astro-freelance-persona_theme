@@ -20,7 +20,7 @@ avatar_credit:
 avatar_license: "CC BY-SA 4.0"
 avatar_styles:
   float_margin_top: "-5rem"
-  float_margin_right: "18rem"    # Should be at screen edge
+  float_margin_right: "18rem"    # 0 is the right screen edge
   float_margin_left: "clamp(2rem, 6%, 5rem)" # 6% of content width (Responsive)
   # Can also be set to something like 30rem, to ensure no text below it for the rest of the about page
   float_margin_bottom: "clamp(2rem, 2%, 5rem)"

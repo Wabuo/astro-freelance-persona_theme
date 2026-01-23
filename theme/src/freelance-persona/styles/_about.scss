@@ -98,11 +98,18 @@
 
     // Then override positioning for avatar context
     .img-attribution {
-        bottom: -0.3rem;
-        right: -1.5rem;
+        // Anchor to top-left of the desired area so it grows Right and Down
+        top: 96%; // Move further down (was 85%)
+        left: 75%;
+        bottom: auto;
+        right: auto;
+
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start; // Align text to left
+        text-align: left;
         gap: 0;
+
+        white-space: nowrap; // Prevent eager wrapping
     }
 }
 

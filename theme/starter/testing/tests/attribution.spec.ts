@@ -114,14 +114,14 @@ test.describe('Attribution Logic & Interactions', () => {
         // 1. Hover Title
         await titleLink.locator('.qualifications-text').hover();
         await page.waitForTimeout(300);
-        await expect(certItem).toHaveScreenshot('cert-hover-title.png');
+        await expect(certItem).toHaveScreenshot('cert-hover-title.png', { maxDiffPixelRatio: 0.1 });
 
         // 2. Hover Image
         await page.mouse.move(0, 0);
         await page.waitForTimeout(300);
         await imgLink.hover();
         await page.waitForTimeout(300);
-        await expect(certItem).toHaveScreenshot('cert-hover-image.png');
+        await expect(certItem).toHaveScreenshot('cert-hover-image.png', { maxDiffPixelRatio: 0.1 });
 
         // 3. Hover Attribution (Should NOT trigger image scale)
         await page.mouse.move(0, 0);

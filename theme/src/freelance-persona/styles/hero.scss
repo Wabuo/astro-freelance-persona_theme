@@ -29,9 +29,17 @@
     z-index: 5;
     bottom: 1rem;
     right: 2.5rem;
+    display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 0;
+
+    // Mobile specific adjustments
+    @media (max-width: 768px) {
+      right: 0.8rem; // Nudge closer to edge (was 2.5rem)
+      bottom: 0.8rem;
+      --attribution-font-size: 0.45rem; // Smaller text
+    }
   }
 }
 

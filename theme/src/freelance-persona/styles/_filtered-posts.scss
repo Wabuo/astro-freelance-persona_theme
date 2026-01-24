@@ -32,6 +32,13 @@
         flex-direction: column;
         align-items: flex-end;
         gap: 0;
+
+        // Mobile specific adjustments
+        @media (max-width: 768px) {
+            right: 0.4rem;
+            bottom: 0.2rem;
+            --attribution-font-size: 0.45rem;
+        }
     }
 }
 

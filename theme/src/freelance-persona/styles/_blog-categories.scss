@@ -47,6 +47,15 @@
   // Attribution: smaller size for cards
   --attribution-font-size: 0.6rem;
   @import 'attribution';
+
+  // Mobile specific overrides
+  @media (max-width: 768px) {
+    .img-attribution {
+      --attribution-font-size: 0.45rem;
+      bottom: 0.2rem;
+      right: 0.4rem;
+    }
+  }
 }
 
 .category-image {

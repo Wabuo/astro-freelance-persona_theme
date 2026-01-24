@@ -175,6 +175,14 @@
 }
 
 /* Slides the element up when the user hovers over the card group */
+/* Slides the element up when the user hovers over the card group */
 .feature-group-wrapper:hover .feature-hover-action {
     transform: translateY(0);
+}
+
+/* Touch Device Optimization: Always show badge */
+@media (hover: none) {
+    .feature-hover-action {
+        transform: translateY(0);
+    }
 }

@@ -55,6 +55,15 @@
     /* 0 10px 20px */
 }
 
+/* Touch Device Optimization: Disable Lift */
+@media (hover: none) {
+    .card-wrapper:hover .card-base {
+        transform: none;
+        box-shadow: none;
+        /* Optional: or keep default shadow */
+    }
+}
+
 .card-content {
     padding: calc(1.5rem * var(--scale-factor, 1));
     display: flex;

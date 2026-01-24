@@ -124,6 +124,15 @@
   transform: scale(1.15) translateZ(0) !important;
 }
 
+/* Touch Device Optimization: Disable Zoom */
+@media (hover: none) {
+
+  .card-wrapper:hover .overlay-title-text,
+  .category-card-wrapper:hover .overlay-title-text {
+    transform: scale(1) translateZ(0) !important;
+  }
+}
+
 .category-title {
   font-size: 1.25rem;
   font-weight: bold;

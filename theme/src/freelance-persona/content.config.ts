@@ -47,6 +47,7 @@ const sections = defineCollection({
       img_copyright: copyrightSchema,
       img_license: licenseSchema.optional(), // Required check done in superRefine
       background_overlay_transparency: z.string().optional(),
+      background_image_anchor: z.string().optional(),
 
       // Typing Config
       typing_speed: z.number().optional(),
@@ -57,6 +58,12 @@ const sections = defineCollection({
       position_x: z.enum(['left', 'center', 'right']).optional(),
       position_y: z.enum(['top', 'middle', 'bottom']).optional(),
       size: z.enum(['small', 'medium', 'large', 'full']).optional(),
+
+      // Mobile Overrides
+      mobile_position_y: z.enum(['top', 'middle', 'bottom']).optional(),
+      mobile_text_align: z.enum(['left', 'center', 'right']).optional(),
+      mobile_padding_bottom: z.string().optional(),
+      mobile_image_object_position: z.string().optional(),
 
       // Fine Tuning
       nudge_x: z.string().optional(),

@@ -14,6 +14,7 @@ interface Props {
   img_credit?: { name: string; url?: string; icon?: string } | "hidden";
   img_copyright?: string;
   img_license?: string | { name: string; url: string } | "hidden";
+  background_image_anchor?: string;
 
   // Typing Config
   typing_speed?: number;
@@ -37,11 +38,19 @@ interface Props {
 
   gap_title_to_typing?: string;
   gap_typing_to_socials?: string;
+
+  // Mobile Overrides
+  mobile_position_y?: "top" | "middle" | "bottom";
+  mobile_text_align?: "left" | "center" | "right";
+  mobile_padding_bottom?: string;
+  mobile_image_object_position?: string;
+  mobile_image_top?: string;
 }
 
 const {
   background_image: explicitImage,
   background_overlay_transparency = undefined,
+  background_image_anchor = undefined,
 
   // Attribution
   img_credit,
@@ -72,6 +81,12 @@ const {
 
   gap_title_to_typing = undefined,
   gap_typing_to_socials = undefined,
+
+  mobile_position_y = "bottom", // Default to bottom for mobile
+  mobile_text_align = undefined,
+  mobile_padding_bottom = "0rem",
+  mobile_image_object_position = "84% 0",
+  mobile_image_top = "-10%",
 } = Astro.props;
 
 const { social_links } = themeConfig;
@@ -141,6 +156,26 @@ const heroSectionStyle = {
   ...(background_overlay_transparency && {
     "--transparency": background_overlay_transparency,
   }),
+
+  // Mobile Variables
+  "--mobile-align-items":
+    mobile_position_y === "top"
+      ? "flex-start"
+      : mobile_position_y === "middle"
+        ? "center"
+        : "flex-end",
+  "--mobile-text-align": mobile_text_align,
+  "--mobile-justify-content":
+    mobile_text_align === "center"
+      ? "center"
+      : mobile_text_align === "right"
+        ? "flex-end"
+        : "flex-start",
+  "--mobile-padding-bottom": mobile_padding_bottom,
+  "--mobile-image-object-position": mobile_image_object_position,
+
+  // Desktop Anchor
+  "--desktop-image-anchor": background_image_anchor || "right bottom",
 };
 ---
 

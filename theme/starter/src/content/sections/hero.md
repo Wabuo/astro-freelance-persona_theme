@@ -9,6 +9,10 @@ title: "Freelance — Persona"
 greeting: ""
 hero_typing_text: "A modern, responsive and lightweight theme for resume, portfolio, and blog"
 background_image: "@/assets/img/background.svg"
+# Desktop Background Position
+# Controls where the image focuses on large screens.
+# Values: "center", "top", "bottom", "left", "right", "top right", "bottom left", etc.
+background_image_anchor: "bottom right"
 # img_license: Auto-links known licenses (CC0, CC BY, etc.) defined in licenseUtils.ts.
 # To override/custom link, use object format:
 # img_license:
@@ -38,6 +42,13 @@ nudge_y: "-9.5vh"
 typing_font_family: '"Courier New", Courier, monospace'
 gap_title_to_typing: "0.1125rem"
 gap_typing_to_socials: "1.5625rem"
+
+# --- MOBILE CONFIGURATION ---
+# Optimize the hero for portrait screens
+mobile_position_y: "bottom"       # Options: top, middle, bottom
+mobile_text_align: "left"         # Options: left, center, right
+mobile_padding_bottom: "1.5rem"     # Push text UP from the bottom
+mobile_image_object_position: "84% 0" # Horizontal focus (84% = Right side)
 ---
 
 
@@ -96,6 +107,7 @@ gap_typing_to_socials: "1.5625rem"
 # -----------------------------------------------------------------------------
 # title_font_size: "3.5rem"
 # title_font_family: "Raleway"  # Requires @fontsource/raleway in your starter
+#
 
 # typing_font_size: "1.625rem"
 # typing_font_family: '"Courier New", Courier, monospace'
@@ -105,6 +117,15 @@ gap_typing_to_socials: "1.5625rem"
 # -----------------------------------------------------------------------------
 # gap_title_to_typing: "0.3125rem"    # Space between H2 and Paragraph
 # gap_typing_to_socials: "1.5625rem"  # Space between Paragraph and Icons
+
+# -----------------------------------------------------------------------------
+# MOBILE CONFIGURATION (Optional)
+# -----------------------------------------------------------------------------
+# mobile_position_y: "bottom"       # Options: top, middle, bottom
+# mobile_text_align: "left"         # Options: left, center, right
+# mobile_padding_bottom: "0rem"     # Push text UP from the bottom
+# mobile_image_object_position: "84% 0" # Horizontal focus (84% = Right side)
+# mobile_image_top: "-10%"          # Vertical panning
 
 # -----------------------------------------------------------------------------
 # TYPING ANIMATION SPEEDS (Optional)

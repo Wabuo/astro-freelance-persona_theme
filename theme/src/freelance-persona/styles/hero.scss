@@ -15,6 +15,7 @@
   // Padding removed to ensure full-bleed background without box-model conflicts
   padding: 0;
   display: flex;
+  // Default alignment (overridden on mobile)
   align-items: center;
   justify-content: center;
   background-color: var(--background-color); // Match theme color to hide sub-pixel gaps
@@ -54,7 +55,7 @@
   // Ensure no rounding leaks background
   border-radius: 0 !important;
   object-fit: cover;
-  object-position: right bottom;
+  object-position: var(--desktop-image-anchor, right bottom);
   z-index: 0;
 
   @media (max-height: 500px) {
@@ -116,11 +117,62 @@
 }
 
 @media (max-width: 768px) {
-  .hero h2 {
-    font-size: calc(var(--title-font-size) / 2);
+  .hero {
+    /* CONTROL TEXT POSITION VERTICALLY */
+    align-items: var(--mobile-align-items, flex-end) !important;
+
+    /* Padding-bottom pushes it UP from the bottom edge. */
+    /* 0rem = Touching bottom edge. 5rem = High up. */
+    /* Negative values are invalid in CSS. */
+    padding-bottom: var(--mobile-padding-bottom, 0rem);
   }
 
-  .hero p {
-    font-size: 1.25rem; // 20px
+  .hero img {
+    /* CONTROL LANCY POSITION HERE */
+    /* Horizontal (0% Left, 50% Center, 100% Right) */
+    object-position: var(--mobile-image-object-position, 84% 0);
+  }
+
+  /* --- CONTROL FONT SIZES HERE --- */
+
+  /* TITLE SIZE ("Freelance - Persona") */
+  .hero h2 {
+    font-size: calc(var(--title-font-size) / 2.5) !important;
+  }
+
+  /* TYPING TEXT SIZE ("portfolio |") */
+  .hero p,
+  .hero p .typing-lock {
+    font-size: calc(var(--title-font-size) / 3.5) !important;
+    max-width: 95vw;
+    overflow: visible;
+    white-space: normal !important;
+    /* Allow wrapping */
+    height: auto !important;
+    text-align: var(--mobile-text-align, left) !important;
+    justify-content: var(--mobile-justify-content, flex-start) !important;
+  }
+
+  /* Content Wrapper: Default width (No Wrapping constraint) */
+  .hero .container .row>div {
+    max-width: 100%;
+    text-align: var(--mobile-text-align, left) !important;
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* Override Flex Alignments for Mobile */
+  .hero .typing-wrapper,
+  .hero .social-links {
+    justify-content: var(--mobile-justify-content, flex-start) !important;
+  }
+
+  .hero .social-links {
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  .hero .social-links a {
+    font-size: calc(var(--title-font-size) / 4) !important;
   }
 }

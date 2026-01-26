@@ -13,8 +13,8 @@ test.describe('Legal Page', () => {
         await page.goto('/');
         await page.waitForLoadState('domcontentloaded');
 
-        // Wait for preloader to be removed to ensure footer is clickable
-        await expect(page.locator('#preloader')).toHaveCount(0);
+        // Wait for preloader to be hidden (removed by JS or hidden by CSS in noscript)
+        await expect(page.locator('#preloader')).toBeHidden();
 
         const legalLink = page.getByRole('link', { name: themeConfig.legal?.link_text || "Legal Notice" });
         await legalLink.scrollIntoViewIfNeeded();

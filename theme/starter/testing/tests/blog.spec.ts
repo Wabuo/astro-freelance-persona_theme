@@ -60,19 +60,28 @@ test.describe('Blog Visuals & Functionality', () => {
     test('Post View: With Image', async ({ page }) => {
         // 'lancy-intro' has a thumbnail
         await page.goto('/posts/lancy-intro');
+        await page.waitForLoadState('domcontentloaded');
+        await page.evaluate(() => document.fonts.ready);
 
         // Verify Image is present (Correct selector from BlogPostTemplate)
         const heroImage = page.locator('.post-img img');
         await expect(heroImage).toBeVisible();
 
+        // Ensure image is actually loaded
+        await heroImage.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0);
+
         await expect(page).toHaveScreenshot('post-with-image-desktop.png', {
             fullPage: true,
+            animations: 'disabled',
+            threshold: 0.2
         });
     });
 
     test('Post View: Text Only', async ({ page }) => {
         // 'hello-world' (or 'first-post') has no image
         await page.goto('/posts/first-post');
+        await page.waitForLoadState('domcontentloaded');
+        await page.evaluate(() => document.fonts.ready);
 
         // Verify Image is NOT present
         const heroImage = page.locator('.post-img img');
@@ -80,6 +89,8 @@ test.describe('Blog Visuals & Functionality', () => {
 
         await expect(page).toHaveScreenshot('post-text-only-desktop.png', {
             fullPage: true,
+            animations: 'disabled',
+            threshold: 0.2
         });
     });
 

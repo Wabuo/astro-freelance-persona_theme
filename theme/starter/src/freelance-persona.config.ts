@@ -88,32 +88,66 @@ export const themeConfig: PersonaConfig = {
   // Values can be hex codes (#ffffff), rgb(), rgba(), or hsl().
 
   colors: {
-    // Core Interface Colors
-    background: "#ffffff",      // Main site background
-    surface: "#ffffff",         // Cards and boxed elements
-    text: "#272829",            // Main body text
-    muted: "#6c757d",           // Secondary text (dates, metadata)
-    heading: "#45505b",         // Headers (h1-h6)
-
-    // Brand Colors
-    accent: "#0563bb",          // Primary action color (links, buttons)
-    contrast: "#ffffff",        // Text on accent background
-
     // Transparency Settings
     transparency: "25%",        // General overlay transparency (e.g. Hero)
 
-    // Navigation Specifics
-    nav: {
-      link: "#45505b",
-      hover: "#0563bb",
-      mobile_background: "#ffffff",
-      dropdown_background: "#ffffff",
-      dropdown_link: "#212529",
-      dropdown_hover: "#0563bb",
+    light: {
+      // Core Interface Colors
+      background: "#ffffff",      // Main site background
+      surface: "#ffffff",         // Cards and boxed elements
+      text: "#272829",            // Main body text
+      muted: "#6c757d",           // Secondary text (dates, metadata)
+      heading: "#45505b",         // Headers (h1-h6)
+
+      // Brand Colors
+      accent: "#0563bb",          // Primary action color (links, buttons)
+      contrast: "#ffffff",        // Text on accent background
+
+      // Navigation Specifics
+      nav_color: "#45505b",
+      // nav_hover_color: "#0563bb", // Defaults to accent
+      nav_mobile_background: "#ffffff",
+      nav_dropdown_background: "#ffffff",
+      nav_dropdown_color: "#212529",
+      // nav_dropdown_hover: "#0563bb", // Defaults to accent
       header_background: "rgba(255, 255, 255, 0.82)", // Glassmorphism header
+      header_color: "#ffffff"
+    },
+
+    dark: {
+      // Core Interface Colors
+      background: "#1e1e1e",
+      surface: "#303030",
+      text: "#e0e0e0",
+      muted: "#9a9996",
+      heading: "#ffffff",
+      // accent: "#3584e4", // Defaults to your main accent color. Uncomment to override.
+      contrast: "#ffffff",
+
+      // Component Colors (Previously hidden)
+      card_background: "#303030",
+      card_border: "#444444",
+
+      tag_background: "#383838",
+      tag_text: "#ffffff",
+      tag_border: "#444444",
+
+      input_background: "#242424",
+      input_border: "#444444",
+      input_text: "#ffffff",
+
+      // Navigation Specifics
+      nav_color: "#e0e0e0",
+      // nav_hover_color: "#6ea8fe", // Defaults to dark mode accent
+      nav_mobile_background: "#2c3035",
+      nav_dropdown_background: "#2c3035",
+      nav_dropdown_color: "#e0e0e0",
+      // nav_dropdown_hover: "#6ea8fe", // Defaults to dark mode accent
+      header_background: "rgba(0, 0, 0, 0.82)", // Dark Glassmorphism
       header_color: "#ffffff"
     }
   },
+
 
 
   // -----------------------------------------------------------------------------------

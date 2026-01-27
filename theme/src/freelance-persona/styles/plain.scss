@@ -10,7 +10,8 @@
 --------------------------------------------------------------*/
 .plain .content h2 {
   font-weight: 700;
-  font-size: 1.5rem; /* 24px */
+  font-size: 1.5rem;
+  /* 24px */
 }
 
 .plain .content ul {
@@ -19,21 +20,25 @@
 }
 
 .plain .content ul li {
-  margin-bottom: 1.25rem; /* 20px */
+  margin-bottom: 1.25rem;
+  /* 20px */
   display: flex;
   align-items: center;
 }
 
 .plain .content ul strong {
-  margin-right: 0.625rem; /* 10px */
+  margin-right: 0.625rem;
+  /* 10px */
 }
 
 .plain .content ul i {
-  font-size: 1rem; /* 16px */
-  margin-right: 0.3125rem; /* 5px */
+  font-size: 1rem;
+  /* 16px */
+  margin-right: 0.3125rem;
+  /* 5px */
   color: var(--accent-color);
   line-height: 0;
-} 
+}
 
 .plain .content p {
   text-align: justify;
@@ -43,4 +48,40 @@
   width: 100%;
   display: flex;
   border-radius: var(--img-border-radius);
+}
+
+/* Dark Mode Adaptation for generic pages */
+[data-theme="dark"] .plain,
+[data-theme="dark"] .page-content {
+  background-color: var(--background-color);
+  color: var(--default-color);
+}
+
+@media (prefers-color-scheme: dark) {
+
+  html:not([data-theme="light"]) .plain,
+  html:not([data-theme="light"]) .page-content {
+    background-color: var(--background-color) !important;
+    color: var(--default-color) !important;
+  }
+}
+
+/* Force override for manual toggle */
+/* Force override for manual toggle */
+[data-theme="dark"] .plain,
+[data-theme="dark"] .page-content,
+[data-theme="dark"] .legal-content {
+  background-color: var(--surface-color) !important;
+  color: var(--default-color) !important;
+  border-radius: var(--img-border-radius, 1rem);
+  padding: 2rem;
+}
+
+/* Specific fix for Legal Notice content wrapper if needed */
+[data-theme="dark"] .legal-content,
+html:not([data-theme="light"]) .legal-content {
+  background-color: var(--surface-color) !important;
+  color: var(--default-color) !important;
+  border-radius: var(--img-border-radius, 1rem);
+  padding: 2rem;
 }

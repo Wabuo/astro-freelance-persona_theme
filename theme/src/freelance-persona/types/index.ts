@@ -34,6 +34,39 @@ export interface VisualsConfig {
   };
 }
 
+export interface ColorPalette {
+  // Core
+  background?: string;
+  text?: string; // --default-color
+  heading?: string;
+  accent?: string;
+  surface?: string;
+  contrast?: string;
+  muted?: string;
+
+  // Components
+  card_background?: string;
+  card_border?: string;
+
+  tag_background?: string;
+  tag_text?: string;
+  tag_border?: string;
+
+  input_background?: string;
+  input_border?: string;
+  input_text?: string;
+
+  // Navigation
+  nav_color?: string;
+  nav_hover_color?: string;
+  nav_mobile_background?: string;
+  nav_dropdown_background?: string;
+  nav_dropdown_color?: string;
+  nav_dropdown_hover?: string;
+  header_background?: string;
+  header_color?: string;
+}
+
 export interface PersonaConfig {
   title: string;
   author: string;
@@ -73,32 +106,15 @@ export interface PersonaConfig {
 
   // Color Configuration (Overrides base.scss)
   colors?: {
-    primary?: string; // (Unused in base, but common alias)
-    secondary?: string; // --default-color (Text)
-
-    // Core Colors
-    background?: string; // --background-color
-    text?: string; // --default-color
-    heading?: string; // --heading-color
-    accent?: string; // --accent-color
-    surface?: string; // --surface-color
-    contrast?: string; // --contrast-color
-    muted?: string; // --text-muted
-
     transparency?: string; // --transparency (e.g. "25%")
 
-    // Navigation Colors
-    nav?: {
-      link?: string; // --nav-color
-      hover?: string; // --nav-hover-color
-      mobile_background?: string; // --nav-mobile-background-color
-      dropdown_background?: string; // --nav-dropdown-background-color
-      dropdown_link?: string; // --nav-dropdown-color
-      dropdown_hover?: string; // --nav-dropdown-hover-color
-      header_background?: string; // --header-background-color
-      header_color?: string; // --header-color
-    };
+    light?: ColorPalette;
+    dark?: ColorPalette;
+
+    // Backward compatibility / Shortcuts (optional, mapped to light/dark)
+    primary?: string;
   };
+
 
   // New Visuals Config
   visuals?: VisualsConfig;

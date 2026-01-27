@@ -98,9 +98,52 @@ const getLink = (id: string) => {
           </li>
         )
       }
+
+      {/* Theme Toggle */}
+      <li>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle Dark Mode"
+        >
+          <i class="bi bi-moon navicon" id="theme-icon"></i>
+          <span>Theme</span>
+        </button>
+      </li>
     </ul>
   </nav>
 </header>
+
+<style>
+  /* Toggle Button Styles */
+  .theme-toggle {
+    background: none;
+    border: none;
+    color: var(--nav-color);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px; /* Match nav links padding */
+    cursor: pointer;
+    font-size: 16px;
+    font-family: var(--nav-font);
+    transition: 0.3s;
+  }
+
+  .theme-toggle:hover {
+    color: var(--nav-hover-color);
+  }
+
+  .theme-toggle i {
+    font-size: 24px;
+    padding-right: 8px;
+  }
+
+  /* Active state for button if needed to match links */
+  .theme-toggle:focus {
+    outline: none;
+  }
+</style>
 
 <script>
   // Navigation Interactions
@@ -182,6 +225,63 @@ const getLink = (id: string) => {
       );
     }
   };
+
+  // 3. Theme Toggle Logic
+  const initThemeToggle = () => {
+    const toggleBtn = document.getElementById("theme-toggle");
+    const themeIcon = document.getElementById("theme-icon");
+
+    if (toggleBtn && themeIcon) {
+      // Prevent double binding
+      if (toggleBtn.hasAttribute("data-init")) return;
+      toggleBtn.setAttribute("data-init", "true");
+
+      const updateIcon = (theme) => {
+        if (theme === "dark") {
+          themeIcon.classList.remove("bi-moon");
+          themeIcon.classList.add("bi-sun");
+        } else {
+          themeIcon.classList.remove("bi-sun");
+          themeIcon.classList.add("bi-moon");
+        }
+      };
+
+      // Determine effective current theme
+      const getEffectiveTheme = () => {
+        const attr = document.documentElement.getAttribute("data-theme");
+        if (attr) return attr;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
+
+      // Initial Icon State
+      updateIcon(getEffectiveTheme());
+
+      toggleBtn.addEventListener("click", () => {
+        const currentTheme = getEffectiveTheme();
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+        // Update Attribute
+        document.documentElement.setAttribute("data-theme", newTheme);
+
+        // Save Preference
+        localStorage.setItem("theme", newTheme);
+
+        // Update Icon
+        updateIcon(newTheme);
+      });
+    }
+  };
+
+  // Run on every page load (Client Router compatible)
+  document.addEventListener("astro:page-load", initThemeToggle);
+  // Also run on initial load if astro:page-load doesn't fire immediately (fallback)
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initThemeToggle);
+  } else {
+    initThemeToggle();
+  }
 
   // Run on every soft or hard navigation
   document.addEventListener("astro:page-load", initScrollSpy);

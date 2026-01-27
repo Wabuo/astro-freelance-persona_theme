@@ -113,25 +113,38 @@ const monospaceFont = fonts.monospace || "monospace";
   --nav-font: "${navFont}";
   --monospace-font: ${monospaceFont};
 
-  /* Color Overrides */
-  ${colors.background ? `--background-color: ${colors.background};` : ""}
-  ${colors.text ? `--default-color: ${colors.text};` : ""}
-  ${colors.heading ? `--heading-color: ${colors.heading};` : ""}
-  ${colors.accent ? `--accent-color: ${colors.accent};` : ""}
-  ${colors.surface ? `--surface-color: ${colors.surface};` : ""}
-  ${colors.contrast ? `--contrast-color: ${colors.contrast};` : ""}
-  ${colors.muted ? `--text-muted: ${colors.muted};` : ""}
-  ${colors.transparency ? `--transparency: ${colors.transparency};` : ""}
+  /* --- COLOR overrides --- */
+  /* LIGHT / DEFAULT */
+  ${colors.light?.background ? `--background-color: ${colors.light.background};` : ""}
+  ${colors.light?.text ? `--default-color: ${colors.light.text};` : ""}
+  ${colors.light?.heading ? `--heading-color: ${colors.light.heading};` : ""}
+  ${colors.light?.accent ? `--accent-color: ${colors.light.accent};` : ""}
+  ${colors.light?.surface ? `--surface-color: ${colors.light.surface};` : ""}
+  ${colors.light?.contrast ? `--contrast-color: ${colors.light.contrast};` : ""}
+  ${colors.light?.muted ? `--text-muted: ${colors.light.muted};` : ""}
 
-  /* Navigation Color Overrides */
-  ${colors.nav?.link ? `--nav-color: ${colors.nav.link};` : ""}
-  ${colors.nav?.hover ? `--nav-hover-color: ${colors.nav.hover};` : ""}
-  ${colors.nav?.mobile_background ? `--nav-mobile-background-color: ${colors.nav.mobile_background};` : ""}
-  ${colors.nav?.dropdown_background ? `--nav-dropdown-background-color: ${colors.nav.dropdown_background};` : ""}
-  ${colors.nav?.dropdown_link ? `--nav-dropdown-color: ${colors.nav.dropdown_link};` : ""}
-  ${colors.nav?.dropdown_hover ? `--nav-dropdown-hover-color: ${colors.nav.dropdown_hover};` : ""}
-  ${colors.nav?.header_background ? `--header-background-color: ${colors.nav.header_background};` : ""}
-  ${colors.nav?.header_color ? `--header-color: ${colors.nav.header_color};` : ""}
+  /* Component Overrides (Light) */
+  ${colors.light?.card_background ? `--card-background: ${colors.light.card_background};` : ""}
+  ${colors.light?.card_border ? `--card-border: ${colors.light.card_border};` : ""}
+  ${colors.light?.tag_background ? `--tag-background: ${colors.light.tag_background};` : ""}
+  ${colors.light?.tag_text ? `--tag-text: ${colors.light.tag_text};` : ""}
+  ${colors.light?.tag_border ? `--tag-border: ${colors.light.tag_border};` : ""}
+  ${colors.light?.input_background ? `--input-background: ${colors.light.input_background};` : ""}
+  ${colors.light?.input_border ? `--input-border: ${colors.light.input_border};` : ""}
+  ${colors.light?.input_text ? `--input-text: ${colors.light.input_text};` : ""}
+
+  /* Navigation (Light) */
+  ${colors.light?.nav_color ? `--nav-color: ${colors.light.nav_color};` : ""}
+  ${colors.light?.nav_hover_color ? `--nav-hover-color: ${colors.light.nav_hover_color};` : ""}
+  ${colors.light?.nav_mobile_background ? `--nav-mobile-background-color: ${colors.light.nav_mobile_background};` : ""}
+  ${colors.light?.nav_dropdown_background ? `--nav-dropdown-background-color: ${colors.light.nav_dropdown_background};` : ""}
+  ${colors.light?.nav_dropdown_color ? `--nav-dropdown-color: ${colors.light.nav_dropdown_color};` : ""}
+  ${colors.light?.nav_dropdown_hover ? `--nav-dropdown-hover-color: ${colors.light.nav_dropdown_hover};` : ""}
+  ${colors.light?.header_background ? `--header-background-color: ${colors.light.header_background};` : ""}
+  ${colors.light?.header_color ? `--header-color: ${colors.light.header_color};` : ""}
+
+  /* Shared */
+  ${colors.transparency ? `--transparency: ${colors.transparency};` : ""}
 
   /* Font Size Overrides */
   ${fonts.sizes?.normal ? `--normal-font-size: ${fonts.sizes.normal};` : ""}
@@ -142,65 +155,139 @@ const monospaceFont = fonts.monospace || "monospace";
   ${fonts.sizes?.nav_icon ? `--nav-icon-size: ${fonts.sizes.nav_icon};` : ""}
 `}
 >
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {/* Dynamic Dark Mode Overrides */}
+  {
+    colors.dark && (
+      <style
+        set:html={`
+      @media (prefers-color-scheme: dark) {
+        html:root:not([data-theme="light"]) {
+          ${colors.dark.background ? `--background-color: ${colors.dark.background} !important;` : ""}
+          ${colors.dark.text ? `--default-color: ${colors.dark.text} !important;` : ""}
+          ${colors.dark.heading ? `--heading-color: ${colors.dark.heading} !important;` : ""}
+          ${colors.dark.accent ? `--accent-color: ${colors.dark.accent} !important;` : ""}
+          ${colors.dark.surface ? `--surface-color: ${colors.dark.surface} !important;` : ""}
+          ${colors.dark.contrast ? `--contrast-color: ${colors.dark.contrast} !important;` : ""}
+          ${colors.dark.muted ? `--text-muted: ${colors.dark.muted} !important;` : ""}
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="author" content={themeConfig.author} />
-    <link rel="canonical" href={Astro.url.href} />
+          ${colors.dark.card_background ? `--card-background: ${colors.dark.card_background} !important;` : ""}
+          ${colors.dark.card_border ? `--card-border: ${colors.dark.card_border} !important;` : ""}
+          ${colors.dark.tag_background ? `--tag-background: ${colors.dark.tag_background} !important;` : ""}
+          ${colors.dark.tag_text ? `--tag-text: ${colors.dark.tag_text} !important;` : ""}
+          ${colors.dark.tag_border ? `--tag-border: ${colors.dark.tag_border} !important;` : ""}
+          ${colors.dark.input_background ? `--input-background: ${colors.dark.input_background} !important;` : ""}
+          ${colors.dark.input_border ? `--input-border: ${colors.dark.input_border} !important;` : ""}
+          ${colors.dark.input_text ? `--input-text: ${colors.dark.input_text} !important;` : ""}
 
-    <ClientRouter />
+          ${colors.dark.nav_color ? `--nav-color: ${colors.dark.nav_color} !important;` : ""}
+          ${colors.dark.nav_hover_color ? `--nav-hover-color: ${colors.dark.nav_hover_color} !important;` : ""}
+          ${colors.dark.nav_mobile_background ? `--nav-mobile-background-color: ${colors.dark.nav_mobile_background} !important;` : ""}
+          ${colors.dark.nav_dropdown_background ? `--nav-dropdown-background-color: ${colors.dark.nav_dropdown_background} !important;` : ""}
+          ${colors.dark.nav_dropdown_color ? `--nav-dropdown-color: ${colors.dark.nav_dropdown_color} !important;` : ""}
+          ${colors.dark.nav_dropdown_hover ? `--nav-dropdown-hover-color: ${colors.dark.nav_dropdown_hover} !important;` : ""}
+          ${colors.dark.header_background ? `--header-background-color: ${colors.dark.header_background} !important;` : ""}
+          ${colors.dark.header_color ? `--header-color: ${colors.dark.header_color} !important;` : ""}
+        }
+      }
+      [data-theme="dark"] {
+          ${colors.dark.background ? `--background-color: ${colors.dark.background} !important;` : ""}
+          ${colors.dark.text ? `--default-color: ${colors.dark.text} !important;` : ""}
+          ${colors.dark.heading ? `--heading-color: ${colors.dark.heading} !important;` : ""}
+          ${colors.dark.accent ? `--accent-color: ${colors.dark.accent} !important;` : ""}
+          ${colors.dark.surface ? `--surface-color: ${colors.dark.surface} !important;` : ""}
+          ${colors.dark.contrast ? `--contrast-color: ${colors.dark.contrast} !important;` : ""}
+          ${colors.dark.muted ? `--text-muted: ${colors.dark.muted} !important;` : ""}
 
-    {
-      faviconSrc && (
-        <link
-          rel="icon"
-          type={getMime(faviconSrc)}
-          href={getAssetUrl(faviconSrc)}
-        />
-      )
-    }
-    {appleSrc && <link rel="apple-touch-icon" href={getAssetUrl(appleSrc)} />}
+          ${colors.dark.card_background ? `--card-background: ${colors.dark.card_background} !important;` : ""}
+          ${colors.dark.card_border ? `--card-border: ${colors.dark.card_border} !important;` : ""}
+          ${colors.dark.tag_background ? `--tag-background: ${colors.dark.tag_background} !important;` : ""}
+          ${colors.dark.tag_text ? `--tag-text: ${colors.dark.tag_text} !important;` : ""}
+          ${colors.dark.tag_border ? `--tag-border: ${colors.dark.tag_border} !important;` : ""}
+          ${colors.dark.input_background ? `--input-background: ${colors.dark.input_background} !important;` : ""}
+          ${colors.dark.input_border ? `--input-border: ${colors.dark.input_border} !important;` : ""}
+          ${colors.dark.input_text ? `--input-text: ${colors.dark.input_text} !important;` : ""}
 
-    <meta name="generator" content={Astro.generator} />
+          ${colors.dark.nav_color ? `--nav-color: ${colors.dark.nav_color} !important;` : ""}
+          ${colors.dark.nav_hover_color ? `--nav-hover-color: ${colors.dark.nav_hover_color} !important;` : ""}
+          ${colors.dark.nav_mobile_background ? `--nav-mobile-background-color: ${colors.dark.nav_mobile_background} !important;` : ""}
+          ${colors.dark.nav_dropdown_background ? `--nav-dropdown-background-color: ${colors.dark.nav_dropdown_background} !important;` : ""}
+          ${colors.dark.nav_dropdown_color ? `--nav-dropdown-color: ${colors.dark.nav_dropdown_color} !important;` : ""}
+          ${colors.dark.nav_dropdown_hover ? `--nav-dropdown-hover-color: ${colors.dark.nav_dropdown_hover} !important;` : ""}
+          ${colors.dark.header_background ? `--header-background-color: ${colors.dark.header_background} !important;` : ""}
+          ${colors.dark.header_color ? `--header-color: ${colors.dark.header_color} !important;` : ""}
+      }
+    `}
+      />
+    )
+  }
 
-    <script is:inline>
-      // SAFETY TIMEOUT PATTERN
-      // 1. We start by assuming JS might be loading.
-      document.documentElement.classList.add("js-loading");
-      document.documentElement.classList.remove("no-js");
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      // 2. Safety Net: If the notification script doesn't run within 2 seconds
-      // (due to blocking, network error, crash), we force show everything.
-      setTimeout(function () {
-        document.documentElement.classList.remove("js-loading");
-      }, 2000);
-    </script>
+  {/* THEME INITIALIZATION (Blocking to prevent FOUC) */}
+  <script is:inline>
+    (function () {
+      const storedTheme = localStorage.getItem("theme");
+      if (storedTheme) {
+        document.documentElement.setAttribute("data-theme", storedTheme);
+      }
+    })();
+  </script>
 
-    {
-      /* CRITICAL: Fallback for users without JavaScript.
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="author" content={themeConfig.author} />
+  <link rel="canonical" href={Astro.url.href} />
+
+  <ClientRouter />
+
+  {
+    faviconSrc && (
+      <link
+        rel="icon"
+        type={getMime(faviconSrc)}
+        href={getAssetUrl(faviconSrc)}
+      />
+    )
+  }
+  {appleSrc && <link rel="apple-touch-icon" href={getAssetUrl(appleSrc)} />}
+
+  <meta name="generator" content={Astro.generator} />
+
+  <script is:inline>
+    // SAFETY TIMEOUT PATTERN
+    // 1. We start by assuming JS might be loading.
+    document.documentElement.classList.add("js-loading");
+    document.documentElement.classList.remove("no-js");
+
+    // 2. Safety Net: If the notification script doesn't run within 2 seconds
+    // (due to blocking, network error, crash), we force show everything.
+    setTimeout(function () {
+      document.documentElement.classList.remove("js-loading");
+    }, 2000);
+  </script>
+
+  {
+    /* CRITICAL: Fallback for users without JavaScript.
       Without this, elements with data-reveal will remain invisible (opacity: 0).
     */
-    }
-    <noscript>
-      <style>
-        /* 1. Hide the preloader completely if JS is disabled */
-        #preloader {
-          display: none !important;
-          visibility: hidden !important;
-        }
+  }
+  <noscript>
+    <style>
+      /* 1. Hide the preloader completely if JS is disabled */
+      #preloader {
+        display: none !important;
+        visibility: hidden !important;
+      }
 
-        /* 2. Force all animated elements to be visible and reset their positions */
-        [data-reveal] {
-          opacity: 1 !important;
-          transform: none !important;
-          transition: none !important;
-        }
-      </style>
-    </noscript>
-  </head>
+      /* 2. Force all animated elements to be visible and reset their positions */
+      [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    </style>
+  </noscript>
 
   <body class={bodyClass} data-tex={tex}>
     <Navigation isHome={navType === "home"} />
@@ -372,7 +459,5 @@ const monospaceFont = fonts.monospace || "monospace";
       }
     `}
     />
-
-
   </body>
 </html>

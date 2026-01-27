@@ -122,6 +122,17 @@
     justify-content: space-between;
     white-space: nowrap;
     transition: 0.3s;
+
+    /* Force white text in glassmorphism header for dark mode */
+    [data-theme="dark"] & {
+      color: #ffffff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) & {
+        color: #ffffff;
+      }
+    }
   }
 
   .navmenu a i {

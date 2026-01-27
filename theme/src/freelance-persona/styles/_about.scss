@@ -248,10 +248,14 @@
     border: 1px solid color-mix(in srgb, var(--default-color), transparent 95%);
 
     // Animation Performance Optimization (Fix jitter)
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+    // Animation Performance Optimization (Fix jitter)
+    // Unify Easing to ease-out to prevent desync "hop"
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
     will-change: transform;
     backface-visibility: hidden;
-    transform: translateZ(0); // Promote to layer to avoid repaint jitter
+    transform: translateZ(0) scale(1.0001) rotate(0.001deg); // Promote + scale + rotate to force anti-aliasing in FF
+    -webkit-font-smoothing: subpixel-antialiased; // Fix text jitter
+
 }
 
 

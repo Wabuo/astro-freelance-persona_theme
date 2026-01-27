@@ -77,7 +77,15 @@ crumbs.push({ label: post.data.title });
     <div class="row">
       <section id="blog-post" class="blog-post section col-lg-8">
         <div class="container" data-reveal="fade-up">
-          <article class="article">
+          <article
+            class="article"
+            style="
+            background-color: var(--surface-color, #ffffff); 
+            border-radius: var(--img-border-radius); 
+            padding: var(--spacing-md);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          "
+          >
             {
               post.data.thumbnail && (
                 <div class="post-img">

@@ -8,7 +8,7 @@ type: hero
 title: "Freelance — Persona"
 greeting: ""
 hero_typing_text: "A modern, responsive and lightweight theme for resume, portfolio, and blog"
-background_image: "@/assets/img/background.svg"
+background_image: "@/assets/img/background.jpg"
 # Desktop Background Position
 # Controls where the image focuses on large screens.
 # Values: "center", "top", "bottom", "left", "right", "top right", "bottom left", etc.

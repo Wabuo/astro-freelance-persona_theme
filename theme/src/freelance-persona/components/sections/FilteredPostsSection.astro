@@ -155,8 +155,8 @@ const getExcerpt = (body: string) => {
                           <hr style="margin: 0.75rem 0; opacity: 0.2; border-top: 1.5px solid;" />
 
                           <div
-                            class="meta-top d-flex align-items-center small text-muted mb-2"
-                            style="font-size: 0.6rem;"
+                            class="meta-top d-flex align-items-center mb-2"
+                            style="font-size: 0.6rem; color: var(--text-muted);"
                           >
                             <i class="bi bi-calendar-event me-1" />
                             {post.data.date.toLocaleDateString("en-GB", {
@@ -236,7 +236,7 @@ const getExcerpt = (body: string) => {
                         font-size: calc(0.75em * var(--scale-factor)); 
                         font-weight: 500;
                         line-height: 1.5;
-                        color: color-mix(in srgb, var(--default-color), transparent 55%);
+                        color: var(--text-muted);
                       `}
                   >
                     {post.data.date.toLocaleDateString("en-GB", {

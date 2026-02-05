@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
 import { test, expect } from '@playwright/test';
 import { getHeroContent } from '../utils/content-parser';
 

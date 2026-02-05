@@ -16,18 +16,13 @@ test.describe('Theme Toggle & Dark Mode', () => {
         await expect(page.locator('html')).not.toHaveAttribute('data-theme');
 
         // 3. Check for specific CSS variable (computed check)
-        // We wait a bit to ensure styles are applied
-        await page.waitForTimeout(1000);
-
         const bgColor = await page.evaluate(() => {
-            const el = document.documentElement;
-            const computed = getComputedStyle(el);
-            return computed.getPropertyValue('--background-color').trim();
+            return getComputedStyle(document.body).getPropertyValue('--background-color').trim();
         });
 
-        // #1a1a1a is rgb(26, 26, 26)
+        // #303030 is rgb(48, 48, 48) - New Surface Color for Home Page
         // We accept both formats
-        expect(['#1a1a1a', 'rgb(26, 26, 26)']).toContain(bgColor);
+        expect(['#303030', 'rgb(48, 48, 48)']).toContain(bgColor);
     });
 
     test('Default matches system preference (Light)', async ({ page }) => {
@@ -41,7 +36,7 @@ test.describe('Theme Toggle & Dark Mode', () => {
 
         // 3. Check CSS variable
         const bgColor = await page.evaluate(() => {
-            return getComputedStyle(document.documentElement).getPropertyValue('--background-color').trim();
+            return getComputedStyle(document.body).getPropertyValue('--background-color').trim();
         });
         // #ffffff is rgb(255, 255, 255)
         expect(['#ffffff', 'rgb(255, 255, 255)']).toContain(bgColor);

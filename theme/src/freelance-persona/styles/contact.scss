@@ -11,37 +11,70 @@
 # Contact Section
 --------------------------------------------------------------*/
 .contact .info-item+.info-item {
-  margin-top: 2.5rem; /* 40px */
+  margin-top: 2.5rem;
+  /* 40px */
 }
 
 .contact .info-item i {
   color: var(--accent-color);
   background: color-mix(in srgb, var(--accent-color), transparent 92%);
-  font-size: 1.25rem; /* 20px */
-  width: 2.75rem; /* 44px */
-  height: 2.75rem; /* 44px */
+  font-size: 1.25rem;
+  /* 20px */
+  width: 2.75rem;
+  /* 44px */
+  height: 2.75rem;
+  /* 44px */
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 3.125rem; /* 50px */
+  border-radius: 3.125rem;
+  /* 50px */
   transition: all 0.3s ease-in-out;
-  margin-right: 0.9375rem; /* 15px */
+  margin-right: 0.9375rem;
+  /* 15px */
+
+  // Dark Mode: Increase visibility by mixing with semi-transparent white
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) & {
+      background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+    }
+  }
+
+  [data-theme="dark"] & {
+    background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+  }
 }
 
 .contact .info-item h3 {
   padding: 0;
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;
+  /* 18px */
   font-weight: 700;
-  margin-bottom: 0.3125rem; /* 5px */
+  margin-bottom: 0.3125rem;
+  /* 5px */
 }
 
 .contact .info-item p {
   padding: 0;
   margin-bottom: 0;
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem;
+  /* 14px */
 }
 
 .contact .info-item:hover i {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+// FIX: Ensure hover state wins over Dark Mode base styles by matching specificity
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .contact .info-item:hover i {
+    background: var(--accent-color);
+    color: var(--contrast-color);
+  }
+}
+
+[data-theme="dark"] .contact .info-item:hover i {
   background: var(--accent-color);
   color: var(--contrast-color);
 }
@@ -55,10 +88,13 @@
   background: #df1529;
   color: #ffffff;
   text-align: left;
-  padding: 0.9375rem; /* 15px */
-  margin-bottom: 1.5rem; /* 24px */
+  padding: 0.9375rem;
+  /* 15px */
+  margin-bottom: 1.5rem;
+  /* 24px */
   font-weight: 600;
-  border-radius: 0.25rem; /* 4px */
+  border-radius: 0.25rem;
+  /* 4px */
 }
 
 .contact .contact-form .sent-message {
@@ -66,34 +102,44 @@
   color: #ffffff;
   background: #059652;
   text-align: center;
-  padding: 0.9375rem; /* 15px */
-  margin-bottom: 1.5rem; /* 24px */
+  padding: 0.9375rem;
+  /* 15px */
+  margin-bottom: 1.5rem;
+  /* 24px */
   font-weight: 600;
-  border-radius: 0.25rem; /* 4px */
+  border-radius: 0.25rem;
+  /* 4px */
 }
 
 .contact .contact-form .loading {
   display: none;
   background: var(--background-color);
   text-align: center;
-  padding: 0.9375rem; /* 15px */
-  margin-bottom: 1.5rem; /* 24px */
+  padding: 0.9375rem;
+  /* 15px */
+  margin-bottom: 1.5rem;
+  /* 24px */
 }
 
 .contact .contact-form .loading:before {
   content: "";
   display: inline-block;
   border-radius: 50%;
-  width: 1.5rem; /* 24px */
-  height: 1.5rem; /* 24px */
-  margin: 0 0.625rem -0.375rem 0; /* 0 10px -6px 0 */
-  border: 0.1875rem solid var(--accent-color); /* 3px */
+  width: 1.5rem;
+  /* 24px */
+  height: 1.5rem;
+  /* 24px */
+  margin: 0 0.625rem -0.375rem 0;
+  /* 0 10px -6px 0 */
+  border: 0.1875rem solid var(--accent-color);
+  /* 3px */
   border-top-color: var(--background-color);
   animation: animate-loading 1s linear infinite;
 }
 
 .contact .contact-form fieldset {
-  margin-bottom: 1.5rem; /* 24px */
+  margin-bottom: 1.5rem;
+  /* 24px */
 }
 
 .contact .contact-form .input-box {
@@ -102,13 +148,16 @@
 
 .contact .contact-form .input-box input,
 .contact .contact-form .input-box textarea {
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem;
+  /* 14px */
   outline: none;
-  padding: 0.9375rem 0.9375rem 0.625rem 0.9375rem; /* 15px 15px 10px 15px */
+  padding: 0.9375rem 0.9375rem 0.625rem 0.9375rem;
+  /* 15px 15px 10px 15px */
   display: block;
   width: 100%;
   border: none;
-  border-radius: 0.25rem; /* 4px */
+  border-radius: 0.25rem;
+  /* 4px */
   border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
   /* Keep the semi-transparent background for the input */
   background: color-mix(in srgb, var(--background-color), transparent 50%);
@@ -118,7 +167,8 @@
 
 .contact .contact-form .input-box textarea {
   resize: vertical;
-  min-height: 5rem; /* 80px */
+  min-height: 5rem;
+  /* 80px */
 }
 
 .contact .contact-form .input-box input:focus,
@@ -132,45 +182,55 @@
 
 .contact .contact-form .input-box .label {
   color: color-mix(in srgb, var(--default-color), transparent 30%);
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem;
+  /* 14px */
   font-weight: normal;
   position: absolute;
   pointer-events: none;
-  left: 0.9375rem; /* 15px */ /* Adjusted to match input padding */
-  top: 0.9375rem; /* 15px */
+  left: 0.9375rem;
+  /* 15px */
+  /* Adjusted to match input padding */
+  top: 0.9375rem;
+  /* 15px */
   transition: all 0.3s ease;
-  
+
   /* FIXED: Transparent by default so it blends into the input */
-  background: transparent; 
-  padding: 0 0.25rem; /* 0 4px */
+  background: transparent;
+  padding: 0 0.25rem;
+  /* 0 4px */
 }
 
 /* --- Active / Floating State --- */
-.contact .contact-form .input-box input:focus ~ .label,
-.contact .contact-form .input-box input:valid ~ .label,
-.contact .contact-form .input-box textarea:focus ~ .label,
-.contact .contact-form .input-box textarea:valid ~ .label {
-  transform: translateY(-1.5rem) translateX(-0.3125rem) scale(0.9); /* -24px -5px */
-  
+.contact .contact-form .input-box input:focus~.label,
+.contact .contact-form .input-box input:valid~.label,
+.contact .contact-form .input-box textarea:focus~.label,
+.contact .contact-form .input-box textarea:valid~.label {
+  transform: translateY(-1.5rem) translateX(-0.3125rem) scale(0.9);
+  /* -24px -5px */
+
   /* FIXED: Become solid only when floating on the border */
   background: var(--background-color);
   color: var(--accent-color);
   z-index: 10;
 }
 
-.contact .contact-form .input-box input:user-invalid ~ .label {
-  transform: translateY(-1.5rem) translateX(-0.3125rem) scale(0.9); /* -24px -5px */
+.contact .contact-form .input-box input:user-invalid~.label {
+  transform: translateY(-1.5rem) translateX(-0.3125rem) scale(0.9);
+  /* -24px -5px */
   background: var(--background-color);
-  color: #df1529; /* Red label if invalid */
+  color: #df1529;
+  /* Red label if invalid */
 }
 
 .contact .contact-form button[type=submit] {
   color: var(--contrast-color);
   background: var(--accent-color);
   border: 0;
-  padding: 0.625rem 1.875rem; /* 10px 30px */
+  padding: 0.625rem 1.875rem;
+  /* 10px 30px */
   transition: 0.4s;
-  border-radius: 3.125rem; /* 50px */
+  border-radius: 3.125rem;
+  /* 50px */
   font-weight: 600;
 }
 

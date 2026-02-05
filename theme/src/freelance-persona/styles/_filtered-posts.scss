@@ -79,3 +79,25 @@
 // .card-wrapper:hover .mock-page-content * {
 //     color: var(--text-muted) !important;
 // }
+
+/* TAG STYLES (Refactored from inline) */
+.badge.filtered {
+    background-color: color-mix(in srgb, var(--accent-color), transparent 92%);
+    color: color-mix(in srgb, var(--accent-color), transparent 15%);
+
+    // Dark Mode: Increase visibility by mixing with semi-transparent white (5%)
+    @media (prefers-color-scheme: dark) {
+        html:not([data-theme="light"]) & {
+            background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+        }
+    }
+
+    [data-theme="dark"] & {
+        background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+    }
+}
+
+.badge.default {
+    background-color: color-mix(in srgb, var(--default-color), transparent 94%);
+    color: color-mix(in srgb, var(--default-color), transparent 55%);
+}

@@ -192,7 +192,7 @@ const getExcerpt = (body: string) => {
                             tags_to_filter_posts_by?.includes(tag);
                           return (
                             <span
-                              class="badge me-1"
+                              class={`badge me-1 ${isFiltered ? "filtered" : "default"}`}
                               style={`
                                   font-size: calc(0.75em * var(--scale-factor)); 
                                   border-radius: 0.1875rem;
@@ -202,11 +202,6 @@ const getExcerpt = (body: string) => {
                                   align-items: center;
                                   justify-content: center;
                                   line-height: 1.5;
-                                  ${
-                                    isFiltered
-                                      ? "background-color: color-mix(in srgb, var(--accent-color), transparent 92%); color: color-mix(in srgb, var(--accent-color), transparent 15%);"
-                                      : "background-color: color-mix(in srgb, var(--default-color), transparent 94%); color: color-mix(in srgb, var(--default-color), transparent 55%);"
-                                  }
                                 `}
                             >
                               {tag}

@@ -145,6 +145,36 @@
   -webkit-text-stroke: 0;
 }
 
+// 1. Default (Light Mode): Standard Line Cursor
+//    The HTML uses '|', so it renders correctly by default.
+[data-theme="light"] {
+  .hero p span.typed {
+    background-color: transparent;
+    color: var(--accent-color);
+    padding: 0;
+  }
+
+  /* Make sure the cursor uses the font color, not the transparent/accent color */
+  .typed-cursor {
+    color: var(--default-color) !important;
+    background-color: transparent !important;
+    width: auto;
+    font-weight: 300;
+  }
+}
+
+// 2. Dark Mode: Block Cursor
+//    We transform the '|' into a block using background color and transparency.
+html:not([data-theme="light"]) .typed-cursor,
+[data-theme="dark"] .typed-cursor {
+  color: transparent !important; // Hide the pipe character
+  background-color: var(--accent-color); // Show the block (Accent Color)
+  width: 0.6em; // Block width
+  display: inline-block;
+  vertical-align: text-bottom; // Align with text base
+  margin-left: 2px;
+}
+
 .hero .social-links {
   margin-top: 1.5625rem; // 25px
 }

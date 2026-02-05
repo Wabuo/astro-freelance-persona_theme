@@ -193,7 +193,20 @@ const disclaimerHtml = disclaimerContent ? await parse(disclaimerContent) : "";
   .legal-text {
     font-size: 0.95rem;
     line-height: 1.6;
-    color: color-mix(in srgb, var(--heading-color), transparent 10%);
+    color: var(--default-color);
+  }
+
+  /* Match the "comfortable" muted headers from the top section */
+  .legal-text :global(h1),
+  .legal-text :global(h2),
+  .legal-text :global(h3),
+  .legal-text :global(h4),
+  .legal-text :global(h5),
+  .legal-text :global(h6) {
+    font-family: var(--font-heading);
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
   }
 
   .legal-note {

@@ -13,8 +13,8 @@ categories:
   - title: "Development"
     overlay_title: true
     overlay_style: "none"
-    title_style: "light"
-    background_color: "#333"
+    title_style: "dark"
+    background_color: "#8ab6d6ff"
     tags: ["dev", "astro", "coding"]
     description: "Core features, API updates, and performance tuning. (Overlay Title) + (Grid example inside) "
     show_subtitle: false
@@ -32,9 +32,8 @@ categories:
     tags: ["design", "css"]
     description: "Layouts, components, and visual guidelines. (Overlay Title with ribbon) + (List example)"
   - title: "Community"
-    background_color: "#f8cd20ff"
+    background_color: "#547a96ff"
     overlay_title: false
-    title_style: "dark"
     overlay_style: "none"
     tags: ["community"]
     description: "Showcases, tutorials, and success stories. (No Overlay) + (No posts yet example)"

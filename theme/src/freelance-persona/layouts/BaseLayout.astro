@@ -161,6 +161,7 @@ const monospaceFont = fonts.monospace || "monospace";
       <style
         set:html={`
       @media (prefers-color-scheme: dark) {
+        /* Increase specificity to beat base.scss (0,2,0) with (0,3,0) => html:root:not([data-theme="light"]) + [data-theme] ? No, let's just use ID or repeat class */
         html:root:not([data-theme="light"]) {
           ${colors.dark.background ? `--background-color: ${colors.dark.background} !important;` : ""}
           ${colors.dark.text ? `--default-color: ${colors.dark.text} !important;` : ""}
@@ -170,7 +171,7 @@ const monospaceFont = fonts.monospace || "monospace";
           ${colors.dark.contrast ? `--contrast-color: ${colors.dark.contrast} !important;` : ""}
           ${colors.dark.muted ? `--text-muted: ${colors.dark.muted} !important;` : ""}
 
-          ${colors.dark.card_background ? `--card-background: ${colors.dark.card_background} !important;` : ""}
+          /* ${colors.dark.card_background ? `--card-background: ${colors.dark.card_background} !important;` : ""} */
           ${colors.dark.card_border ? `--card-border: ${colors.dark.card_border} !important;` : ""}
           ${colors.dark.tag_background ? `--tag-background: ${colors.dark.tag_background} !important;` : ""}
           ${colors.dark.tag_text ? `--tag-text: ${colors.dark.tag_text} !important;` : ""}
@@ -189,7 +190,8 @@ const monospaceFont = fonts.monospace || "monospace";
           ${colors.dark.header_color ? `--header-color: ${colors.dark.header_color} !important;` : ""}
         }
       }
-      [data-theme="dark"] {
+      /* Specificity Boost: Repeat selector to force override [data-theme="dark"][data-theme="dark"] */
+      [data-theme="dark"][data-theme="dark"] {
           ${colors.dark.background ? `--background-color: ${colors.dark.background} !important;` : ""}
           ${colors.dark.text ? `--default-color: ${colors.dark.text} !important;` : ""}
           ${colors.dark.heading ? `--heading-color: ${colors.dark.heading} !important;` : ""}
@@ -198,7 +200,7 @@ const monospaceFont = fonts.monospace || "monospace";
           ${colors.dark.contrast ? `--contrast-color: ${colors.dark.contrast} !important;` : ""}
           ${colors.dark.muted ? `--text-muted: ${colors.dark.muted} !important;` : ""}
 
-          ${colors.dark.card_background ? `--card-background: ${colors.dark.card_background} !important;` : ""}
+          /* ${colors.dark.card_background ? `--card-background: ${colors.dark.card_background} !important;` : ""} */
           ${colors.dark.card_border ? `--card-border: ${colors.dark.card_border} !important;` : ""}
           ${colors.dark.tag_background ? `--tag-background: ${colors.dark.tag_background} !important;` : ""}
           ${colors.dark.tag_text ? `--tag-text: ${colors.dark.tag_text} !important;` : ""}

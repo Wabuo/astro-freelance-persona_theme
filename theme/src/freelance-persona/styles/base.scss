@@ -21,7 +21,7 @@
 :root {
   --background-color: #ffffff; // Background color for the entire website
   --default-color: #272829; // Default text color
-  --heading-color: #45505b; // Heading color
+  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%); // Heading color (Softened default)
   --accent-color: #0563bb; // Brand accent color (buttons, links)
   --surface-color: #ffffff; // Boxed element background
   --contrast-color: #ffffff; // Text contrast color
@@ -45,24 +45,23 @@
   --surface-color: #303030 !important;
   /* Surface Grey */
   --default-color: #e0e0e0 !important;
-  --heading-color: #ffffff !important;
+  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%) !important;
   /* GNOME Blue */
-  --contrast-color: #ffffff !important;
-  --text-muted: #9a9996 !important;
-  /* Libadwaita Muted */
+  --contrast-color: #ffffff;
+  /* Libadwaita Muted: Alpha-based hierarchy */
+  --text-muted: color-mix(in srgb, var(--default-color), transparent 50%) !important;
 
   /* Component Specifics */
-  --card-background: #303030 !important;
-  --card-border: #444444 !important;
-  /* Subtle border */
+  --card-background: color-mix(in srgb, var(--default-color), transparent 98%) !important;
+  --card-border: color-mix(in srgb, var(--default-color), transparent 85%) !important;
 
-  --tag-background: #383838 !important;
-  --tag-text: #ffffff !important;
-  --tag-border: #444444 !important;
+  --tag-background: color-mix(in srgb, var(--default-color), transparent 95%) !important;
+  --tag-text: var(--default-color) !important;
+  --tag-border: color-mix(in srgb, var(--default-color), transparent 85%) !important;
 
-  --input-background: #242424 !important;
-  --input-border: #444444 !important;
-  --input-text: #ffffff !important;
+  --input-background: color-mix(in srgb, var(--default-color), transparent 95%) !important;
+  --input-border: color-mix(in srgb, var(--default-color), transparent 85%) !important;
+  --input-text: var(--default-color) !important;
 
   /* Bootstrap Overrides */
   --bs-body-bg: #1e1e1e !important;
@@ -135,13 +134,14 @@
 /* Nav Menu Colors (Header) */
 :root {
   /* Glassmorphism Base: Lower opacity white (0.6) to allow the blur to be clearly visible */
-  --header-background-color: color-mix(in srgb, white, transparent 18%);
-  --header-color: #ffffff;
+  /* Matte Polished: Use background color with very slight transparency (5%) to keep it solid but allow subtle context */
+  --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
+  --header-color: var(--default-color); // Use default text color for better integration
 }
 
 @mixin dark-header-variables {
-  /* Dark Glassmorphism */
-  --header-background-color: color-mix(in srgb, black, transparent 20%) !important;
+  /* Dark Matte */
+  --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%) !important;
   --header-color: #ffffff !important;
 }
 
@@ -188,6 +188,14 @@
 /* Smooth scroll */
 :root {
   scroll-behavior: smooth;
+}
+
+/*--------------------------------------------------------------
+# Selection
+--------------------------------------------------------------*/
+::selection {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
 }
 
 /*--------------------------------------------------------------

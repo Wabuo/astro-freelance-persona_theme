@@ -110,7 +110,7 @@
 
         // Invert the colored part to white when inside the primary background
         .colored-part {
-            fill: var(--bs-white, #ffffff) !important;
+            fill: var(--contrast-color, #ffffff) !important;
         }
     }
 }
@@ -140,7 +140,7 @@
     font-weight: bold;
     font-size: 0.9rem;
     background-color: var(--accent-color);
-    color: var(--bs-white, #fff);
+    color: var(--contrast-color, #fff);
     z-index: 5;
 
     /* Hides the element below the card initially */

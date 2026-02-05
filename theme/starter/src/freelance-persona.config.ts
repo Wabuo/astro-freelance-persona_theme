@@ -117,12 +117,14 @@ export const themeConfig: PersonaConfig = {
     dark: {
       // Core Interface Colors
       background: "#1e1e1e",
+      //background: "#1e1e1e",
       surface: "#303030",
       text: "#e0e0e0",
       muted: "#9a9996",
       heading: "#ffffff",
-      // accent: "#3584e4", // Defaults to your main accent color. Uncomment to override.
-      contrast: "#ffffff",
+      //accent: "#3584e4", // Defaults to your main accent color. Uncomment to override.
+      contrast: "#e0e0e0",
+      //contrast: "#ffffff",
 
       // Component Colors (Previously hidden)
       card_background: "#303030",

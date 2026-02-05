@@ -137,20 +137,27 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
           }
 
           // Resolve Title Color
-          let titleColor = "inherit";
-          if (category.overlay_title) {
-            if (category.title_style === "light")
-              titleColor = "var(--contrast-color)"; // Use theme contrast variable
-            else if (category.title_style === "dark")
-              titleColor = "var(--default-color)"; // Use theme text variable
-            else if (category.title_style === "custom")
-              titleColor = category.custom_title_color || "inherit";
-            else {
-              // Auto-resolve based on Base Style if not set
-              if (category.overlay_style === "light")
-                titleColor = "var(--default-color)";
-              else titleColor = "var(--contrast-color)";
-            }
+          let titleColor = "var(--heading-color)"; // Default to standard heading color
+
+          // Resolve "Static/Contextual" Colors from Config
+          // User Request: 'dark' style should use the default color from the LIGHT theme (Dark Text)
+          //               'light' style should use the default color from the DARK theme (Light Text)
+          const staticLightHeading =
+            themeConfig.colors?.light?.heading || "#45505b"; // Dark Grey
+          const staticDarkHeading =
+            themeConfig.colors?.dark?.heading || "#ffffff"; // White
+
+          if (category.title_style === "light") {
+            titleColor = staticDarkHeading;
+          } else if (category.title_style === "dark") {
+            titleColor = staticLightHeading;
+          } else if (category.title_style === "custom") {
+            titleColor = category.custom_title_color || "inherit";
+          } else if (category.overlay_title) {
+            // Fallback logic specific to Overlay mode if no explicit style matches
+            if (category.overlay_style === "light")
+              titleColor = "var(--default-color)";
+            else titleColor = "var(--contrast-color)";
           }
 
           const cardStyle = `
@@ -201,7 +208,16 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                 </div>
 
                 {!category.overlay_title && (
-                  <h3 class="category-title">{category.title}</h3>
+                  <h3
+                    class="category-title"
+                    style={
+                      category.title_style
+                        ? `color: ${titleColor} !important;`
+                        : ""
+                    }
+                  >
+                    {category.title}
+                  </h3>
                 )}
 
                 {category.description && (

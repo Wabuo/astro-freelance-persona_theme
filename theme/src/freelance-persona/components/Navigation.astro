@@ -25,7 +25,7 @@ const getLink = (id: string) => {
 };
 ---
 
-<header id="header" class="header d-flex flex-column justify-content-center">
+<header id="header" class={`header d-flex flex-column justify-content-center ${isHome ? "is-home" : "is-inner"}`}>
   <nav id="navmenu" class="navmenu">
     <ul>
       <li>
@@ -135,8 +135,60 @@ const getLink = (id: string) => {
   }
 
   .theme-toggle i {
-    font-size: 24px;
+    font-size: 20px; /* Slightly refined size */
     padding-right: 8px;
+  }
+
+  /* Desktop Improvements */
+  @media (min-width: 768px) {
+    /* Topnav Specifics (Inner Pages) */
+    :global(.is-inner) .theme-toggle {
+      width: auto;
+      padding: 1rem 0 1rem 1rem; /* Left padding only to separate from last link */
+      margin-left: 0.5rem;
+      border-left: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+    }
+
+    /* Hide text on desktop for both Topnav and Sidenav (Matches _navigation-index behavior) */
+    .theme-toggle span {
+      display: none;
+    }
+
+    /* Refine Icon for Inner Pages */
+    :global(.is-inner) .theme-toggle i {
+      padding-right: 0;
+      font-size: 1.25rem;
+    }
+    
+    /* Sidenav Specifics (Home Page) - Align with standard links */
+    :global(.is-home) .theme-toggle {
+      justify-content: flex-start;
+      margin-bottom: 0.5rem;
+      
+      /* MATCHING SIDEBAR LINK STYLES (_navigation-index.scss) */
+      /* User Request: No background "pill" to avoid looking like a page, but keep dimensions for alignment */
+      background: transparent; 
+      border-radius: 3.125rem; /* 50px */
+      height: var(--nav-icon-size, 3.5rem); /* Fallback to standard size if var missing */
+      width: 100%;
+      max-width: var(--nav-icon-size, 3.5rem); /* CRITICAL: Constrain width to circle on desktop */
+      padding: 0.625rem 1.125rem;
+      
+      /* Ensure proper centering like links */
+      display: flex;
+      align-items: center;
+    }
+
+    /* Hover State for Sidenav Toggle */
+    :global(.is-home) .theme-toggle:hover {
+      background: var(--nav-hover-color);
+      color: var(--contrast-color);
+    }
+    
+    :global(.is-home) .theme-toggle i {
+       font-size: 1.25rem;
+       /* margin-left removed: Padding (1.125rem) already centers the 20px icon in 56px container perfectly */
+    }
   }
 
   /* Active state for button if needed to match links */

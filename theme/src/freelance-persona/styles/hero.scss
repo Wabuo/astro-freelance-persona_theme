@@ -74,6 +74,26 @@
   // Ensure overlay also matches
   border-radius: 0 !important;
   z-index: 2;
+
+  // Dark Mode: "Hazy" Multi-layer overlay
+  // Stacks a dark layer over a white layer to lift blacks while keeping it dark.
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) & {
+      background:
+        linear-gradient(color-mix(in srgb, var(--background-color), transparent 55%), color-mix(in srgb, var(--background-color), transparent 40%)),
+        /* Dark Dimmer (Adjust % to change darkness - currently 60% opacity) */
+        linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
+      /* White Haze (Bottom) */
+    }
+  }
+
+  [data-theme="dark"] & {
+    background:
+      linear-gradient(color-mix(in srgb, var(--background-color), transparent 55%), color-mix(in srgb, var(--background-color), transparent 40%)),
+      /* Dark Dimmer (Adjust % to change darkness - currently 60% opacity) */
+      linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
+    /* White Haze (Bottom) */
+  }
 }
 
 .hero .container {
@@ -96,6 +116,33 @@
 .hero p span {
   letter-spacing: 0.0625rem; // 1px
   color: var(--accent-color);
+}
+
+// Dark Mode: Highlighted Style (User Request)
+// Mimics "selected text" look: White Text on Brand Blue Background.
+// - Targeting .typed and .typed-cursor specifically to avoid highlighting the
+//   layout-locking container (which has a fixed min-width).
+@media (prefers-color-scheme: dark) {
+
+  html:not([data-theme="light"]) .hero p span.typed {
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+    padding: 0 0.1em;
+    box-decoration-break: clone;
+    font-weight: normal;
+    text-shadow: none;
+    -webkit-text-stroke: 0;
+  }
+}
+
+[data-theme="dark"] .hero p span.typed {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  padding: 0 0.1em;
+  box-decoration-break: clone;
+  font-weight: normal;
+  text-shadow: none;
+  -webkit-text-stroke: 0;
 }
 
 .hero .social-links {

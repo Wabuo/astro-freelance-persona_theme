@@ -201,16 +201,50 @@ const getLink = (id: string) => {
   // Navigation Interactions
 
   // 1. Mobile Navigation Toggle
-  const toggleBtn = document.querySelector(".nav-toggle");
-  const header = document.querySelector(".header");
+  // 1. Mobile Navigation Toggle
+  const initMobileNav = () => {
+    const toggleBtn = document.querySelector(".nav-toggle");
+    const header = document.querySelector(".header");
 
-  if (toggleBtn && header) {
-    toggleBtn.addEventListener("click", () => {
-      header.classList.toggle("navmenu-show");
-      toggleBtn.classList.toggle("bi-list");
-      toggleBtn.classList.toggle("bi-x");
+    if (toggleBtn && header) {
+      // Remove old listener to prevent duplicates (if any)
+      // Note: anonymous functions can't be removed easily, but checking for existing binding or cloning helps.
+      // Easiest is to clone and replace if we want to reset, but simply adding once per page-load is standard for Astro.
+      
+      const toggleMenu = (e) => {
+        // Stop propagation to prevent immediate closing if body listener exists
+        e.stopPropagation();
+        header.classList.toggle("navmenu-show");
+        toggleBtn.classList.toggle("bi-list");
+        toggleBtn.classList.toggle("bi-x");
+      };
+      
+      // Remove defaults/clones to be safe (optional but good for HMR/swaps)
+      const newBtn = toggleBtn.cloneNode(true);
+      toggleBtn.parentNode.replaceChild(newBtn, toggleBtn);
+      
+      newBtn.addEventListener("click", toggleMenu);
+    }
+    
+    // Close mobile nav on same-page link click
+    document.querySelectorAll('#navmenu a').forEach(navmenu => {
+      navmenu.addEventListener('click', () => {
+        if (header && header.classList.contains('navmenu-show')) {
+          header.classList.remove('navmenu-show');
+          const toggle = document.querySelector(".nav-toggle");
+          if(toggle) {
+             toggle.classList.add("bi-list");
+             toggle.classList.remove("bi-x");
+          }
+        }
+      });
     });
-  }
+  };
+
+  // Run on load
+  document.addEventListener('astro:page-load', initMobileNav);
+  // Also on DOMContentLoaded for initial load if page-load misses
+  document.addEventListener('DOMContentLoaded', initMobileNav);
 
   // 2. ScrollSpy (Highlight active link on scroll)
   // Refactored for Astro View Transitions compatibility

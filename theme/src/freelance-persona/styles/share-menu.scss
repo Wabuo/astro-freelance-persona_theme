@@ -1,0 +1,138 @@
+/*
+ * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+ * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+.share-menu-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.share-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
+
+    &:hover,
+    &.active {
+        color: var(--accent-color);
+    }
+
+    i {
+        font-size: 1.2rem;
+    }
+}
+
+.share-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    /* Align to right edge of button so it doesn't overflow screen on mobile */
+    margin-top: 0.5rem;
+    min-width: 12rem;
+    width: max-content;
+    /* Allow width to expand to fit content */
+    background-color: var(--surface-color, #ffffff);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.05));
+    z-index: 1000;
+    overflow: hidden;
+
+    /* Animation */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    &.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    /* Dark mode specific tweak if surface color isn't enough */
+    [data-theme="dark"] & {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
+
+.share-menu-list {
+    list-style: none;
+    padding: 0.25rem 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.share-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    color: var(--default-color);
+    /* Match reference text color */
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.15s ease;
+    /* Reference speed */
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap !important;
+    /* Prevent wrapping forcefully */
+
+    i {
+        font-size: 1.1rem;
+        width: 1.2rem;
+        /* Fixed width for alignment */
+        text-align: center;
+        color: inherit;
+        /* Ensure icon matches text */
+    }
+
+    /* Icon-specific coloring (optional, but reference uses generic black)
+     We stick to generic text color until hover to match the clean aesthetic
+  */
+
+    &:hover {
+        // Revert background to neutral grey (Reference style)
+        background-color: color-mix(in srgb, var(--default-color), transparent 94%);
+
+        // Only change ICON color to accent (as requested), text remains default
+        i {
+            color: var(--accent-color);
+        }
+    }
+}
+
+.share-menu-divider {
+    margin: 0.25rem 0;
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    /* Use theme var */
+    height: 1px;
+    display: block;
+    opacity: 1;
+
+    [data-theme="dark"] & {
+        border-color: var(--card-border);
+        /* Use valid dark mode border var */
+    }
+}
+
+/* Specific fix for buttons that wrap icons */
+button.share-menu-item {
+    font-family: inherit;
+}

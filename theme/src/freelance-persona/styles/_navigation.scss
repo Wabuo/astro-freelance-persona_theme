@@ -9,7 +9,7 @@
 # Global Header
 --------------------------------------------------------------*/
 /* Header - Desktop */
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .header {
     color: var(--default-color);
     background-color: transparent;
@@ -64,7 +64,7 @@
 }
 
 /* Header - Mobile */
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .header {
     color: var(--default-color);
     position: fixed;
@@ -80,6 +80,10 @@
     /* left: -100%; */
     left: calc(-1 * var(--nav-menu-mobile-width));
     flex-direction: column;
+    /* Fix: Stop centering vertically on mobile to prevent overflow clipping */
+    justify-content: flex-start !important;
+    /* Fix: Add padding to top so first menu item isn't under the toggle button */
+    padding-top: 4rem;
   }
 
   .header.navmenu-show {
@@ -91,7 +95,7 @@
 # Navigation Menu
 --------------------------------------------------------------*/
 /* Navmenu - Desktop */
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .navmenu {
     padding: 0;
   }
@@ -225,7 +229,7 @@
 }
 
 /* Navmenu - Mobile */
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .navmenu {
     padding: 0;
     z-index: 9997;

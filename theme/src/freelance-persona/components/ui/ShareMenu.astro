@@ -1,0 +1,155 @@
+---
+// src/freelance-persona/components/ui/ShareMenu.astro
+interface Props {
+  url: string;
+  title: string;
+  description?: string;
+}
+
+const { url, title, description = "" } = Astro.props;
+
+// Encode for sharing
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const encodedDesc = encodeURIComponent(description);
+---
+
+<div class="share-menu-wrapper">
+  <button
+    class="share-btn"
+    aria-label="Share this post"
+    aria-expanded="false"
+    aria-haspopup="true"
+  >
+    <i class="bi bi-share"></i>
+  </button>
+
+  <div class="share-dropdown">
+    <div class="share-menu-list">
+      <!-- Copy Link -->
+      <button class="share-menu-item action-copy-link" data-url={url}>
+        <i class="bi bi-link-45deg"></i>
+        <span class="label">Get link</span>
+      </button>
+
+      <!-- Separator -->
+      <hr class="share-menu-divider" />
+
+      <!-- LinkedIn -->
+      <a
+        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-menu-item"
+      >
+        <i class="bi bi-linkedin"></i>
+        <span>Share on LinkedIn</span>
+      </a>
+
+      <!-- Facebook -->
+      <a
+        href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-menu-item"
+      >
+        <i class="bi bi-facebook"></i>
+        <span>Share on Facebook</span>
+      </a>
+
+      <!-- X (Twitter) -->
+      <a
+        href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-menu-item"
+      >
+        <i class="bi bi-twitter-x"></i>
+        <span>Share on X</span>
+      </a>
+
+      <!-- Email -->
+      <a
+        href={`mailto:?subject=${encodedTitle}&body=Check out this post: ${encodedUrl}`}
+        class="share-menu-item"
+      >
+        <i class="bi bi-envelope"></i>
+        <span>Email</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  @import "@freelance-persona/styles/share-menu.scss";
+</style>
+
+<script>
+  function initShareMenu() {
+    const wrappers = document.querySelectorAll(".share-menu-wrapper");
+
+    wrappers.forEach((wrapper) => {
+      const btn = wrapper.querySelector(".share-btn");
+      const dropdown = wrapper.querySelector(".share-dropdown");
+      const copyBtn = wrapper.querySelector(".action-copy-link");
+
+      if (!btn || !dropdown) return;
+
+      // Toggle Menu
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const expanded = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", String(!expanded));
+        dropdown.classList.toggle("show");
+        btn.classList.toggle("active");
+      });
+
+      // Close on Click Outside
+      document.addEventListener("click", (e) => {
+        if (!wrapper.contains(e.target as Node)) {
+          dropdown.classList.remove("show");
+          btn.setAttribute("aria-expanded", "false");
+          btn.classList.remove("active");
+        }
+      });
+
+      // Copy Link Logic
+      if (copyBtn) {
+        copyBtn.addEventListener("click", async () => {
+          const link = copyBtn.getAttribute("data-url");
+          const label = copyBtn.querySelector(".label");
+          const icon = copyBtn.querySelector("i");
+          
+          if (!link) return;
+
+          try {
+            await navigator.clipboard.writeText(link);
+            
+            // Visual Feedback
+            if (label) label.textContent = "Copied!";
+            if (icon) {
+                icon.classList.remove("bi-link-45deg");
+                icon.classList.add("bi-check2");
+            }
+            
+            setTimeout(() => {
+               if (label) label.textContent = "Get link";
+               if (icon) {
+                icon.classList.remove("bi-check2");
+                icon.classList.add("bi-link-45deg");
+               }
+               // Close menu after successful copy? Maybe keep it open to show "Copied!".
+            }, 2000);
+
+          } catch (err) {
+            console.error("Failed to copy: ", err);
+          }
+        });
+      }
+    });
+  }
+
+  // Initialize on load and after Astro swaps (if using View Transitions)
+  document.addEventListener("DOMContentLoaded", initShareMenu);
+  document.addEventListener("astro:page-load", initShareMenu);
+</script>

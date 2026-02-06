@@ -8,7 +8,6 @@ import { themeConfig } from "@freelance-persona/config";
 // Font imports removed - should be handled by the consumer/starter
 
 // Import Global Styles
-// Import Global Styles
 import "@freelance-persona/styles/main.scss";
 
 // --- SMART ASSET DISCOVERY ---
@@ -337,7 +336,7 @@ const monospaceFont = fonts.monospace || "monospace";
             ${
               colors.dark.header_background
                 ? `--header-background-color: ${colors.dark.header_background} !important;`
-                : ""
+                : `--header-background-color: color-mix(in srgb, var(--background-color), transparent 5%) !important;`
             }
             ${
               colors.dark.header_color
@@ -457,7 +456,7 @@ const monospaceFont = fonts.monospace || "monospace";
             ${
               colors.dark.header_background
                 ? `--header-background-color: ${colors.dark.header_background} !important;`
-                : ""
+                : `--header-background-color: color-mix(in srgb, var(--background-color), transparent 5%) !important;`
             }
             ${
               colors.dark.header_color

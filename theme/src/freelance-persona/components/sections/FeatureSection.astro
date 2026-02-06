@@ -3,6 +3,7 @@ import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
 import { themeConfig } from "@freelance-persona/config";
+import { slugify } from "@freelance-persona/utils/slugify";
 
 interface Props {
   id: string;
@@ -54,25 +55,18 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
     <div class="features-grid">
       {
         features.map((feature, index) => {
-          const slugify = (text: string) =>
-            text
-              .toString()
-              .toLowerCase()
-              .trim()
-              .replace(/\s+/g, "-")
-              .replace(/[^\w-]+/g, "")
-              .replace(/--+/g, "-");
+          // const slugify = ... (Moved to utils)
 
           const isUnavailable = feature.unavailable === true;
 
           const finalLink = isUnavailable
             ? undefined
             : feature.link &&
-                !feature.link.startsWith("#") &&
-                !feature.link.startsWith("/") &&
-                !feature.link.startsWith("http")
-              ? `/services/${slugify(feature.title)}`
-              : feature.link;
+              !feature.link.startsWith("#") &&
+              !feature.link.startsWith("/") &&
+              !feature.link.startsWith("http")
+            ? `/services/${slugify(feature.title)}`
+            : feature.link;
 
           return (
             <div
@@ -84,13 +78,17 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
             >
               <Card
                 href={finalLink}
-                class={`feature-card h-100 ${isUnavailable ? "unavailable" : ""}`}
+                class={`feature-card h-100 ${
+                  isUnavailable ? "unavailable" : ""
+                }`}
               >
                 {/* Card Content - Icon Logic */}
                 {feature.icon && (
                   <div class="feature-icon-wrapper-outer">
                     <div
-                      class={`feature-icon-bg ${feature.secondary_icon ? "has-secondary-icon" : ""}`}
+                      class={`feature-icon-bg ${
+                        feature.secondary_icon ? "has-secondary-icon" : ""
+                      }`}
                     >
                       {/* Main Icon */}
                       {feature.icon === "lance-icon" ? (

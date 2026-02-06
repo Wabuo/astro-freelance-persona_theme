@@ -6,6 +6,7 @@ import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
 import FilteredPostsSection from "@freelance-persona/components/sections/FilteredPostsSection.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
 import { Image } from "astro:assets";
+import { slugify } from "@freelance-persona/utils/slugify";
 
 // Generate paths for all categories defined in the section config
 export async function getStaticPaths() {
@@ -22,14 +23,8 @@ export async function getStaticPaths() {
   }
 
   // Helper to slugify - MUST MATCH the one in BlogCategoriesSection.astro
-  const slugify = (text: string) =>
-    text
-      .toString()
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]+/g, "")
-      .replace(/--+/g, "-");
+  // REFACTOR: Now using shared utility
+  // const slugify = (text: string) => ...
 
   const paths: any[] = [];
 

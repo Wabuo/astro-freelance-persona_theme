@@ -4,26 +4,20 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
 import ImageAttribution from "../ui/ImageAttribution.astro";
 import { Image } from "astro:assets";
+import { slugify } from "@freelance-persona/utils/slugify";
 import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
 import BlogSidebar from "@freelance-persona/components/blog/BlogSidebar.astro";
 import ShareMenu from "@freelance-persona/components/ui/ShareMenu.astro";
 
 const { post } = Astro.props;
 
-// Helper to slugify category names
-const slugify = (text: string) =>
-  text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]+/g, "")
-    .replace(/--+/g, "-");
+// REFACTOR: Now using shared utility
+// const slugify = (text: string) => ...
 
 // Fetch sections to find the "blogs" section or "recent posts" fallback
 const sections = await getCollection("sections");
 const blogsSection = sections.find(
-  (s: any) => s.data.type === "blog_categories",
+  (s: any) => s.data.type === "blog_categories"
 );
 const recentPostsSection = sections.find((s: any) => s.id === "recent_posts");
 
@@ -36,7 +30,7 @@ let categoryCrumb = null;
 if (blogsSection && blogsSection.data.categories && post.data.tags) {
   // Find which category this post belongs to based on shared tags
   const matchedCategory = blogsSection.data.categories.find((cat: any) =>
-    cat.tags.some((tag: string) => post.data.tags.includes(tag)),
+    cat.tags.some((tag: string) => post.data.tags.includes(tag))
   );
 
   if (matchedCategory) {
@@ -134,8 +128,8 @@ crumbs.push({ label: post.data.title });
                             month: "short",
                             year: "numeric",
                           })
-                        }</time
-                      >
+                        }
+                      </time>
                     </li>
                     <li class="d-flex align-items-center">
                       <i class="bi bi-hourglass-split me-2"></i>
@@ -146,7 +140,9 @@ crumbs.push({ label: post.data.title });
                   <ul id="action" class="d-flex list-unstyled m-0">
                     <li class="d-flex align-items-center">
                       <ShareMenu
-                        url={Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : Astro.url.href}
+                        url={Astro.site
+                          ? new URL(Astro.url.pathname, Astro.site).toString()
+                          : Astro.url.href}
                         title={post.data.title}
                         description={post.data.description}
                       />

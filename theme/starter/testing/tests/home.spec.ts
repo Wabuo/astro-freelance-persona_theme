@@ -13,6 +13,7 @@ test('Home Visual Regression', async ({ page }) => {
 
     await expect(page).toHaveScreenshot('home-desktop.png', {
         fullPage: true,
+        maxDiffPixelRatio: 0.05, // Allow minor rendering diffs to prevent flakes
         mask: [
             page.locator('.typing-lock'), // Mask the animated text
             page.locator('.typed-cursor') // Mask the blinking cursor

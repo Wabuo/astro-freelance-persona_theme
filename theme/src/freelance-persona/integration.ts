@@ -1,8 +1,3 @@
-// SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
-// SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
-//
-// SPDX-License-Identifier: MIT
-
 // src/freelance-persona/integration.ts
 import type { AstroIntegration } from 'astro';
 import { fileURLToPath } from 'url';
@@ -17,6 +12,7 @@ export default function freelancePersona(): AstroIntegration {
         const currentDir = path.dirname(fileURLToPath(import.meta.url));
         const projectRoot = fileURLToPath(config.root);
         const configPath = path.resolve(projectRoot, 'src/freelance-persona.config.ts');
+        const utilsPath = path.resolve(currentDir, 'utils');
 
         // Read config file content to serve as virtual module
         // This avoids resolution issues in Node/SSR where aliases fail for external deps
@@ -46,6 +42,10 @@ export default function freelancePersona(): AstroIntegration {
                 {
                   find: '@freelance-persona/config',
                   replacement: generatedConfigPath
+                },
+                {
+                  find: '@freelance-persona/utils',
+                  replacement: utilsPath
                 },
                 {
                   find: '@freelance-persona',

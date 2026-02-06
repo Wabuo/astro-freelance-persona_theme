@@ -145,7 +145,7 @@ export const themeConfig: PersonaConfig = {
       nav_dropdown_background: "#2c3035",
       nav_dropdown_color: "#e0e0e0",
       // nav_dropdown_hover: "#6ea8fe", // Defaults to dark mode accent
-      header_background: "rgba(0, 0, 0, 0.82)", // Dark Glassmorphism
+      // header_background: "rgba(0, 0, 0, 0.82)", // Dark Glassmorphism // Defaults to hardcoded Adwaita dark
       header_color: "#ffffff"
     }
   },

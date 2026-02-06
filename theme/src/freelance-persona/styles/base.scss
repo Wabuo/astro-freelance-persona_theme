@@ -129,6 +129,7 @@
   --nav-menu-mobile-width: 18.75rem; // 300px
   --nav-menu-border-padding: 0.9375rem; // 15px
   --nav-menu-mobile-border-width: 1px; // 1px
+  --nav-border-color: color-mix(in srgb, var(--accent-color), transparent 85%); // Standard border color
 }
 
 /* Nav Menu Colors (Header) */
@@ -141,7 +142,7 @@
 
 @mixin dark-header-variables {
   /* Dark Matte */
-  --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%) !important;
+  --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
   --header-color: #ffffff !important;
 }
 

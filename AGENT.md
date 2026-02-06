@@ -25,7 +25,7 @@ SPDX-License-Identifier: MIT
 > [!IMPORTANT]
 > **Playwright is configured to auto-start the server.** logic: `bun run build; bun run preview`.
 
-- **Auto-Server:** You generally do **NOT** need to manually start a server for tests. Just run `bun x playwright test`.
+- **Auto-Server:** You generally do **NOT** need to manually start a server for tests. Just run `bun x playwright test`, use this in the comands outlined in 1. instead of `bun run dev --reporter=list`(list is strictly needed!). the pkill ... is stricly needed to insure we test against a clean state.
 - **Manual Verification:** If you *must* open the site manually:
   - ✅ **Preferred:** `bun run build; bun run preview` (Matches test environment).
   - ⚠️ **Dev Mode:** `bun run dev` (Only for rapid iteration, may differ from build).

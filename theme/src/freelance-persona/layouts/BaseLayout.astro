@@ -20,10 +20,10 @@ async function findAsset(glob: Record<string, () => Promise<any>>) {
       p.endsWith(".svg")
         ? 4
         : p.endsWith(".png")
-          ? 3
-          : p.endsWith(".ico")
-            ? 2
-            : 0;
+        ? 3
+        : p.endsWith(".ico")
+        ? 2
+        : 0;
     return score(b) - score(a);
   });
   const selectedPath = paths[0];
@@ -34,12 +34,12 @@ async function findAsset(glob: Record<string, () => Promise<any>>) {
 const faviconSrc = await findAsset(
   import.meta.glob("/src/assets/img/favicon.{svg,ico,png,webp}", {
     query: { url: "" },
-  }),
+  })
 );
 const appleSrc = await findAsset(
   import.meta.glob("/src/assets/img/apple-touch-icon.{png,svg,webp}", {
     query: { url: "" },
-  }),
+  })
 );
 
 const getAssetUrl = (asset: any) => {
@@ -102,7 +102,7 @@ const navFont = fonts.navigation || "sans-serif";
 const monospaceFont = fonts.monospace || "monospace";
 ---
 
-<!doctype html>
+<!DOCTYPE html>
 <html
   lang="en"
   style={`
@@ -115,7 +115,11 @@ const monospaceFont = fonts.monospace || "monospace";
 
   /* --- COLOR overrides --- */
   /* LIGHT / DEFAULT */
-  ${colors.light?.background ? `--background-color: ${colors.light.background};` : ""}
+  ${
+    colors.light?.background
+      ? `--background-color: ${colors.light.background};`
+      : ""
+  }
   ${colors.light?.text ? `--default-color: ${colors.light.text};` : ""}
   ${colors.light?.heading ? `--heading-color: ${colors.light.heading};` : ""}
   ${colors.light?.accent ? `--accent-color: ${colors.light.accent};` : ""}
@@ -124,24 +128,72 @@ const monospaceFont = fonts.monospace || "monospace";
   ${colors.light?.muted ? `--text-muted: ${colors.light.muted};` : ""}
 
   /* Component Overrides (Light) */
-  ${colors.light?.card_background ? `--card-background: ${colors.light.card_background};` : ""}
-  ${colors.light?.card_border ? `--card-border: ${colors.light.card_border};` : ""}
-  ${colors.light?.tag_background ? `--tag-background: ${colors.light.tag_background};` : ""}
+  ${
+    colors.light?.card_background
+      ? `--card-background: ${colors.light.card_background};`
+      : ""
+  }
+  ${
+    colors.light?.card_border
+      ? `--card-border: ${colors.light.card_border};`
+      : ""
+  }
+  ${
+    colors.light?.tag_background
+      ? `--tag-background: ${colors.light.tag_background};`
+      : ""
+  }
   ${colors.light?.tag_text ? `--tag-text: ${colors.light.tag_text};` : ""}
   ${colors.light?.tag_border ? `--tag-border: ${colors.light.tag_border};` : ""}
-  ${colors.light?.input_background ? `--input-background: ${colors.light.input_background};` : ""}
-  ${colors.light?.input_border ? `--input-border: ${colors.light.input_border};` : ""}
+  ${
+    colors.light?.input_background
+      ? `--input-background: ${colors.light.input_background};`
+      : ""
+  }
+  ${
+    colors.light?.input_border
+      ? `--input-border: ${colors.light.input_border};`
+      : ""
+  }
   ${colors.light?.input_text ? `--input-text: ${colors.light.input_text};` : ""}
 
   /* Navigation (Light) */
   ${colors.light?.nav_color ? `--nav-color: ${colors.light.nav_color};` : ""}
-  ${colors.light?.nav_hover_color ? `--nav-hover-color: ${colors.light.nav_hover_color};` : ""}
-  ${colors.light?.nav_mobile_background ? `--nav-mobile-background-color: ${colors.light.nav_mobile_background};` : ""}
-  ${colors.light?.nav_dropdown_background ? `--nav-dropdown-background-color: ${colors.light.nav_dropdown_background};` : ""}
-  ${colors.light?.nav_dropdown_color ? `--nav-dropdown-color: ${colors.light.nav_dropdown_color};` : ""}
-  ${colors.light?.nav_dropdown_hover ? `--nav-dropdown-hover-color: ${colors.light.nav_dropdown_hover};` : ""}
-  ${colors.light?.header_background ? `--header-background-color: ${colors.light.header_background};` : ""}
-  ${colors.light?.header_color ? `--header-color: ${colors.light.header_color};` : ""}
+  ${
+    colors.light?.nav_hover_color
+      ? `--nav-hover-color: ${colors.light.nav_hover_color};`
+      : ""
+  }
+  ${
+    colors.light?.nav_mobile_background
+      ? `--nav-mobile-background-color: ${colors.light.nav_mobile_background};`
+      : ""
+  }
+  ${
+    colors.light?.nav_dropdown_background
+      ? `--nav-dropdown-background-color: ${colors.light.nav_dropdown_background};`
+      : ""
+  }
+  ${
+    colors.light?.nav_dropdown_color
+      ? `--nav-dropdown-color: ${colors.light.nav_dropdown_color};`
+      : ""
+  }
+  ${
+    colors.light?.nav_dropdown_hover
+      ? `--nav-dropdown-hover-color: ${colors.light.nav_dropdown_hover};`
+      : ""
+  }
+  ${
+    colors.light?.header_background
+      ? `--header-background-color: ${colors.light.header_background};`
+      : ""
+  }
+  ${
+    colors.light?.header_color
+      ? `--header-color: ${colors.light.header_color};`
+      : ""
+  }
 
   /* Shared */
   ${colors.transparency ? `--transparency: ${colors.transparency};` : ""}
@@ -150,81 +202,273 @@ const monospaceFont = fonts.monospace || "monospace";
   ${fonts.sizes?.normal ? `--normal-font-size: ${fonts.sizes.normal};` : ""}
   ${fonts.sizes?.footer ? `--footer-font-size: ${fonts.sizes.footer};` : ""}
   ${fonts.sizes?.heading ? `--heading-font-size: ${fonts.sizes.heading};` : ""}
-  ${fonts.sizes?.subtitle ? `--subtitle-font-size: ${fonts.sizes.subtitle};` : ""}
+  ${
+    fonts.sizes?.subtitle
+      ? `--subtitle-font-size: ${fonts.sizes.subtitle};`
+      : ""
+  }
   ${fonts.sizes?.title ? `--title-font-size: ${fonts.sizes.title};` : ""}
   ${fonts.sizes?.nav_icon ? `--nav-icon-size: ${fonts.sizes.nav_icon};` : ""}
 `}
 >
   {/* Dynamic Dark Mode Overrides */}
-  {
-    colors.dark && (
-      <style
-        set:html={`
-      @media (prefers-color-scheme: dark) {
-        /* Increase specificity to beat base.scss (0,2,0) with (0,3,0) => html:root:not([data-theme="light"]) + [data-theme] ? No, let's just use ID or repeat class */
-        html:root:not([data-theme="light"]) {
-          ${colors.dark.background ? `--background-color: ${colors.dark.background} !important;` : ""}
-          ${colors.dark.text ? `--default-color: ${colors.dark.text} !important;` : ""}
-          ${colors.dark.heading ? `--heading-color: ${colors.dark.heading} !important;` : ""}
-          ${colors.dark.accent ? `--accent-color: ${colors.dark.accent} !important;` : ""}
-          ${colors.dark.surface ? `--surface-color: ${colors.dark.surface} !important;` : ""}
-          ${colors.dark.contrast ? `--contrast-color: ${colors.dark.contrast} !important;` : ""}
-          ${colors.dark.muted ? `--text-muted: ${colors.dark.muted} !important;` : ""}
-
-          /* ${colors.dark.card_background ? `--card-background: ${colors.dark.card_background} !important;` : ""} */
-          ${colors.dark.card_border ? `--card-border: ${colors.dark.card_border} !important;` : ""}
-          ${colors.dark.tag_background ? `--tag-background: ${colors.dark.tag_background} !important;` : ""}
-          ${colors.dark.tag_text ? `--tag-text: ${colors.dark.tag_text} !important;` : ""}
-          ${colors.dark.tag_border ? `--tag-border: ${colors.dark.tag_border} !important;` : ""}
-          ${colors.dark.input_background ? `--input-background: ${colors.dark.input_background} !important;` : ""}
-          ${colors.dark.input_border ? `--input-border: ${colors.dark.input_border} !important;` : ""}
-          ${colors.dark.input_text ? `--input-text: ${colors.dark.input_text} !important;` : ""}
-
-          ${colors.dark.nav_color ? `--nav-color: ${colors.dark.nav_color} !important;` : ""}
-          ${colors.dark.nav_hover_color ? `--nav-hover-color: ${colors.dark.nav_hover_color} !important;` : ""}
-          ${colors.dark.nav_mobile_background ? `--nav-mobile-background-color: ${colors.dark.nav_mobile_background} !important;` : ""}
-          ${colors.dark.nav_dropdown_background ? `--nav-dropdown-background-color: ${colors.dark.nav_dropdown_background} !important;` : ""}
-          ${colors.dark.nav_dropdown_color ? `--nav-dropdown-color: ${colors.dark.nav_dropdown_color} !important;` : ""}
-          ${colors.dark.nav_dropdown_hover ? `--nav-dropdown-hover-color: ${colors.dark.nav_dropdown_hover} !important;` : ""}
-          ${colors.dark.header_background ? `--header-background-color: ${colors.dark.header_background} !important;` : ""}
-          ${colors.dark.header_color ? `--header-color: ${colors.dark.header_color} !important;` : ""}
-        }
-      }
-      /* Specificity Boost: Repeat selector to force override [data-theme="dark"][data-theme="dark"] */
-      [data-theme="dark"][data-theme="dark"] {
-          ${colors.dark.background ? `--background-color: ${colors.dark.background} !important;` : ""}
-          ${colors.dark.text ? `--default-color: ${colors.dark.text} !important;` : ""}
-          ${colors.dark.heading ? `--heading-color: ${colors.dark.heading} !important;` : ""}
-          ${colors.dark.accent ? `--accent-color: ${colors.dark.accent} !important;` : ""}
-          ${colors.dark.surface ? `--surface-color: ${colors.dark.surface} !important;` : ""}
-          ${colors.dark.contrast ? `--contrast-color: ${colors.dark.contrast} !important;` : ""}
-          ${colors.dark.muted ? `--text-muted: ${colors.dark.muted} !important;` : ""}
-
-          /* ${colors.dark.card_background ? `--card-background: ${colors.dark.card_background} !important;` : ""} */
-          ${colors.dark.card_border ? `--card-border: ${colors.dark.card_border} !important;` : ""}
-          ${colors.dark.tag_background ? `--tag-background: ${colors.dark.tag_background} !important;` : ""}
-          ${colors.dark.tag_text ? `--tag-text: ${colors.dark.tag_text} !important;` : ""}
-          ${colors.dark.tag_border ? `--tag-border: ${colors.dark.tag_border} !important;` : ""}
-          ${colors.dark.input_background ? `--input-background: ${colors.dark.input_background} !important;` : ""}
-          ${colors.dark.input_border ? `--input-border: ${colors.dark.input_border} !important;` : ""}
-          ${colors.dark.input_text ? `--input-text: ${colors.dark.input_text} !important;` : ""}
-
-          ${colors.dark.nav_color ? `--nav-color: ${colors.dark.nav_color} !important;` : ""}
-          ${colors.dark.nav_hover_color ? `--nav-hover-color: ${colors.dark.nav_hover_color} !important;` : ""}
-          ${colors.dark.nav_mobile_background ? `--nav-mobile-background-color: ${colors.dark.nav_mobile_background} !important;` : ""}
-          ${colors.dark.nav_dropdown_background ? `--nav-dropdown-background-color: ${colors.dark.nav_dropdown_background} !important;` : ""}
-          ${colors.dark.nav_dropdown_color ? `--nav-dropdown-color: ${colors.dark.nav_dropdown_color} !important;` : ""}
-          ${colors.dark.nav_dropdown_hover ? `--nav-dropdown-hover-color: ${colors.dark.nav_dropdown_hover} !important;` : ""}
-          ${colors.dark.header_background ? `--header-background-color: ${colors.dark.header_background} !important;` : ""}
-          ${colors.dark.header_color ? `--header-color: ${colors.dark.header_color} !important;` : ""}
-      }
-    `}
-      />
-    )
-  }
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  {
+    /* Dynamic Dark Mode Overrides - Moved to HEAD for ViewTransition compatibility */
+  }
+  {
+    colors.dark && (
+      <style
+        is:inline
+        id="theme-dynamic-styles"
+        set:html={`
+        @media (prefers-color-scheme: dark) {
+          html:root:not([data-theme="light"]) {
+            ${
+              colors.dark.background
+                ? `--background-color: ${colors.dark.background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.text
+                ? `--default-color: ${colors.dark.text} !important;`
+                : ""
+            }
+            ${
+              colors.dark.heading
+                ? `--heading-color: ${colors.dark.heading} !important;`
+                : ""
+            }
+            ${
+              colors.dark.accent
+                ? `--accent-color: ${colors.dark.accent} !important;`
+                : ""
+            }
+            ${
+              colors.dark.surface
+                ? `--surface-color: ${colors.dark.surface} !important;`
+                : ""
+            }
+            ${
+              colors.dark.contrast
+                ? `--contrast-color: ${colors.dark.contrast} !important;`
+                : ""
+            }
+            ${
+              colors.dark.muted
+                ? `--text-muted: ${colors.dark.muted} !important;`
+                : ""
+            }
+  
+            /* ${
+              colors.dark.card_background
+                ? `--card-background: ${colors.dark.card_background} !important;`
+                : ""
+            } */
+            ${
+              colors.dark.card_border
+                ? `--card-border: ${colors.dark.card_border} !important;`
+                : ""
+            }
+            ${
+              colors.dark.tag_background
+                ? `--tag-background: ${colors.dark.tag_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.tag_text
+                ? `--tag-text: ${colors.dark.tag_text} !important;`
+                : ""
+            }
+            ${
+              colors.dark.tag_border
+                ? `--tag-border: ${colors.dark.tag_border} !important;`
+                : ""
+            }
+            ${
+              colors.dark.input_background
+                ? `--input-background: ${colors.dark.input_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.input_border
+                ? `--input-border: ${colors.dark.input_border} !important;`
+                : ""
+            }
+            ${
+              colors.dark.input_text
+                ? `--input-text: ${colors.dark.input_text} !important;`
+                : ""
+            }
+  
+            ${
+              colors.dark.nav_color
+                ? `--nav-color: ${colors.dark.nav_color} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_hover_color
+                ? `--nav-hover-color: ${colors.dark.nav_hover_color} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_mobile_background
+                ? `--nav-mobile-background-color: ${colors.dark.nav_mobile_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_dropdown_background
+                ? `--nav-dropdown-background-color: ${colors.dark.nav_dropdown_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_dropdown_color
+                ? `--nav-dropdown-color: ${colors.dark.nav_dropdown_color} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_dropdown_hover
+                ? `--nav-dropdown-hover-color: ${colors.dark.nav_dropdown_hover} !important;`
+                : ""
+            }
+            ${
+              colors.dark.header_background
+                ? `--header-background-color: ${colors.dark.header_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.header_color
+                ? `--header-color: ${colors.dark.header_color} !important;`
+                : ""
+            }
+          }
+        }
+        [data-theme="dark"][data-theme="dark"] {
+            ${
+              colors.dark.background
+                ? `--background-color: ${colors.dark.background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.text
+                ? `--default-color: ${colors.dark.text} !important;`
+                : ""
+            }
+            ${
+              colors.dark.heading
+                ? `--heading-color: ${colors.dark.heading} !important;`
+                : ""
+            }
+            ${
+              colors.dark.accent
+                ? `--accent-color: ${colors.dark.accent} !important;`
+                : ""
+            }
+            ${
+              colors.dark.surface
+                ? `--surface-color: ${colors.dark.surface} !important;`
+                : ""
+            }
+            ${
+              colors.dark.contrast
+                ? `--contrast-color: ${colors.dark.contrast} !important;`
+                : ""
+            }
+            ${
+              colors.dark.muted
+                ? `--text-muted: ${colors.dark.muted} !important;`
+                : ""
+            }
+  
+            /* ${
+              colors.dark.card_background
+                ? `--card-background: ${colors.dark.card_background} !important;`
+                : ""
+            } */
+            ${
+              colors.dark.card_border
+                ? `--card-border: ${colors.dark.card_border} !important;`
+                : ""
+            }
+            ${
+              colors.dark.tag_background
+                ? `--tag-background: ${colors.dark.tag_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.tag_text
+                ? `--tag-text: ${colors.dark.tag_text} !important;`
+                : ""
+            }
+            ${
+              colors.dark.tag_border
+                ? `--tag-border: ${colors.dark.tag_border} !important;`
+                : ""
+            }
+            ${
+              colors.dark.input_background
+                ? `--input-background: ${colors.dark.input_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.input_border
+                ? `--input-border: ${colors.dark.input_border} !important;`
+                : ""
+            }
+            ${
+              colors.dark.input_text
+                ? `--input-text: ${colors.dark.input_text} !important;`
+                : ""
+            }
+  
+            ${
+              colors.dark.nav_color
+                ? `--nav-color: ${colors.dark.nav_color} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_hover_color
+                ? `--nav-hover-color: ${colors.dark.nav_hover_color} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_mobile_background
+                ? `--nav-mobile-background-color: ${colors.dark.nav_mobile_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_dropdown_background
+                ? `--nav-dropdown-background-color: ${colors.dark.nav_dropdown_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_dropdown_color
+                ? `--nav-dropdown-color: ${colors.dark.nav_dropdown_color} !important;`
+                : ""
+            }
+            ${
+              colors.dark.nav_dropdown_hover
+                ? `--nav-dropdown-hover-color: ${colors.dark.nav_dropdown_hover} !important;`
+                : ""
+            }
+            ${
+              colors.dark.header_background
+                ? `--header-background-color: ${colors.dark.header_background} !important;`
+                : ""
+            }
+            ${
+              colors.dark.header_color
+                ? `--header-color: ${colors.dark.header_color} !important;`
+                : ""
+            }
+        }
+      `}
+      />
+    )
+  }
 
   {/* THEME INITIALIZATION (Blocking to prevent FOUC) */}
   <script is:inline>
@@ -351,7 +595,15 @@ const monospaceFont = fonts.monospace || "monospace";
     <script
       is:inline
       set:html={`
-      const animConfig = ${JSON.stringify(themeConfig.visuals?.scroll_animations || { enabled: true, duration: 600, delay: 0, threshold: 0.1, root_margin: "0px 0px -50px 0px" })};
+      const animConfig = ${JSON.stringify(
+        themeConfig.visuals?.scroll_animations || {
+          enabled: true,
+          duration: 600,
+          delay: 0,
+          threshold: 0.1,
+          root_margin: "0px 0px -50px 0px",
+        }
+      )};
       const delaysConfig = ${JSON.stringify(themeConfig.visuals?.delays || {})};
       
       console.log("[FreelancePersona] Animation Script Loaded (Active Layout)");
@@ -468,6 +720,6 @@ const monospaceFont = fonts.monospace || "monospace";
         initScrollAnimations();
       }
     `}
-    />
+    ></script>
   </body>
 </html>

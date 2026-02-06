@@ -21,13 +21,16 @@
   /* -60px */
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .page-title {
     background-color: var(--header-background-color);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     height: 6.25rem;
     /* 100px */
     margin-bottom: -2.5rem;
     /* -40px */
+    border-bottom: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
   }
 }
 

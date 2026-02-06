@@ -14,7 +14,7 @@ export async function getStaticPaths() {
   // Note: There might be multiple if user defines multiples, but typically there's one main one.
   // We'll iterate all sections of type 'blog_categories' and flatten their categories.
   const blogSections = sections.filter(
-    (s: any) => s.data.type === "blog_categories",
+    (s: any) => s.data.type === "blog_categories"
   );
 
   if (blogSections.length === 0) {
@@ -90,7 +90,7 @@ const allPosts = await getCollection("blog_posts");
 // Filter posts that match ANY of the category tags
 const filteredPosts = allPosts
   .filter((post: any) =>
-    post.data.tags.some((tag: string) => tags.includes(tag)),
+    post.data.tags.some((tag: string) => tags.includes(tag))
   )
   .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf());
 
@@ -127,8 +127,7 @@ const formatDate = (date: Date) => {
     {
       filteredPosts.length > 0 ? (
         style === "cards" ? (
-          /* Cards Layout (Reused Section) */
-          <FilteredPostsSection
+          /* Cards Layout (Reused Section) */ <FilteredPostsSection
             id="blog-category-posts"
             title=""
             posts={filteredPosts}
@@ -138,8 +137,7 @@ const formatDate = (date: Date) => {
             tags_to_filter_posts_by={tags}
           />
         ) : (
-          /* Simple Layout (List) - Existing Default */
-          <div class="posts-list">
+          /* Simple Layout (List) - Existing Default */ <div class="posts-list">
             {filteredPosts.map((post: any) => (
               <a
                 href={`/posts/${post.id.split("/").pop()}`}
@@ -175,6 +173,13 @@ const formatDate = (date: Date) => {
     padding-bottom: var(--spacing-xxl);
   }
 
+  @media (max-width: 768px) {
+    .category-page-container {
+      padding-left: var(--spacing-md);
+      padding-right: var(--spacing-md);
+    }
+  }
+
   /* Mimic Zola's airy layout */
   .posts-list {
     max-width: 80rem; /* 960px -> 60rem assuming 16px base */
@@ -196,8 +201,7 @@ const formatDate = (date: Date) => {
         --border-color,
         color-mix(in srgb, var(--default-color), transparent 90%)
       );
-    transition:
-      border-color var(--transition-hover-time, 0.2s),
+    transition: border-color var(--transition-hover-time, 0.2s),
       transform 0.3s ease-out;
   }
 
@@ -280,8 +284,7 @@ const formatDate = (date: Date) => {
     text-decoration: none;
     border: none;
     border-radius: 3.125rem;
-    transition:
-      background-color var(--transition-hover-time, 0.3s),
+    transition: background-color var(--transition-hover-time, 0.3s),
       color var(--transition-hover-time, 0.3s),
       transform var(--transition-hover-time, 0.3s);
     font-weight: 600;

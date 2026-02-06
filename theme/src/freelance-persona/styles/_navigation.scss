@@ -26,7 +26,7 @@
     /* Glass effect */
     //-webkit-backdrop-filter: blur(12px);
     /* Safari support */
-    border-bottom: 1px solid color-mix(in srgb, var(--accent-color), transparent 85%);
+    border-bottom: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
     /* Subtle separation */
   }
 
@@ -75,10 +75,13 @@
     overflow-y: auto;
     z-index: 997;
     width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
+    width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
     background: var(--background-color);
-    border-right: var(--nav-menu-mobile-border-width) solid color-mix(in srgb, var(--default-color), transparent 90%);
+    border-right: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
     /* left: -100%; */
-    left: calc(-1 * var(--nav-menu-mobile-width));
+    /* Fix: Include border width in negative left calculation to prevent bleed-through */
+    left: calc(-1 * (var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width)));
+    border-bottom: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
     flex-direction: column;
     /* Fix: Stop centering vertically on mobile to prevent overflow clipping */
     justify-content: flex-start !important;

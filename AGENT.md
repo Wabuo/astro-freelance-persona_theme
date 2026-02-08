@@ -17,8 +17,8 @@ SPDX-License-Identifier: MIT
 ### 1. Manual dev or build and preview server
 
 - **Manual Verification:** If you want view the site manually via the browser:
-  - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run dev`
-  - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run build; bun run preview`
+  - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; fuser -k 4321/tcp; bun run dev`
+  - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run build; fuser -k 4321/tcp; bun run preview`
 
 ### 2. ⚡ Server Management (Automated)
 

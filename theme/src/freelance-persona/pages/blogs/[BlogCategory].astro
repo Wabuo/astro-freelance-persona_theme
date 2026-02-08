@@ -111,69 +111,83 @@ const formatDate = (date: Date) => {
     showTitle={false}
   />
 
-  <div class="category-page-container section">
-    <div class="section-header">
-      <SectionTitle
-        title={title}
-        subtitle={show_subtitle ? description : undefined}
-      />
-    </div>
-
-    {
+  {
+    style === "cards" ? (
+      /* Cards Layout - Fully delegated to component to prevent double container nesting */
       filteredPosts.length > 0 ? (
-        style === "cards" ? (
-          /* Cards Layout (Reused Section) */ <FilteredPostsSection
-            id="blog-category-posts"
-            title=""
-            posts={filteredPosts}
-            limit={-1}
-            columns={4}
-            scale={0.9}
-            tags_to_filter_posts_by={tags}
-          />
-        ) : (
-          /* Simple Layout (List) - Existing Default */ <div class="posts-list">
-            {filteredPosts.map((post: any) => (
-              <a
-                href={`/posts/${post.id.split("/").pop()}`}
-                class="post-entry-link"
-              >
-                <article class="post-entry border-bottom">
-                  <div class="post-meta d-flex justify-content-between align-items-center">
-                    <h4 class="post-title">{post.data.title}</h4>
-                    <div class="post-date">{formatDate(post.data.date)}</div>
-                  </div>
-                  <p class="post-description">{post.data.description}</p>
-                </article>
-              </a>
-            ))}
-          </div>
-        )
+        <FilteredPostsSection
+          id="blog-category-posts"
+          title={title}
+          subtitle={show_subtitle ? description : undefined}
+          posts={filteredPosts}
+          limit={-1}
+          columns={4}
+          scale={0.9}
+          tags_to_filter_posts_by={tags}
+        />
       ) : (
-        <div class="empty-state">
-          <p>No posts found in this category, yet.</p>
-          <a href="/#blogs" class="btn-return">
-            Return Home
-          </a>
+        <div class="section">
+          <div class="container">
+            <div class="section-header">
+              <SectionTitle
+                title={title}
+                subtitle={show_subtitle ? description : undefined}
+              />
+            </div>
+            <div class="empty-state">
+              <p>No posts found in this category, yet.</p>
+              <a href="/#blogs" class="btn-return">
+                Return Home
+              </a>
+            </div>
+          </div>
         </div>
       )
-    }
-  </div>
+    ) : (
+      /* Simple Layout (List) - Requires manual container wrapper */ <div class="section">
+        <div class="container">
+          <div class="section-header">
+            <SectionTitle
+              title={title}
+              subtitle={show_subtitle ? description : undefined}
+            />
+          </div>
+
+          {filteredPosts.length > 0 ? (
+            <div class="posts-list">
+              {filteredPosts.map((post: any) => (
+                <a
+                  href={`/posts/${post.id.split("/").pop()}`}
+                  class="post-entry-link"
+                >
+                  <article class="post-entry border-bottom">
+                    <div class="post-meta d-flex justify-content-between align-items-center">
+                      <h4 class="post-title">{post.data.title}</h4>
+                      <div class="post-date">{formatDate(post.data.date)}</div>
+                    </div>
+                    <p class="post-description">{post.data.description}</p>
+                  </article>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div class="empty-state">
+              <p>No posts found in this category, yet.</p>
+              <a href="/#blogs" class="btn-return">
+                Return Home
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
 </BaseLayout>
 
 <style>
   /* Layout Refinements matching Zola Reference */
-  .category-page-container {
-    padding-top: var(--spacing-xxl);
-    padding-bottom: var(--spacing-xxl);
-  }
-
-  @media (max-width: 768px) {
-    .category-page-container {
-      padding-left: var(--spacing-md);
-      padding-right: var(--spacing-md);
-    }
-  }
+  /* Layout Refinements matching Zola Reference */
+  /* Replaced .category-page-container with standard .container */
 
   /* Mimic Zola's airy layout */
   .posts-list {

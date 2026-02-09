@@ -1,0 +1,108 @@
+---
+// src/components/ui/NavLinks.astro
+// Shared navigation links component - used by both desktop and mobile nav
+import { getCollection } from "astro:content";
+import { themeConfig } from "@freelance-persona/config";
+import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
+
+interface Props {
+  isHome?: boolean;
+  isMobile?: boolean;
+}
+const { isHome = false, isMobile = false } = Astro.props;
+
+// Fetch and sort sections
+const sections = await getCollection("sections");
+const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
+
+// Helper to determine the href
+const getLink = (id: string) => {
+  if (isHome) {
+    return `#${id}`; // Scroll to section
+  } else {
+    // For inner pages, link to the homepage anchor
+    return `/#${id}`;
+  }
+};
+---
+
+<nav id={isMobile ? "navmenu-mobile" : "navmenu"} class="navmenu">
+  <ul>
+    <li>
+      <a
+        href={isHome ? "#hero" : "/"}
+        class={isHome ? "active" : ""}
+        aria-label="Home"
+      >
+        <i class="bi bi-house navicon"></i>
+        <span>Home</span>
+      </a>
+    </li>
+
+    {
+      sortedSections.map((section) => {
+        // Determine if this section is "active" based on current URL
+        let isActive = false;
+        const currentPath = Astro.url.pathname;
+        const sectionId = (section.data as any).custom_id || section.id;
+
+        // Special mapping for known sections with different URL structures
+        if (
+          (sectionId === "blog-categories" || sectionId === "blogs") &&
+          (currentPath.startsWith("/blogs") || currentPath.startsWith("/blog/"))
+        ) {
+          isActive = true;
+        } else if (currentPath.startsWith(`/${sectionId}`)) {
+          isActive = true;
+        }
+
+        return (
+          // Only show sections that have an icon
+          // Hide 'lance-icon' (Hero/Brand) on inner pages where top-nav is used
+          section.data.icon_class &&
+          (isHome || section.data.icon_class !== "lance-icon") && (
+            <li>
+              <a
+                href={getLink(sectionId)}
+                aria-label={section.data.title}
+                class={!isHome && isActive ? "active" : ""}
+              >
+                {section.data.icon_class === "lance-icon" ? (
+                  <LanceIcon class="navicon" />
+                ) : (
+                  <i class={`${section.data.icon_class} navicon`} />
+                )}
+                <span>{section.data.title}</span>
+              </a>
+            </li>
+          )
+        );
+      })
+    }
+
+    {
+      themeConfig.contact_infos && (
+        <li>
+          <a href={getLink("contact")} aria-label="Contact">
+            <i class="bi bi-envelope navicon" />
+            <span>Contact</span>
+          </a>
+        </li>
+      )
+    }
+
+    {/* Theme Toggle */}
+    <li>
+      <button
+        id={isMobile ? "theme-toggle-mobile" : "theme-toggle"}
+        class="theme-toggle"
+        aria-label="Toggle Dark Mode"
+      >
+        <i
+          class="bi bi-moon navicon"
+          id={isMobile ? "theme-icon-mobile" : "theme-icon"}></i>
+        <span>Theme</span>
+      </button>
+    </li>
+  </ul>
+</nav>

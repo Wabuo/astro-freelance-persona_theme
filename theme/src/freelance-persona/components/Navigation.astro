@@ -1,122 +1,57 @@
 ---
 // src/components/Navigation.astro
-import { getCollection } from "astro:content";
-import { themeConfig } from "@freelance-persona/config";
-import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
+// Two-element navigation architecture: Desktop nav + Mobile popover nav
+import NavLinks from "@freelance-persona/components/ui/_NavLinks.astro";
 
 // Props: isHome determines link behavior and styling
 interface Props {
   isHome?: boolean;
 }
 const { isHome = false } = Astro.props;
-
-// Fetch and sort sections
-const sections = await getCollection("sections");
-const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
-
-// Helper to determine the href
-const getLink = (id: string) => {
-  if (isHome) {
-    return `#${id}`; // Scroll to section
-  } else {
-    // For inner pages, link to the homepage anchor
-    return `/#${id}`;
-  }
-};
 ---
 
-<header id="header" class={`header d-flex flex-column justify-content-center ${isHome ? "is-home" : "is-inner"}`}>
-  <nav id="navmenu" class="navmenu">
-    <ul>
-      <li>
-        <a
-          href={isHome ? "#hero" : "/"}
-          class={isHome ? "active" : ""}
-          aria-label="Home"
-        >
-          <i class="bi bi-house navicon"></i>
-          <span>Home</span>
-        </a>
-      </li>
-
-      {
-        sortedSections.map((section) => {
-          // Determine if this section is "active" based on current URL
-          // 1. Exact match for single-page sections (e.g. #hero on home) - handled by scrollspy script mostly
-          // 2. Path prefix match for inner pages (e.g. /blogs/xyz -> highlights blog-categories)
-
-          let isActive = false;
-          const currentPath = Astro.url.pathname;
-          // Use custom_id if available (e.g. "blogs" instead of "blog-categories")
-          const sectionId = (section.data as any).custom_id || section.id;
-
-          // Special mapping for known sections with different URL structures
-          // If the section ID is "blogs" (custom or default) and we are on a /blogs/ path
-          if (
-            (sectionId === "blog-categories" || sectionId === "blogs") &&
-            (currentPath.startsWith("/blogs") ||
-              currentPath.startsWith("/blog/"))
-          ) {
-            isActive = true;
-          }
-          // Generic fallback: if path matches section id (e.g. /projects/...)
-          else if (currentPath.startsWith(`/${sectionId}`)) {
-            isActive = true;
-          }
-
-          return (
-            // Only show sections that have an icon (avoids listing non-menu items)
-            // Fix: Hide 'lance-icon' (Hero/Brand) on inner pages where top-nav is used
-            section.data.icon_class &&
-            (isHome || section.data.icon_class !== "lance-icon") && (
-              <li>
-                <a
-                  href={getLink(sectionId)}
-                  aria-label={section.data.title}
-                  class={!isHome && isActive ? "active" : ""}
-                >
-                  {section.data.icon_class === "lance-icon" ? (
-                    <LanceIcon class="navicon" />
-                  ) : (
-                    <i class={`${section.data.icon_class} navicon`} />
-                  )}
-                  <span>{section.data.title}</span>
-                </a>
-              </li>
-            )
-          );
-        })
-      }
-
-      {
-        themeConfig.contact_infos && (
-          <li>
-            <a href={getLink("contact")} aria-label="Contact">
-              <i class="bi bi-envelope navicon" />
-              <span>Contact</span>
-            </a>
-          </li>
-        )
-      }
-
-      {/* Theme Toggle */}
-      <li>
-        <button
-          id="theme-toggle"
-          class="theme-toggle"
-          aria-label="Toggle Dark Mode"
-        >
-          <i class="bi bi-moon navicon" id="theme-icon"></i>
-          <span>Theme</span>
-        </button>
-      </li>
-    </ul>
-  </nav>
+<!-- Desktop Navigation (always visible on desktop, hidden on mobile via CSS) -->
+<header
+  class={`header desktop-nav d-flex flex-column justify-content-center ${
+    isHome ? "is-home" : "is-inner"
+  }`}
+>
+  <NavLinks isHome={isHome} />
 </header>
 
+<!-- Mobile Navigation (popover drawer, hidden on desktop via CSS) -->
+<header
+  id="mobile-nav"
+  popover="auto"
+  class={`header mobile-nav d-flex flex-column justify-content-center ${
+    isHome ? "is-home" : "is-inner"
+  }`}
+>
+  <!-- Close button inside popover (above backdrop, in top layer) -->
+  <button
+    popovertarget="mobile-nav"
+    popovertargetaction="hide"
+    class="nav-close"
+    aria-label="Close navigation menu"
+  >
+    <i class="bi bi-x"></i>
+  </button>
+  <NavLinks isHome={isHome} isMobile={true} />
+</header>
+
+<!-- Mobile Toggle Button (visible only on mobile) -->
+<button
+  popovertarget="mobile-nav"
+  class="nav-toggle"
+  aria-label="Toggle navigation menu"
+>
+  <i class="hamburger-icon bi bi-list"></i>
+  <i class="close-icon bi bi-x"></i>
+</button>
+
 <style>
-  /* Toggle Button Styles */
-  .theme-toggle {
+  /* Toggle Button Styles - Global to apply to _NavLinks child component */
+  :global(.theme-toggle) {
     background: none;
     border: none;
     color: var(--nav-color);
@@ -130,11 +65,11 @@ const getLink = (id: string) => {
     transition: 0.3s;
   }
 
-  .theme-toggle:hover {
+  :global(.theme-toggle:hover) {
     color: var(--nav-hover-color);
   }
 
-  .theme-toggle i {
+  :global(.theme-toggle i) {
     font-size: 20px; /* Slightly refined size */
     padding-right: 8px;
   }
@@ -142,57 +77,64 @@ const getLink = (id: string) => {
   /* Desktop Improvements */
   @media (min-width: 768px) {
     /* Topnav Specifics (Inner Pages) */
-    :global(.is-inner) .theme-toggle {
+    :global(.is-inner .theme-toggle) {
       width: auto;
       padding: 1rem 0 1rem 1rem; /* Left padding only to separate from last link */
       margin-left: 0.5rem;
-      border-left: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+      border-left: 1px solid
+        color-mix(in srgb, var(--default-color), transparent 85%);
     }
 
     /* Hide text on desktop for both Topnav and Sidenav (Matches _navigation-index behavior) */
-    .theme-toggle span {
+    :global(.theme-toggle span) {
       display: none;
     }
 
     /* Refine Icon for Inner Pages */
-    :global(.is-inner) .theme-toggle i {
+    :global(.is-inner .theme-toggle i) {
       padding-right: 0;
       font-size: 1.25rem;
     }
-    
+
     /* Sidenav Specifics (Home Page) - Align with standard links */
-    :global(.is-home) .theme-toggle {
+    :global(.is-home .theme-toggle) {
       justify-content: flex-start;
       margin-bottom: 0.5rem;
-      
+
       /* MATCHING SIDEBAR LINK STYLES (_navigation-index.scss) */
       /* User Request: No background "pill" to avoid looking like a page, but keep dimensions for alignment */
-      background: transparent; 
+      background: transparent;
       border-radius: 3.125rem; /* 50px */
-      height: var(--nav-icon-size, 3.5rem); /* Fallback to standard size if var missing */
+      height: var(
+        --nav-icon-size,
+        3.5rem
+      ); /* Fallback to standard size if var missing */
       width: 100%;
-      max-width: var(--nav-icon-size, 3.5rem); /* CRITICAL: Constrain width to circle on desktop */
+      max-width: var(
+        --nav-icon-size,
+        3.5rem
+      ); /* CRITICAL: Constrain width to circle on desktop */
       padding: 0.625rem 1.125rem;
-      
+
       /* Ensure proper centering like links */
       display: flex;
       align-items: center;
     }
 
     /* Hover State for Sidenav Toggle */
-    :global(.is-home) .theme-toggle:hover {
+    :global(.is-home .theme-toggle:hover) {
       background: var(--nav-hover-color);
       color: var(--contrast-color);
     }
-    
-    :global(.is-home) .theme-toggle i {
-       font-size: 1.25rem;
-       /* margin-left removed: Padding (1.125rem) already centers the 20px icon in 56px container perfectly */
+
+    :global(.is-home .theme-toggle i) {
+      font-size: 1.25rem;
+      /* margin-left removed: Padding (1.125rem) already centers the 20px icon in 56px container perfectly */
     }
   }
 
   /* Active state for button if needed to match links */
-  .theme-toggle:focus {
+  :global(.theme-toggle:focus) {
     outline: none;
   }
 </style>
@@ -200,82 +142,68 @@ const getLink = (id: string) => {
 <script>
   // Navigation Interactions
 
-  // 1. Mobile Navigation Toggle
-  // 1. Mobile Navigation Toggle
+  // 1. Mobile Navigation (Popover API)
   const initMobileNav = () => {
+    const mobileNav = document.getElementById("mobile-nav");
     const toggleBtn = document.querySelector(".nav-toggle");
-    const header = document.querySelector(".header");
 
-    if (toggleBtn && header) {
-      // Remove old listener to prevent duplicates (if any)
-      // Note: anonymous functions can't be removed easily, but checking for existing binding or cloning helps.
-      // Easiest is to clone and replace if we want to reset, but simply adding once per page-load is standard for Astro.
-      
-      const toggleMenu = (e) => {
-        // Stop propagation to prevent immediate closing if body listener exists
-        e.stopPropagation();
-        header.classList.toggle("navmenu-show");
-        toggleBtn.classList.toggle("bi-list");
-        toggleBtn.classList.toggle("bi-x");
-      };
-      
-      // Remove defaults/clones to be safe (optional but good for HMR/swaps)
-      const newBtn = toggleBtn.cloneNode(true);
-      toggleBtn.parentNode.replaceChild(newBtn, toggleBtn);
-      
-      newBtn.addEventListener("click", toggleMenu);
-    }
-    
-    // Close mobile nav on same-page link click
-    document.querySelectorAll('#navmenu a').forEach(navmenu => {
-      navmenu.addEventListener('click', () => {
-        if (header && header.classList.contains('navmenu-show')) {
-          header.classList.remove('navmenu-show');
-          const toggle = document.querySelector(".nav-toggle");
-          if(toggle) {
-             toggle.classList.add("bi-list");
-             toggle.classList.remove("bi-x");
-          }
+    // Close popover when a nav link is clicked (for same-page anchor navigation)
+    document.querySelectorAll("#navmenu-mobile a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (mobileNav && mobileNav.matches(":popover-open")) {
+          mobileNav.hidePopover();
         }
       });
     });
+
+    // Icon swap via toggle event
+    if (toggleBtn && mobileNav) {
+      mobileNav.addEventListener("toggle", (e) => {
+        const hamburger = toggleBtn.querySelector(".hamburger-icon");
+        const closeIcon = toggleBtn.querySelector(".close-icon");
+        if (hamburger && closeIcon) {
+          if (e.newState === "open") {
+            (hamburger as HTMLElement).style.display = "none";
+            (closeIcon as HTMLElement).style.display = "block";
+          } else {
+            (hamburger as HTMLElement).style.display = "block";
+            (closeIcon as HTMLElement).style.display = "none";
+          }
+        }
+      });
+    }
   };
 
   // Run on load
-  document.addEventListener('astro:page-load', initMobileNav);
-  // Also on DOMContentLoaded for initial load if page-load misses
-  document.addEventListener('DOMContentLoaded', initMobileNav);
+  document.addEventListener("astro:page-load", initMobileNav);
+  document.addEventListener("DOMContentLoaded", initMobileNav);
 
   // 2. ScrollSpy (Highlight active link on scroll)
-  // Refactored for Astro View Transitions compatibility
   const initScrollSpy = () => {
-    // Only run this if we are on the home page (single page scroll)
     const isHomePage = document.body.classList.contains("home-page");
 
     if (isHomePage) {
-      const navLinks = document.querySelectorAll("#navmenu a");
+      // Target both desktop and mobile nav links
+      const navLinks = document.querySelectorAll(
+        "#navmenu a, #navmenu-mobile a"
+      );
       const sections = document.querySelectorAll("section");
 
       const updateActiveLink = () => {
-        let position = window.scrollY + 200; // Offset for better triggering
-        let currentActiveId = null;
+        let position = window.scrollY + 200;
+        let currentActiveId: string | null = null;
 
-        // Find the last section that we've scrolled past AND has a nav link
-        // This ensures "sticky" active state for sections without menu items (like filtered-posts)
         sections.forEach((section) => {
           if (position >= section.offsetTop) {
-            // Check if this section has a corresponding nav link
             const hasLink = Array.from(navLinks).some(
-              (link) => link.getAttribute("href") === "#" + section.id,
+              (link) => link.getAttribute("href") === "#" + section.id
             );
-
             if (hasLink) {
               currentActiveId = section.id;
             }
           }
         });
 
-        // Apply active class
         navLinks.forEach((link) => {
           link.classList.remove("active");
           if (
@@ -289,50 +217,51 @@ const getLink = (id: string) => {
         // Edge case: Top of page (Hero)
         if (window.scrollY < 100) {
           navLinks.forEach((link) => link.classList.remove("active"));
-          const homeLink = document.querySelector('#navmenu a[href="#hero"]');
-          // Safety check: ensure homeLink exists before accessing classList
-          if (homeLink) homeLink.classList.add("active");
+          document
+            .querySelectorAll(
+              '#navmenu a[href="#hero"], #navmenu-mobile a[href="#hero"]'
+            )
+            .forEach((link) => {
+              link.classList.add("active");
+            });
         }
       };
 
-      // Run immediately to set initial state
       updateActiveLink();
-
-      // Attach listener
       document.addEventListener("scroll", updateActiveLink);
 
-      // Cleanup: Remove listener when leaving the page (soft nav)
       document.addEventListener(
         "astro:before-swap",
         () => {
           document.removeEventListener("scroll", updateActiveLink);
         },
-        { once: true },
+        { once: true }
       );
     }
   };
 
-  // 3. Theme Toggle Logic
+  // 3. Theme Toggle Logic (handles both desktop and mobile toggles)
   const initThemeToggle = () => {
-    const toggleBtn = document.getElementById("theme-toggle");
-    const themeIcon = document.getElementById("theme-icon");
+    const toggleBtns = document.querySelectorAll(
+      "#theme-toggle, #theme-toggle-mobile"
+    );
+    const themeIcons = document.querySelectorAll(
+      "#theme-icon, #theme-icon-mobile"
+    );
 
-    if (toggleBtn && themeIcon) {
-      // Prevent double binding
-      if (toggleBtn.hasAttribute("data-init")) return;
-      toggleBtn.setAttribute("data-init", "true");
-
-      const updateIcon = (theme) => {
-        if (theme === "dark") {
-          themeIcon.classList.remove("bi-moon");
-          themeIcon.classList.add("bi-sun");
-        } else {
-          themeIcon.classList.remove("bi-sun");
-          themeIcon.classList.add("bi-moon");
-        }
+    if (toggleBtns.length > 0 && themeIcons.length > 0) {
+      const updateIcon = (theme: string) => {
+        themeIcons.forEach((icon) => {
+          if (theme === "dark") {
+            icon.classList.remove("bi-moon");
+            icon.classList.add("bi-sun");
+          } else {
+            icon.classList.remove("bi-sun");
+            icon.classList.add("bi-moon");
+          }
+        });
       };
 
-      // Determine effective current theme
       const getEffectiveTheme = () => {
         const attr = document.documentElement.getAttribute("data-theme");
         if (attr) return attr;
@@ -344,31 +273,29 @@ const getLink = (id: string) => {
       // Initial Icon State
       updateIcon(getEffectiveTheme());
 
-      toggleBtn.addEventListener("click", () => {
-        const currentTheme = getEffectiveTheme();
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
+      toggleBtns.forEach((toggleBtn) => {
+        // Prevent double binding
+        if (toggleBtn.hasAttribute("data-init")) return;
+        toggleBtn.setAttribute("data-init", "true");
 
-        // Update Attribute
-        document.documentElement.setAttribute("data-theme", newTheme);
-
-        // Save Preference
-        localStorage.setItem("theme", newTheme);
-
-        // Update Icon
-        updateIcon(newTheme);
+        toggleBtn.addEventListener("click", () => {
+          const currentTheme = getEffectiveTheme();
+          const newTheme = currentTheme === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+          updateIcon(newTheme);
+        });
       });
     }
   };
 
   // Run on every page load (Client Router compatible)
   document.addEventListener("astro:page-load", initThemeToggle);
-  // Also run on initial load if astro:page-load doesn't fire immediately (fallback)
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initThemeToggle);
   } else {
     initThemeToggle();
   }
 
-  // Run on every soft or hard navigation
   document.addEventListener("astro:page-load", initScrollSpy);
 </script>

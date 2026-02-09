@@ -8,9 +8,28 @@
 /*--------------------------------------------------------------
 # Global Header
 --------------------------------------------------------------*/
-/* Header - Desktop */
+
+/* Visibility: Desktop nav visible on desktop, hidden on mobile */
 @media (min-width: 992px) {
-  .header {
+
+  .mobile-nav,
+  .nav-toggle {
+    display: none !important;
+  }
+}
+
+/* Visibility: Mobile nav/toggle hidden on desktop, visible on mobile */
+@media (max-width: 991px) {
+  .desktop-nav {
+    display: none !important;
+  }
+}
+
+/* Desktop Top Bar Styling (Inner Pages) */
+@media (min-width: 992px) {
+  .desktop-nav {
+    display: flex;
+    flex-direction: row;
     color: var(--default-color);
     background-color: transparent;
     /* Transparent to let blur show through */
@@ -21,7 +40,9 @@
     align-items: center;
     position: sticky;
     top: 0;
-    flex-direction: row;
+    left: 0;
+    right: 0;
+    width: 100%;
     backdrop-filter: blur(12px);
     /* Glass effect */
     //-webkit-backdrop-filter: blur(12px);
@@ -30,13 +51,14 @@
     /* Subtle separation */
   }
 
-  .header:before {
+  .desktop-nav:before {
     content: "";
     position: absolute;
     inset: 0;
     background: var(--header-background-color);
     z-index: -1;
   }
+
 
   .header .logo {
     line-height: 1;
@@ -63,34 +85,64 @@
   }
 }
 
-/* Header - Mobile */
+/* Header - Mobile (Popover API) */
 @media (max-width: 991px) {
-  .header {
+
+  /* Reset popover defaults and set up drawer */
+  .header[popover] {
+    border: none;
+    margin: 0;
+    max-width: none;
+    max-height: none;
+
+    /* Drawer positioning */
     color: var(--default-color);
     position: fixed;
-    top: 0;
-    bottom: 0;
+    inset: 0 auto 0 0;
+    width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
     padding: 0 var(--nav-menu-border-padding);
-    transition: all ease-in-out 0.3s;
+    padding-top: 1rem;
     overflow-y: auto;
-    z-index: 997;
-    width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
-    width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
     background: var(--background-color);
     border-right: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
-    /* left: -100%; */
-    /* Fix: Include border width in negative left calculation to prevent bleed-through */
-    left: calc(-1 * (var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width)));
-    border-bottom: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
     flex-direction: column;
-    /* Fix: Stop centering vertically on mobile to prevent overflow clipping */
     justify-content: flex-start !important;
-    /* Fix: Add padding to top so first menu item isn't under the toggle button */
-    padding-top: 4rem;
+
+    /* Slide-out animation */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out,
+      display 0.3s ease-in-out allow-discrete,
+      overlay 0.3s ease-in-out allow-discrete;
   }
 
-  .header.navmenu-show {
-    left: 0;
+  .header[popover]:popover-open {
+    transform: translateX(0);
+  }
+
+  @starting-style {
+    .header[popover]:popover-open {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* Backdrop overlay */
+  .header[popover]::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out,
+      display 0.3s ease-in-out allow-discrete,
+      overlay 0.3s ease-in-out allow-discrete;
+  }
+
+  .header[popover]:popover-open::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .header[popover]:popover-open::backdrop {
+      opacity: 0;
+    }
   }
 }
 
@@ -304,13 +356,17 @@
 
 
   /*--------------------------------------------------------------
-  # Navigation Toggle
+  # Navigation Toggle (Mobile)
   --------------------------------------------------------------*/
   .nav-toggle {
+    /* Reset button styles */
+    border: none;
+    padding: 0;
+
+    /* Visual styling */
     color: var(--contrast-color);
     background-color: var(--accent-color);
     font-size: 1.375rem;
-    /* 22px */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -330,4 +386,28 @@
     background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
   }
 
+  /* Icon swap: Show hamburger by default, X when open */
+  .nav-toggle .close-icon {
+    display: none;
+  }
+
+  .nav-toggle .hamburger-icon {
+    display: block;
+  }
+}
+
+/* Icon swap when popover is open - uses :has() pseudo-class */
+body:has(#mobile-nav:popover-open) .nav-toggle .hamburger-icon {
+  display: none;
+}
+
+body:has(#mobile-nav:popover-open) .nav-toggle .close-icon {
+  display: block;
+}
+
+/* Ensure toggle button appears above popover backdrop but is click-through */
+body:has(#mobile-nav:popover-open) .nav-toggle {
+  z-index: 2147483647;
+  pointer-events: none;
+  /* Let clicks pass through to backdrop */
 }

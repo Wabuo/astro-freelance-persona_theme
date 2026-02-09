@@ -545,7 +545,14 @@ const monospaceFont = fonts.monospace || "monospace";
   <body class={bodyClass} data-tex={tex}>
     <Navigation isHome={navType === "home"} />
 
-    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    <button
+      popovertarget="mobile-nav"
+      class="nav-toggle d-lg-none"
+      aria-label="Toggle mobile menu"
+    >
+      <i class="bi bi-list hamburger-icon"></i>
+      <i class="bi bi-x close-icon"></i>
+    </button>
 
     <main class="main">
       <slot />

@@ -10,25 +10,100 @@
 /*--------------------------------------------------------------
 # Global Header
 --------------------------------------------------------------*/
-/* Header - Desktop */
-.header {
-  color: var(--default-color);
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  padding: 0 var(--nav-menu-border-padding);
-  transition: all ease-in-out 0.3s;
-  overflow-y: auto;
-  z-index: 997;
+
+/* Visibility: Desktop nav visible on desktop, hidden on mobile */
+@media (min-width: 992px) {
+
+  .mobile-nav,
+  .nav-toggle {
+    display: none !important;
+  }
 }
 
+/* Visibility: Mobile nav/toggle hidden on desktop, visible on mobile */
 @media (max-width: 991px) {
-  .header {
-    width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
-    background: var(--background-color);
-    border-right: var(--nav-menu-mobile-border-width) solid color-mix(in srgb, var(--default-color), transparent 90%);
-    left: calc(-1 * var(--nav-menu-mobile-width));
+  .desktop-nav {
+    display: none !important;
+  }
+}
+
+/* Desktop Sidebar Styling (Home Page) */
+@media (min-width: 992px) {
+  .desktop-nav {
+    color: var(--default-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding: 0 var(--nav-menu-border-padding);
+    transition: all ease-in-out 0.3s;
+    overflow-y: auto;
+    z-index: 997;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+
+/* Mobile: Popover-based drawer */
+.mobile-nav {
+  /* Override popover defaults */
+  border: none;
+  margin: 0;
+  max-width: none;
+  max-height: none;
+
+  /* Drawer positioning */
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
+  padding-top: 1rem;
+  padding-left: var(--nav-menu-border-padding);
+  padding-right: var(--nav-menu-border-padding);
+
+  /* Colors - explicit for proper contrast */
+  color: var(--default-color);
+  background: var(--background-color);
+  border-right: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
+
+  /* Flex layout */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  /* Slide animation */
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out,
+    display 0.3s ease-in-out allow-discrete,
+    overlay 0.3s ease-in-out allow-discrete;
+}
+
+.mobile-nav:popover-open {
+  transform: translateX(0);
+}
+
+@starting-style {
+  .mobile-nav:popover-open {
+    transform: translateX(-100%);
+  }
+}
+
+.mobile-nav::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out,
+    display 0.3s ease-in-out allow-discrete,
+    overlay 0.3s ease-in-out allow-discrete;
+}
+
+.mobile-nav:popover-open::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .mobile-nav:popover-open::backdrop {
+    opacity: 0;
   }
 }
 
@@ -56,9 +131,7 @@
   }
 }
 
-.header.navmenu-show {
-  left: 0;
-}
+/* Old JS toggle removed - now using Popover API */
 
 
 /*--------------------------------------------------------------
@@ -180,26 +253,78 @@
 /*--------------------------------------------------------------
 # Navigation Toggle
 --------------------------------------------------------------*/
-.nav-toggle {
-  color: var(--contrast-color);
-  background-color: var(--accent-color);
-  font-size: 1.375rem;
-  /* 22px */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--botton-size);
-  height: var(--botton-size);
-  border-radius: 50%;
-  cursor: pointer;
-  position: fixed;
-  top: var(--botton-position-away-from-corner-vertical-distance);
-  right: var(--botton-position-away-from-corner-horizontal-distance);
-  z-index: 9999;
-  transition: background-color 0.3s;
+@media (max-width: 991px) {
+  .nav-toggle {
+    /* Reset button styles */
+    border: none;
+    padding: 0;
+
+    /* Visual styling */
+    color: var(--contrast-color);
+    background-color: var(--accent-color);
+    font-size: 1.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--botton-size);
+    height: var(--botton-size);
+    border-radius: 50%;
+    cursor: pointer;
+    position: fixed;
+    top: var(--botton-position-away-from-corner-vertical-distance);
+    right: var(--botton-position-away-from-corner-horizontal-distance);
+    z-index: 9999;
+    transition: background-color 0.3s;
+  }
+
+  .nav-toggle:hover {
+    color: var(--contrast-color);
+    background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+  }
+
+  /* Icon swap: hamburger by default, X when open */
+  .nav-toggle .close-icon {
+    display: none;
+  }
+
+  .nav-toggle .hamburger-icon {
+    display: block;
+  }
+
+  /* Close button inside popover - styled like toggle */
+  .nav-close {
+    /* Reset button styles */
+    border: none;
+    padding: 0;
+
+    /* Visual styling - matches nav-toggle */
+    color: var(--contrast-color);
+    background-color: var(--accent-color);
+    font-size: 1.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--botton-size);
+    height: var(--botton-size);
+    border-radius: 50%;
+    cursor: pointer;
+
+    /* Position at same spot as toggle button but fixed relative to viewport */
+    position: fixed;
+    top: var(--botton-position-away-from-corner-vertical-distance);
+    right: var(--botton-position-away-from-corner-horizontal-distance);
+    z-index: 1;
+    /* Above popover content */
+    transition: background-color 0.3s;
+  }
+
+  .nav-close:hover {
+    color: var(--contrast-color);
+    background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+  }
 }
 
-.nav-toggle:hover {
-  color: var(--contrast-color);
-  background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+/* Hide external toggle when popover is open (close button inside popover takes over) */
+body:has(#mobile-nav:popover-open) .nav-toggle {
+  display: none;
 }

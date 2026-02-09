@@ -34,14 +34,30 @@ test.describe('Interactions & Responsiveness', () => {
 
         // Open
         await toggleBtn.click();
-        await expect(header).toHaveClass(/navmenu-show/);
+
+        // Wait for popover to be open (using pseudo-class check since we use native Popover API)
+        await expect(header).toHaveJSProperty('matches', (el: HTMLElement) => el.matches(':popover-open'));
+
         await expect(page).toHaveScreenshot('mobile-menu-open.png', {
             mask: [page.locator('.typing-lock'), page.locator('.typed-cursor')]
         });
 
-        // Close
+        // Close via button
         await toggleBtn.click();
-        await expect(header).not.toHaveClass(/navmenu-show/);
+        await expect(header).not.toHaveJSProperty('matches', (el: HTMLElement) => el.matches(':popover-open'));
+
+        // Re-open and test overlay click (Backdrop is part of the element in standard inspection, but click might need coords)
+        // With Popover API, the backdrop is a pseudo-element. 
+        // We can test light dismiss by clicking outside.
+        await toggleBtn.click();
+        await expect(header).toHaveJSProperty('matches', (el: HTMLElement) => el.matches(':popover-open'));
+
+        // Click body (outside nav) to trigger light dismiss
+        await page.mouse.click(10, 10); // Click top-left of viewport (header is top-right/drawer is left but we want safe outside)
+        // Actually drawer is left 0. safe spot is far right.
+        await page.mouse.click(viewportWidth - 10, viewportHeight / 2);
+
+        await expect(header).not.toHaveJSProperty('matches', (el: HTMLElement) => el.matches(':popover-open'));
     });
 
     test('Layout Stability on Resize', async ({ page }) => {

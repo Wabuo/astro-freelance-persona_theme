@@ -79,6 +79,7 @@ SPDX-License-Identifier: MIT
 
 ### 2. 🎨 Styling & NoScript
 
+- **prefer native** if there  is a way to do something in a sensible modern or even bleeding edge way without javascript then drop the javascript!
 - **SCSS:** Prefer `_partial.scss` over inline `<style>`.
 - **NoScript Fallback:**
   - `BaseLayout.astro` contains a `<noscript>` block.
@@ -95,6 +96,22 @@ SPDX-License-Identifier: MIT
 - **Rule:** Links must match user content, not internal file IDs.
   - **Bad:** Link "Blog" -> `/blog-categories`
   - **Good:** Link "Blog" -> `/blog`
+
+### 5. 🅰️ Icon Fonts & Text Cursor
+
+- **Problem:** Browsers may treat icon fonts (like Bootstrap Icons) as selectable text, showing a blinking caret or text selection highlight on focus.
+- **Solution:** Explicitly disable text behavior on the interactive element.
+
+  ```css
+  .icon-button {
+    caret-color: transparent; /* Hides blinking cursor */
+    user-select: none;        /* Prevents text selection */
+    -webkit-user-select: none;
+    outline: none;            /* Remove default focus ring (replace with custom) */
+  }
+  /* Optional: Double safety for children */
+  .icon-button > * { pointer-events: none; }
+  ```
 
 ---
 

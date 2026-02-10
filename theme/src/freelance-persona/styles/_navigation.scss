@@ -98,8 +98,13 @@
     /* Drawer positioning */
     color: var(--default-color);
     position: fixed;
-    inset: 0 auto 0 0;
+    top: 0;
+    bottom: 0;
+    left: -100%;
+    /* Start off-screen */
     width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
+    height: 100dvh;
+    /* Fix gap at bottom */
     padding: 0 var(--nav-menu-border-padding);
     padding-top: 1rem;
     overflow-y: auto;
@@ -109,19 +114,21 @@
     justify-content: flex-start !important;
 
     /* Slide-out animation */
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out,
+    /* Slide-out animation using left property to avoid transform stacking context */
+    transform: none;
+    transition: left 0.3s ease-in-out,
       display 0.3s ease-in-out allow-discrete,
       overlay 0.3s ease-in-out allow-discrete;
   }
 
   .header[popover]:popover-open {
-    transform: translateX(0);
+    left: 0;
+    margin: 0;
   }
 
   @starting-style {
     .header[popover]:popover-open {
-      transform: translateX(-100%);
+      left: -100%;
     }
   }
 
@@ -213,6 +220,7 @@
   }
 
   .navmenu li:hover>a,
+  .navmenu .theme-toggle:hover,
   .navmenu .active,
   .navmenu .active:focus {
     color: var(--nav-hover-color);
@@ -288,6 +296,7 @@
   .navmenu {
     padding: 0;
     z-index: 9997;
+    user-select: none;
   }
 
   .navmenu>ul {
@@ -317,6 +326,14 @@
     width: 100%;
     overflow: hidden;
     transition: 0.3s;
+    /* Button Reset */
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .navmenu .theme-toggle {
+    background: transparent;
   }
 
   .navmenu a i,
@@ -350,14 +367,14 @@
     display: block;
   }
 
-  .navmenu .dropdown ul {
-    display: none;
-  }
-
-
   /*--------------------------------------------------------------
   # Navigation Toggle (Mobile)
   --------------------------------------------------------------*/
+  /* Hide the toggle button when the menu is open (NoScript supported) */
+  .mobile-nav:popover-open~.nav-toggle {
+    display: none;
+  }
+
   .nav-toggle {
     /* Reset button styles */
     border: none;
@@ -373,17 +390,39 @@
     width: var(--botton-size);
     height: var(--botton-size);
     border-radius: 50%;
+    height: var(--botton-size);
+    border-radius: 50%;
     cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
     position: fixed;
     top: var(--botton-position-away-from-corner-vertical-distance);
     right: var(--botton-position-away-from-corner-horizontal-distance);
     z-index: 9999;
     transition: background-color 0.3s;
+    user-select: none;
+    -webkit-user-select: none;
+    caret-color: transparent;
+    /* Prevent blinking cursor */
+
   }
 
-  .nav-toggle:hover {
-    color: var(--contrast-color);
-    background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+  /* Ensure icons (which are text) don't trigger text cursor behavior */
+  .nav-toggle>* {
+    pointer-events: none;
+  }
+
+  .nav-toggle:focus {
+    outline: none;
+    background-color: var(--accent-color);
+    /* Ensure focus doesn't lock the hover color */
+  }
+
+  @media (hover: hover) {
+    .nav-toggle:hover {
+      color: var(--contrast-color);
+      background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+    }
   }
 
   /* Icon swap: Show hamburger by default, X when open */
@@ -394,20 +433,42 @@
   .nav-toggle .hamburger-icon {
     display: block;
   }
-}
 
-/* Icon swap when popover is open - uses :has() pseudo-class */
-body:has(#mobile-nav:popover-open) .nav-toggle .hamburger-icon {
-  display: none;
-}
 
-body:has(#mobile-nav:popover-open) .nav-toggle .close-icon {
-  display: block;
-}
 
-/* Ensure toggle button appears above popover backdrop but is click-through */
-body:has(#mobile-nav:popover-open) .nav-toggle {
-  z-index: 2147483647;
-  pointer-events: none;
-  /* Let clicks pass through to backdrop */
+  /* Icon swap when popover is open - uses :has() pseudo-class */
+  /* Internal Close Button (Overlay) - Matches exact position of external toggle */
+  .nav-close {
+    /* Reset button styles */
+    border: none;
+    padding: 0;
+
+    /* Visual styling - matches nav-toggle */
+    color: var(--contrast-color);
+    background-color: var(--accent-color);
+    font-size: 1.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--botton-size);
+    height: var(--botton-size);
+    border-radius: 50%;
+    cursor: pointer;
+
+    /* Position fixed relative to viewport (since it's in top-layer popover) */
+    position: fixed;
+    top: var(--botton-position-away-from-corner-vertical-distance);
+    right: var(--botton-position-away-from-corner-horizontal-distance);
+    z-index: 10000;
+    /* Ensure on top of everything inside drawer */
+    transition: background-color 0.3s;
+    user-select: none;
+  }
+
+  @media (hover: hover) {
+    .nav-close:hover {
+      color: var(--contrast-color);
+      background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+    }
+  }
 }

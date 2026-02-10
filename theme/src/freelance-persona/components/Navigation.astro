@@ -23,11 +23,10 @@ const { isHome = false } = Astro.props;
 <header
   id="mobile-nav"
   popover="auto"
-  class={`header mobile-nav d-flex flex-column justify-content-center ${
+  class={`header mobile-nav d-flex flex-column ${
     isHome ? "is-home" : "is-inner"
   }`}
 >
-  <!-- Close button inside popover (above backdrop, in top layer) -->
   <button
     popovertarget="mobile-nav"
     popovertargetaction="hide"
@@ -58,24 +57,30 @@ const { isHome = false } = Astro.props;
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 10px 15px; /* Match nav links padding */
+    padding: 0.625rem 1.125rem; /* Match nav links padding exactly */
     cursor: pointer;
-    font-size: 16px;
+    font-size: 0.9375rem; /* Match nav links font size */
     font-family: var(--nav-font);
     transition: 0.3s;
+    border-radius: 3.125rem; /* Match nav links pill shape */
+    margin-bottom: 0.5rem; /* Match nav links margin */
   }
 
   :global(.theme-toggle:hover) {
-    color: var(--nav-hover-color);
+    color: var(--contrast-color);
+    background: var(--nav-hover-color);
   }
 
   :global(.theme-toggle i) {
-    font-size: 20px; /* Slightly refined size */
-    padding-right: 8px;
+    font-size: 1.25rem; /* Start with standard size */
+    padding-right: 0.5rem; /* 8px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Desktop Improvements */
-  @media (min-width: 768px) {
+  @media (min-width: 992px) {
     /* Topnav Specifics (Inner Pages) */
     :global(.is-inner .theme-toggle) {
       width: auto;
@@ -83,6 +88,14 @@ const { isHome = false } = Astro.props;
       margin-left: 0.5rem;
       border-left: 1px solid
         color-mix(in srgb, var(--default-color), transparent 85%);
+      border-radius: 0; /* No pill shape for top nav */
+      margin-bottom: 0;
+    }
+
+    /* Topnav Hover - specific override */
+    :global(.is-inner .theme-toggle:hover) {
+      background: none;
+      color: var(--nav-hover-color);
     }
 
     /* Hide text on desktop for both Topnav and Sidenav (Matches _navigation-index behavior) */
@@ -96,41 +109,7 @@ const { isHome = false } = Astro.props;
       font-size: 1.25rem;
     }
 
-    /* Sidenav Specifics (Home Page) - Align with standard links */
-    :global(.is-home .theme-toggle) {
-      justify-content: flex-start;
-      margin-bottom: 0.5rem;
-
-      /* MATCHING SIDEBAR LINK STYLES (_navigation-index.scss) */
-      /* User Request: No background "pill" to avoid looking like a page, but keep dimensions for alignment */
-      background: transparent;
-      border-radius: 3.125rem; /* 50px */
-      height: var(
-        --nav-icon-size,
-        3.5rem
-      ); /* Fallback to standard size if var missing */
-      width: 100%;
-      max-width: var(
-        --nav-icon-size,
-        3.5rem
-      ); /* CRITICAL: Constrain width to circle on desktop */
-      padding: 0.625rem 1.125rem;
-
-      /* Ensure proper centering like links */
-      display: flex;
-      align-items: center;
-    }
-
-    /* Hover State for Sidenav Toggle */
-    :global(.is-home .theme-toggle:hover) {
-      background: var(--nav-hover-color);
-      color: var(--contrast-color);
-    }
-
-    :global(.is-home .theme-toggle i) {
-      font-size: 1.25rem;
-      /* margin-left removed: Padding (1.125rem) already centers the 20px icon in 56px container perfectly */
-    }
+    /* Sidenav Specifics (Home Page) - Handled by _navigation-index.scss now */
   }
 
   /* Active state for button if needed to match links */
@@ -156,22 +135,8 @@ const { isHome = false } = Astro.props;
       });
     });
 
-    // Icon swap via toggle event
-    if (toggleBtn && mobileNav) {
-      mobileNav.addEventListener("toggle", (e) => {
-        const hamburger = toggleBtn.querySelector(".hamburger-icon");
-        const closeIcon = toggleBtn.querySelector(".close-icon");
-        if (hamburger && closeIcon) {
-          if (e.newState === "open") {
-            (hamburger as HTMLElement).style.display = "none";
-            (closeIcon as HTMLElement).style.display = "block";
-          } else {
-            (hamburger as HTMLElement).style.display = "block";
-            (closeIcon as HTMLElement).style.display = "none";
-          }
-        }
-      });
-    }
+    // Icon swap via toggle event - REMOVED in favor of CSS :popover-open handling for NoScript support
+    // The .nav-toggle visibility is now controlled by CSS based on the popover state.
   };
 
   // Run on load
@@ -278,7 +243,8 @@ const { isHome = false } = Astro.props;
         if (toggleBtn.hasAttribute("data-init")) return;
         toggleBtn.setAttribute("data-init", "true");
 
-        toggleBtn.addEventListener("click", () => {
+        toggleBtn.addEventListener("click", (e) => {
+          e.preventDefault();
           const currentTheme = getEffectiveTheme();
           const newTheme = currentTheme === "dark" ? "light" : "dark";
           document.documentElement.setAttribute("data-theme", newTheme);
@@ -289,13 +255,19 @@ const { isHome = false } = Astro.props;
     }
   };
 
-  // Run on every page load (Client Router compatible)
-  document.addEventListener("astro:page-load", initThemeToggle);
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initThemeToggle);
-  } else {
+  // Centralized Initialization
+  const initAll = () => {
+    initMobileNav();
+    initScrollSpy();
     initThemeToggle();
-  }
+  };
+
+  // Run on every page load (Client Router compatible)
+  document.addEventListener("astro:page-load", initAll);
+  // Fallback for initial load
+  document.addEventListener("DOMContentLoaded", initAll);
+
+  // Run on every page load (Client Router compatible)
 
   document.addEventListener("astro:page-load", initScrollSpy);
 </script>

@@ -19,13 +19,14 @@ SPDX-License-Identifier: MIT
 - **Manual Verification:** If you want view the site manually via the browser:
   - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; fuser -k 4321/tcp; bun run dev`
   - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run build; fuser -k 4321/tcp; bun run preview`
+  - **Full Rebuild & Test:** `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; fuser -k 4321/tcp; bun run test --reporter=list`
 
 ### 2. ⚡ Server Management (Automated)
 
 > [!IMPORTANT]
 > **Playwright is configured to auto-start the server.** logic: `bun run build; bun run preview`.
 
-- **Auto-Server:** You generally do **NOT** need to manually start a server for tests. Just run `bun x playwright test`, use this in the comands outlined in 1. instead of `bun run dev --reporter=list`(list is strictly needed!). the pkill ... is stricly needed to insure we test against a clean state.
+- **Auto-Server:** You generally do **NOT** need to manually start a server for tests. Just run `bun x playwright test`, use this in the commands outlined in 1. instead of `bun run dev --reporter=list`(list is strictly needed!). the pkill ... is stricly needed to insure we test against a clean state.
 - **Manual Verification:** If you *must* open the site manually:
   - ✅ **Preferred:** `bun run build; bun run preview` (Matches test environment).
   - ⚠️ **Dev Mode:** `bun run dev` (Only for rapid iteration, may differ from build).

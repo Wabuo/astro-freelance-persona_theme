@@ -271,3 +271,23 @@ html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
   opacity: 1;
   transform: translate(0, 0) scale(1);
 }
+
+/*--------------------------------------------------------------
+# Global Icon Fixes
+--------------------------------------------------------------*/
+/* 
+  Prevent icons from being treated as text (blinking caret, selection).
+  Targeting:
+  - .bi (Bootstrap Icons)
+  - .ai (Academicons)
+  - [class*="icon-"] (Common pattern)
+  - [class*=" bi-"] (Bootstrap mixin safety)
+*/
+.bi,
+.ai,
+[class*="icon-"],
+[class*=" bi-"] {
+  user-select: none;
+  -webkit-user-select: none;
+  caret-color: transparent;
+}

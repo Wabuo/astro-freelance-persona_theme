@@ -27,25 +27,41 @@ const { isHome = false } = Astro.props;
     isHome ? "is-home" : "is-inner"
   }`}
 >
+  <!-- Ghost Backdrop: Invisible to AT, handles click-to-close -->
   <button
-    popovertarget="mobile-nav"
-    popovertargetaction="hide"
+    class="mobile-nav-backdrop"
+    commandfor="mobile-nav"
+    command="hide-popover"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <span class="sr-only">Close Menu</span>
+  </button>
+
+  <!-- Close Button: Fixed Position (Matches Nav Toggle) -->
+  <button
+    commandfor="mobile-nav"
+    command="hide-popover"
     class="nav-close"
     aria-label="Close navigation menu"
   >
     <i class="bi bi-x"></i>
   </button>
-  <NavLinks isHome={isHome} isMobile={true} />
+
+  <!-- Visual Drawer: The actual menu content (Scroll Container) -->
+  <div class="mobile-nav-drawer d-flex flex-column" id="mobile-nav-drawer">
+    <NavLinks isHome={isHome} isMobile={true} />
+  </div>
 </header>
 
 <!-- Mobile Toggle Button (visible only on mobile) -->
 <button
-  popovertarget="mobile-nav"
+  commandfor="mobile-nav"
+  command="show-popover"
   class="nav-toggle"
   aria-label="Toggle navigation menu"
 >
   <i class="hamburger-icon bi bi-list"></i>
-  <i class="close-icon bi bi-x"></i>
 </button>
 
 <style>
@@ -116,6 +132,11 @@ const { isHome = false } = Astro.props;
   :global(.theme-toggle:focus) {
     outline: none;
   }
+
+  /* Remove margin from theme-toggle when inside mobile menu to match drawer padding */
+  :global(.mobile-nav-drawer .theme-toggle) {
+    margin-bottom: 0 !important;
+  }
 </style>
 
 <script>
@@ -124,7 +145,8 @@ const { isHome = false } = Astro.props;
   // 1. Mobile Navigation (Popover API)
   const initMobileNav = () => {
     const mobileNav = document.getElementById("mobile-nav");
-    const toggleBtn = document.querySelector(".nav-toggle");
+    const drawer = document.getElementById("mobile-nav-drawer");
+    const backdrop = document.querySelector(".mobile-nav-backdrop");
 
     // Close popover when a nav link is clicked (for same-page anchor navigation)
     document.querySelectorAll("#navmenu-mobile a").forEach((link) => {
@@ -135,8 +157,24 @@ const { isHome = false } = Astro.props;
       });
     });
 
-    // Icon swap via toggle event - REMOVED in favor of CSS :popover-open handling for NoScript support
-    // The .nav-toggle visibility is now controlled by CSS based on the popover state.
+    // SCROLL PROXY: Forward wheel events from backdrop to drawer
+    // This allows user to scroll the menu even if their cursor is on the backdrop
+    if (backdrop && drawer) {
+      backdrop.addEventListener(
+        "wheel",
+        (e: Event) => {
+          const wheelEvent = e as WheelEvent;
+          // Prevent background scroll (redundant with overflow:hidden but good practice)
+          e.preventDefault();
+          // Scroll the drawer
+          drawer.scrollBy({
+            top: wheelEvent.deltaY,
+            behavior: "auto", // 'smooth' feels laggy for wheel proxy
+          });
+        },
+        { passive: false }
+      );
+    }
   };
 
   // Run on load

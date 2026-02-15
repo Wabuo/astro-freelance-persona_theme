@@ -11,10 +11,20 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --default-font: sans-serif;
-  --heading-font: sans-serif;
-  --nav-font: sans-serif;
   --monospace-font: monospace;
+}
+
+/* Accessibility Utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
@@ -290,4 +300,35 @@ html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
   user-select: none;
   -webkit-user-select: none;
   caret-color: transparent;
+}
+
+/* Accessibility Utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/*--------------------------------------------------------------
+# Global Scroll Lock
+--------------------------------------------------------------*/
+/* 
+  Prevent background page scrolling when mobile menu is open.
+  This works in tandem with the "Layout Inversion" in navigation:
+  1. Nav container captures scroll events.
+  2. If scroll reaches boundary, this Lock prevents it from chaining to Body.
+  
+  Targeting HTML ensures we catch the root scroll container.
+*/
+html:has(#mobile-nav:popover-open),
+html:has(.mobile-nav:popover-open),
+html:has(.header[popover]:popover-open) {
+  overflow: hidden;
+  overscroll-behavior: none;
 }

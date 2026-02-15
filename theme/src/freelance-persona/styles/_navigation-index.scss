@@ -1,6 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
- * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -46,62 +45,85 @@
 
 
 /* Mobile: Popover-based drawer */
+/* Mobile: Popover-based drawer (Native Scroll) */
 .mobile-nav {
-  /* Override popover defaults */
-  border: none;
-  margin: 0;
-  max-width: none;
-  max-height: none;
-
-  /* Drawer positioning */
-  /* Drawer positioning */
+  /* Container: Full screen, Fixed, NO SCROLL */
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: -100%;
-  /* Start off-screen */
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  overflow: hidden;
+  /* CRITICAL: Container does not scroll */
+
+  /* Reset Transform/Transition for container */
+  transform: none;
+  transition:
+    display 0.3s allow-discrete,
+    overlay 0.3s allow-discrete;
+
+  /* Flex layout: Align drawer to START (Left) */
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+/* Backdrop: Fixed, Non-scrolling (events proxied via JS) */
+.mobile-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: transparent;
+  border: none;
+  cursor: default;
+  width: 100%;
+  height: 100dvh;
+}
+
+/* Visual Drawer: The SCROLL CONTAINER */
+.mobile-nav-drawer {
+  /* Dimensions */
   width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
   height: 100dvh;
-  /* Fix gap at bottom */
-  padding-top: 1rem;
-  padding-left: var(--nav-menu-border-padding);
-  padding-right: var(--nav-menu-border-padding);
+  /* Full Height */
 
-  /* Colors - explicit for proper contrast */
-  color: var(--default-color);
+  /* Styling */
   background: var(--background-color);
   border-right: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
 
-  /* Flex layout */
-  /* Flex layout */
+  /* SCROLL LOGIC: This element scrolls */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Traps scroll inside drawer */
+
+  /* Branding/Padding */
+  padding: 1rem var(--nav-menu-border-padding);
+
+  /* Flex layout for content */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* Ensure content starts at top to avoid cutoff on zoom */
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  /* Prevent scroll chaining */
 
-  /* Slide animation */
-  /* Slide animation using left property to avoid transform stacking context */
-  /* This ensures fixed children (.nav-close) are relative to viewport */
-  transform: none;
-  transition: left 0.3s ease-in-out,
-    display 0.3s ease-in-out allow-discrete,
-    overlay 0.3s ease-in-out allow-discrete;
+  /* Slide Animation via Transform */
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
 }
 
-.mobile-nav:popover-open {
-  left: 0;
-  margin: 0;
+/* Animate Drawer when Popover is Open */
+.mobile-nav:popover-open .mobile-nav-drawer {
+  transform: translateX(0);
 }
 
 @starting-style {
-  .mobile-nav:popover-open {
-    left: -100%;
+  .mobile-nav:popover-open .mobile-nav-drawer {
+    transform: translateX(-100%);
   }
 }
 
+/* Native Backdrop for Visual Dimming */
 .mobile-nav::backdrop {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
@@ -109,6 +131,16 @@
   transition: opacity 0.3s ease-in-out,
     display 0.3s ease-in-out allow-discrete,
     overlay 0.3s ease-in-out allow-discrete;
+}
+
+.mobile-nav:popover-open::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .mobile-nav:popover-open::backdrop {
+    opacity: 0;
+  }
 }
 
 .mobile-nav:popover-open::backdrop {
@@ -159,8 +191,7 @@
 
 .navmenu ul {
   list-style: none;
-  padding: 0 0 1.25rem 0;
-  /* 20px */
+  padding: 0;
   margin: 0;
   /* Fixed sass calculation spacing */
   width: calc(var(--nav-menu-mobile-width) - 2 * var(--nav-menu-border-padding));
@@ -340,14 +371,7 @@
     }
   }
 
-  /* Icon swap: hamburger by default, X when open */
-  .nav-toggle .close-icon {
-    display: none;
-  }
 
-  .nav-toggle .hamburger-icon {
-    display: block;
-  }
 
 
 

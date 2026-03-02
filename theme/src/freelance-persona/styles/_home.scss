@@ -10,26 +10,31 @@
  */
 
 @media (prefers-color-scheme: dark) {
-    .home-page {
-        // Override main background to match surface color (cards/sidebar)
-        --background-color: var(--surface-color, #303030) !important;
-    }
+    :root:not(:has(.theme-state-light:checked)) {
 
-    // Explicitly reset inner pages to default background to prevent bleed
-    .inner-page {
-        --background-color: var(--bs-body-bg, #1e1e1e) !important;
+        &.home-page,
+        .home-page {
+            --background-color: var(--surface-color, #303030) !important;
+        }
+
+        &.inner-page,
+        .inner-page {
+            --background-color: var(--bs-body-bg, #1e1e1e) !important;
+        }
     }
 }
 
-[data-theme="dark"] {
+@media (prefers-color-scheme: light) {
+    :root:has(.theme-state-dark:checked) {
 
-    &.home-page,
-    .home-page {
-        --background-color: var(--surface-color, #303030) !important;
-    }
+        &.home-page,
+        .home-page {
+            --background-color: var(--surface-color, #303030) !important;
+        }
 
-    &.inner-page,
-    .inner-page {
-        --background-color: var(--bs-body-bg, #1e1e1e) !important;
+        &.inner-page,
+        .inner-page {
+            --background-color: var(--bs-body-bg, #1e1e1e) !important;
+        }
     }
 }

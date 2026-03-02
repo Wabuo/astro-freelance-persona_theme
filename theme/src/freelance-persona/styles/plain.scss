@@ -51,37 +51,31 @@
 }
 
 /* Dark Mode Adaptation for generic pages */
-[data-theme="dark"] .plain,
-[data-theme="dark"] .page-content {
-  background-color: var(--background-color);
-  color: var(--default-color);
-}
+/* Dark Mode Adaptation for generic pages */
 
-@media (prefers-color-scheme: dark) {
+/* Helper Mixin for Plain Dark Mode */
+@mixin plain-dark-theme {
 
-  html:not([data-theme="light"]) .plain,
-  html:not([data-theme="light"]) .page-content {
-    background-color: var(--background-color) !important;
+  .plain,
+  .page-content,
+  .legal-content {
+    background-color: var(--surface-color) !important;
     color: var(--default-color) !important;
+    border-radius: var(--img-border-radius, 1rem);
+    padding: 2rem;
   }
 }
 
-/* Force override for manual toggle */
-/* Force override for manual toggle */
-[data-theme="dark"] .plain,
-[data-theme="dark"] .page-content,
-[data-theme="dark"] .legal-content {
-  background-color: var(--surface-color) !important;
-  color: var(--default-color) !important;
-  border-radius: var(--img-border-radius, 1rem);
-  padding: 2rem;
+/* Case A: OS Dark + Unchecked = Dark */
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(.theme-state-light:checked)) {
+    @include plain-dark-theme;
+  }
 }
 
-/* Specific fix for Legal Notice content wrapper if needed */
-[data-theme="dark"] .legal-content,
-html:not([data-theme="light"]) .legal-content {
-  background-color: var(--surface-color) !important;
-  color: var(--default-color) !important;
-  border-radius: var(--img-border-radius, 1rem);
-  padding: 2rem;
+/* Case B: OS Light + Checked = Dark */
+@media (prefers-color-scheme: light) {
+  :root:has(.theme-state-dark:checked) {
+    @include plain-dark-theme;
+  }
 }

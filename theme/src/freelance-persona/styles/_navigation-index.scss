@@ -46,6 +46,7 @@
 
 /* Mobile: Popover-based drawer */
 /* Mobile: Popover-based drawer (Native Scroll) */
+/* Mobile: Popover-based drawer (Native Scroll) */
 .mobile-nav {
   /* Container: Full screen, Fixed, NO SCROLL */
   position: fixed;
@@ -65,10 +66,21 @@
     display 0.3s allow-discrete,
     overlay 0.3s allow-discrete;
 
+  /* Default Hidden (Popover behavior) */
+  display: none;
+
   /* Flex layout: Align drawer to START (Left) */
-  display: flex;
   justify-content: flex-start;
   align-items: stretch;
+}
+
+/* Ensure nav-close is hidden when popover is not open (Fix for Stuck State) */
+.mobile-nav:not(:popover-open) .nav-close {
+  display: none !important;
+}
+
+.mobile-nav:popover-open {
+  display: flex;
 }
 
 /* Backdrop: Fixed, Non-scrolling (events proxied via JS) */
@@ -236,21 +248,18 @@
 /* Custom SVG Icon Styling */
 .navmenu a svg.navicon {
   width: 1.5rem;
-  /* Slightly larger for visual balance */
   height: 1.5rem;
   min-width: 1.5rem;
-  /* Prevent shrinking */
   flex-shrink: 0;
   fill: currentColor;
   transform: scale(1.8);
   transform-origin: center;
   margin-left: -1.659px;
   vertical-align: -1.875px;
-  /* transition: all 0.3s; -- Optimized below */
   transition: transform 0.3s ease-in-out, fill 0.3s ease-in-out;
 }
 
-/* Ensure the colored part turns white on hover for visibility */
+/* Ensure the colored part turns white on hover */
 .navmenu a svg.navicon .colored-part {
   transition: fill 0.3s ease-in-out;
   will-change: fill;
@@ -261,12 +270,12 @@
   fill: var(--contrast-color) !important;
 }
 
+/* Theme Toggle Icons (Native Logic) handled globally */
 
 .navmenu a span,
 .navmenu .theme-toggle span,
 .navmenu a:focus span {
   padding: 0 0.3125rem 0 0.4375rem;
-  /* 0 5px 0 7px */
 }
 
 @media (min-width: 992px) {
@@ -290,6 +299,7 @@
 
 .navmenu a:hover,
 .navmenu .theme-toggle:hover,
+.navmenu .theme-toggle-container.active>a,
 .navmenu .active,
 .navmenu .active:focus,
 .navmenu li:hover>a {
@@ -299,6 +309,7 @@
 
 .navmenu a:hover,
 .navmenu .theme-toggle:hover,
+.navmenu .theme-toggle-container.active>a,
 .navmenu li:hover>a {
   max-width: 100%;
   color: var(--contrast-color);
@@ -306,10 +317,27 @@
 
 .navmenu a:hover span,
 .navmenu .theme-toggle:hover span,
+.navmenu .theme-toggle-container.active>a span,
 .navmenu li:hover>a span {
   display: block;
 }
 
+/* Theme Dropdown specific sidebar expansion (No-JS CSS) */
+.navmenu .theme-toggle-container .theme-dropdown-menu {
+  display: none;
+  flex-direction: column;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+  list-style-type: none;
+  /* No ugly bullets */
+}
+
+/* Expand on click (via .active class) only on desktop (where this stylesheet matters for sidebar) */
+@media (min-width: 992px) {
+  .navmenu .theme-toggle-container.active .theme-dropdown-menu {
+    display: flex;
+  }
+}
 
 /*--------------------------------------------------------------
 # Navigation Toggle

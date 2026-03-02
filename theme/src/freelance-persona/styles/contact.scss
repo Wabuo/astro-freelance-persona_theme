@@ -35,13 +35,15 @@
 
   // Dark Mode: Increase visibility by mixing with semi-transparent white
   @media (prefers-color-scheme: dark) {
-    html:not([data-theme="light"]) & {
+    :root:not(:has(.theme-state-light:checked)) & {
       background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
     }
   }
 
-  [data-theme="dark"] & {
-    background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+  @media (prefers-color-scheme: light) {
+    :root:has(.theme-state-dark:checked) & {
+      background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+    }
   }
 }
 
@@ -68,15 +70,17 @@
 
 // FIX: Ensure hover state wins over Dark Mode base styles by matching specificity
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .contact .info-item:hover i {
+  :root:not(:has(.theme-state-light:checked)) .contact .info-item:hover i {
     background: var(--accent-color);
     color: var(--contrast-color);
   }
 }
 
-[data-theme="dark"] .contact .info-item:hover i {
-  background: var(--accent-color);
-  color: var(--contrast-color);
+@media (prefers-color-scheme: light) {
+  :root:has(.theme-state-dark:checked) .contact .info-item:hover i {
+    background: var(--accent-color);
+    color: var(--contrast-color);
+  }
 }
 
 .contact .contact-form {

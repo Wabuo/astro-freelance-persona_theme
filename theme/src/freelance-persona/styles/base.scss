@@ -28,37 +28,45 @@
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
-:root {
-  --background-color: #ffffff; // Background color for the entire website
-  --default-color: #272829; // Default text color
-  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%); // Heading color (Softened default)
-  --accent-color: #0563bb; // Brand accent color (buttons, links)
-  --surface-color: #ffffff; // Boxed element background
-  --contrast-color: #ffffff; // Text contrast color
-  --transparency: 25%; // Color transparency level
-  --text-muted: #6c757d; // Muted text color
-
-  /* Native UI Support */
-  color-scheme: light dark;
-}
-
 /*
   DARK MODE STRATEGY
-  1. Default: System Preference (Media Query) - Works without JS
-  2. Override: [data-theme="dark"] or [data-theme="light"] - Controlled by JS
+  1. Default: System Preference (Media Query)
+  2. Override: Native Checkbox (CSS :has selector)
+  3. Persistence: JS syncs checkbox with localStorage
 */
 
-@mixin dark-theme-variables {
+@mixin light-theme {
+  --background-color: #ffffff !important;
+  --default-color: #272829 !important;
+  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%) !important;
+  --accent-color: #0563bb !important;
+  --surface-color: #ffffff !important;
+  --contrast-color: #ffffff !important;
+  --transparency: 25% !important;
+  --text-muted: #6c757d !important;
+
+  /* Component Specifics - Light */
+  --card-background: #ffffff !important;
+  --card-border: rgba(0, 0, 0, 0.125) !important;
+  --tag-background: #f8f9fa !important;
+  --tag-text: #212529 !important;
+  --tag-border: #dee2e6 !important;
+  --input-background: #ffffff !important;
+  --input-border: #ced4da !important;
+  --input-text: #212529 !important;
+
+  /* Bootstrap - Light */
+  --bs-body-bg: #ffffff !important;
+  --bs-body-color: #212529 !important;
+}
+
+@mixin dark-theme {
   /* Libadwaita Palette */
   --background-color: #1e1e1e !important;
-  /* Dark Grey */
   --surface-color: #303030 !important;
-  /* Surface Grey */
   --default-color: #e0e0e0 !important;
   --heading-color: color-mix(in srgb, var(--default-color), transparent 20%) !important;
-  /* GNOME Blue */
-  --contrast-color: #ffffff;
-  /* Libadwaita Muted: Alpha-based hierarchy */
+  --contrast-color: #ffffff !important;
   --text-muted: color-mix(in srgb, var(--default-color), transparent 50%) !important;
 
   /* Component Specifics */
@@ -78,18 +86,25 @@
   --bs-body-color: #e0e0e0 !important;
 }
 
-/* 1. Auto-DarkMode based on System Preference (NoScript safe) */
-@media (prefers-color-scheme: dark) {
+/* 1. Base: Light (Default) */
+:root {
+  @include light-theme;
+}
 
-  /* Increase specificity to beat standard :root (0,1,0) if cascade is weird */
-  html:root:not([data-theme="light"]) {
-    @include dark-theme-variables;
+/* 2. Logic Matrix */
+
+/* CASE A: OS Dark + Unchecked = Dark */
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(.theme-state-light:checked)) {
+    @include dark-theme;
   }
 }
 
-/* 2. Manual Override via JS */
-[data-theme="dark"] {
-  @include dark-theme-variables;
+/* CASE B: OS Light + Checked = Dark */
+@media (prefers-color-scheme: light) {
+  :root:has(.theme-state-dark:checked) {
+    @include dark-theme;
+  }
 }
 
 /* Nav Menu Colors */
@@ -113,14 +128,16 @@
 
 /* Auto-Dark Nav */
 @media (prefers-color-scheme: dark) {
-  html:root:not([data-theme="light"]) {
+  :root:not(:has(.theme-state-light:checked)) {
     @include dark-nav-variables;
   }
 }
 
 /* Manual Dark Nav */
-[data-theme="dark"] {
-  @include dark-nav-variables;
+@media (prefers-color-scheme: light) {
+  :root:has(.theme-state-dark:checked) {
+    @include dark-nav-variables;
+  }
 }
 
 /* Font Sizes */
@@ -157,19 +174,19 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  [data-theme="dark"] {
-    @include dark-header-variables;
-  }
 
-  /* Fix: Header needs to react to system preference too if not overridden */
-  html:root:not([data-theme="light"]) {
+  /* OS Dark + Unchecked = Dark */
+  :root:not(:has(.theme-state-light:checked)) {
     @include dark-header-variables;
   }
 }
 
-/* Manual header override (Redundant but safe) */
-[data-theme="dark"] {
-  @include dark-header-variables;
+@media (prefers-color-scheme: light) {
+
+  /* OS Light + Checked = Dark */
+  :root:has(.theme-state-dark:checked) {
+    @include dark-header-variables;
+  }
 }
 
 /* Spacing Variables */

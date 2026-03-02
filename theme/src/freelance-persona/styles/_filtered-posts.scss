@@ -87,13 +87,15 @@
 
     // Dark Mode: Increase visibility by mixing with semi-transparent white (5%)
     @media (prefers-color-scheme: dark) {
-        html:not([data-theme="light"]) & {
+        :root:not(:has(.theme-state-light:checked)) & {
             background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
         }
     }
 
-    [data-theme="dark"] & {
-        background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+    @media (prefers-color-scheme: light) {
+        :root:has(.theme-state-dark:checked) & {
+            background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+        }
     }
 }
 

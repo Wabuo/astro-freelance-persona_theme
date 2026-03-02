@@ -225,7 +225,7 @@ const monospaceFont = fonts.monospace || "monospace";
         id="theme-dynamic-styles"
         set:html={`
         @media (prefers-color-scheme: dark) {
-          html:root:not([data-theme="light"]) {
+          :root:not(:has(.theme-state-light:checked)) {
             ${
               colors.dark.background
                 ? `--background-color: ${colors.dark.background} !important;`
@@ -345,7 +345,9 @@ const monospaceFont = fonts.monospace || "monospace";
             }
           }
         }
-        [data-theme="dark"][data-theme="dark"] {
+        
+        @media (prefers-color-scheme: light) {
+          :root:has(.theme-state-dark:checked) {
             ${
               colors.dark.background
                 ? `--background-color: ${colors.dark.background} !important;`
@@ -469,24 +471,6 @@ const monospaceFont = fonts.monospace || "monospace";
     )
   }
 
-  {/* THEME INITIALIZATION (Blocking to prevent FOUC) */}
-  <script is:inline>
-    (function () {
-      const storedTheme = localStorage.getItem("theme");
-      if (storedTheme) {
-        document.documentElement.setAttribute("data-theme", storedTheme);
-      }
-    })();
-
-    // CRITICAL: Re-apply theme after View Transition (Client Router) swap
-    document.addEventListener("astro:after-swap", () => {
-      const storedTheme = localStorage.getItem("theme");
-      if (storedTheme) {
-        document.documentElement.setAttribute("data-theme", storedTheme);
-      }
-    });
-  </script>
-
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="author" content={themeConfig.author} />
@@ -543,16 +527,42 @@ const monospaceFont = fonts.monospace || "monospace";
   </noscript>
 
   <body class={bodyClass} data-tex={tex}>
-    <Navigation isHome={navType === "home"} />
+    <!-- Hidden radio state for theme management (No JS fallback) -->
+    <input
+      type="radio"
+      name="theme-state"
+      id="theme-os"
+      class="theme-state-os sr-only"
+      aria-hidden="true"
+      tabindex="-1"
+      checked
+    />
+    <input
+      type="radio"
+      name="theme-state"
+      id="theme-light"
+      class="theme-state-light sr-only"
+      aria-hidden="true"
+      tabindex="-1"
+    />
+    <input
+      type="radio"
+      name="theme-state"
+      id="theme-dark"
+      class="theme-state-dark sr-only"
+      aria-hidden="true"
+      tabindex="-1"
+    />
 
-    <button
-      popovertarget="mobile-nav"
-      class="nav-toggle d-lg-none"
-      aria-label="Toggle mobile menu"
-    >
-      <i class="bi bi-list hamburger-icon"></i>
-      <i class="bi bi-x close-icon"></i>
-    </button>
+    <script is:inline>
+      const t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") {
+        const el = document.getElementById("theme-" + t);
+        if (el) el.checked = true;
+      }
+    </script>
+
+    <Navigation isHome={navType === "home"} />
 
     <main class="main">
       <slot />

@@ -177,13 +177,15 @@
 
   // Dark Mode: Increase visibility by mixing with semi-transparent white
   @media (prefers-color-scheme: dark) {
-    html:not([data-theme="light"]) & {
+    :root:not(:has(.theme-state-light:checked)) & {
       background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
     }
   }
 
-  [data-theme="dark"] & {
-    background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+  @media (prefers-color-scheme: light) {
+    :root:has(.theme-state-dark:checked) & {
+      background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+    }
   }
 }
 
@@ -343,12 +345,14 @@
     line-height: 1.2;
 
     /* Force white in dark mode if variable fails */
-    [data-theme="dark"] & {
-      color: #ffffff !important;
+    @media (prefers-color-scheme: dark) {
+      :root:not(:has(.theme-state-light:checked)) & {
+        color: #ffffff !important;
+      }
     }
 
-    @media (prefers-color-scheme: dark) {
-      html:not([data-theme="light"]) & {
+    @media (prefers-color-scheme: light) {
+      :root:has(.theme-state-dark:checked) & {
         color: #ffffff !important;
       }
     }

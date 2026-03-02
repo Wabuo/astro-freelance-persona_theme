@@ -89,6 +89,7 @@
 
   /* Reset popover defaults and set up drawer */
   /* Reset popover defaults and set up drawer (Native Scroll) */
+  /* Reset popover defaults and set up drawer (Native Scroll) */
   .header[popover] {
     /* Container: Full screen, Fixed, NO SCROLL */
     position: fixed;
@@ -100,7 +101,6 @@
     border: none;
     background: transparent;
     overflow: hidden;
-    /* CRITICAL: Container does not scroll */
 
     /* Reset Transform/Transition for container */
     transform: none;
@@ -109,12 +109,15 @@
       overlay 0.3s allow-discrete;
 
     /* Flex layout: Align drawer to START */
-    display: flex;
     justify-content: flex-start;
     align-items: stretch;
 
     /* Ensure content color is inherited */
     color: var(--default-color);
+  }
+
+  .header[popover]:popover-open {
+    display: flex;
   }
 
 
@@ -226,107 +229,182 @@
     white-space: nowrap;
     transition: 0.3s;
 
-    /* Force white text in glassmorphism header for dark mode */
-    [data-theme="dark"] & {
-      color: #ffffff;
-    }
-
+    /* Force white in glassmorphism header for dark mode */
     @media (prefers-color-scheme: dark) {
-      html:not([data-theme="light"]) & {
+      :root:not(:has(.theme-state-light:checked)) & {
         color: #ffffff;
       }
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:has(.theme-state-dark:checked) & {
+        color: #ffffff;
+      }
+    }
+
+    /* Auto-Dark Nav + Manual Override (Checkbox) */
+
+    /* Case A: OS Dark + Unchecked = Dark */
+    @media (prefers-color-scheme: dark) {
+      :root:not(:has(.theme-state-light:checked)) & {
+        @include dark-nav-variables;
+      }
+    }
+
+    /* Case B: OS Light + Checked = Dark */
+    @media (prefers-color-scheme: light) {
+      :root:has(.theme-state-dark:checked) & {
+        @include dark-nav-variables;
+      }
+    }
+  }
+
+  /* Theme Toggle Icons (Native Logic - Shared) */
+  .theme-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 1. Reset: Hide both by default */
+  .theme-icon-container .theme-icon-moon,
+  .theme-icon-container .theme-icon-sun {
+    display: none !important;
+  }
+
+  /* 2. Logic Matrix (Using & for body reference) */
+
+  /* Case A: OS Dark (Current=Dark) -> Show Sun */
+  @media (prefers-color-scheme: dark) {
+
+    /* Default: Show Sun */
+    .theme-icon-container .theme-icon-sun {
+      display: block !important;
+    }
+
+    /* Checked (Invert -> Light): Show Moon */
+    &:has(.theme-checkbox:checked) .theme-icon-container .theme-icon-sun {
+      display: none !important;
+    }
+
+    &:has(.theme-checkbox:checked) .theme-icon-container .theme-icon-moon {
+      display: block !important;
+    }
+  }
+
+  /* Case B: OS Light (Current=Light) -> Show Moon */
+  @media (prefers-color-scheme: light) {
+
+    /* Default: Show Moon */
+    .theme-icon-container .theme-icon-moon {
+      display: block !important;
+    }
+
+    /* Checked (Invert -> Dark): Show Sun */
+    &:has(.theme-checkbox:checked) .theme-icon-container .theme-icon-moon {
+      display: none !important;
+    }
+
+    &:has(.theme-checkbox:checked) .theme-icon-container .theme-icon-sun {
+      display: block !important;
     }
   }
 
   .navmenu a i {
     display: none;
   }
-
-  .navmenu a i,
-  .navmenu a:focus i {
-    font-size: 0.75rem;
-    /* 12px */
-    line-height: 0;
-    margin-left: 0.3125rem;
-    /* 5px */
-    transition: 0.3s;
-  }
-
-  .navmenu li:last-child a {
-    padding-right: 0;
-  }
-
-  .navmenu li:hover>a,
-  .navmenu .theme-toggle:hover,
-  .navmenu .active,
-  .navmenu .active:focus {
-    color: var(--nav-hover-color);
-  }
-
-  .navmenu .dropdown ul {
-    margin: 0;
-    padding: 0.625rem 0;
-    /* 10px 0 */
-    background: var(--nav-dropdown-background-color);
-    display: block;
-    position: absolute;
-    visibility: hidden;
-    left: 0.875rem;
-    /* 14px */
-    top: 130%;
-    opacity: 0;
-    transition: 0.3s;
-    border-radius: 0.25rem;
-    /* 4px */
-    z-index: 99;
-    box-shadow: 0 0 1.875rem color-mix(in srgb, var(--default-color), transparent 85%);
-    /* 30px */
-  }
-
-  .navmenu .dropdown ul li {
-    min-width: 12.5rem;
-    /* 200px */
-  }
-
-  .navmenu .dropdown ul a {
-    padding: 0.625rem 1.25rem;
-    /* 10px 20px */
-    font-size: 0.9375rem;
-    /* 15px */
-    text-transform: none;
-    color: var(--nav-dropdown-color);
-  }
-
-  .navmenu .dropdown ul a i {
-    font-size: 0.75rem;
-    /* 12px */
-  }
-
-  .navmenu .dropdown ul a:hover,
-  .navmenu .dropdown ul .active:hover,
-  .navmenu .dropdown ul li:hover>a {
-    color: var(--nav-dropdown-hover-color);
-  }
-
-  .navmenu .dropdown:hover>ul {
-    opacity: 1;
-    top: 100%;
-    visibility: visible;
-  }
-
-  .navmenu .dropdown .dropdown ul {
-    top: 0;
-    left: -90%;
-    visibility: hidden;
-  }
-
-  .navmenu .dropdown .dropdown:hover>ul {
-    opacity: 1;
-    top: 0;
-    left: -100%;
-    visibility: visible;
-  }
 }
+
+/* Ensure nav-close is hidden when popover is not open (Fix for Stuck State) */
+.header[popover]:not(:popover-open) .nav-close {
+  display: none !important;
+}
+
+.navmenu a i,
+.navmenu a:focus i {
+  font-size: 0.75rem;
+  /* 12px */
+  line-height: 0;
+  margin-left: 0.3125rem;
+  /* 5px */
+  transition: 0.3s;
+}
+
+.navmenu li:last-child a {
+  padding-right: 0;
+}
+
+.navmenu li:hover>a,
+.navmenu .theme-toggle:hover,
+.navmenu .active,
+.navmenu .active:focus {
+  color: var(--nav-hover-color);
+}
+
+.navmenu .dropdown ul {
+  margin: 0;
+  padding: 0.625rem 0;
+  /* 10px 0 */
+  background: var(--nav-dropdown-background-color);
+  display: block;
+  position: absolute;
+  visibility: hidden;
+  left: 0.875rem;
+  /* 14px */
+  top: 130%;
+  opacity: 0;
+  transition: 0.3s;
+  border-radius: 0.25rem;
+  /* 4px */
+  z-index: 99;
+  box-shadow: 0 0 1.875rem color-mix(in srgb, var(--default-color), transparent 85%);
+  /* 30px */
+}
+
+.navmenu .dropdown ul li {
+  min-width: 12.5rem;
+  /* 200px */
+}
+
+.navmenu .dropdown ul a {
+  padding: 0.625rem 1.25rem;
+  /* 10px 20px */
+  font-size: 0.9375rem;
+  /* 15px */
+  text-transform: none;
+  color: var(--nav-dropdown-color);
+}
+
+.navmenu .dropdown ul a i {
+  font-size: 0.75rem;
+  /* 12px */
+}
+
+.navmenu .dropdown ul a:hover,
+.navmenu .dropdown ul .active:hover,
+.navmenu .dropdown ul li:hover>a {
+  color: var(--nav-dropdown-hover-color);
+}
+
+.navmenu .dropdown:hover>ul {
+  opacity: 1;
+  top: 100%;
+  visibility: visible;
+}
+
+.navmenu .dropdown .dropdown ul {
+  top: 0;
+  left: -90%;
+  visibility: hidden;
+}
+
+.navmenu .dropdown .dropdown:hover>ul {
+  opacity: 1;
+  top: 0;
+  left: -100%;
+  visibility: visible;
+}
+
 
 /* Navmenu - Mobile */
 @media (max-width: 991px) {
@@ -386,6 +464,8 @@
   }
 
   .navmenu a:hover,
+  .navmenu .theme-toggle:hover,
+  .navmenu .theme-toggle-container.active,
   .navmenu .active,
   .navmenu .active:focus,
   .navmenu li:hover>a {
@@ -394,14 +474,33 @@
   }
 
   .navmenu a:hover,
+  .navmenu .theme-toggle:hover,
+  .navmenu .theme-toggle-container.active>a,
   .navmenu li:hover>a {
     max-width: 100%;
     color: var(--contrast-color);
   }
 
   .navmenu a:hover span,
+  .navmenu .theme-toggle:hover span,
+  .navmenu .theme-toggle-container.active>a span,
   .navmenu li:hover>a span {
     display: block;
+  }
+
+  /* Theme Dropdown specific mobile expansion (No-JS CSS) */
+  .navmenu .theme-toggle-container .theme-dropdown-menu {
+    display: none;
+    flex-direction: column;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+    list-style-type: none;
+    /* No ugly bullets */
+  }
+
+  body #navmenu-mobile .theme-toggle-container.active .theme-dropdown-menu,
+  body.home-page #navmenu-mobile .theme-toggle-container.active .theme-dropdown-menu {
+    display: flex !important;
   }
 
   /*--------------------------------------------------------------

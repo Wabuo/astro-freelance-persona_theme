@@ -60,9 +60,18 @@
     }
 
     /* Dark mode specific tweak if surface color isn't enough */
-    [data-theme="dark"] & {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+    @media (prefers-color-scheme: dark) {
+        :root:not(:has(.theme-state-light:checked)) & {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root:has(.theme-state-dark:checked) & {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     }
 }
 
@@ -126,9 +135,18 @@
     display: block;
     opacity: 1;
 
-    [data-theme="dark"] & {
-        border-color: var(--card-border);
-        /* Use valid dark mode border var */
+    @media (prefers-color-scheme: dark) {
+        :root:not(:has(.theme-state-light:checked)) & {
+            border-color: var(--card-border);
+            /* Use valid dark mode border var */
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root:has(.theme-state-dark:checked) & {
+            border-color: var(--card-border);
+            /* Use valid dark mode border var */
+        }
     }
 }
 

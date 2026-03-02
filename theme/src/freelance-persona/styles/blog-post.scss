@@ -44,13 +44,15 @@
     object-fit: cover;
 
     /* Mute brightness in dark mode to avoid glare */
-    [data-theme="dark"] & {
-      filter: brightness(0.85) contrast(1.1);
-      transition: filter 0.3s ease;
+    @media (prefers-color-scheme: dark) {
+      :root:not(:has(.theme-state-light:checked)) & {
+        filter: brightness(0.85) contrast(1.1);
+        transition: filter 0.3s ease;
+      }
     }
 
-    @media (prefers-color-scheme: dark) {
-      html:not([data-theme="light"]) & {
+    @media (prefers-color-scheme: light) {
+      :root:has(.theme-state-dark:checked) & {
         filter: brightness(0.85) contrast(1.1);
         transition: filter 0.3s ease;
       }
@@ -59,12 +61,14 @@
 }
 
 /* Hover to restore full brightness for hero image */
-[data-theme="dark"] .blog-post .post-img img:hover {
-  filter: brightness(1) contrast(1);
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(.theme-state-light:checked)) .blog-post .post-img img:hover {
+    filter: brightness(1) contrast(1);
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .blog-post .post-img img:hover {
+@media (prefers-color-scheme: light) {
+  :root:has(.theme-state-dark:checked) .blog-post .post-img img:hover {
     filter: brightness(1) contrast(1);
   }
 }
@@ -269,13 +273,15 @@
   border-radius: 0.25rem; // 4px
 
   /* Mute brightness in dark mode to avoid glare */
-  [data-theme="dark"] & {
-    filter: brightness(0.85) contrast(1.1);
-    transition: filter 0.3s ease;
+  @media (prefers-color-scheme: dark) {
+    :root:not(:has(.theme-state-light:checked)) & {
+      filter: brightness(0.85) contrast(1.1);
+      transition: filter 0.3s ease;
+    }
   }
 
-  @media (prefers-color-scheme: dark) {
-    html:not([data-theme="light"]) & {
+  @media (prefers-color-scheme: light) {
+    :root:has(.theme-state-dark:checked) & {
       filter: brightness(0.85) contrast(1.1);
       transition: filter 0.3s ease;
     }
@@ -283,13 +289,14 @@
 }
 
 /* Hover to restore full brightness */
-/* Hover to restore full brightness */
-[data-theme="dark"] .blog-post img:hover {
-  filter: brightness(1) contrast(1);
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(.theme-state-light:checked)) .blog-post img:hover {
+    filter: brightness(1) contrast(1);
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .blog-post img:hover {
+@media (prefers-color-scheme: light) {
+  :root:has(.theme-state-dark:checked) .blog-post img:hover {
     filter: brightness(1) contrast(1);
   }
 }

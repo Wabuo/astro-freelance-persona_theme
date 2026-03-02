@@ -23,9 +23,7 @@ const { isHome = false } = Astro.props;
 <header
   id="mobile-nav"
   popover="auto"
-  class={`header mobile-nav d-flex flex-column ${
-    isHome ? "is-home" : "is-inner"
-  }`}
+  class={`header mobile-nav flex-column ${isHome ? "is-home" : "is-inner"}`}
 >
   <!-- Ghost Backdrop: Invisible to AT, handles click-to-close -->
   <button
@@ -65,7 +63,13 @@ const { isHome = false } = Astro.props;
 </button>
 
 <style>
-  /* Toggle Button Styles - Global to apply to _NavLinks child component */
+  /* Optional: Fix drawer height clipping for dropdowns near the bottom */
+  :global(.mobile-nav-drawer) {
+    padding-bottom: 2rem;
+    overflow-y: auto;
+  }
+
+  /* Theme Toggle specific tweaks */
   :global(.theme-toggle) {
     background: none;
     border: none;
@@ -73,69 +77,180 @@ const { isHome = false } = Astro.props;
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 0.625rem 1.125rem; /* Match nav links padding exactly */
-    cursor: pointer;
-    font-size: 0.9375rem; /* Match nav links font size */
+    padding: 0.625rem 1.125rem;
+    font-size: 0.9375rem;
     font-family: var(--nav-font);
     transition: 0.3s;
-    border-radius: 3.125rem; /* Match nav links pill shape */
-    margin-bottom: 0.5rem; /* Match nav links margin */
+    border-radius: 3.125rem;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
   }
 
-  :global(.theme-toggle:hover) {
-    color: var(--contrast-color);
-    background: var(--nav-hover-color);
+  :global(.theme-toggle-container) {
+    /* Basic alignment */
+    display: flex;
+    flex-direction: column;
   }
 
-  :global(.theme-toggle i) {
-    font-size: 1.25rem; /* Start with standard size */
-    padding-right: 0.5rem; /* 8px */
+  /* Make sure the icons container is sized correctly */
+  :global(.theme-icon-container) {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
-  /* Desktop Improvements */
+  :global(.toggle-dropdown) {
+    font-size: 0.75rem; /* Match other dropdown chevrons */
+    margin-left: 0.3125rem;
+    transition: 0.3s;
+  }
+
+  /* Hide textual label on desktop topnav */
   @media (min-width: 992px) {
-    /* Topnav Specifics (Inner Pages) */
+    :global(.is-inner .theme-toggle .theme-text-label) {
+      display: none;
+    }
     :global(.is-inner .theme-toggle) {
       width: auto;
-      padding: 1rem 0 1rem 1rem; /* Left padding only to separate from last link */
+      padding: 1rem 0 1rem 1rem;
       margin-left: 0.5rem;
       border-left: 1px solid
         color-mix(in srgb, var(--default-color), transparent 85%);
-      border-radius: 0; /* No pill shape for top nav */
+      border-radius: 0;
       margin-bottom: 0;
     }
-
-    /* Topnav Hover - specific override */
-    :global(.is-inner .theme-toggle:hover) {
-      background: none;
-      color: var(--nav-hover-color);
-    }
-
-    /* Hide text on desktop for both Topnav and Sidenav (Matches _navigation-index behavior) */
-    :global(.theme-toggle span) {
-      display: none;
-    }
-
-    /* Refine Icon for Inner Pages */
-    :global(.is-inner .theme-toggle i) {
-      padding-right: 0;
-      font-size: 1.25rem;
-    }
-
-    /* Sidenav Specifics (Home Page) - Handled by _navigation-index.scss now */
   }
 
-  /* Active state for button if needed to match links */
-  :global(.theme-toggle:focus) {
-    outline: none;
+  /* Dynamic Active state for the main toggle item */
+  :global(.theme-toggle .navicon) {
+    display: none;
+  }
+  :global(:root:has(.theme-state-os:checked) .theme-toggle .theme-icon-os),
+  :global(:root:has(.theme-state-light:checked)
+      .theme-toggle
+      .theme-icon-light),
+  :global(:root:has(.theme-state-dark:checked) .theme-toggle .theme-icon-dark) {
+    display: inline-block;
   }
 
-  /* Remove margin from theme-toggle when inside mobile menu to match drawer padding */
-  :global(.mobile-nav-drawer .theme-toggle) {
-    margin-bottom: 0 !important;
+  /* Styling for items in the dropdown drawer */
+  :global(.theme-dropdown-menu .dropdown-item) {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    width: 100%;
+    min-height: 2.5rem; /* Ensure they don't collapse to 0px height on mobile */
+    padding: 0.5rem; /* Add some padding for the hover state */
+    border-radius: 0.25rem;
+  }
+
+  /* Make sure the text takes remaining space to push toggles to the right */
+  :global(.theme-dropdown-menu .theme-name) {
+    flex-grow: 1;
+    margin-right: auto;
+  }
+
+  /* Dropdown Toggle Icons Base States */
+  :global(.theme-dropdown-menu .toggle-icon) {
+    margin-left: auto; /* Push it to the right */
+  }
+
+  :global(.theme-dropdown-menu .toggle-on),
+  :global(.theme-dropdown-menu .toggle-off) {
+    display: inline-block !important;
+    padding-right: 1rem !important; /* Force explicit padding for toggle icons */
+  }
+
+  :global(.theme-dropdown-menu .toggle-on) {
+    display: none !important;
+  }
+
+  /* Active states overrides */
+  :global(:root:has(.theme-state-os:checked)
+      .theme-dropdown-menu
+      .theme-label-os
+      .toggle-off),
+  :global(:root:has(.theme-state-light:checked)
+      .theme-dropdown-menu
+      .theme-label-light
+      .toggle-off),
+  :global(:root:has(.theme-state-dark:checked)
+      .theme-dropdown-menu
+      .theme-label-dark
+      .toggle-off) {
+    display: none !important;
+  }
+
+  :global(.theme-dropdown-menu .toggle-off) {
+    display: inline-block !important;
+  }
+
+  /* Active Dropdown Item Toggle Icon Swap */
+  :global(:root:has(.theme-state-os:checked)
+      .theme-dropdown-menu
+      .theme-label-os
+      .toggle-off),
+  :global(:root:has(.theme-state-light:checked)
+      .theme-dropdown-menu
+      .theme-label-light
+      .toggle-off),
+  :global(:root:has(.theme-state-dark:checked)
+      .theme-dropdown-menu
+      .theme-label-dark
+      .toggle-off) {
+    display: none !important;
+  }
+
+  :global(:root:has(.theme-state-os:checked)
+      .theme-dropdown-menu
+      .theme-label-os
+      .toggle-on),
+  :global(:root:has(.theme-state-light:checked)
+      .theme-dropdown-menu
+      .theme-label-light
+      .toggle-on),
+  :global(:root:has(.theme-state-dark:checked)
+      .theme-dropdown-menu
+      .theme-label-dark
+      .toggle-on) {
+    display: inline-block !important;
+  }
+
+  /* Add active highlight to currently selected dropdown item natively */
+  :global(:root:has(.theme-state-os:checked)
+      .theme-dropdown-menu
+      .theme-label-os),
+  :global(:root:has(.theme-state-light:checked)
+      .theme-dropdown-menu
+      .theme-label-light),
+  :global(:root:has(.theme-state-dark:checked)
+      .theme-dropdown-menu
+      .theme-label-dark) {
+    color: var(--nav-dropdown-hover-color);
+  }
+
+  /* Adwaita Dark Mode specifics for the Dropdown Menu */
+  :global(:root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu) {
+    background-color: #303030 !important; /* Adwaita dark card/menu background */
+    border: 1px solid #454545;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  :global(:root:has(.theme-state-dark:checked)
+      .navmenu
+      .theme-dropdown-menu
+      .dropdown-item:hover),
+  :global(:root:has(.theme-state-dark:checked)
+      .navmenu
+      .theme-dropdown-menu
+      .dropdown-item:focus-within) {
+    background-color: #454545 !important; /* Adwaita Dark Hover State */
   }
 </style>
 
@@ -150,9 +265,26 @@ const { isHome = false } = Astro.props;
 
     // Close popover when a nav link is clicked (for same-page anchor navigation)
     document.querySelectorAll("#navmenu-mobile a").forEach((link) => {
-      link.addEventListener("click", () => {
+      link.addEventListener("click", (e) => {
+        // Exclude the Theme Toggle from closing the drawer
+        if (link.id === "theme-toggle" || link.closest("#theme-toggle")) {
+          return;
+        }
+
         if (mobileNav && mobileNav.matches(":popover-open")) {
           mobileNav.hidePopover();
+        }
+      });
+    });
+
+    // Mobile/Desktop Click Toggle for the Theme Dropdown
+    const themeToggles = document.querySelectorAll("#theme-toggle");
+    themeToggles.forEach((toggle) => {
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault(); // Prevent jump to top
+        const container = toggle.closest(".theme-toggle-container");
+        if (container) {
+          container.classList.toggle("active");
         }
       });
     });
@@ -243,54 +375,49 @@ const { isHome = false } = Astro.props;
     }
   };
 
-  // 3. Theme Toggle Logic (handles both desktop and mobile toggles)
+  // 3. Theme Toggle Logic (Listening to UI Radio changes)
   const initThemeToggle = () => {
-    const toggleBtns = document.querySelectorAll(
-      "#theme-toggle, #theme-toggle-mobile"
-    );
-    const themeIcons = document.querySelectorAll(
-      "#theme-icon, #theme-icon-mobile"
+    // Hidden radios at top of DOM
+    const radioInputs = document.querySelectorAll(
+      ".theme-state-os, .theme-state-light, .theme-state-dark"
     );
 
-    if (toggleBtns.length > 0 && themeIcons.length > 0) {
-      const updateIcon = (theme: string) => {
-        themeIcons.forEach((icon) => {
-          if (theme === "dark") {
-            icon.classList.remove("bi-moon");
-            icon.classList.add("bi-sun");
-          } else {
-            icon.classList.remove("bi-sun");
-            icon.classList.add("bi-moon");
-          }
-        });
-      };
+    // Sync UI on load
+    const syncState = () => {
+      const storedTheme = localStorage.getItem("theme");
+      if (storedTheme === "light" || storedTheme === "dark") {
+        const el = document.getElementById(
+          "theme-" + storedTheme
+        ) as HTMLInputElement;
+        if (el) el.checked = true;
+      } else {
+        const el = document.getElementById("theme-os") as HTMLInputElement;
+        if (el) el.checked = true;
+      }
+    };
+    syncState();
 
-      const getEffectiveTheme = () => {
-        const attr = document.documentElement.getAttribute("data-theme");
-        if (attr) return attr;
-        return window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
-      };
+    // Listen for UI label clicks which trigger radio 'change' events natively
+    radioInputs.forEach((radio) => {
+      radio.addEventListener("change", (e) => {
+        const target = e.target as HTMLInputElement;
+        if (!target.checked) return;
 
-      // Initial Icon State
-      updateIcon(getEffectiveTheme());
-
-      toggleBtns.forEach((toggleBtn) => {
-        // Prevent double binding
-        if (toggleBtn.hasAttribute("data-init")) return;
-        toggleBtn.setAttribute("data-init", "true");
-
-        toggleBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          const currentTheme = getEffectiveTheme();
-          const newTheme = currentTheme === "dark" ? "light" : "dark";
-          document.documentElement.setAttribute("data-theme", newTheme);
+        const id = target.id;
+        if (id === "theme-os") {
+          localStorage.removeItem("theme");
+        } else {
+          const newTheme = id.replace("theme-", "");
           localStorage.setItem("theme", newTheme);
-          updateIcon(newTheme);
-        });
+        }
       });
-    }
+    });
+
+    // Prevent default click on the main toggle button since it is just an anchor acting purely as a hover/click dropdown trigger
+    const toggles = document.querySelectorAll("#theme-toggle");
+    toggles.forEach((t) =>
+      t.addEventListener("click", (e) => e.preventDefault())
+    );
   };
 
   // Centralized Initialization

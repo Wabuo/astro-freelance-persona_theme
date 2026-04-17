@@ -2,12 +2,16 @@
 // src/freelance-persona/components/templates/BlogPostTemplate.astro
 import { getCollection } from "astro:content";
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
-import ImageAttribution from "../ui/ImageAttribution.astro";
 import { Image } from "astro:assets";
 import { slugify } from "@freelance-persona/utils/slugify";
 import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
 import BlogSidebar from "@freelance-persona/components/blog/BlogSidebar.astro";
 import ShareMenu from "@freelance-persona/components/ui/ShareMenu.astro";
+import TagList from "@freelance-persona/components/ui/TagList.astro";
+import AuthorCard from "@freelance-persona/components/ui/AuthorCard.astro";
+import BackButton from "@freelance-persona/components/ui/BackButton.astro";
+import ImageAttribution from "@freelance-persona/components/ui/ImageAttribution.astro";
+import KatexLoader from "@freelance-persona/components/KatexLoader.astro";
 
 const { post } = Astro.props;
 

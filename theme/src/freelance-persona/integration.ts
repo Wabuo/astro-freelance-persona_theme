@@ -19,7 +19,6 @@ export default function freelancePersona(): AstroIntegration {
         let configContent = '';
         try {
           configContent = fs.readFileSync(configPath, 'utf-8');
-          console.log(`[FreelancePersona] Loaded config from ${configPath}`);
         } catch (e) {
           console.warn(`[FreelancePersona] Could not read config at ${configPath}. Using defaults.`);
           configContent = 'export const themeConfig = {}; export default themeConfig;';
@@ -30,7 +29,6 @@ export default function freelancePersona(): AstroIntegration {
         const generatedConfigPath = path.resolve(projectRoot, 'src/freelance-persona-config-generated.ts');
         try {
           fs.writeFileSync(generatedConfigPath, configContent);
-          console.log(`[FreelancePersona] Generated config mirror at ${generatedConfigPath}`);
         } catch (e) {
           console.error(`[FreelancePersona] Failed to write generated config:`, e);
         }

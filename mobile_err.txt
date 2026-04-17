@@ -1,0 +1,36 @@
+my-freelance-portfolio test: 
+my-freelance-portfolio test: Running 4 tests using 4 workers
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   ✓  1 [Mobile Chrome] › testing/tests/theme.spec.ts:7:3 › Theme Toggle & Dark Mode › Default matches system preference (Dark) (887ms)
+my-freelance-portfolio test:   ✓  3 [Mobile Chrome] › testing/tests/theme.spec.ts:27:3 › Theme Toggle & Dark Mode › Default matches system preference (Light) (733ms)
+my-freelance-portfolio test: Mobile View detected. Opening menu...
+my-freelance-portfolio test: Mobile View detected. Opening menu...
+my-freelance-portfolio test:   ✘  2 [Mobile Chrome] › testing/tests/theme.spec.ts:44:3 › Theme Toggle & Dark Mode › Toggle Button Switches Theme (3.0s)
+my-freelance-portfolio test:   ✓  4 [Mobile Chrome] › testing/tests/theme.spec.ts:101:3 › Theme Toggle & Dark Mode › Preference Persists on Reload (2.9s)
+my-freelance-portfolio test: 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   1) [Mobile Chrome] › testing/tests/theme.spec.ts:44:3 › Theme Toggle & Dark Mode › Toggle Button Switches Theme 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error: locator.click: Element is not visible
+my-freelance-portfolio test:     Call log:
+my-freelance-portfolio test:     [2m  - waiting for locator('#navmenu-mobile label[for="theme-light"]')[22m
+my-freelance-portfolio test:     [2m    - locator resolved to <label for="theme-light" class="theme-toggle-label dropdown-item theme-label-light">…</label>[22m
+my-freelance-portfolio test:     [2m  - attempting click action[22m
+my-freelance-portfolio test:     [2m    - scrolling into view if needed[22m
+my-freelance-portfolio test: 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:       77 |         // Click Light Theme Toggle
+my-freelance-portfolio test:       78 |         await page.locator(`label[for="${toggleId.substring(1)}"].theme-toggle`).click({ force: true });
+my-freelance-portfolio test:     > 79 |         await page.locator(`${menuPrefix} label[for="theme-light"]`).click({ force: true });
+my-freelance-portfolio test:          |                                                                      ^
+my-freelance-portfolio test:       80 |
+my-freelance-portfolio test:       81 |         await page.waitForTimeout(100);
+my-freelance-portfolio test:       82 |
+my-freelance-portfolio test:         at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/playground/testing/tests/theme.spec.ts:79:70
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error Context: testing/test-results/theme-Theme-Toggle-Dark-Mode-Toggle-Button-Switches-Theme-Mobile-Chrome/error-context.md
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   1 failed
+my-freelance-portfolio test:     [Mobile Chrome] › testing/tests/theme.spec.ts:44:3 › Theme Toggle & Dark Mode › Toggle Button Switches Theme 
+my-freelance-portfolio test:   3 passed (4.7s)
+my-freelance-portfolio test: Exited with code 1

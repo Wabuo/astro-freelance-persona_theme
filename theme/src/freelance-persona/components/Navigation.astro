@@ -334,10 +334,6 @@ const { isHome = false } = Astro.props;
     }
   };
 
-  // Run on load
-  document.addEventListener("astro:page-load", initMobileNav);
-  document.addEventListener("DOMContentLoaded", initMobileNav);
-
   // 2. ScrollSpy (Highlight active link on scroll)
   const initScrollSpy = () => {
     const isHomePage = document.body.classList.contains("home-page");

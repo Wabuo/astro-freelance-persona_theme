@@ -31,15 +31,9 @@
 
 @media (min-width: 992px) {
 
-    /* Prevent generic hover implementation from keeping the menu open improperly when click-toggled off */
-    .navmenu .theme-toggle-container:not(:focus-within):not(:has(.theme-menu-toggle-checkbox:checked)):hover>.theme-dropdown-menu {
-        opacity: 0 !important;
-        visibility: hidden !important;
-        top: 130% !important;
-    }
-
     /* Show floating dropdown natively on interactions or when checkbox is triggered */
     .navmenu .theme-dropdown-menu:focus-within,
+    .navmenu .theme-toggle-container:hover > .theme-dropdown-menu,
     .navmenu .theme-toggle:focus-visible~.theme-dropdown-menu,
     .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-dropdown-menu {
         opacity: 1 !important;

@@ -84,114 +84,7 @@
   }
 }
 
-/* Header - Mobile (Popover API) */
-@media (max-width: 991px) {
-
-  /* Reset popover defaults and set up drawer */
-  /* Reset popover defaults and set up drawer (Native Scroll) */
-  /* Reset popover defaults and set up drawer (Native Scroll) */
-  .header[popover] {
-    /* Container: Full screen, Fixed, NO SCROLL */
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100dvh;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: transparent;
-    overflow: hidden;
-
-    /* Reset Transform/Transition for container */
-    transform: none;
-    transition:
-      display 0.3s allow-discrete,
-      overlay 0.3s allow-discrete;
-
-    /* Flex layout: Align drawer to START */
-    justify-content: flex-start;
-    align-items: stretch;
-
-    /* Ensure content color is inherited */
-    color: var(--default-color);
-  }
-
-  .header[popover]:popover-open {
-    display: flex;
-  }
-
-
-  /* Backdrop: Fixed, Non-scrolling */
-  .mobile-nav-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: transparent;
-    border: none;
-    cursor: default;
-    width: 100%;
-    height: 100dvh;
-  }
-
-  /* Visual Drawer: The SCROLL CONTAINER */
-  .mobile-nav-drawer {
-    /* Dimensions */
-    width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
-    height: 100dvh;
-    /* Full Height */
-
-    /* Styling */
-    background: var(--background-color);
-    border-right: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
-
-    /* SCROLL LOGIC: This element scrolls */
-    overflow-y: auto;
-    overscroll-behavior: contain;
-
-    /* Padding */
-    padding: 1rem var(--nav-menu-border-padding);
-
-    /* Flex layout for content */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start !important;
-
-    /* Slide Animation via Transform */
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
-  }
-
-  /* Animate Drawer when Popover is Open */
-  .header[popover]:popover-open .mobile-nav-drawer {
-    transform: translateX(0);
-  }
-
-  @starting-style {
-    .header[popover]:popover-open .mobile-nav-drawer {
-      transform: translateX(-100%);
-    }
-  }
-
-  /* Backdrop overlay */
-  .header[popover]::backdrop {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(2px);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out,
-      display 0.3s ease-in-out allow-discrete,
-      overlay 0.3s ease-in-out allow-discrete;
-  }
-
-  .header[popover]:popover-open::backdrop {
-    opacity: 1;
-  }
-
-  @starting-style {
-    .header[popover]:popover-open::backdrop {
-      opacity: 0;
-    }
-  }
-}
+@import "mobile-nav";
 
 /*--------------------------------------------------------------
 # Navigation Menu
@@ -228,19 +121,6 @@
     justify-content: space-between;
     white-space: nowrap;
     transition: 0.3s;
-
-    /* Force white in glassmorphism header for dark mode */
-    @media (prefers-color-scheme: dark) {
-      :root:not(:has(.theme-state-light:checked)) & {
-        color: #ffffff;
-      }
-    }
-
-    @media (prefers-color-scheme: light) {
-      :root:has(.theme-state-dark:checked) & {
-        color: #ffffff;
-      }
-    }
 
     /* Auto-Dark Nav + Manual Override (Checkbox) */
 
@@ -320,15 +200,16 @@
   display: none !important;
 }
 
-.navmenu a i,
-.navmenu a:focus i {
-  font-size: 0.75rem;
-  /* 12px */
-  line-height: 0;
-  margin-left: 0.3125rem;
-  /* 5px */
-  transition: 0.3s;
-}
+@media (min-width: 992px) {
+  .navmenu a i,
+  .navmenu a:focus i {
+    font-size: 0.75rem;
+    /* 12px */
+    line-height: 0;
+    margin-left: 0.3125rem;
+    /* 5px */
+    transition: 0.3s;
+  }
 
 .navmenu li:last-child a {
   padding-right: 0;
@@ -392,17 +273,23 @@
   visibility: visible;
 }
 
-.navmenu .dropdown .dropdown ul {
-  top: 0;
-  left: -90%;
-  visibility: hidden;
-}
+  .navmenu .dropdown .dropdown ul {
+    top: 0;
+    left: -90%;
+    visibility: hidden;
+  }
 
-.navmenu .dropdown .dropdown:hover>ul {
-  opacity: 1;
-  top: 0;
-  left: -100%;
-  visibility: visible;
+  .navmenu .dropdown .dropdown:hover>ul {
+    opacity: 1;
+    top: 0;
+    left: -100%;
+    visibility: visible;
+  }
+
+  /* Specific Alignment Fix for Theme Dropdown on Desktop Top Nav */
+  .header.is-inner .navmenu .theme-toggle-container .theme-dropdown-menu {
+    transform: translateX(0.5rem); /* Shift right slightly to align dropdown icons with toggle icon */
+  }
 }
 
 
@@ -423,6 +310,7 @@
   }
 
   .navmenu a,
+  .navmenu .theme-toggle,
   .navmenu a:focus {
     color: var(--nav-color);
     font-family: var(--nav-font);
@@ -457,8 +345,9 @@
     /* 20px */
   }
 
-  .navmenu a span,
-  .navmenu a:focus span {
+  .navmenu a span:not(.theme-icon-container),
+  .navmenu .theme-toggle span:not(.theme-icon-container),
+  .navmenu a:focus span:not(.theme-icon-container) {
     padding: 0 0.3125rem 0 0.4375rem;
     /* 0 5px 0 7px */
   }
@@ -476,128 +365,21 @@
   .navmenu a:hover,
   .navmenu .theme-toggle:hover,
   .navmenu .theme-toggle-container.active>a,
+  .navmenu .theme-toggle-container:focus-within>a,
   .navmenu li:hover>a {
     max-width: 100%;
     color: var(--contrast-color);
   }
 
-  .navmenu a:hover span,
-  .navmenu .theme-toggle:hover span,
-  .navmenu .theme-toggle-container.active>a span,
-  .navmenu li:hover>a span {
+  .navmenu a:hover span:not(.theme-icon-container),
+  .navmenu .theme-toggle:hover span:not(.theme-icon-container),
+  .navmenu .theme-toggle-container.active>a span:not(.theme-icon-container),
+  .navmenu .theme-toggle-container:focus-within>a span:not(.theme-icon-container),
+  .navmenu li:hover>a span:not(.theme-icon-container) {
     display: block;
   }
 
-  /* Theme Dropdown specific mobile expansion (No-JS CSS) */
-  .navmenu .theme-toggle-container .theme-dropdown-menu {
-    display: none;
-    flex-direction: column;
-    padding-left: 1.5rem;
-    margin-top: 0.5rem;
-    list-style-type: none;
-    /* No ugly bullets */
-  }
-
-  body #navmenu-mobile .theme-toggle-container.active .theme-dropdown-menu,
-  body.home-page #navmenu-mobile .theme-toggle-container.active .theme-dropdown-menu {
-    display: flex !important;
-  }
-
-  /*--------------------------------------------------------------
-  # Navigation Toggle (Mobile)
-  --------------------------------------------------------------*/
-  /* Hide the toggle button when the menu is open (NoScript supported) */
-  .mobile-nav:popover-open~.nav-toggle {
-    display: none;
-  }
-
-  .nav-toggle {
-    /* Reset button styles */
-    border: none;
-    padding: 0;
-
-    /* Visual styling */
-    color: var(--contrast-color);
-    background-color: var(--accent-color);
-    font-size: 1.375rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--botton-size);
-    height: var(--botton-size);
-    border-radius: 50%;
-    height: var(--botton-size);
-    border-radius: 50%;
-    cursor: pointer;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-    position: fixed;
-    top: var(--botton-position-away-from-corner-vertical-distance);
-    right: var(--botton-position-away-from-corner-horizontal-distance);
-    z-index: 9999;
-    transition: background-color 0.3s;
-    user-select: none;
-    -webkit-user-select: none;
-    caret-color: transparent;
-    /* Prevent blinking cursor */
-
-  }
-
-  /* Ensure icons (which are text) don't trigger text cursor behavior */
-  .nav-toggle>* {
-    pointer-events: none;
-  }
-
-  .nav-toggle:focus {
-    outline: none;
-    background-color: var(--accent-color);
-    /* Ensure focus doesn't lock the hover color */
-  }
-
-  @media (hover: hover) {
-    .nav-toggle:hover {
-      color: var(--contrast-color);
-      background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
-    }
-  }
+  /* Handled by _theme-dropdown.scss now */
 
 
-
-
-
-  /* Icon swap when popover is open - uses :has() pseudo-class */
-  /* Internal Close Button (Overlay) - Matches exact position of external toggle */
-  .nav-close {
-    /* Reset button styles */
-    border: none;
-    padding: 0;
-
-    /* Visual styling - matches nav-toggle */
-    color: var(--contrast-color);
-    background-color: var(--accent-color);
-    font-size: 1.375rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--botton-size);
-    height: var(--botton-size);
-    border-radius: 50%;
-    cursor: pointer;
-
-    /* Position fixed relative to viewport (since it's in top-layer popover) */
-    position: fixed;
-    top: var(--botton-position-away-from-corner-vertical-distance);
-    right: var(--botton-position-away-from-corner-horizontal-distance);
-    z-index: 10000;
-    /* Ensure on top of everything inside drawer */
-    transition: background-color 0.3s;
-    user-select: none;
-  }
-
-  @media (hover: hover) {
-    .nav-close:hover {
-      color: var(--contrast-color);
-      background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
-    }
-  }
 }

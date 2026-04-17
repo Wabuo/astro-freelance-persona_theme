@@ -83,7 +83,7 @@ const { isHome = false } = Astro.props;
     transition: 0.3s;
     border-radius: 3.125rem;
     margin-bottom: 0.5rem;
-    gap: 0.5rem;
+    gap: 0; /* Let native margins handle internal spacing */
   }
 
   :global(.theme-toggle-container) {
@@ -97,22 +97,24 @@ const { isHome = false } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.5rem; /* Match the 1.5rem min-width layout footprint of SVG navicons */
+    height: 1.5rem;
+    flex-shrink: 0;
   }
 
   :global(.toggle-dropdown) {
     font-size: 0.75rem; /* Match other dropdown chevrons */
-    margin-left: 0.3125rem;
+    margin-left: 0.25rem; /* Pushed slightly right to avoid cutting off text */
     transition: 0.3s;
   }
 
   /* Hide textual label on desktop topnav */
   @media (min-width: 992px) {
-    :global(.is-inner .theme-toggle .theme-text-label) {
-      display: none;
+    :global(.desktop-nav.is-inner .theme-toggle .theme-text-label),
+    :global(.desktop-nav.is-inner .theme-toggle .toggle-dropdown) {
+      display: none !important;
     }
-    :global(.is-inner .theme-toggle) {
+    :global(.desktop-nav.is-inner .theme-toggle) {
       width: auto;
       padding: 1rem 0 1rem 1rem;
       margin-left: 0.5rem;
@@ -128,29 +130,54 @@ const { isHome = false } = Astro.props;
     display: none;
   }
   :global(:root:has(.theme-state-os:checked) .theme-toggle .theme-icon-os),
-  :global(:root:has(.theme-state-light:checked)
-      .theme-toggle
-      .theme-icon-light),
+  :global(
+    :root:has(.theme-state-light:checked) .theme-toggle .theme-icon-light
+  ),
   :global(:root:has(.theme-state-dark:checked) .theme-toggle .theme-icon-dark) {
     display: inline-block;
   }
 
   /* Styling for items in the dropdown drawer */
+  :global(.theme-dropdown-menu) {
+    min-width: 12.5rem !important; /* Force width matching inner page dropdowns */
+  }
+
   :global(.theme-dropdown-menu .dropdown-item) {
     display: flex !important;
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
     width: 100%;
+    color: var(
+      --nav-dropdown-color
+    ); /* Inherit default nav color on pure labels */
+    min-width: 12.5rem; /* Ensure they match inner page sizes exactly */
     min-height: 2.5rem; /* Ensure they don't collapse to 0px height on mobile */
     padding: 0.5rem; /* Add some padding for the hover state */
     border-radius: 0.25rem;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    position: relative; /* Anchor for the pseudo-element hitbox */
+  }
+
+  /* Native CSS Hitbox Fix: Stretch a transparent layer over the entire flex gap to capture clicks */
+  :global(.theme-dropdown-menu .dropdown-item::before) {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1; /* Keep it above the background but below the text/icons if they need specific interactions */
   }
 
   /* Make sure the text takes remaining space to push toggles to the right */
   :global(.theme-dropdown-menu .theme-name) {
     flex-grow: 1;
     margin-right: auto;
+    position: relative;
+    z-index: 2; /* Keep labels above the clickable overlay just in case */
   }
 
   /* Dropdown Toggle Icons Base States */
@@ -169,18 +196,24 @@ const { isHome = false } = Astro.props;
   }
 
   /* Active states overrides */
-  :global(:root:has(.theme-state-os:checked)
+  :global(
+    :root:has(.theme-state-os:checked)
       .theme-dropdown-menu
       .theme-label-os
-      .toggle-off),
-  :global(:root:has(.theme-state-light:checked)
+      .toggle-off
+  ),
+  :global(
+    :root:has(.theme-state-light:checked)
       .theme-dropdown-menu
       .theme-label-light
-      .toggle-off),
-  :global(:root:has(.theme-state-dark:checked)
+      .toggle-off
+  ),
+  :global(
+    :root:has(.theme-state-dark:checked)
       .theme-dropdown-menu
       .theme-label-dark
-      .toggle-off) {
+      .toggle-off
+  ) {
     display: none !important;
   }
 
@@ -189,68 +222,72 @@ const { isHome = false } = Astro.props;
   }
 
   /* Active Dropdown Item Toggle Icon Swap */
-  :global(:root:has(.theme-state-os:checked)
+  :global(
+    :root:has(.theme-state-os:checked)
       .theme-dropdown-menu
       .theme-label-os
-      .toggle-off),
-  :global(:root:has(.theme-state-light:checked)
+      .toggle-off
+  ),
+  :global(
+    :root:has(.theme-state-light:checked)
       .theme-dropdown-menu
       .theme-label-light
-      .toggle-off),
-  :global(:root:has(.theme-state-dark:checked)
+      .toggle-off
+  ),
+  :global(
+    :root:has(.theme-state-dark:checked)
       .theme-dropdown-menu
       .theme-label-dark
-      .toggle-off) {
+      .toggle-off
+  ) {
     display: none !important;
   }
 
-  :global(:root:has(.theme-state-os:checked)
+  :global(
+    :root:has(.theme-state-os:checked)
       .theme-dropdown-menu
       .theme-label-os
-      .toggle-on),
-  :global(:root:has(.theme-state-light:checked)
+      .toggle-on
+  ),
+  :global(
+    :root:has(.theme-state-light:checked)
       .theme-dropdown-menu
       .theme-label-light
-      .toggle-on),
-  :global(:root:has(.theme-state-dark:checked)
+      .toggle-on
+  ),
+  :global(
+    :root:has(.theme-state-dark:checked)
       .theme-dropdown-menu
       .theme-label-dark
-      .toggle-on) {
+      .toggle-on
+  ) {
     display: inline-block !important;
   }
 
   /* Add active highlight to currently selected dropdown item natively */
-  :global(:root:has(.theme-state-os:checked)
+  :global(
+    :root:has(.theme-state-os:checked) .theme-dropdown-menu .theme-label-os
+  ),
+  :global(
+    :root:has(.theme-state-light:checked)
       .theme-dropdown-menu
-      .theme-label-os),
-  :global(:root:has(.theme-state-light:checked)
-      .theme-dropdown-menu
-      .theme-label-light),
-  :global(:root:has(.theme-state-dark:checked)
-      .theme-dropdown-menu
-      .theme-label-dark) {
+      .theme-label-light
+  ),
+  :global(
+    :root:has(.theme-state-dark:checked) .theme-dropdown-menu .theme-label-dark
+  ) {
     color: var(--nav-dropdown-hover-color);
   }
 
-  /* Adwaita Dark Mode specifics for the Dropdown Menu */
-  :global(:root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu) {
-    background-color: #303030 !important; /* Adwaita dark card/menu background */
-    border: 1px solid #454545;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  }
-
-  :global(:root:has(.theme-state-dark:checked)
-      .navmenu
-      .theme-dropdown-menu
-      .dropdown-item:hover),
-  :global(:root:has(.theme-state-dark:checked)
-      .navmenu
-      .theme-dropdown-menu
-      .dropdown-item:focus-within) {
-    background-color: #454545 !important; /* Adwaita Dark Hover State */
+  /* Universal hover/focus state for dropdown items */
+  :global(.theme-dropdown-menu .dropdown-item:hover),
+  :global(.theme-dropdown-menu .dropdown-item:focus-within) {
+    color: var(--nav-dropdown-hover-color) !important;
+    background-color: color-mix(
+      in srgb,
+      var(--nav-dropdown-hover-color),
+      transparent 92%
+    );
   }
 </style>
 
@@ -277,18 +314,6 @@ const { isHome = false } = Astro.props;
       });
     });
 
-    // Mobile/Desktop Click Toggle for the Theme Dropdown
-    const themeToggles = document.querySelectorAll("#theme-toggle");
-    themeToggles.forEach((toggle) => {
-      toggle.addEventListener("click", (e) => {
-        e.preventDefault(); // Prevent jump to top
-        const container = toggle.closest(".theme-toggle-container");
-        if (container) {
-          container.classList.toggle("active");
-        }
-      });
-    });
-
     // SCROLL PROXY: Forward wheel events from backdrop to drawer
     // This allows user to scroll the menu even if their cursor is on the backdrop
     if (backdrop && drawer) {
@@ -304,7 +329,7 @@ const { isHome = false } = Astro.props;
             behavior: "auto", // 'smooth' feels laggy for wheel proxy
           });
         },
-        { passive: false }
+        { passive: false },
       );
     }
   };
@@ -320,7 +345,7 @@ const { isHome = false } = Astro.props;
     if (isHomePage) {
       // Target both desktop and mobile nav links
       const navLinks = document.querySelectorAll(
-        "#navmenu a, #navmenu-mobile a"
+        "#navmenu a, #navmenu-mobile a",
       );
       const sections = document.querySelectorAll("section");
 
@@ -331,7 +356,7 @@ const { isHome = false } = Astro.props;
         sections.forEach((section) => {
           if (position >= section.offsetTop) {
             const hasLink = Array.from(navLinks).some(
-              (link) => link.getAttribute("href") === "#" + section.id
+              (link) => link.getAttribute("href") === "#" + section.id,
             );
             if (hasLink) {
               currentActiveId = section.id;
@@ -354,7 +379,7 @@ const { isHome = false } = Astro.props;
           navLinks.forEach((link) => link.classList.remove("active"));
           document
             .querySelectorAll(
-              '#navmenu a[href="#hero"], #navmenu-mobile a[href="#hero"]'
+              '#navmenu a[href="#hero"], #navmenu-mobile a[href="#hero"]',
             )
             .forEach((link) => {
               link.classList.add("active");
@@ -370,7 +395,7 @@ const { isHome = false } = Astro.props;
         () => {
           document.removeEventListener("scroll", updateActiveLink);
         },
-        { once: true }
+        { once: true },
       );
     }
   };
@@ -379,7 +404,7 @@ const { isHome = false } = Astro.props;
   const initThemeToggle = () => {
     // Hidden radios at top of DOM
     const radioInputs = document.querySelectorAll(
-      ".theme-state-os, .theme-state-light, .theme-state-dark"
+      ".theme-state-os, .theme-state-light, .theme-state-dark",
     );
 
     // Sync UI on load
@@ -387,7 +412,7 @@ const { isHome = false } = Astro.props;
       const storedTheme = localStorage.getItem("theme");
       if (storedTheme === "light" || storedTheme === "dark") {
         const el = document.getElementById(
-          "theme-" + storedTheme
+          "theme-" + storedTheme,
         ) as HTMLInputElement;
         if (el) el.checked = true;
       } else {
@@ -412,12 +437,6 @@ const { isHome = false } = Astro.props;
         }
       });
     });
-
-    // Prevent default click on the main toggle button since it is just an anchor acting purely as a hover/click dropdown trigger
-    const toggles = document.querySelectorAll("#theme-toggle");
-    toggles.forEach((t) =>
-      t.addEventListener("click", (e) => e.preventDefault())
-    );
   };
 
   // Centralized Initialization
@@ -429,10 +448,4 @@ const { isHome = false } = Astro.props;
 
   // Run on every page load (Client Router compatible)
   document.addEventListener("astro:page-load", initAll);
-  // Fallback for initial load
-  document.addEventListener("DOMContentLoaded", initAll);
-
-  // Run on every page load (Client Router compatible)
-
-  document.addEventListener("astro:page-load", initScrollSpy);
 </script>

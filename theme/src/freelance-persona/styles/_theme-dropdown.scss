@@ -1,0 +1,133 @@
+/* 
+ * Shared Unified Theme Dropdown Styling
+ * Applies globally to ensure identical behavior/shape across layouts.
+ */
+
+/* Baseline Styling applies natively across breakpoints where relevant */
+.navmenu .theme-toggle-container .theme-dropdown-menu {
+    display: block; // Flex is not needed here if inner pages logic handles dropdown items
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    left: 0.875rem;
+    top: 130%;
+    transition: 0.3s;
+    padding: 0.625rem 0;
+    margin: 0;
+    background: var(--nav-dropdown-background-color);
+    border-radius: 0.25rem;
+    z-index: 99;
+    box-shadow: 0 0 1.875rem color-mix(in srgb, var(--default-color), transparent 85%);
+    cursor: default;
+    user-select: none;
+    /* Prevent text cursor highlighting on dropdown contents */
+    /* Ensure dead zones like padding do not show a pointer */
+}
+
+.navmenu .theme-toggle {
+    position: relative;
+    z-index: 100; /* Ensure pill is clickable above the light-dismiss backdrop */
+}
+
+@media (min-width: 992px) {
+
+    /* Prevent generic hover implementation from keeping the menu open improperly when click-toggled off */
+    .navmenu .theme-toggle-container:not(:focus-within):not(:has(.theme-menu-toggle-checkbox:checked)):hover>.theme-dropdown-menu {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        top: 130% !important;
+    }
+
+    /* Show floating dropdown natively on interactions or when checkbox is triggered */
+    .navmenu .theme-dropdown-menu:focus-within,
+    .navmenu .theme-toggle:focus-visible~.theme-dropdown-menu,
+    .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-dropdown-menu {
+        opacity: 1 !important;
+        visibility: visible !important;
+        top: 100% !important;
+    }
+
+    /* Enforce hidden chevron on desktop topnav (Inner Pages) globally */
+    .header.is-inner .navmenu .theme-toggle .toggle-dropdown {
+        display: none !important;
+    }
+}
+
+/* 
+ * Native Checkbox Hack: Light Dismiss Backdrop
+ * When the hidden checkbox is NOT checked, the backdrop is hidden.
+ * When checked, it expands full screen so clicking anywhere triggers the close natively.
+ */
+.navmenu .theme-menu-backdrop {
+    display: none;
+    position: fixed;
+    /* Prevent backdrop-filter on the header from clipping this fixed element */
+    top: -50vh;
+    left: -50vw;
+    width: 200vw;
+    height: 200vh;
+    z-index: 98;
+    /* Just below the dropdown (99), above page content */
+    cursor: default;
+}
+
+.navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked) .theme-menu-backdrop {
+    display: block;
+}
+
+/* Mobile Specific Dropdown Drawer Expansion */
+@media (max-width: 991px) {
+    .navmenu .theme-menu-backdrop {
+        display: none !important; /* Mobile is an accordion; no backdrop needed */
+    }
+
+    .navmenu .theme-toggle-container .theme-dropdown-menu {
+        display: none;
+        flex-direction: column;
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        box-shadow: none;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        min-width: auto !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    body #navmenu-mobile .theme-dropdown-menu .dropdown-item {
+        min-width: auto !important;
+    }
+
+    body #navmenu-mobile .theme-toggle-container.active .theme-dropdown-menu,
+    body #navmenu-mobile .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked) .theme-dropdown-menu {
+        display: flex !important;
+    }
+}
+
+/* Adwaita Dark Mode specifics for the Dropdown Menu (Applies to Explicit Dark & Auto Dark) */
+:root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu {
+    background-color: #303030 !important;
+    box-shadow: none !important;
+    /* Adwaita dark should not have shadows */
+}
+
+:root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:hover,
+:root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
+    background-color: #454545 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:has(.theme-state-os:checked) .navmenu .theme-dropdown-menu {
+        background-color: #303030 !important;
+        box-shadow: none !important;
+        /* Adwaita dark should not have shadows */
+    }
+
+    :root:has(.theme-state-os:checked) .navmenu .theme-dropdown-menu .dropdown-item:hover,
+    :root:has(.theme-state-os:checked) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
+        background-color: #454545 !important;
+    }
+}

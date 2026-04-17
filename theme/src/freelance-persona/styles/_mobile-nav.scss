@@ -1,0 +1,205 @@
+/* Shared Mobile Drawer (Popover API) Styles */
+
+@media (max-width: 991px) {
+  /* Reset popover defaults and set up drawer (Native Scroll) */
+  .mobile-nav[popover] {
+    /* Container: Full screen, Fixed, NO SCROLL */
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    overflow: hidden;
+
+    /* Reset Transform/Transition for container */
+    transform: none;
+    transition:
+      display 0.3s allow-discrete,
+      overlay 0.3s allow-discrete;
+
+    /* Flex layout: Align drawer to START */
+    justify-content: flex-start;
+    align-items: stretch;
+
+    /* Ensure content color is inherited */
+    color: var(--default-color);
+  }
+
+  /* Ensure nav-close is hidden when popover is not open (Fix for Stuck State) */
+  .mobile-nav[popover]:not(:popover-open) .nav-close {
+    display: none !important;
+  }
+
+  .mobile-nav[popover]:popover-open {
+    display: flex;
+  }
+
+  /* Backdrop: Fixed, Non-scrolling */
+  .mobile-nav-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: transparent;
+    border: none;
+    cursor: default;
+    width: 100%;
+    height: 100dvh;
+  }
+
+  /* Visual Drawer: The SCROLL CONTAINER */
+  .mobile-nav-drawer {
+    /* Dimensions */
+    width: calc(var(--nav-menu-mobile-width) + var(--nav-menu-mobile-border-width));
+    height: 100dvh;
+    /* Full Height */
+
+    /* Styling */
+    background: var(--background-color);
+    border-right: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
+
+    /* SCROLL LOGIC: This element scrolls */
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+
+    /* Padding */
+    padding: 1rem var(--nav-menu-border-padding);
+
+    /* Flex layout for content */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important;
+
+    /* Slide Animation via Transform */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* Animate Drawer when Popover is Open */
+  .mobile-nav[popover]:popover-open .mobile-nav-drawer {
+    transform: translateX(0);
+  }
+
+  @starting-style {
+    .mobile-nav[popover]:popover-open .mobile-nav-drawer {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* Backdrop overlay */
+  .mobile-nav[popover]::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out,
+      display 0.3s ease-in-out allow-discrete,
+      overlay 0.3s ease-in-out allow-discrete;
+  }
+
+  .mobile-nav[popover]:popover-open::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .mobile-nav[popover]:popover-open::backdrop {
+      opacity: 0;
+    }
+  }
+
+  /*--------------------------------------------------------------
+  # Navigation Toggle
+  --------------------------------------------------------------*/
+
+  /* Hide the toggle button when the menu is open (NoScript supported) */
+  /* This relies on .nav-toggle being a sibling of .mobile-nav in the HTML structure */
+  .mobile-nav:popover-open~.nav-toggle {
+    display: none;
+  }
+
+  .nav-toggle {
+    /* Reset button styles */
+    border: none;
+    padding: 0;
+
+    /* Visual styling */
+    color: var(--contrast-color);
+    background-color: var(--accent-color);
+    font-size: 1.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--botton-size);
+    height: var(--botton-size);
+    border-radius: 50%;
+    cursor: pointer;
+    position: fixed;
+    top: var(--botton-position-away-from-corner-vertical-distance);
+    right: var(--botton-position-away-from-corner-horizontal-distance);
+    z-index: 9999;
+    transition: background-color 0.3s;
+    user-select: none;
+    -webkit-user-select: none;
+    /* Safari */
+    caret-color: transparent;
+    /* Prevent blinking cursor */
+    /* Prevent cursor selection */
+    outline: none;
+  }
+
+  /* Ensure icons (which are text) don't trigger text cursor behavior */
+  .nav-toggle>* {
+    pointer-events: none;
+  }
+
+  .nav-toggle:focus {
+    outline: none;
+    background-color: var(--accent-color);
+    /* Ensure focus doesn't lock the hover color */
+  }
+
+  /* Only apply hover effect if the device supports hover and it's not just a touch/focus event */
+  @media (hover: hover) {
+    .nav-toggle:hover {
+      color: var(--contrast-color);
+      background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+    }
+  }
+
+  /* Internal Close Button (Overlay) - Matches exact position of external toggle */
+  .nav-close {
+    /* Reset button styles */
+    border: none;
+    padding: 0;
+
+    /* Visual styling - matches nav-toggle */
+    color: var(--contrast-color);
+    background-color: var(--accent-color);
+    font-size: 1.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--botton-size);
+    height: var(--botton-size);
+    border-radius: 50%;
+    cursor: pointer;
+
+    /* Position fixed relative to viewport (since it's in top-layer popover) */
+    position: fixed;
+    top: var(--botton-position-away-from-corner-vertical-distance);
+    right: var(--botton-position-away-from-corner-horizontal-distance);
+    z-index: 10000;
+    /* Ensure on top of everything inside drawer */
+    transition: background-color 0.3s;
+    user-select: none;
+  }
+
+  @media (hover: hover) {
+    .nav-close:hover {
+      color: var(--contrast-color);
+      background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+    }
+  }
+}

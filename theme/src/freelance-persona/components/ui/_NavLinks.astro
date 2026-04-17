@@ -83,17 +83,6 @@ const getLink = (id: string) => {
       })
     }
 
-    {
-      themeConfig.contact_infos && (
-        <li>
-          <a href={getLink("contact")} aria-label="Contact">
-            <i class="bi bi-envelope navicon" />
-            <span>Contact</span>
-          </a>
-        </li>
-      )
-    }
-
     {/* Theme Toggle (Dropdown Menu - Pure CSS Hover + Native Click) */}
     <li class="dropdown theme-toggle-container">
       <!-- Invisible backdrop for light dismiss click-outside to close natively -->

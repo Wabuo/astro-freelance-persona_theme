@@ -17,7 +17,7 @@ export const themeConfig: PersonaConfig = {
   // ===================================================================================
   // 1. SITE IDENTITY & METADATA
   // ===================================================================================
-  title: "freelance-persona — a Astro5 Theme ",
+  title: "freelance-persona — an Astro 5 Theme ",
   author: "freelance-persona, Astro Theme", // Used for meta tags and the 'theme_author' token
   description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.\
   Initally ported from Persona-Zola, modernized and expanded with some custom adptions and the fetures section from Zola-Goyo ",
@@ -161,7 +161,7 @@ export const themeConfig: PersonaConfig = {
     // Example: `bun add @fontsource/adwaita-sans` and import in src/fonts.ts
     headings: "Adwaita Sans",
     body: "Adwaita Sans",
-    navigation: '"sans-serif", "Raleway"',
+    navigation: '"Raleway", sans-serif',
     monospace: '"Adwaita Mono", Courier, monospace',
 
     // Font Size Overrides (Uncomment to adjust base sizes)

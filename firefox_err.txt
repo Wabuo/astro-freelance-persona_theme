@@ -1,0 +1,75 @@
+my-freelance-portfolio test: 
+my-freelance-portfolio test: Running 4 tests using 4 workers
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   ✘  1 [firefox] › testing/tests/theme.spec.ts:7:3 › Theme Toggle & Dark Mode › Default matches system preference (Dark) (3.3s)
+my-freelance-portfolio test:   ✓  3 [firefox] › testing/tests/theme.spec.ts:26:3 › Theme Toggle & Dark Mode › Default matches system preference (Light) (3.1s)
+my-freelance-portfolio test:   ✘  4 [firefox] › testing/tests/theme.spec.ts:99:3 › Theme Toggle & Dark Mode › Preference Persists on Reload (4.7s)
+my-freelance-portfolio test:   ✘  2 [firefox] › testing/tests/theme.spec.ts:43:3 › Theme Toggle & Dark Mode › Toggle Button Switches Theme (4.3s)
+my-freelance-portfolio test: 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   1) [firefox] › testing/tests/theme.spec.ts:7:3 › Theme Toggle & Dark Mode › Default matches system preference (Dark) 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Expected value: [32m"#303030"[39m
+my-freelance-portfolio test:     Received array: [31m["#1e1e1e", "rgb(30, 30, 30)"][39m
+my-freelance-portfolio test: 
+my-freelance-portfolio test:       21 |         // #1e1e1e is rgb(30, 30, 30) - Background for Dark Theme
+my-freelance-portfolio test:       22 |         // We accept both formats
+my-freelance-portfolio test:     > 23 |         expect(['#1e1e1e', 'rgb(30, 30, 30)']).toContain(bgColor);
+my-freelance-portfolio test:          |                                                ^
+my-freelance-portfolio test:       24 |     });
+my-freelance-portfolio test:       25 |
+my-freelance-portfolio test:       26 |     test('Default matches system preference (Light)', async ({ page }) => {
+my-freelance-portfolio test:         at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/playground/testing/tests/theme.spec.ts:23:48
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error Context: testing/test-results/theme-Theme-Toggle-Dark-Mo-8f26f-hes-system-preference-Dark--firefox/error-context.md
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   2) [firefox] › testing/tests/theme.spec.ts:43:3 › Theme Toggle & Dark Mode › Toggle Button Switches Theme 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error: locator.click: Error: strict mode violation: locator('label[for="theme-dark"]') resolved to 2 elements:
+my-freelance-portfolio test:         1) <label for="theme-dark" class="theme-toggle-label dropdown-item theme-label-dark">…</label> aka locator('#navmenu label').filter({ hasText: 'Dark' })
+my-freelance-portfolio test:         2) <label for="theme-dark" class="theme-toggle-label dropdown-item theme-label-dark">…</label> aka locator('#navmenu-mobile label').filter({ hasText: 'Dark' })
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Call log:
+my-freelance-portfolio test:     [2m  - waiting for locator('label[for="theme-dark"]')[22m
+my-freelance-portfolio test: 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:       64 |
+my-freelance-portfolio test:       65 |         // Click Dark Theme Toggle
+my-freelance-portfolio test:     > 66 |         await page.locator('label[for="theme-dark"]').click({ force: true });
+my-freelance-portfolio test:          |                                                       ^
+my-freelance-portfolio test:       67 |
+my-freelance-portfolio test:       68 |         await page.waitForTimeout(100);
+my-freelance-portfolio test:       69 |
+my-freelance-portfolio test:         at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/playground/testing/tests/theme.spec.ts:66:55
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error Context: testing/test-results/theme-Theme-Toggle-Dark-Mode-Toggle-Button-Switches-Theme-firefox/error-context.md
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   3) [firefox] › testing/tests/theme.spec.ts:99:3 › Theme Toggle & Dark Mode › Preference Persists on Reload 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error: locator.click: Error: strict mode violation: locator('label[for="theme-dark"]') resolved to 2 elements:
+my-freelance-portfolio test:         1) <label for="theme-dark" class="theme-toggle-label dropdown-item theme-label-dark">…</label> aka locator('#navmenu label').filter({ hasText: 'Dark' })
+my-freelance-portfolio test:         2) <label for="theme-dark" class="theme-toggle-label dropdown-item theme-label-dark">…</label> aka locator('#navmenu-mobile label').filter({ hasText: 'Dark' })
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Call log:
+my-freelance-portfolio test:     [2m  - waiting for locator('label[for="theme-dark"]')[22m
+my-freelance-portfolio test: 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:       100 |         const toggleId = isMobile ? '#theme-menu-toggle-mobile' : '#theme-menu-toggle-desktop';
+my-freelance-portfolio test:       101 |         await page.locator(`label[for="${toggleId.substring(1)}"].theme-toggle`).click({ force: true });
+my-freelance-portfolio test:     > 102 |         await page.locator('label[for="theme-dark"]').click({ force: true });
+my-freelance-portfolio test:           |                                                       ^
+my-freelance-portfolio test:       103 |
+my-freelance-portfolio test:       104 |         await page.waitForTimeout(100);
+my-freelance-portfolio test:       105 |
+my-freelance-portfolio test:         at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/playground/testing/tests/theme.spec.ts:102:55
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error Context: testing/test-results/theme-Theme-Toggle-Dark-Mode-Preference-Persists-on-Reload-firefox/error-context.md
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   3 failed
+my-freelance-portfolio test:     [firefox] › testing/tests/theme.spec.ts:7:3 › Theme Toggle & Dark Mode › Default matches system preference (Dark) 
+my-freelance-portfolio test:     [firefox] › testing/tests/theme.spec.ts:43:3 › Theme Toggle & Dark Mode › Toggle Button Switches Theme 
+my-freelance-portfolio test:     [firefox] › testing/tests/theme.spec.ts:99:3 › Theme Toggle & Dark Mode › Preference Persists on Reload 
+my-freelance-portfolio test:   1 passed (10.9s)
+my-freelance-portfolio test: Exited with code 1

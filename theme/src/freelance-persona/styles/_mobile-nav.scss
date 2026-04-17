@@ -127,18 +127,18 @@
     /* Visual styling */
     color: var(--contrast-color);
     background-color: var(--accent-color);
-    font-size: 1.375rem;
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--botton-size);
-    height: var(--botton-size);
+    width: var(--button-size);
+    height: var(--button-size);
     border-radius: 50%;
     cursor: pointer;
     position: fixed;
-    top: var(--botton-position-away-from-corner-vertical-distance);
-    right: var(--botton-position-away-from-corner-horizontal-distance);
-    z-index: 9999;
+    top: var(--button-position-away-from-corner-vertical-distance);
+    right: var(--button-position-away-from-corner-horizontal-distance);
+    z-index: 1000;
     transition: background-color 0.3s;
     user-select: none;
     -webkit-user-select: none;
@@ -181,15 +181,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--botton-size);
-    height: var(--botton-size);
+    width: var(--button-size);
+    height: var(--button-size);
     border-radius: 50%;
     cursor: pointer;
 
     /* Position fixed relative to viewport (since it's in top-layer popover) */
     position: fixed;
-    top: var(--botton-position-away-from-corner-vertical-distance);
-    right: var(--botton-position-away-from-corner-horizontal-distance);
+    top: var(--button-position-away-from-corner-vertical-distance);
+    right: var(--button-position-away-from-corner-horizontal-distance);
     z-index: 10000;
     /* Ensure on top of everything inside drawer */
     transition: background-color 0.3s;

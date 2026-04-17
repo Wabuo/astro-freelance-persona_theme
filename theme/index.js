@@ -7,10 +7,10 @@
 // e.g., import { BaseLayout } from 'astro-persona-theme';
 
 // index.js
-export { default as BaseLayout } from './src/layouts/BaseLayout.astro';
-export { default as HomeTemplate } from './src/components/templates/HomeTemplate.astro';
-export { default as BlogPostTemplate } from './src/components/templates/BlogPostTemplate.astro';
+export { default as BaseLayout } from './src/freelance-persona/layouts/BaseLayout.astro';
+export { default as HomeTemplate } from './src/freelance-persona/components/templates/HomeTemplate.astro';
+export { default as BlogPostTemplate } from './src/freelance-persona/components/templates/BlogPostTemplate.astro';
 // For now, let's stick to exporting components:
-export { default as Hero } from './src/components/Hero.astro';
-export { default as Footer } from './src/components/Footer.astro';
-export { default as Navigation } from './src/components/Navigation.astro';
+export { default as Hero } from './src/freelance-persona/components/Hero.astro';
+export { default as Footer } from './src/freelance-persona/components/Footer.astro';
+export { default as Navigation } from './src/freelance-persona/components/Navigation.astro';

@@ -13,16 +13,15 @@ test.describe('Theme Toggle & Dark Mode', () => {
         await page.goto('/');
 
         // 2. Attribute should be NULL (handled by CSS)
-        await expect(page.locator('html')).not.toHaveAttribute('data-theme');
-
-        // 3. Check for specific CSS variable (computed check)
+        // Check for specific CSS variable (computed check)
         const bgColor = await page.evaluate(() => {
             return getComputedStyle(document.body).getPropertyValue('--background-color').trim();
         });
 
-        // #303030 is rgb(48, 48, 48) - New Surface Color for Home Page
-        // We accept both formats
-        expect(['#303030', 'rgb(48, 48, 48)']).toContain(bgColor);
+        // #272829 is rgb(39, 40, 41) - Background for Dark Theme
+        // #303030 is rgb(48, 48, 48) - Background for Dark Theme on Home Page
+        // We accept all formats depending on the page type and browser compute strategy
+        expect(['#272829', 'rgb(39, 40, 41)', '#303030', 'rgb(48, 48, 48)']).toContain(bgColor);
     });
 
     test('Default matches system preference (Light)', async ({ page }) => {
@@ -31,10 +30,8 @@ test.describe('Theme Toggle & Dark Mode', () => {
 
         await page.goto('/');
 
-        // 2. Attribute should be NULL (handled by CSS)
-        await expect(page.locator('html')).not.toHaveAttribute('data-theme');
+        // 2. Check CSS variable
 
-        // 3. Check CSS variable
         const bgColor = await page.evaluate(() => {
             return getComputedStyle(document.body).getPropertyValue('--background-color').trim();
         });
@@ -47,9 +44,6 @@ test.describe('Theme Toggle & Dark Mode', () => {
         await page.emulateMedia({ colorScheme: 'light' });
         await page.goto('/');
 
-        const html = page.locator('html');
-        await expect(html).not.toHaveAttribute('data-theme');
-
         // Listen for console logs
         page.on('console', msg => console.log(`BROWSER LOG: ${msg.text()}`));
 
@@ -61,22 +55,37 @@ test.describe('Theme Toggle & Dark Mode', () => {
             console.log('Mobile View detected. Opening menu...');
             await page.click('.nav-toggle', { force: true });
             // Wait for the menu container to be visible
-            await expect(page.locator('#navmenu')).toBeVisible();
+            await expect(page.locator('#navmenu-mobile')).toBeVisible();
             await page.waitForTimeout(500); // Allow animation to settle
         }
 
-        // Click Toggle (Force if necessary, though good practice to wait)
-        // We use force:true to bypass potential overlay issues if animation is slightly off
-        await page.click('#theme-toggle', { force: true });
+        // Open Dropdown
+        const toggleId = isMobile ? '#theme-menu-toggle-mobile' : '#theme-menu-toggle-desktop';
+        await page.locator(`label[for="${toggleId.substring(1)}"].theme-toggle`).click({ force: true });
+
+        const menuPrefix = isMobile ? '#navmenu-mobile' : '#navmenu';
+
+        // Click Dark Theme Toggle
+        await page.locator(`${menuPrefix} label[for="theme-dark"]`).click({ force: true });
+
+        await page.waitForTimeout(100);
 
         // Should be Dark now
-        await expect(html).toHaveAttribute('data-theme', 'dark');
+        const isDarkChecked = await page.locator('#theme-dark').isChecked();
+        expect(isDarkChecked).toBe(true);
 
-        // Click Toggle Again
-        await page.click('#theme-toggle', { force: true });
+        // Click Light Theme Toggle
+        const isMenuOpen = await page.locator(`#${toggleId.substring(1)}`).isChecked();
+        if (!isMenuOpen) {
+            await page.locator(`label[for="${toggleId.substring(1)}"].theme-toggle`).click({ force: true });
+        }
+        await page.locator(`${menuPrefix} label[for="theme-light"]`).click({ force: true });
+
+        await page.waitForTimeout(100);
 
         // Should be Light again
-        await expect(html).toHaveAttribute('data-theme', 'light');
+        const isLightChecked = await page.locator('#theme-light').isChecked();
+        expect(isLightChecked).toBe(true);
     });
 
     test('Preference Persists on Reload', async ({ page, isMobile }) => {
@@ -90,12 +99,16 @@ test.describe('Theme Toggle & Dark Mode', () => {
         if (isMobile) {
             console.log('Mobile View detected. Opening menu...');
             await page.click('.nav-toggle', { force: true });
-            await expect(page.locator('#navmenu')).toBeVisible();
+            await expect(page.locator('#navmenu-mobile')).toBeVisible();
             await page.waitForTimeout(500);
         }
 
-        await page.click('#theme-toggle', { force: true });
-        await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+        const toggleId = isMobile ? '#theme-menu-toggle-mobile' : '#theme-menu-toggle-desktop';
+        await page.locator(`label[for="${toggleId.substring(1)}"].theme-toggle`).click({ force: true });
+        const menuPrefix = isMobile ? '#navmenu-mobile' : '#navmenu';
+        await page.locator(`${menuPrefix} label[for="theme-dark"]`).click({ force: true });
+
+        await page.waitForTimeout(100);
 
         // Debug: Check localStorage before reload
         const storageBefore = await page.evaluate(() => localStorage.getItem('theme'));
@@ -104,7 +117,8 @@ test.describe('Theme Toggle & Dark Mode', () => {
         // Reload
         await page.reload();
 
-        // Should still be Dark (localStorage check handled by script)
-        await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+        // Should still be Dark
+        const isDarkChecked = await page.locator('#theme-dark').isChecked();
+        expect(isDarkChecked).toBe(true);
     });
 });

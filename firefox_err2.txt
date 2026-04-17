@@ -1,0 +1,31 @@
+my-freelance-portfolio test: 
+my-freelance-portfolio test: Running 4 tests using 4 workers
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   ✘  1 [firefox] › testing/tests/theme.spec.ts:7:3 › Theme Toggle & Dark Mode › Default matches system preference (Dark) (3.5s)
+my-freelance-portfolio test:   ✓  3 [firefox] › testing/tests/theme.spec.ts:43:3 › Theme Toggle & Dark Mode › Toggle Button Switches Theme (4.8s)
+my-freelance-portfolio test:   ✓  2 [firefox] › testing/tests/theme.spec.ts:26:3 › Theme Toggle & Dark Mode › Default matches system preference (Light) (3.3s)
+my-freelance-portfolio test:   ✓  4 [firefox] › testing/tests/theme.spec.ts:100:3 › Theme Toggle & Dark Mode › Preference Persists on Reload (5.3s)
+my-freelance-portfolio test: 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   1) [firefox] › testing/tests/theme.spec.ts:7:3 › Theme Toggle & Dark Mode › Default matches system preference (Dark) 
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Expected value: [32m"#303030"[39m
+my-freelance-portfolio test:     Received array: [31m["#272829", "rgb(39, 40, 41)"][39m
+my-freelance-portfolio test: 
+my-freelance-portfolio test:       21 |         // #272829 is rgb(39, 40, 41) - Background for Dark Theme
+my-freelance-portfolio test:       22 |         // We accept both formats
+my-freelance-portfolio test:     > 23 |         expect(['#272829', 'rgb(39, 40, 41)']).toContain(bgColor);
+my-freelance-portfolio test:          |                                                ^
+my-freelance-portfolio test:       24 |     });
+my-freelance-portfolio test:       25 |
+my-freelance-portfolio test:       26 |     test('Default matches system preference (Light)', async ({ page }) => {
+my-freelance-portfolio test:         at /home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/playground/testing/tests/theme.spec.ts:23:48
+my-freelance-portfolio test: 
+my-freelance-portfolio test:     Error Context: testing/test-results/theme-Theme-Toggle-Dark-Mo-8f26f-hes-system-preference-Dark--firefox/error-context.md
+my-freelance-portfolio test: 
+my-freelance-portfolio test:   1 failed
+my-freelance-portfolio test:     [firefox] › testing/tests/theme.spec.ts:7:3 › Theme Toggle & Dark Mode › Default matches system preference (Dark) 
+my-freelance-portfolio test:   3 passed (10.0s)
+my-freelance-portfolio test: Exited with code 1

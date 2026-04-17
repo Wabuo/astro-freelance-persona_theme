@@ -2,7 +2,8 @@
 // src/components/sections/Recent_PostsSection.astro
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
-import ImageAttribution from "../ui/ImageAttribution.astro";
+import { slugify } from "@freelance-persona/utils/slugify";
+import ImageAttribution from "@freelance-persona/components/ui/ImageAttribution.astro";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
 
@@ -26,10 +27,6 @@ const {
   columns = 3,
   scale = 1,
 } = Astro.props;
-
-console.log(
-  `[FilteredPostsSection] id=${id} tags=${tags_to_filter_posts_by} posts=${posts?.length} limit=${limit} scale=${scale}`,
-);
 
 // 1. Fetch ALL posts (only if posts not provided)
 const allPosts = posts ? [] : await getCollection("blog_posts");

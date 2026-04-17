@@ -125,6 +125,7 @@
 }
 
 .navmenu a i,
+.navmenu .theme-toggle i,
 .navmenu a:focus i {
   font-size: 1.25rem;
   /* 20px */
@@ -191,7 +192,8 @@
 .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-toggle,
 .navmenu .active,
 .navmenu .active:focus,
-.navmenu li:hover>a {
+.navmenu li:hover>a,
+.navmenu .theme-toggle-container:hover>.theme-toggle {
   color: var(--contrast-color);
   background: var(--nav-hover-color);
 }
@@ -200,7 +202,8 @@
 .navmenu .theme-toggle:hover,
 .navmenu .theme-toggle-container.active>a,
 .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-toggle,
-.navmenu li:hover>a {
+.navmenu li:hover>a,
+.navmenu .theme-toggle-container:hover>.theme-toggle {
   max-width: 100%;
   color: var(--contrast-color);
 }
@@ -209,13 +212,15 @@
 .navmenu .theme-toggle:hover span:not(.theme-icon-container),
 .navmenu .theme-toggle-container.active>a span:not(.theme-icon-container),
 .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-toggle span:not(.theme-icon-container),
-.navmenu li:hover>a span:not(.theme-icon-container) {
+.navmenu li:hover>a span:not(.theme-icon-container),
+.navmenu .theme-toggle-container:hover>.theme-toggle span:not(.theme-icon-container) {
   display: block;
 }
 
 /* Adjust right padding on the theme-toggle so the chevron looks visually balanced against left margin gap */
 .navmenu .theme-toggle:hover,
 .navmenu .theme-toggle-container.active>a,
+.navmenu .theme-toggle-container:hover>.theme-toggle,
 .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-toggle {
   padding-right: 0.75rem;
 }
@@ -224,7 +229,8 @@
 .navmenu .theme-toggle:hover .toggle-dropdown,
 .navmenu .theme-toggle-container.active>a .toggle-dropdown,
 .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-toggle .toggle-dropdown,
-.navmenu li:hover>a .toggle-dropdown {
+.navmenu li:hover>a .toggle-dropdown,
+.navmenu .theme-toggle-container:hover>.theme-toggle .toggle-dropdown {
   display: inline-block;
 }
 
@@ -236,6 +242,7 @@
   /* Keep the pill wide while the menu is open */
   .navmenu .theme-toggle-container.active>a,
   .navmenu .theme-toggle-container:focus-within>a,
+  .navmenu .theme-toggle-container:focus-within>.theme-toggle,
   .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-toggle {
     max-width: 100%;
     color: var(--contrast-color);

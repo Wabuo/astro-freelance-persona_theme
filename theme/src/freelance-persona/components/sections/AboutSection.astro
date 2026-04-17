@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
-import ImageAttribution from "../ui/ImageAttribution.astro";
+import ImageAttribution from "@freelance-persona/components/ui/ImageAttribution.astro";
 import { themeConfig } from "@freelance-persona/config";
 
 interface Props {
@@ -74,8 +74,6 @@ const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
 const hasSidebar = !!(
   qualifications_sidebar && qualifications_sidebar.length > 0
 );
-
-console.log("AboutSection props:", { hasSidebar, avatar_styles });
 ---
 
 <section id={id} class="about section" style={sectionStyle}>

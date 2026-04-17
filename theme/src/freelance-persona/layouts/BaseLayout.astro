@@ -3,6 +3,7 @@
 import { ClientRouter } from "astro:transitions";
 import Footer from "@freelance-persona/components/Footer.astro";
 import Navigation from "@freelance-persona/components/Navigation.astro";
+import KatexLoader from "@freelance-persona/components/KatexLoader.astro";
 import { themeConfig } from "@freelance-persona/config";
 
 // Font imports removed - should be handled by the consumer/starter
@@ -210,6 +211,7 @@ const monospaceFont = fonts.monospace || "monospace";
   ${fonts.sizes?.nav_icon ? `--nav-icon-size: ${fonts.sizes.nav_icon};` : ""}
 `}
 >
+  <head>
   {/* Dynamic Dark Mode Overrides */}
 
   <meta charset="utf-8" />
@@ -262,11 +264,11 @@ const monospaceFont = fonts.monospace || "monospace";
                 : ""
             }
   
-            /* ${
+            ${
               colors.dark.card_background
                 ? `--card-background: ${colors.dark.card_background} !important;`
                 : ""
-            } */
+            }
             ${
               colors.dark.card_border
                 ? `--card-border: ${colors.dark.card_border} !important;`
@@ -384,11 +386,11 @@ const monospaceFont = fonts.monospace || "monospace";
                 : ""
             }
   
-            /* ${
+            ${
               colors.dark.card_background
                 ? `--card-background: ${colors.dark.card_background} !important;`
                 : ""
-            } */
+            }
             ${
               colors.dark.card_border
                 ? `--card-border: ${colors.dark.card_border} !important;`
@@ -525,7 +527,7 @@ const monospaceFont = fonts.monospace || "monospace";
       }
     </style>
   </noscript>
-
+  </head>
   <body class={bodyClass} data-tex={tex}>
     <!-- Hidden radio state for theme management (No JS fallback) -->
     <input
@@ -536,6 +538,7 @@ const monospaceFont = fonts.monospace || "monospace";
       aria-hidden="true"
       tabindex="-1"
       checked
+      style="position: fixed;"
     />
     <input
       type="radio"
@@ -544,6 +547,7 @@ const monospaceFont = fonts.monospace || "monospace";
       class="theme-state-light sr-only"
       aria-hidden="true"
       tabindex="-1"
+      style="position: fixed;"
     />
     <input
       type="radio"
@@ -552,6 +556,7 @@ const monospaceFont = fonts.monospace || "monospace";
       class="theme-state-dark sr-only"
       aria-hidden="true"
       tabindex="-1"
+      style="position: fixed;"
     />
 
     <script is:inline>
@@ -572,15 +577,8 @@ const monospaceFont = fonts.monospace || "monospace";
 
     <div id="preloader"></div>
 
-    {/* KATE-X LOADER (Optional) */}
-    {
-      tex && (
-        <script
-          is:inline
-          src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"
-        />
-      )
-    }
+    {/* KATE-X LOADER */}
+    {tex && <KatexLoader />}
 
     <script is:inline>
       function removePreloader() {
@@ -622,17 +620,12 @@ const monospaceFont = fonts.monospace || "monospace";
       )};
       const delaysConfig = ${JSON.stringify(themeConfig.visuals?.delays || {})};
       
-      console.log("[FreelancePersona] Animation Script Loaded (Active Layout)");
-
       const initScrollAnimations = () => {
-        console.log("[FreelancePersona] Initializing Animations...");
-        
         // Transition from 'loading' to 'ready' state
         document.documentElement.classList.add("js-ready");
         document.documentElement.classList.remove("js-loading");
 
         if (!animConfig.enabled) {
-          console.log("[FreelancePersona] Animations Disabled via Config");
           document.querySelectorAll("[data-reveal]").forEach((el) => {
             el.classList.add("revealed");
             el.style.opacity = "1";
@@ -642,7 +635,6 @@ const monospaceFont = fonts.monospace || "monospace";
         }
 
         const elements = document.querySelectorAll("[data-reveal]");
-        console.log("[FreelancePersona] Found " + elements.length + " elements to animate.");
 
         const observer = new IntersectionObserver(
           (entries) => {

@@ -1,6 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
- * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -207,10 +206,10 @@
 
 :root {
   --img-border-radius: 0.625rem; // 10px
-  --botton-size: 2.5rem; // 40px
-  --botton-position-away-from-corner-distance: 0.9375rem; // 15px
-  --botton-position-away-from-corner-horizontal-distance: var(--botton-position-away-from-corner-distance);
-  --botton-position-away-from-corner-vertical-distance: 1.875rem; // 30px
+  --button-size: 2.5rem; // 40px
+  --button-position-away-from-corner-distance: 0.9375rem; // 15px
+  --button-position-away-from-corner-horizontal-distance: var(--button-position-away-from-corner-distance);
+  --button-position-away-from-corner-vertical-distance: 1.875rem; // 30px
 }
 
 /* Smooth scroll */
@@ -319,18 +318,7 @@ html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
   caret-color: transparent;
 }
 
-/* Accessibility Utility */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
+
 
 /*--------------------------------------------------------------
 # Global Scroll Lock

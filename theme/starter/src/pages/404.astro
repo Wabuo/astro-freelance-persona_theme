@@ -1,11 +1,133 @@
 ---
-// theme/starter/src/pages/404.astro
+// theme/src/freelance-persona/pages/404.astro
 /*
  * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  * SPDX-License-Identifier: MIT
  */
 
-import Theme404 from "@freelance-persona/pages/404.astro";
+import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import { themeConfig } from "@freelance-persona/config";
+import lancyImage from "@/assets/img/lancy.svg";
+
+const title = "404 - Page Not Found";
+const description = "The page you are looking for does not exist.";
 ---
 
-<Theme404 />
+<BaseLayout title={title} description={description} navType="page">
+  <section
+    class="section error-404 d-flex flex-column align-items-center justify-content-center"
+  >
+    <div class="container text-center" data-reveal="fade-up">
+      <div class="mascot-container mb-4">
+        <Image
+          src={lancyImage}
+          alt="Lancy the mascot looking confused"
+          width={300}
+          height={300}
+          class="img-fluid lancy-404"
+        />
+      </div>
+
+      <h1>404</h1>
+      <h2>Oops! Page Not Found</h2>
+      <p class="mb-4">
+        It seems Lancy couldn't find the page you're looking for.<br />
+        Maybe it was moved, deleted, or never existed in the first place?
+      </p>
+
+      <a href="/" class="btn-get-started"> Return to Home </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .error-404 {
+    min-height: 80vh;
+    padding: 4rem 0;
+
+    h1 {
+      font-size: 5rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: var(--default-color);
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+    }
+
+    .lancy-404 {
+      max-width: 100%;
+      height: auto;
+      filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .btn-get-started {
+      margin-top: 1rem;
+      font-family: var(--heading-font);
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      transition: 0.5s;
+      color: #fff;
+      background: var(--accent-color);
+
+      &:hover {
+        background: color-mix(in srgb, var(--accent-color), white 15%);
+        transform: translateY(-2px);
+      }
+    }
+
+    /* Mobile Compact Layout */
+    @media (max-width: 768px) {
+      min-height: 85vh; // Revert to stable vh
+      padding: 1rem 0 2rem 0; // Tighten padding
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 0.25rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .lancy-404 {
+        width: 180px; // Enforce smaller size
+        margin-bottom: 1rem;
+      }
+
+      .btn-get-started {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+</style>

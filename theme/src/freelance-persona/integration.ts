@@ -19,8 +19,9 @@ export default function freelancePersona(): AstroIntegration {
         let configContent = '';
         try {
           configContent = fs.readFileSync(configPath, 'utf-8');
+          console.log(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[32m✔ Successfully loaded theme configuration\x1b[0m from \x1b[90msrc/freelance-persona.config.ts\x1b[0m`);
         } catch (e) {
-          console.warn(`[FreelancePersona] Could not read config at ${configPath}. Using defaults.`);
+          console.warn(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[33m⚠ Could not find ${configPath}. Using default framework configuration.\x1b[0m`);
           configContent = 'export const themeConfig = {}; export default themeConfig;';
         }
 

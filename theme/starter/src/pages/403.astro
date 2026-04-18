@@ -1,11 +1,138 @@
 ---
-// theme/starter/src/pages/403.astro
+// theme/src/freelance-persona/pages/403.astro
 /*
  * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  * SPDX-License-Identifier: MIT
  */
 
-import Theme403 from "@freelance-persona/pages/403.astro";
+import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import { themeConfig } from "@freelance-persona/config";
+import lancyImage from "@/assets/img/lancy.svg";
+
+const title = "403 - Access Denied";
+const description = "You do not have permission to view this page.";
 ---
 
-<Theme403 />
+<BaseLayout title={title} description={description} navType="page">
+  <section
+    class="section error-403 d-flex flex-column align-items-center justify-content-center"
+  >
+    <div class="container text-center" data-reveal="fade-up">
+      <div class="mascot-container mb-4">
+        <Image
+          src={lancyImage}
+          alt="Lancy stopping you with a sword"
+          width={350}
+          height={350}
+          class="img-fluid lancy-403"
+        />
+      </div>
+
+      <h1>403</h1>
+      <h2>YOU SHALL NOT PASS!</h2>
+      <p class="mb-4">
+        Lancy says this area is forbidden.<br />
+        Please turn back before things get awkward.
+      </p>
+
+      <a href="/" class="btn-get-started"> Retreat to Safety </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="scss">
+  .error-403 {
+    min-height: 80vh;
+    padding: 4rem 0;
+
+    h1 {
+      font-size: 5rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 2.5rem; // Slightly larger for the dramatic quote
+      text-transform: uppercase;
+      color: var(--accent-color); // Emphasize the warning
+      margin-bottom: 1.5rem;
+      font-family: var(--heading-font);
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+    }
+
+    .lancy-403 {
+      max-width: 100%;
+      height: auto;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+      // A more rigid, guarding stance animation? Or just simple float?
+      // Let's keep the float but maybe slower to look imposing.
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .btn-get-started {
+      margin-top: 1rem;
+      font-family: var(--heading-font);
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      transition: 0.5s;
+      color: #fff;
+      background: var(--heading-color); // Dark/Serious button
+
+      &:hover {
+        background: var(--accent-color);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    /* Mobile Compact Layout */
+    @media (max-width: 768px) {
+      min-height: 85vh;
+      padding: 1rem 0 2rem 0;
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 0.25rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .lancy-403 {
+        width: 180px;
+        margin-bottom: 1rem;
+      }
+
+      .btn-get-started {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+</style>

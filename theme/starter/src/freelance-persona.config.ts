@@ -4,6 +4,7 @@
 
 import type { PersonaConfig } from 'astro-freelance-persona_theme/types';
 
+
 /**
  * FREELANCE PERSONA THEME CONFIGURATION
  * 
@@ -63,6 +64,7 @@ export const themeConfig: PersonaConfig = {
   // 4. VISUAL CUSTOMIZATION
   // ===================================================================================
   visuals: {
+    mascot_image: "/src/assets/img/lancy.svg",
     layout: {
       // Defines the empty area/gap on the left side of the page.
       // The sidebar floats over this area.

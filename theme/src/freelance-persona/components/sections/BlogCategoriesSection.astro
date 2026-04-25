@@ -228,7 +228,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
 
                 <div class="category-tags">
                   {category.tags.map((tag) => (
-                    <span class="badge">{tag}</span>
+                    <span class="badge active">{tag}</span>
                   ))}
                 </div>
 
@@ -327,7 +327,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                   <div class="category-tags">
                     {category.tags.map((tag) => (
                       <span
-                        class="badge"
+                        class="badge active"
                         style={
                           category.color
                             ? `background: color-mix(in srgb, black, transparent 90%); color: ${category.color};`

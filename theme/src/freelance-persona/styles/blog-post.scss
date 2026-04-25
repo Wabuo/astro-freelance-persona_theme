@@ -305,16 +305,7 @@
   margin-top: 0.5em;
 }
 
-.blog-post .post-tags .tag {
-  display: inline-block;
-  padding: 0.2em 0.6em;
-  font-size: 0.8em;
-  background-color: var(--tag-background, #f1f8ff);
-  color: var(--tag-text, var(--default-color));
-  border: 1px solid var(--tag-border, transparent);
-  border-radius: 0.1875rem; // 3px
-  margin-right: 0.5em;
-}
+
 
 .blog-post .post-content {
   margin-top: 2em;

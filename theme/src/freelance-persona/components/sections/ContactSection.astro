@@ -38,10 +38,10 @@ const resolvedItems = contact_items.map((item) => {
       content = item.value;
   }
 
-  // Validate: If content ends up empty (e.g. themeConfig var was empty), throw error
+  // Validate: If content ends up empty (e.g. themeConfig var was empty), warn user
   if (!content) {
-    throw new Error(
-      `Contact item "${item.label}" has no value. It is set to "${item.value}" which resolved to an empty string. Please check your freelance-persona.config.ts or contact.md.`,
+    console.warn(
+      `⚠️ [freelance-persona] Contact item "${item.label}" has no value. It is set to "${item.value}" which resolved to an empty string. Please check your freelance-persona.config.ts or contact.md.`
     );
   }
 

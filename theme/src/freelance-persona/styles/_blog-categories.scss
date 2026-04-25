@@ -168,26 +168,7 @@
   /* Push to bottom */
 }
 
-.badge {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--accent-color), transparent 90%);
-  color: var(--accent-color);
 
-  // Dark Mode: Increase visibility by mixing with semi-transparent white
-  @media (prefers-color-scheme: dark) {
-    :root:not(:has(.theme-state-light:checked)) & {
-      background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
-    }
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root:has(.theme-state-dark:checked) & {
-      background: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
-    }
-  }
-}
 
 /* Stretched Link & Interactions */
 .category-card {

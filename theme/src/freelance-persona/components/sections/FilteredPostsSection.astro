@@ -142,11 +142,11 @@ const getExcerpt = (body: string) => {
                             {post.data.tags?.map((tag) => (
                               <span
                                 class="tag badge me-1"
-                                style="background-color: color-mix(in srgb, var(--default-color), transparent 94%); color: color-mix(in srgb, var(--default-color), transparent 55%); padding: 0.2em 0.6em; border-radius: 0.1rem; font-size: 0.6em;"
+                                style="font-size: 0.6em;"
                               >
                                 {tag.toLowerCase()}
                               </span>
-                            )) || <span class="tag badge me-1">blog</span>}
+                            )) || <span class="tag badge me-1" style="font-size: 0.6em;">blog</span>}
                           </div>
 
                           <hr style="margin: 0.75rem 0; opacity: 0.2; border-top: 1.5px solid;" />
@@ -189,16 +189,9 @@ const getExcerpt = (body: string) => {
                             tags_to_filter_posts_by?.includes(tag);
                           return (
                             <span
-                              class={`badge me-1 ${isFiltered ? "filtered" : "default"}`}
+                              class={`tag badge me-1 ${isFiltered ? "active" : ""}`}
                               style={`
                                   font-size: calc(0.75em * var(--scale-factor)); 
-                                  border-radius: 0.1875rem;
-                                  padding: 0.2em 0.6em;
-                                  font-weight: 500;
-                                  display: inline-flex;
-                                  align-items: center;
-                                  justify-content: center;
-                                  line-height: 1.5;
                                 `}
                             >
                               {tag}

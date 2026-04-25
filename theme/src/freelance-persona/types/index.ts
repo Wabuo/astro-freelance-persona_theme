@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ImageMetadata } from 'astro';
+
 export interface SocialLink {
   name: string;
   url: string;
@@ -31,6 +33,7 @@ export interface VisualsConfig {
     page_margin_left?: string;
     page_margin_right?: string;
   };
+  mascot_image?: string;
 }
 
 export interface ColorPalette {

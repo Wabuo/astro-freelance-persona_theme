@@ -7,9 +7,11 @@
 
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
 import { Image } from "astro:assets";
-// Using the "lancy_blog" image which usually looks like Lancy reading or writing, fitting for "work in progress"
-// Or we can use the default if available. Let's stick to the one we know exists via alias.
-import lancyImage from "@/assets/img/lancy.svg";
+import { themeConfig } from "@freelance-persona/config";
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/**/*.{jpeg,jpg,png,gif,svg}');
+const imagePath = themeConfig.visuals?.mascot_image;
+const lancyImageModule = imagePath && images[imagePath] ? await images[imagePath]() : null;
+const lancyImage = lancyImageModule?.default;
 
 const title = "Coming Soon";
 const description = "We are working hard to bring you this page.";
@@ -21,13 +23,19 @@ const description = "We are working hard to bring you this page.";
   >
     <div class="container text-center" data-reveal="fade-up">
       <div class="mascot-container mb-4">
-        <Image
-          src={lancyImage}
-          alt="Lancy working on something new"
-          width={350}
-          height={350}
-          class="img-fluid lancy-working"
-        />
+        {lancyImage ? (
+          <Image
+            src={lancyImage}
+            alt="Mascot working on something new"
+            width={350}
+            height={350}
+            class="img-fluid lancy-working"
+          />
+        ) : (
+          <div class="mascot-placeholder" style="width:350px; height:350px; display:inline-block; border: 2px dashed var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: var(--accent-color);">
+            <i class="bi bi-tools"></i>
+          </div>
+        )}
       </div>
 
       <h1>Watch This Space!</h1>

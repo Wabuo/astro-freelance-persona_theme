@@ -30,3 +30,8 @@ pnpm-debug.log*
 playground/*
 !playground/.gitkeep
 
+PROJECT_STATE.md
+.roo/*
+.mcp/*
+.antigravity/*
+

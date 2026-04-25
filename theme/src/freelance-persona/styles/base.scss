@@ -47,9 +47,9 @@
   /* Component Specifics - Light */
   --card-background: #ffffff !important;
   --card-border: rgba(0, 0, 0, 0.125) !important;
-  --tag-background: #f8f9fa !important;
-  --tag-text: #212529 !important;
-  --tag-border: #dee2e6 !important;
+  --tag-background: color-mix(in srgb, var(--default-color), transparent 94%) !important;
+  --tag-text: color-mix(in srgb, var(--default-color), transparent 55%) !important;
+  --tag-border: transparent !important;
   --input-background: #ffffff !important;
   --input-border: #ced4da !important;
   --input-text: #212529 !important;
@@ -72,9 +72,9 @@
   --card-background: color-mix(in srgb, var(--default-color), transparent 98%) !important;
   --card-border: color-mix(in srgb, var(--default-color), transparent 85%) !important;
 
-  --tag-background: color-mix(in srgb, var(--default-color), transparent 95%) !important;
-  --tag-text: var(--default-color) !important;
-  --tag-border: color-mix(in srgb, var(--default-color), transparent 85%) !important;
+  --tag-background: color-mix(in srgb, var(--default-color), transparent 94%) !important;
+  --tag-text: color-mix(in srgb, var(--default-color), transparent 55%) !important;
+  --tag-border: transparent !important;
 
   --input-background: color-mix(in srgb, var(--default-color), transparent 95%) !important;
   --input-border: color-mix(in srgb, var(--default-color), transparent 85%) !important;
@@ -336,4 +336,41 @@ html:has(.mobile-nav:popover-open),
 html:has(.header[popover]:popover-open) {
   overflow: hidden;
   overscroll-behavior: none;
+}
+
+/*--------------------------------------------------------------
+# Unified Tags and Badges
+--------------------------------------------------------------*/
+.badge, .tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.1875rem; /* 3px (square-ish) */
+  background-color: var(--tag-background, color-mix(in srgb, var(--default-color), transparent 94%));
+  color: var(--tag-text, color-mix(in srgb, var(--default-color), transparent 45%));
+  border: 1px solid var(--tag-border, transparent);
+  margin-right: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  text-decoration: none !important;
+  transition: color 0.3s ease, background-color 0.3s ease;
+
+  // Active / Hover State
+  &.active, &:hover {
+    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    color: var(--accent-color);
+    border-color: transparent;
+
+    @media (prefers-color-scheme: dark) {
+      :root:not(:has(.theme-state-light:checked)) & {
+        background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:has(.theme-state-dark:checked) & {
+        background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+      }
+    }
+  }
 }

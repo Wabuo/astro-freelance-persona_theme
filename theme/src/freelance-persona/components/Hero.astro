@@ -91,6 +91,13 @@ const {
 
 const { social_links } = themeConfig;
 
+if (title === "CONFIG MISSING") {
+  console.warn("⚠️ [freelance-persona] Hero title is missing. Please check src/content/sections/hero.md.");
+}
+if (hero_typing_text === "Error: src/content/sections/hero.md not found") {
+  console.warn("⚠️ [freelance-persona] hero_typing_text is missing. Please check src/content/sections/hero.md.");
+}
+
 // --- DYNAMIC BACKGROUND LOGIC ---
 const finalImage = explicitImage;
 // Fallback removed as per user request (controlled via hero.md)

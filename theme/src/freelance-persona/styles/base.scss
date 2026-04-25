@@ -110,19 +110,18 @@
 :root {
   --nav-color: #45505b; // Main nav link color
   --nav-hover-color: var(--accent-color); // Hover/Active nav link color
-  --nav-mobile-background-color: #ffffff; // Mobile nav background
   --nav-dropdown-background-color: #ffffff; // Dropdown background
   --nav-dropdown-color: #212529; // Dropdown link color
   --nav-dropdown-hover-color: var(--accent-color); // Dropdown hover color
 }
 
+// --var survace collor has the right dark i think
 @mixin dark-nav-variables {
-  --nav-color: #e0e0e0;
-  --nav-hover-color: var(--accent-color);
-  --nav-mobile-background-color: #2c3035;
-  --nav-dropdown-background-color: #2c3035;
-  --nav-dropdown-color: #e0e0e0;
-  --nav-dropdown-hover-color: var(--accent-color);
+  --nav-color: #e0e0e0 !important;
+  --nav-hover-color: var(--accent-color) !important;
+  --nav-dropdown-background-color: var(--surface-color, #1e1e1e) !important;
+  --nav-dropdown-color: #e0e0e0 !important;
+  --nav-dropdown-hover-color: var(--accent-color) !important;
 }
 
 /* Auto-Dark Nav */
@@ -341,11 +340,13 @@ html:has(.header[popover]:popover-open) {
 /*--------------------------------------------------------------
 # Unified Tags and Badges
 --------------------------------------------------------------*/
-.badge, .tag {
+.badge,
+.tag {
   display: inline-block;
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
-  border-radius: 0.1875rem; /* 3px (square-ish) */
+  border-radius: 0.1875rem;
+  /* 3px (square-ish) */
   background-color: var(--tag-background, color-mix(in srgb, var(--default-color), transparent 94%));
   color: var(--tag-text, color-mix(in srgb, var(--default-color), transparent 45%));
   border: none;

@@ -122,21 +122,7 @@
     white-space: nowrap;
     transition: 0.3s;
 
-    /* Auto-Dark Nav + Manual Override (Checkbox) */
 
-    /* Case A: OS Dark + Unchecked = Dark */
-    @media (prefers-color-scheme: dark) {
-      :root:not(:has(.theme-state-light:checked)) & {
-        @include dark-nav-variables;
-      }
-    }
-
-    /* Case B: OS Light + Checked = Dark */
-    @media (prefers-color-scheme: light) {
-      :root:has(.theme-state-dark:checked) & {
-        @include dark-nav-variables;
-      }
-    }
   }
 
   /* Theme Toggle Icons (Native Logic - Shared) */
@@ -201,6 +187,7 @@
 }
 
 @media (min-width: 992px) {
+
   .navmenu a i,
   .navmenu .theme-toggle i,
   .navmenu a:focus i {
@@ -212,67 +199,67 @@
     transition: 0.3s;
   }
 
-.navmenu li:last-child a {
-  padding-right: 0;
-}
+  .navmenu li:last-child a {
+    padding-right: 0;
+  }
 
-.navmenu li:hover>a,
-.navmenu .theme-toggle:hover,
-.navmenu .active,
-.navmenu .active:focus {
-  color: var(--nav-hover-color);
-}
+  .navmenu li:hover>a,
+  .navmenu .theme-toggle:hover,
+  .navmenu .active,
+  .navmenu .active:focus {
+    color: var(--nav-hover-color);
+  }
 
-.navmenu .dropdown ul {
-  margin: 0;
-  padding: 0.625rem 0;
-  /* 10px 0 */
-  background: var(--nav-dropdown-background-color);
-  display: block;
-  position: absolute;
-  visibility: hidden;
-  left: 0.875rem;
-  /* 14px */
-  top: 130%;
-  opacity: 0;
-  transition: 0.3s;
-  border-radius: 0.25rem;
-  /* 4px */
-  z-index: 99;
-  box-shadow: 0 0 1.875rem color-mix(in srgb, var(--default-color), transparent 85%);
-  /* 30px */
-}
+  .navmenu .dropdown ul {
+    margin: 0;
+    padding: 0.625rem 0;
+    /* 10px 0 */
+    background: var(--nav-dropdown-background-color);
+    display: block;
+    position: absolute;
+    visibility: hidden;
+    left: 0.875rem;
+    /* 14px */
+    top: 130%;
+    opacity: 0;
+    transition: 0.3s;
+    border-radius: 0.25rem;
+    /* 4px */
+    z-index: 99;
+    box-shadow: 0 0 1.875rem color-mix(in srgb, var(--default-color), transparent 85%);
+    /* 30px */
+  }
 
-.navmenu .dropdown ul li {
-  min-width: 12.5rem;
-  /* 200px */
-}
+  .navmenu .dropdown ul li {
+    min-width: 12.5rem;
+    /* 200px */
+  }
 
-.navmenu .dropdown ul a {
-  padding: 0.625rem 1.25rem;
-  /* 10px 20px */
-  font-size: 0.9375rem;
-  /* 15px */
-  text-transform: none;
-  color: var(--nav-dropdown-color);
-}
+  .navmenu .dropdown ul a {
+    padding: 0.625rem 1.25rem;
+    /* 10px 20px */
+    font-size: 0.9375rem;
+    /* 15px */
+    text-transform: none;
+    color: var(--nav-dropdown-color);
+  }
 
-.navmenu .dropdown ul a i {
-  font-size: 0.75rem;
-  /* 12px */
-}
+  .navmenu .dropdown ul a i {
+    font-size: 0.75rem;
+    /* 12px */
+  }
 
-.navmenu .dropdown ul a:hover,
-.navmenu .dropdown ul .active:hover,
-.navmenu .dropdown ul li:hover>a {
-  color: var(--nav-dropdown-hover-color);
-}
+  .navmenu .dropdown ul a:hover,
+  .navmenu .dropdown ul .active:hover,
+  .navmenu .dropdown ul li:hover>a {
+    color: var(--nav-dropdown-hover-color);
+  }
 
-.navmenu .dropdown:hover>ul {
-  opacity: 1;
-  top: 100%;
-  visibility: visible;
-}
+  .navmenu .dropdown:hover>ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+  }
 
   .navmenu .dropdown .dropdown ul {
     top: 0;
@@ -289,7 +276,8 @@
 
   /* Specific Alignment Fix for Theme Dropdown on Desktop Top Nav */
   .header.is-inner .navmenu .theme-toggle-container .theme-dropdown-menu {
-    transform: translateX(0.5rem); /* Shift right slightly to align dropdown icons with toggle icon */
+    transform: translateX(0.5rem);
+    /* Shift right slightly to align dropdown icons with toggle icon */
   }
 }
 

@@ -143,8 +143,8 @@ export const themeConfig: PersonaConfig = {
       // Navigation Specifics
       nav_color: "#e0e0e0",
       // nav_hover_color: "#6ea8fe", // Defaults to dark mode accent
-      nav_mobile_background: "#2c3035",
-      nav_dropdown_background: "#2c3035",
+      // nav_mobile_background: "#2c3035", // Defaults to header_background
+      // nav_dropdown_background: "#2c3035", // Defaults to header_background
       nav_dropdown_color: "#e0e0e0",
       // nav_dropdown_hover: "#6ea8fe", // Defaults to dark mode accent
       // header_background: "rgba(0, 0, 0, 0.82)", // Dark Glassmorphism // Defaults to hardcoded Adwaita dark

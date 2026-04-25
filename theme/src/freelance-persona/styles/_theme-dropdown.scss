@@ -101,27 +101,25 @@
     }
 }
 
-/* Adwaita Dark Mode specifics for the Dropdown Menu (Applies to Explicit Dark & Auto Dark) */
-:root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu {
-    background-color: #303030 !important;
-    box-shadow: none !important;
-    /* Adwaita dark should not have shadows */
-}
-
-:root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:hover,
-:root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
-    background-color: #454545 !important;
-}
-
+/* Dark Mode specifics for the Dropdown Menu */
 @media (prefers-color-scheme: dark) {
-    :root:has(.theme-state-os:checked) .navmenu .theme-dropdown-menu {
-        background-color: #303030 !important;
+    :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu {
         box-shadow: none !important;
-        /* Adwaita dark should not have shadows */
     }
 
-    :root:has(.theme-state-os:checked) .navmenu .theme-dropdown-menu .dropdown-item:hover,
-    :root:has(.theme-state-os:checked) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
-        background-color: #454545 !important;
+    :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu .dropdown-item:hover,
+    :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
+        background-color: color-mix(in srgb, var(--default-color), transparent 90%);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu {
+        box-shadow: none !important;
+    }
+
+    :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:hover,
+    :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
+        background-color: color-mix(in srgb, var(--default-color), transparent 90%);
     }
 }

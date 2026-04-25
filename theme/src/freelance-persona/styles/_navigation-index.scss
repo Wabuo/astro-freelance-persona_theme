@@ -106,7 +106,8 @@
   /* 15px */
   border-radius: 3.125rem;
   /* 50px */
-  background: color-mix(in srgb, var(--default-color), transparent 92%);
+  --nav-pill-bg: color-mix(in srgb, var(--default-color), transparent 92%);
+  background: var(--nav-pill-bg);
   height: var(--nav-icon-size);
   width: 100%;
   overflow: hidden;
@@ -248,5 +249,17 @@
     color: var(--contrast-color);
     background: var(--nav-hover-color);
   }
+
+  /* Theme changer dropdown matches inactive pill background ONLY for sidenav */
+  /* Slightly tweaked to compensate for optical illusions 92% -> 90% */
+  .header:not(.is-inner) #navmenu {
+    //--nav-pill-menu-bg: var(--nav-pill-bg);
+    --nav-pill-menu-bg: color-mix(in srgb, var(--default-color), transparent 90%);
+  }
+
+  .header:not(.is-inner) #navmenu .theme-toggle-container .theme-dropdown-menu {
+    background: var(--nav-pill-menu-bg) !important;
+  }
 }
+
 @import "mobile-nav";

@@ -6,7 +6,10 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Interactions & Responsiveness', () => {
 
-    test('Scrollspy Updates Active Nav Link', async ({ page }) => {
+    test('Scrollspy Updates Active Nav Link', async ({ page }, testInfo) => {
+        // Scrollspy requires JS
+        if (testInfo.project.name === 'noscript') test.skip();
+        
         await page.goto('/');
 
         // Targets
@@ -18,10 +21,10 @@ test.describe('Interactions & Responsiveness', () => {
         const offsetTop = await servicesSection.evaluate(el => (el as HTMLElement).offsetTop);
         await page.evaluate((pos) => window.scrollTo(0, pos), offsetTop);
 
-        // Allow scrollspy script to fire
-        await page.waitForTimeout(1000);
-
-        await expect(servicesNav).toHaveClass(/active/);
+        // Allow scrollspy script to fire and apply class
+        await expect(async () => {
+            await expect(servicesNav).toHaveClass(/active/);
+        }).toPass();
     });
 
     test('Mobile Menu Interaction', async ({ page, isMobile }) => {
@@ -30,34 +33,44 @@ test.describe('Interactions & Responsiveness', () => {
         await page.goto('/');
 
         const toggleBtn = page.locator('.nav-toggle');
-        const header = page.locator('.header');
+        const mobileNav = page.locator('#mobile-nav');
 
         // Open
         await toggleBtn.click();
 
         // Wait for popover to be open (using pseudo-class check since we use native Popover API)
-        await expect(header).toHaveJSProperty('matches', (el: HTMLElement) => el.matches(':popover-open'));
+        await expect(async () => {
+            const isOpen = await mobileNav.evaluate(el => el.matches(':popover-open'));
+            expect(isOpen).toBe(true);
+        }).toPass();
 
         await expect(page).toHaveScreenshot('mobile-menu-open.png', {
-            mask: [page.locator('.typing-lock'), page.locator('.typed-cursor')]
+            animations: 'disabled',
+            mask: [page.locator('.typing-lock'), page.locator('.typed-cursor'), page.locator('.mascot-container')]
         });
 
-        // Close via button
+        // Close via the dedicated close button (nav-toggle only shows, not hides)
+        const closeBtn = page.locator('button.nav-close[aria-label="Close navigation menu"]');
+        await closeBtn.click();
+        await expect(async () => {
+            const isOpen = await mobileNav.evaluate(el => el.matches(':popover-open'));
+            expect(isOpen).toBe(false);
+        }).toPass();
+
+        // Re-open and test light dismiss via Escape key (Popover API natively supports this)
         await toggleBtn.click();
-        await expect(header).not.toHaveJSProperty('matches', (el: HTMLElement) => el.matches(':popover-open'));
+        await expect(async () => {
+            const isOpen = await mobileNav.evaluate(el => el.matches(':popover-open'));
+            expect(isOpen).toBe(true);
+        }).toPass();
 
-        // Re-open and test overlay click (Backdrop is part of the element in standard inspection, but click might need coords)
-        // With Popover API, the backdrop is a pseudo-element. 
-        // We can test light dismiss by clicking outside.
-        await toggleBtn.click();
-        await expect(header).toHaveJSProperty('matches', (el: HTMLElement) => el.matches(':popover-open'));
-
-        // Click body (outside nav) to trigger light dismiss
-        await page.mouse.click(10, 10); // Click top-left of viewport (header is top-right/drawer is left but we want safe outside)
-        // Actually drawer is left 0. safe spot is far right.
-        await page.mouse.click(viewportWidth - 10, viewportHeight / 2);
-
-        await expect(header).not.toHaveJSProperty('matches', (el: HTMLElement) => el.matches(':popover-open'));
+        // Light dismiss via Escape
+        await page.keyboard.press('Escape');
+        
+        await expect(async () => {
+            const isOpen = await mobileNav.evaluate(el => el.matches(':popover-open'));
+            expect(isOpen).toBe(false);
+        }).toPass();
     });
 
     test('Layout Stability on Resize', async ({ page }) => {
@@ -71,6 +84,31 @@ test.describe('Interactions & Responsiveness', () => {
 
         // Allowing for small discrepancies due to scrollbars
         expect(pageWidth).toBeLessThanOrEqual(viewportWidth + 20);
+    });
+
+    test('Contact Form Input Focus', async ({ page }, testInfo) => {
+        if (testInfo.project.name === 'noscript') test.skip('Focus styles/interactions behave differently without JS');
+        await page.goto('/');
+        
+        // Find the name input
+        const nameInput = page.locator('#contact input[name="name"]');
+        await expect(nameInput).toBeVisible();
+        
+        // Scroll to the contact section so it's in view
+        await nameInput.scrollIntoViewIfNeeded();
+        
+        // Focus the input
+        await nameInput.focus();
+        
+        // Focus Subject field
+        await page.locator('.contact-form input[name="subject"]').focus();
+        await page.waitForTimeout(500); // Allow focus ring animation to settle
+
+        const contactForm = page.locator('.contact-form');
+        await expect(contactForm).toHaveScreenshot('contact-form-focus.png', {
+            animations: 'disabled',
+            mask: [page.locator('.typed-cursor'), page.locator('.mascot-container')] // Mask cursor and mascot
+        });
     });
 
 });

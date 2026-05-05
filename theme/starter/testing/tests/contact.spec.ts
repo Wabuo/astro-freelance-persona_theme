@@ -4,7 +4,9 @@
 
 import { test, expect } from '@playwright/test';
 
-test('Contact Form Submission', async ({ page }) => {
+test('Contact Form Submission', async ({ page }, testInfo) => {
+    if (testInfo.project.name === 'noscript') test.skip('Contact form intercept requires JS');
+
     // Mock the external provider request to avoid spamming real services
     // This catches ANY POST to external sites or common form endpoints
     await page.route('**/*', async (route) => {

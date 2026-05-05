@@ -90,12 +90,13 @@ const getLink = (id: string) => {
     {/* Theme Toggle (Dropdown Menu - Pure CSS Hover + Native Click) */}
     <li class="dropdown theme-toggle-container">
       <!-- Invisible backdrop for light dismiss click-outside to close natively -->
-      <label for={toggleId} class="theme-menu-backdrop"></label>
+      <label for={toggleId} class="theme-menu-backdrop" aria-hidden="true"></label>
       <input
         type="checkbox"
         id={toggleId}
         class="sr-only theme-menu-toggle-checkbox"
         aria-label="Theme Preferences"
+        aria-hidden="true"
       />
 
       <label for={toggleId} class="theme-toggle">

@@ -37,11 +37,11 @@ test.describe('Hero Configuration', () => {
         const equivalents: string[] = [];
 
         if (configuredValue.includes('right') && configuredValue.includes('bottom')) {
-            equivalents.push('100% 100%', 'right bottom', 'bottom right');
+            equivalents.push('100% 100%', 'right bottom', 'bottom right', '100% bottom', 'right 100%');
         } else if (configuredValue.includes('top') && configuredValue.includes('right')) {
-            equivalents.push('100% 0%', 'right top', 'top right');
+            equivalents.push('100% 0%', 'right top', 'top right', '100% top', 'right 0%');
         } else if (configuredValue.includes('center')) {
-            equivalents.push('50% 50%', 'center center');
+            equivalents.push('50% 50%', 'center center', '50% center', 'center 50%');
         }
 
         const matches = equivalents.some(val => actualValue === val);

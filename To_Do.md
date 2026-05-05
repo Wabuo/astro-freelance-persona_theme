@@ -1,3 +1,3 @@
 > While it works great for a single static theme, it creates a specificity nightmare the moment you introduce a dynamic Dark Mode toggle, because inline styles (1,0,0,0) will always win against external CSS classes (0,1,0). The "cleaner" architectural way to do this would be to generate a <style id="theme-config"> :root { ... } </style> block in the <head> instead of using the style="..." attribute, so the specificities match. However, since the template is already built this way, using !important for your dark mode SCSS overrides is the standard, accepted workaround!
 
-We should fix this, when we migrate the css to more modern inputs! !FixMe!
+We should fix this, when we migrate the css to more modern imports! !FixMe!

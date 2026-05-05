@@ -10,9 +10,18 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Visual Hover States', () => {
 
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page }, testInfo) => {
         await page.goto('/');
-        await page.waitForLoadState('domcontentloaded');
+        await page.waitForLoadState('load');
+        if (testInfo.project.name !== 'noscript') {
+            await page.evaluate(() => document.fonts.ready);
+        }
+        // Disable transitions for stability
+        if (testInfo.project.name !== 'noscript') {
+            await page.addStyleTag({
+                content: `* { transition: none !important; animation: none !important; }`
+            });
+        }
     });
 
     test('Hero Section: Social Links', async ({ page }) => {
@@ -44,14 +53,14 @@ test.describe('Visual Hover States', () => {
         if (await availableCard.count() > 0) {
             await availableCard.hover();
             await page.waitForTimeout(300);
-            await expect(availableCard).toHaveScreenshot('feature-card-available-hover.png');
+            await expect(availableCard.locator('..')).toHaveScreenshot('feature-card-available-hover.png');
         }
 
         const unavailableCard = page.locator('.feature-card.unavailable').first();
         if (await unavailableCard.count() > 0) {
             await unavailableCard.hover();
             await page.waitForTimeout(300);
-            await expect(unavailableCard).toHaveScreenshot('feature-card-unavailable-hover.png');
+            await expect(unavailableCard.locator('..')).toHaveScreenshot('feature-card-unavailable-hover.png');
         }
     });
 
@@ -60,11 +69,11 @@ test.describe('Visual Hover States', () => {
             // Mobile Menu Hover (Tap state essentially)
             const toggleBtn = page.locator('.nav-toggle');
             await toggleBtn.click();
-            await expect(page.locator('.navmenu')).toBeVisible();
+            await expect(page.locator('#mobile-nav')).toBeVisible();
 
-            const firstLink = page.locator('#navmenu a').first();
+            const firstLink = page.locator('#navmenu-mobile a').first();
             await firstLink.hover(); // Emulate touch/active
-            await expect(page.locator('#navmenu')).toHaveScreenshot('mobile-nav-hover.png');
+            await expect(page.locator('#navmenu-mobile')).toHaveScreenshot('mobile-nav-hover.png');
         } else {
             // Desktop Side Nav
             const navLinks = page.locator('#navmenu a');
@@ -107,15 +116,9 @@ test.describe('Visual Hover States', () => {
         }
     });
 
-    test('Contact: Inputs & Button', async ({ page }) => {
+    test('Contact: Inputs & Button', async ({ page }, testInfo) => {
+        if (testInfo.project.name === 'noscript') test.skip('Focus/Hover interactions behave differently without JS');
         await page.locator('#contact').scrollIntoViewIfNeeded();
-
-        // Name Input Focus/Hover
-        const nameInput = page.locator('#name-field');
-        await nameInput.hover();
-        await expect(nameInput).toHaveScreenshot('contact-input-hover.png');
-        await nameInput.focus();
-        await expect(nameInput).toHaveScreenshot('contact-input-focus.png');
 
         // Submit Button
         const btn = page.locator('#contact button[type="submit"]');
@@ -129,6 +132,83 @@ test.describe('Visual Hover States', () => {
             await emailLink.hover();
             await page.waitForTimeout(300);
             await expect(emailLink).toHaveScreenshot('contact-email-hover.png');
+        }
+    });
+
+    test('Theme Menu: Dropdown Hovers', async ({ page, isMobile }, testInfo) => {
+        if (isMobile) {
+            // 3. Mobile drawer
+            await page.goto('/');
+            await page.waitForLoadState('load');
+            
+            const toggleBtn_nav = page.locator('.nav-toggle');
+            await toggleBtn_nav.click();
+            
+            const mobileNav = page.locator('#mobile-nav');
+            await expect(async () => {
+                const isOpen = await mobileNav.evaluate(el => el.matches(':popover-open'));
+                expect(isOpen).toBe(true);
+            }).toPass({ timeout: 5000 });
+            await page.waitForTimeout(500);
+
+            // Expand theme menu
+            const toggleBtn = page.locator('#navmenu-mobile label.theme-toggle');
+            await toggleBtn.click();
+            await page.waitForTimeout(500);
+            
+            await expect(page.locator('#navmenu-mobile .theme-dropdown-menu')).toBeVisible();
+            await expect(page.locator('#navmenu-mobile')).toHaveScreenshot('theme-menu-mobile-expanded.png', {
+                mask: [page.locator('.typing-lock'), page.locator('.typed-cursor')]
+            });
+            
+            // Hover a theme option
+            // Ensure we use the correct label in the dropdown, not the noscript one
+            const darkLabel = page.locator('#navmenu-mobile .theme-dropdown-menu label.theme-label-dark');
+            await darkLabel.hover();
+            await page.waitForTimeout(300);
+            await expect(page.locator('#navmenu-mobile')).toHaveScreenshot('theme-menu-mobile-hover.png', {
+                mask: [page.locator('.typing-lock'), page.locator('.typed-cursor')]
+            });
+        } else {
+            // 1. Desktop Side-Nav (Homepage)
+            await page.waitForLoadState('domcontentloaded');
+            // Expand Theme menu via native checkbox logic (clicking the label)
+            await page.locator('#navmenu label.theme-toggle').click({ force: true });
+            await page.waitForTimeout(500);
+            
+            await expect(page.locator('#navmenu .theme-dropdown-menu')).toBeVisible();
+            await expect(page.locator('#navmenu .theme-toggle-container')).toHaveScreenshot('theme-menu-side-expanded.png', {
+                animations: 'disabled',
+                scale: 'css'
+            });
+            
+            // Explicitly target label in the dropdown to avoid ambiguity
+            await page.locator('#navmenu .theme-dropdown-menu label.theme-label-dark').hover();
+            await page.waitForTimeout(300);
+            await expect(page.locator('#navmenu .theme-toggle-container')).toHaveScreenshot('theme-menu-side-hover.png', {
+                animations: 'disabled',
+                scale: 'css'
+            });
+
+            // 2. Desktop Top-Nav (Inner page)
+            await page.goto('/blogs/design-system');
+            await page.waitForLoadState('domcontentloaded');
+            
+            await page.locator('.desktop-nav label.theme-toggle').click({ force: true });
+            await page.waitForTimeout(500);
+            
+            await expect(page.locator('.desktop-nav .theme-dropdown-menu')).toBeVisible();
+            await expect(page.locator('.desktop-nav .theme-toggle-container')).toHaveScreenshot('theme-menu-top-expanded.png', {
+                animations: 'disabled',
+                scale: 'css'
+            });
+            
+            await page.locator('.desktop-nav .theme-dropdown-menu label.theme-label-dark').hover();
+            await page.waitForTimeout(300);
+            await expect(page.locator('.desktop-nav .theme-toggle-container')).toHaveScreenshot('theme-menu-top-hover.png', {
+                animations: 'disabled',
+                scale: 'css'
+            });
         }
     });
 

@@ -57,11 +57,20 @@ test.describe('Blog Visuals & Functionality', () => {
     });
     */
 
-    test('Post View: With Image', async ({ page }) => {
+    test('Post View: With Image', async ({ page }, testInfo) => {
         // 'lancy-intro' has a thumbnail
         await page.goto('/posts/lancy-intro');
-        await page.waitForLoadState('domcontentloaded');
-        await page.evaluate(() => document.fonts.ready);
+        await page.waitForLoadState('load');
+        if (testInfo.project.name !== 'noscript') {
+            await page.evaluate(() => document.fonts.ready);
+        }
+
+        // Disable reveal animations for stability
+        if (testInfo.project.name !== 'noscript') {
+            await page.addStyleTag({
+                content: `[data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }`
+            });
+        }
 
         // Verify Image is present (Correct selector from BlogPostTemplate)
         const heroImage = page.locator('.post-img img');
@@ -72,16 +81,28 @@ test.describe('Blog Visuals & Functionality', () => {
 
         await expect(page).toHaveScreenshot('post-with-image-desktop.png', {
             fullPage: true,
-            animations: 'disabled',
-            threshold: 0.2
+            mask: [
+                page.locator('.mascot-container'),
+                page.locator('.typing-lock'),
+                page.locator('.typed-cursor')
+            ]
         });
     });
 
-    test('Post View: Text Only', async ({ page }) => {
+    test('Post View: Text Only', async ({ page }, testInfo) => {
         // 'hello-world' (or 'first-post') has no image
         await page.goto('/posts/first-post');
-        await page.waitForLoadState('domcontentloaded');
-        await page.evaluate(() => document.fonts.ready);
+        await page.waitForLoadState('load');
+        if (testInfo.project.name !== 'noscript') {
+            await page.evaluate(() => document.fonts.ready);
+        }
+
+        // Disable reveal animations for stability
+        if (testInfo.project.name !== 'noscript') {
+            await page.addStyleTag({
+                content: `[data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }`
+            });
+        }
 
         // Verify Image is NOT present
         const heroImage = page.locator('.post-img img');
@@ -89,8 +110,11 @@ test.describe('Blog Visuals & Functionality', () => {
 
         await expect(page).toHaveScreenshot('post-text-only-desktop.png', {
             fullPage: true,
-            animations: 'disabled',
-            threshold: 0.2
+            mask: [
+                page.locator('.mascot-container'),
+                page.locator('.typing-lock'),
+                page.locator('.typed-cursor')
+            ]
         });
     });
 

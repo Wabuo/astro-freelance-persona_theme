@@ -29,7 +29,8 @@ test.describe('Legal Page', () => {
         await expect(page).toHaveTitle(/Legal/);
 
         await expect(page).toHaveScreenshot('legal-page-desktop.png', {
-            fullPage: true
+            fullPage: true,
+            mask: [page.locator('.typing-lock'), page.locator('.typed-cursor')]
         });
     });
 

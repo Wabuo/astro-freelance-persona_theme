@@ -5,6 +5,16 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Theme Toggle & Dark Mode', () => {
+    test.beforeEach(async ({ page }, testInfo) => {
+        // Disable transitions and animations for stable measurements
+        if (testInfo.project.name !== 'noscript') {
+            await page.addInitScript(() => {
+                const style = document.createElement('style');
+                style.innerHTML = `* { transition: none !important; animation: none !important; scroll-behavior: auto !important; }`;
+                document.head.appendChild(style);
+            });
+        }
+    });
 
     test('Default matches system preference (Dark)', async ({ page }) => {
         // 1. Emulate System Dark Mode
@@ -39,86 +49,205 @@ test.describe('Theme Toggle & Dark Mode', () => {
         expect(['#ffffff', 'rgb(255, 255, 255)']).toContain(bgColor);
     });
 
-    test('Toggle Button Switches Theme', async ({ page, isMobile }) => {
-        // Start with Light
-        await page.emulateMedia({ colorScheme: 'light' });
+    test('Toggle Button Switches Theme', async ({ page }, testInfo) => {
         await page.goto('/');
-
-        // Listen for console logs
-        page.on('console', msg => console.log(`BROWSER LOG: ${msg.text()}`));
-
-        // Wait for hydration/listener attachment
-        await page.waitForTimeout(1000);
-
-        // Mobile Handling: Open Menu first
-        if (isMobile) {
-            console.log('Mobile View detected. Opening menu...');
-            await page.click('.nav-toggle', { force: true });
-            // Wait for the menu container to be visible
-            await expect(page.locator('#navmenu-mobile')).toBeVisible();
-            await page.waitForTimeout(500); // Allow animation to settle
+        await page.waitForLoadState('load');
+        if (testInfo.project.name !== 'noscript') {
+            await page.evaluate(() => document.fonts.ready);
         }
 
-        // Open Dropdown
-        const toggleId = isMobile ? '#theme-menu-toggle-mobile' : '#theme-menu-toggle-desktop';
-        await page.locator(`label[for="${toggleId.substring(1)}"].theme-toggle`).click({ force: true });
+        const isMobile = page.viewportSize()!.width < 992;
+        const toggleId = isMobile ? 'theme-menu-toggle-mobile' : 'theme-menu-toggle-desktop';
+        const navId = isMobile ? '#navmenu-mobile' : '#navmenu';
+        
+        // Use a more specific locator to avoid strict mode violations
+        const toggleBtn = page.locator(`${navId} label[for="${toggleId}"].theme-toggle`);
+        const toggleCheckbox = page.locator(`#${toggleId}`);
+        
+        // Mobile Toggle (Popover) handling
+        if (isMobile) {
+            await page.locator('.nav-toggle').click();
+            await expect(page.locator('#mobile-nav')).toBeVisible();
+        }
 
-        const menuPrefix = isMobile ? '#navmenu-mobile' : '#navmenu';
+        // Expand Theme menu if not already open (especially for noscript)
+        if (!(await toggleCheckbox.isChecked())) {
+            await toggleBtn.click();
+        }
+        
+        // Ensure menu is visible (specific to the current navId to avoid noscript ambiguity)
+        const menu = page.locator(`${navId} .theme-dropdown-menu`);
+        await expect(menu).toBeVisible();
 
         // Click Dark Theme Toggle
-        await page.locator(`${menuPrefix} label[for="theme-dark"]`).click({ force: true });
+        // In noscript mode, both dropdowns might be 'visible' if the checkboxes are checked.
+        // We ensure we only click the one in our target navId.
+        const darkLabel = menu.locator('label.theme-label-dark');
+        await darkLabel.dispatchEvent('click');
 
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(200);
 
-        // Should be Dark now
-        const isDarkChecked = await page.locator('#theme-dark').isChecked();
-        expect(isDarkChecked).toBe(true);
+        // Verify theme change (check radio state)
+        const darkRadio = page.locator('#theme-dark');
+        await expect(darkRadio).toBeChecked();
 
-        // Click Light Theme Toggle
-        const isMenuOpen = await page.locator(`#${toggleId.substring(1)}`).isChecked();
-        if (!isMenuOpen) {
-            await page.locator(`label[for="${toggleId.substring(1)}"].theme-toggle`).click({ force: true });
+        // Switch back to Light
+        if (!(await toggleCheckbox.isChecked())) {
+            await toggleBtn.click();
         }
-        await page.locator(`${menuPrefix} label[for="theme-light"]`).click({ force: true });
-
-        await page.waitForTimeout(100);
-
-        // Should be Light again
-        const isLightChecked = await page.locator('#theme-light').isChecked();
-        expect(isLightChecked).toBe(true);
+        await menu.locator('label.theme-label-light').dispatchEvent('click');
+        await page.waitForTimeout(200);
+        await expect(page.locator('#theme-light')).toBeChecked();
     });
 
-    test('Preference Persists on Reload', async ({ page, isMobile }) => {
-        await page.emulateMedia({ colorScheme: 'light' });
+    test('Preference Persists on Reload', async ({ page }, testInfo) => {
+        if (testInfo.project.name === 'noscript') test.skip('Persistence requires JavaScript');
+        
         await page.goto('/');
+        await page.waitForLoadState('load');
 
-        // Wait for hydration/listener attachment
-        await page.waitForTimeout(1000);
-
-        // Switch to Dark
+        const isMobile = page.viewportSize()!.width < 992;
+        const navId = isMobile ? '#navmenu-mobile' : '#navmenu';
+        const toggleId = isMobile ? 'theme-menu-toggle-mobile' : 'theme-menu-toggle-desktop';
+        
         if (isMobile) {
-            console.log('Mobile View detected. Opening menu...');
-            await page.click('.nav-toggle', { force: true });
-            await expect(page.locator('#navmenu-mobile')).toBeVisible();
-            await page.waitForTimeout(500);
+            await page.locator('.nav-toggle').click();
         }
 
-        const toggleId = isMobile ? '#theme-menu-toggle-mobile' : '#theme-menu-toggle-desktop';
-        await page.locator(`label[for="${toggleId.substring(1)}"].theme-toggle`).click({ force: true });
-        const menuPrefix = isMobile ? '#navmenu-mobile' : '#navmenu';
-        await page.locator(`${menuPrefix} label[for="theme-dark"]`).click({ force: true });
-
-        await page.waitForTimeout(100);
-
-        // Debug: Check localStorage before reload
-        const storageBefore = await page.evaluate(() => localStorage.getItem('theme'));
-        expect(storageBefore).toBe('dark');
+        // Open menu
+        const menu = page.locator(`${navId} .theme-dropdown-menu`);
+        await page.locator(`${navId} label[for="${toggleId}"].theme-toggle`).click();
+        await expect(menu).toBeVisible();
+        
+        // Switch to Dark
+        await menu.locator('label.theme-label-dark').dispatchEvent('click');
+        
+        // Verify it changed before reloading
+        const darkRadio = page.locator('#theme-dark');
+        await expect(darkRadio).toBeChecked();
+        
+        await page.waitForTimeout(500); // Give a moment for potential async persistence
 
         // Reload
         await page.reload();
+        await page.waitForLoadState('load');
 
-        // Should still be Dark
-        const isDarkChecked = await page.locator('#theme-dark').isChecked();
-        expect(isDarkChecked).toBe(true);
+        // Use toPass to allow for hydration/CSS application time
+        await expect(async () => {
+            await expect(page.locator('#theme-dark')).toBeChecked();
+        }).toPass();
     });
+
+    test('Layout Stability on Theme Switch (Home Page)', async ({ page }, testInfo) => {
+        if (testInfo.project.name === 'noscript' || testInfo.project.name === 'chromium-dark') test.skip('Redundant or not applicable');
+
+        await page.goto('/');
+        await page.waitForLoadState('load');
+        if (testInfo.project.name !== 'noscript') {
+            await page.evaluate(() => document.fonts.ready);
+        }
+        
+        // Force immediate scrolling
+        if (testInfo.project.name !== 'noscript') {
+            await page.addStyleTag({ content: '* { scroll-behavior: auto !important; }' });
+        }
+
+        const isMobile = page.viewportSize()!.width < 992;
+        const navId = isMobile ? '#navmenu-mobile' : '#navmenu';
+        const toggleId = isMobile ? 'theme-menu-toggle-mobile' : 'theme-menu-toggle-desktop';
+
+        const getLayoutBounds = async () => {
+            const footer = page.locator('#footer');
+            await footer.scrollIntoViewIfNeeded();
+            return await footer.boundingBox();
+        };
+
+        // 1. Initial Bounds (Light/Auto)
+        const lightBounds = await getLayoutBounds();
+
+        // 2. Switch to Dark
+        if (isMobile) {
+            await page.locator('.nav-toggle').click();
+        }
+        const menu = page.locator(`${navId} .theme-dropdown-menu`);
+        await page.locator(`${navId} label[for="${toggleId}"].theme-toggle`).click();
+        await expect(menu).toBeVisible();
+        await menu.locator('label.theme-label-dark').dispatchEvent('click');
+        
+        // Close the menu to remove backdrop side-effects
+        await page.locator(`${navId} label[for="${toggleId}"].theme-toggle`).click();
+        
+        await page.waitForTimeout(500); // Wait for theme transition
+
+        // 3. Compare Bounds
+        const darkBounds = await getLayoutBounds();
+        // Allow for minor sub-pixel or font-induced shifts (up to 2px)
+        expect(Math.abs(darkBounds!.width - lightBounds!.width)).toBeLessThan(2);
+        expect(Math.abs(darkBounds!.height - lightBounds!.height)).toBeLessThan(2);
+        expect(Math.abs(darkBounds!.x - lightBounds!.x)).toBeLessThan(2);
+        expect(Math.abs(darkBounds!.y - lightBounds!.y)).toBeLessThan(2);
+    });
+
+    // Sub-pages list for stability check
+    const pages = [
+        { name: 'Blog: Development', url: '/blogs/development' },
+        { name: 'Blog: Design System', url: '/blogs/design-system' },
+        { name: 'Post: First Post', url: '/posts/first-post' },
+        { name: 'Post: Lore Ipsum 10', url: '/posts/lore-ipsum-10' },
+        { name: 'Legal Notice', url: '/legal/legal-notice' },
+        { name: '404 Error Page', url: '/404' },
+        { name: '403 Error Page', url: '/403' },
+        { name: 'Coming Soon Page', url: '/coming-soon' }
+    ];
+
+    for (const p of pages) {
+        test(`Layout Stability on Theme Switch (${p.name})`, async ({ page }, testInfo) => {
+            if (testInfo.project.name === 'noscript' || testInfo.project.name === 'chromium-dark') test.skip('Redundant or not applicable');
+
+            await page.goto(p.url);
+            await page.waitForLoadState('load');
+            if (testInfo.project.name !== 'noscript') {
+                await page.evaluate(() => document.fonts.ready);
+            }
+            
+            // Force immediate scrolling
+            if (testInfo.project.name !== 'noscript') {
+                await page.addStyleTag({ content: '* { scroll-behavior: auto !important; }' });
+            }
+
+            const isMobile = page.viewportSize()!.width < 992;
+            const navId = isMobile ? '#navmenu-mobile' : '#navmenu';
+            const toggleId = isMobile ? 'theme-menu-toggle-mobile' : 'theme-menu-toggle-desktop';
+
+            const getLayoutBounds = async () => {
+                const footer = page.locator('#footer');
+                await footer.scrollIntoViewIfNeeded();
+                return await footer.boundingBox();
+            };
+
+            const lightBounds = await getLayoutBounds();
+
+            if (isMobile) {
+                await page.locator('.nav-toggle').click();
+            }
+            const menu = page.locator(`${navId} .theme-dropdown-menu`);
+            await page.locator(`${navId} label[for="${toggleId}"].theme-toggle`).click();
+            await expect(menu).toBeVisible();
+            await menu.locator('label.theme-label-dark').dispatchEvent('click');
+            
+            // Close menu
+            await page.locator(`${navId} label[for="${toggleId}"].theme-toggle`).click();
+            
+            await page.waitForTimeout(500);
+
+            const darkBounds = await getLayoutBounds();
+            
+            // Sub-pixel rendering and font-weight shifts in dark mode can cause 
+            // tiny mismatches (e.g. 0.5-1.5px). We use a 2px tolerance for stability.
+            expect(Math.abs(darkBounds!.width - lightBounds!.width)).toBeLessThan(2);
+            expect(Math.abs(darkBounds!.height - lightBounds!.height)).toBeLessThan(2);
+            expect(Math.abs(darkBounds!.x - lightBounds!.x)).toBeLessThan(2);
+            expect(Math.abs(darkBounds!.y - lightBounds!.y)).toBeLessThan(2);
+        });
+    }
 });

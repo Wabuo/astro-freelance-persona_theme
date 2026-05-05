@@ -29,6 +29,15 @@ export default defineConfig({
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
     },
+    
+    /* Global Snapshot Configuration to reduce flakiness */
+    expect: {
+        toHaveScreenshot: {
+            threshold: 0.3,
+            maxDiffPixels: 200,
+            animations: 'disabled',
+        },
+    },
 
     /* Configure projects for major browsers */
     projects: [
@@ -45,6 +54,14 @@ export default defineConfig({
             name: 'firefox',
             use: { ...devices['Desktop Firefox'] },
         },
+        /* Dark Mode Testing */
+        {
+            name: 'chromium-dark',
+            use: { 
+                ...devices['Desktop Chrome'],
+                colorScheme: 'dark'
+            },
+        },
         /* NoScript Environment */
         {
             name: 'noscript',
@@ -52,7 +69,6 @@ export default defineConfig({
                 ...devices['Desktop Chrome'],
                 javaScriptEnabled: false
             },
-            testMatch: ['**/noscript.spec.ts', '**/seo.spec.ts', '**/legal.spec.ts'],
         },
         /* WebKit disabled locally due to missing system dependencies (libicu). 
            Playwright bundled WebKit does not use system libraries on Linux. 

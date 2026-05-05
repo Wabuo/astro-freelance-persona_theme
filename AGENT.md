@@ -155,3 +155,15 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 **Symptom:** 404s on existing pages, changes not reflecting.
 **Cause:** `bun` started on port `4322` because `4321` is zombie.
 **Fix:** `fuser -k 4321/tcp; fuser -k 4322/tcp;`
+
+### 🎭 Theme Dropdown Backdrop Blocks Test Clicks
+
+**Symptom:** `label.theme-label-dark.click({ force: true })` times out or fails silently in theme tests even though the dropdown is "visible".
+**Cause:** When the checkbox toggle is checked (dropdown open), a **200vw × 200vh fixed backdrop** (`.theme-menu-backdrop`, z-index 98) covers the entire page. Playwright's `click({ force: true })` bypasses actionability checks but CDP-level coordinate clicks can still be intercepted by this backdrop.
+**Fix:** Use `.dispatchEvent('click')` instead of `.click({ force: true })`. This fires the event directly on the DOM element, completely bypassing the backdrop layer.
+
+### 📱 Mobile Popover — Nav Toggle Only Opens, Never Closes
+
+**Symptom:** Clicking `.nav-toggle` to close the mobile popover does nothing (popover stays open).
+**Cause:** The `.nav-toggle` button has `command="show-popover"` only. It cannot close the popover.
+**Fix:** Use `button.nav-close[aria-label="Close navigation menu"]` to close, and `page.keyboard.press('Escape')` for light-dismiss testing.

@@ -35,54 +35,54 @@
 */
 
 @mixin light-theme {
-  --background-color: #ffffff !important;
-  --default-color: #272829 !important;
-  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%) !important;
-  --accent-color: #0563bb !important;
-  --surface-color: #ffffff !important;
-  --contrast-color: #ffffff !important;
-  --transparency: 25% !important;
-  --text-muted: #6c757d !important;
+  --background-color: #ffffff;
+  --default-color: #272829;
+  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
+  --accent-color: #0563bb;
+  --surface-color: #ffffff;
+  --contrast-color: #ffffff;
+  --transparency: 25%;
+  --text-muted: #6c757d;
 
   /* Component Specifics - Light */
-  --card-background: #ffffff !important;
-  --card-border: rgba(0, 0, 0, 0.125) !important;
-  --tag-background: color-mix(in srgb, var(--default-color), transparent 94%) !important;
-  --tag-text: color-mix(in srgb, var(--default-color), transparent 55%) !important;
-  --tag-border: transparent !important;
-  --input-background: #ffffff !important;
-  --input-border: #ced4da !important;
-  --input-text: #212529 !important;
+  --card-background: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.125);
+  --tag-background: color-mix(in srgb, var(--default-color), transparent 94%);
+  --tag-text: color-mix(in srgb, var(--default-color), transparent 55%);
+  --tag-border: transparent;
+  --input-background: #ffffff;
+  --input-border: #ced4da;
+  --input-text: #212529;
 
   /* Bootstrap - Light */
-  --bs-body-bg: #ffffff !important;
-  --bs-body-color: #212529 !important;
+  --bs-body-bg: #ffffff;
+  --bs-body-color: #212529;
 }
 
 @mixin dark-theme {
   /* Libadwaita Palette */
-  --background-color: #1e1e1e !important;
-  --surface-color: #303030 !important;
-  --default-color: #e0e0e0 !important;
-  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%) !important;
-  --contrast-color: #ffffff !important;
-  --text-muted: color-mix(in srgb, var(--default-color), transparent 50%) !important;
+  --background-color: #1e1e1e;
+  --surface-color: #303030;
+  --default-color: #e0e0e0;
+  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
+  --contrast-color: #ffffff;
+  --text-muted: color-mix(in srgb, var(--default-color), transparent 50%);
 
   /* Component Specifics */
-  --card-background: color-mix(in srgb, var(--default-color), transparent 98%) !important;
-  --card-border: color-mix(in srgb, var(--default-color), transparent 85%) !important;
+  --card-background: color-mix(in srgb, var(--default-color), transparent 98%);
+  --card-border: color-mix(in srgb, var(--default-color), transparent 85%);
 
-  --tag-background: color-mix(in srgb, var(--default-color), transparent 94%) !important;
-  --tag-text: color-mix(in srgb, var(--default-color), transparent 55%) !important;
-  --tag-border: transparent !important;
+  --tag-background: color-mix(in srgb, var(--default-color), transparent 94%);
+  --tag-text: color-mix(in srgb, var(--default-color), transparent 55%);
+  --tag-border: transparent;
 
-  --input-background: color-mix(in srgb, var(--default-color), transparent 95%) !important;
-  --input-border: color-mix(in srgb, var(--default-color), transparent 85%) !important;
-  --input-text: var(--default-color) !important;
+  --input-background: color-mix(in srgb, var(--default-color), transparent 95%);
+  --input-border: color-mix(in srgb, var(--default-color), transparent 85%);
+  --input-text: var(--default-color);
 
   /* Bootstrap Overrides */
-  --bs-body-bg: #1e1e1e !important;
-  --bs-body-color: #e0e0e0 !important;
+  --bs-body-bg: #1e1e1e;
+  --bs-body-color: #e0e0e0;
 }
 
 /* 1. Base: Light (Default) */
@@ -117,11 +117,11 @@
 
 // --var survace collor has the right dark i think
 @mixin dark-nav-variables {
-  --nav-color: #e0e0e0 !important;
-  --nav-hover-color: var(--accent-color) !important;
-  --nav-dropdown-background-color: var(--surface-color, #1e1e1e) !important;
-  --nav-dropdown-color: #e0e0e0 !important;
-  --nav-dropdown-hover-color: var(--accent-color) !important;
+  --nav-color: #e0e0e0;
+  --nav-hover-color: var(--accent-color);
+  --nav-dropdown-background-color: var(--surface-color, #1e1e1e);
+  --nav-dropdown-color: #e0e0e0;
+  --nav-dropdown-hover-color: var(--accent-color);
 }
 
 /* Auto-Dark Nav */
@@ -168,7 +168,7 @@
 @mixin dark-header-variables {
   /* Dark Matte */
   --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
-  --header-color: #ffffff !important;
+  --header-color: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -353,7 +353,7 @@ html:has(.header[popover]:popover-open) {
   margin-right: 0.5rem;
   margin-bottom: 0.25rem;
   font-weight: 500;
-  text-decoration: none !important;
+  text-decoration: none;
   transition: color 0.3s ease, background-color 0.3s ease;
 
   // Active State

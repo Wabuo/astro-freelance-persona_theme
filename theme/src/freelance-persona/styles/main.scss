@@ -11,33 +11,33 @@
 // to ensure correct loading in Yarn PnP environments.
 
 // 2. Vendor Imports
-@import "bootstrap/scss/bootstrap";
-@import "bootstrap-icons/font/bootstrap-icons.css";
-@import "academicons/css/academicons.css";
+@use "bootstrap/scss/bootstrap";
+@use "bootstrap-icons/font/bootstrap-icons.css";
+@use "academicons/css/academicons.css";
 
 // 3. Theme Core Styles
-@import "base";
-@import "preloader";
-@import "plain";
+@use "base";
+@use "preloader";
+@use "plain";
 
 // 4. Global Component Styles
-@import "section";
-@import "hero";
-@import "about";
-@import 'contact';
-@import 'footer';
-@import 'widgets';
-@import 'cards';
-@import 'features';
-@import 'filtered-posts';
-@import "blog";
-@import "blog-post";
-@import "blog-categories";
-@import "breadcrumbs";
+@use "section";
+@use "hero";
+@use "about";
+@use 'contact';
+@use 'footer';
+@use 'widgets';
+@use 'cards';
+@use 'features';
+@use 'filtered-posts';
+@use "blog";
+@use "blog-post";
+@use "blog-categories";
+@use "breadcrumbs";
 
 
 // 5. Conditional Navigation Styles
-@import "theme-dropdown";
-@import "nav-home";
-@import "nav-page";
-@import "home";
+@use "theme-dropdown";
+@use "nav-home";
+@use "nav-page";
+@use "home";

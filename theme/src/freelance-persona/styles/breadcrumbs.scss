@@ -90,6 +90,7 @@
 
 .page-title .breadcrumbs a:hover {
   text-decoration: underline;
+  text-decoration-color: var(--underline-color);
   color: color-mix(in srgb, var(--accent-color), transparent 20%);
 }
 

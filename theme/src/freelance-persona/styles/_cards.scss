@@ -64,6 +64,20 @@
     }
 }
 
+/* Dark Mode: Replace shadow with subtle highlight (Adwaita style) */
+@media (prefers-color-scheme: dark) {
+    :root:not(:has(.theme-state-light:checked)) .card-wrapper:hover .card-base {
+        box-shadow: none;
+        background: color-mix(in srgb, var(--card-background, var(--bs-body-bg)), white 3%);
+    }
+}
+@media (prefers-color-scheme: light) {
+    :root:has(.theme-state-dark:checked) .card-wrapper:hover .card-base {
+        box-shadow: none;
+        background: color-mix(in srgb, var(--card-background, var(--bs-body-bg)), white 3%);
+    }
+}
+
 .card-content {
     padding: calc(1.5rem * var(--scale-factor, 1));
     display: flex;

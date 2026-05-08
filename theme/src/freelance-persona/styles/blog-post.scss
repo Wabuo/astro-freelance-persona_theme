@@ -12,7 +12,7 @@
 --------------------------------------------------------------*/
 .blog-post {
   padding-bottom: 1.875rem; // 30px
-  margin: 3.75px 0 0 0; // 60px
+  margin: 0; // Spacing handled by .section padding-top
 }
 
 .blog-post .article {
@@ -171,7 +171,7 @@
 
 .meta-top-divider {
   height: 1px;
-  background-color: #e0e0e0;
+  background-color: color-mix(in srgb, var(--default-color), transparent 85%);
   margin: 0.625rem 0; // 10px 0
   padding: 0;
 }
@@ -313,9 +313,16 @@
   margin-top: 2em;
 }
 
+#blog-post {
+  position: relative;
+  z-index: 10;
+}
+
 /* Post header layout */
 .post-header {
   margin-bottom: 2em;
+  position: relative;
+  z-index: 5;
 }
 
 .header-content {

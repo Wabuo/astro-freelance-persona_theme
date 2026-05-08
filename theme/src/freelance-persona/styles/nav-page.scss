@@ -1,12 +1,6 @@
-/*
- * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
- * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
- *
- * SPDX-License-Identifier: MIT
- */
+@use "navigation";
 
-/* Applied only when body has .inner-page class */
+/* Applied only when body has .page-page class */
 body.inner-page {
-  /* Sass will now inline the content here, correctly scoped */
-  @import "navigation";
+  @include navigation.styles();
 }

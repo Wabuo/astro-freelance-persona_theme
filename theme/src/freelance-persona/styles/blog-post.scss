@@ -1,3 +1,5 @@
+@use 'attribution';
+
 /*
  * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
  * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
@@ -36,7 +38,7 @@
   }
 
   // Import attribution styles
-  @import 'attribution';
+  @include attribution.styles();
 
   img {
     width: 100%;

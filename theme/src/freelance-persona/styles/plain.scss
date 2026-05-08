@@ -59,8 +59,8 @@
   .plain,
   .page-content,
   .legal-content {
-    background-color: var(--surface-color) !important;
-    color: var(--default-color) !important;
+    background-color: var(--surface-color);
+    color: var(--default-color);
     border-radius: var(--img-border-radius, 1rem);
     padding: 2rem;
   }

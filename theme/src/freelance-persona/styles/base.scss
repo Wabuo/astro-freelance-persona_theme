@@ -57,6 +57,7 @@
   /* Bootstrap - Light */
   --bs-body-bg: #ffffff;
   --bs-body-color: #212529;
+  --underline-color: var(--accent-color);
 }
 
 @mixin dark-theme {
@@ -83,6 +84,8 @@
   /* Bootstrap Overrides */
   --bs-body-bg: #1e1e1e;
   --bs-body-color: #e0e0e0;
+  --bs-border-color: color-mix(in srgb, var(--default-color), transparent 85%);
+  --underline-color: color-mix(in srgb, var(--accent-color), transparent 45%);
 }
 
 /* 1. Base: Light (Default) */
@@ -363,13 +366,13 @@ html:has(.header[popover]:popover-open) {
 
     @media (prefers-color-scheme: dark) {
       :root:not(:has(.theme-state-light:checked)) & {
-        background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+        background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
       }
     }
 
     @media (prefers-color-scheme: light) {
       :root:has(.theme-state-dark:checked) & {
-        background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);
+        background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
       }
     }
   }

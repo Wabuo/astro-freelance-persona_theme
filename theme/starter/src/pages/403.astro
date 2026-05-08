@@ -102,6 +102,30 @@ const description = "You do not have permission to view this page.";
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       }
+
+      /* Dark Mode: Muted button preserving the serious aesthetic */
+      @media (prefers-color-scheme: dark) {
+        :root:not(:has(.theme-state-light:checked)) & {
+          background: var(--surface-color);
+          color: var(--default-color);
+
+          &:hover {
+            background: var(--accent-color);
+            color: #fff;
+          }
+        }
+      }
+      @media (prefers-color-scheme: light) {
+        :root:has(.theme-state-dark:checked) & {
+          background: var(--surface-color);
+          color: var(--default-color);
+
+          &:hover {
+            background: var(--accent-color);
+            color: #fff;
+          }
+        }
+      }
     }
 
     /* Mobile Compact Layout */

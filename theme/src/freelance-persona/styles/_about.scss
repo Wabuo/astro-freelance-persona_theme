@@ -322,6 +322,7 @@
 
     a:hover {
         text-decoration: underline;
+        text-decoration-color: var(--underline-color);
         color: var(--accent-color) !important;
     }
 }

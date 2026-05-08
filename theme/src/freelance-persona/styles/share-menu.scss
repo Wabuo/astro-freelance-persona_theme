@@ -45,7 +45,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border: 1px solid var(--border-color, rgba(0, 0, 0, 0.05));
     z-index: 1000;
-    overflow: hidden;
 
     /* Animation */
     opacity: 0;
@@ -54,9 +53,10 @@
     transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 
     &.show {
-        opacity: 1;
+        opacity: 1 !important;
         visibility: visible;
         transform: translateY(0);
+        z-index: 1050; /* Ensure it stays above footer and other elements */
     }
 
     /* Dark mode specific tweak if surface color isn't enough */

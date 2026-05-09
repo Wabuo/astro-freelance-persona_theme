@@ -725,13 +725,17 @@ const monospaceFont = fonts.monospace || "monospace";
       };
 
       // C. Navigation Event Listener
-      document.addEventListener("astro:page-load", initScrollAnimations);
-      document.addEventListener("DOMContentLoaded", initScrollAnimations);
+      document.addEventListener("astro:page-load", () => {
+        if (!document.documentElement.classList.contains("anim-init")) {
+            initScrollAnimations();
+            document.documentElement.classList.add("anim-init");
+        }
+      });
       
-      // IMMEDIATE CHECK
-      if (document.readyState === "interactive" || document.readyState === "complete") {
-        initScrollAnimations();
-      }
+      // Cleanup on swap to allow re-init for new elements
+      document.addEventListener("astro:after-swap", () => {
+        document.documentElement.classList.remove("anim-init");
+      });
     `}
     ></script>
   </body>

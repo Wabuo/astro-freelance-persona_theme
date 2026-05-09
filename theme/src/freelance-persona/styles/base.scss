@@ -366,13 +366,13 @@ html:has(.header[popover]:popover-open) {
 
     @media (prefers-color-scheme: dark) {
       :root:not(:has(.theme-state-light:checked)) & {
-        background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+        background-color: color-mix(in srgb, var(--accent-color), var(--surface-color) 85%);
       }
     }
 
     @media (prefers-color-scheme: light) {
       :root:has(.theme-state-dark:checked) & {
-        background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+        background-color: color-mix(in srgb, var(--accent-color), var(--surface-color) 85%);
       }
     }
   }

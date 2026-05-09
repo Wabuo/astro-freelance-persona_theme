@@ -90,7 +90,7 @@ const encodedDesc = encodeURIComponent(description);
 
 <script>
   function initShareMenu() {
-    const wrappers = document.querySelectorAll(".share-menu-wrapper");
+    const wrappers = document.querySelectorAll(".share-menu-wrapper:not([data-initialized])");
 
     wrappers.forEach((wrapper) => {
       const btn = wrapper.querySelector(".share-btn");
@@ -99,22 +99,26 @@ const encodedDesc = encodeURIComponent(description);
 
       if (!btn || !dropdown) return;
 
+      // Mark as initialized
+      wrapper.setAttribute("data-initialized", "true");
+
       // Toggle Menu
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
         const expanded = btn.getAttribute("aria-expanded") === "true";
+
+        // Close other open menus first
+        document.querySelectorAll(".share-menu-wrapper .share-btn.active").forEach(otherBtn => {
+            if (otherBtn !== btn) {
+                otherBtn.classList.remove("active");
+                otherBtn.nextElementSibling?.classList.remove("show");
+                otherBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
         btn.setAttribute("aria-expanded", String(!expanded));
         dropdown.classList.toggle("show");
         btn.classList.toggle("active");
-      });
-
-      // Close on Click Outside
-      document.addEventListener("click", (e) => {
-        if (!wrapper.contains(e.target as Node)) {
-          dropdown.classList.remove("show");
-          btn.setAttribute("aria-expanded", "false");
-          btn.classList.remove("active");
-        }
       });
 
       // Copy Link Logic
@@ -142,7 +146,6 @@ const encodedDesc = encodeURIComponent(description);
                 icon.classList.remove("bi-check2");
                 icon.classList.add("bi-link-45deg");
                }
-               // Close menu after successful copy? Maybe keep it open to show "Copied!".
             }, 2000);
 
           } catch (err) {
@@ -151,9 +154,31 @@ const encodedDesc = encodeURIComponent(description);
         });
       }
     });
+
+    // Close on Click Outside (Global - once)
+    if (!window.hasShareMenuGlobalListener) {
+        document.addEventListener("click", (e) => {
+            const target = e.target as Node;
+            if (!target.parentElement?.closest(".share-menu-wrapper")) {
+                document.querySelectorAll(".share-dropdown.show").forEach((menu) => {
+                    menu.classList.remove("show");
+                    const btn = menu.previousElementSibling;
+                    if (btn) {
+                        btn.setAttribute("aria-expanded", "false");
+                        btn.classList.remove("active");
+                    }
+                });
+            }
+        });
+        window.hasShareMenuGlobalListener = true;
+    }
   }
 
-  // Initialize on load and after Astro swaps (if using View Transitions)
-  document.addEventListener("DOMContentLoaded", initShareMenu);
+  // Type definition for window property
+  declare global {
+    interface Window { hasShareMenuGlobalListener: boolean; }
+  }
+
+  // Initialize after Astro swaps and on initial load
   document.addEventListener("astro:page-load", initShareMenu);
 </script>

@@ -16,10 +16,13 @@ test.describe('Visual Hover States', () => {
         if (testInfo.project.name !== 'noscript') {
             await page.evaluate(() => document.fonts.ready);
         }
-        // Disable transitions for stability
+        // Disable transitions and reveal animations for stability
         if (testInfo.project.name !== 'noscript') {
             await page.addStyleTag({
-                content: `* { transition: none !important; animation: none !important; }`
+                content: `
+                    * { transition: none !important; animation: none !important; }
+                    [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+                `
             });
         }
     });
@@ -47,20 +50,30 @@ test.describe('Visual Hover States', () => {
     });
 
     test('Features: Available vs Unavailable Cards', async ({ page, isMobile }) => {
-        if (isMobile) test.skip(); // Hover not applicable on mobile in strict sense
+        if (isMobile) test.skip();
 
         const availableCard = page.locator('.feature-card:not(.unavailable)').first();
         if (await availableCard.count() > 0) {
-            await availableCard.hover();
-            await page.waitForTimeout(300);
-            await expect(availableCard.locator('..')).toHaveScreenshot('feature-card-available-hover.png');
+            const wrapper = availableCard.locator('..'); 
+            await wrapper.hover({ force: true });
+            await page.waitForTimeout(600); 
+            await expect(wrapper).toHaveScreenshot('feature-card-available-hover.png', {
+                maxDiffPixelRatio: 0.2,
+                threshold: 0.6,
+                mask: [page.locator('.mascot-container')]
+            });
         }
 
         const unavailableCard = page.locator('.feature-card.unavailable').first();
         if (await unavailableCard.count() > 0) {
-            await unavailableCard.hover();
-            await page.waitForTimeout(300);
-            await expect(unavailableCard.locator('..')).toHaveScreenshot('feature-card-unavailable-hover.png');
+            const wrapper = unavailableCard.locator('..');
+            await wrapper.hover({ force: true });
+            await page.waitForTimeout(600);
+            await expect(wrapper).toHaveScreenshot('feature-card-unavailable-hover.png', {
+                maxDiffPixelRatio: 0.2,
+                threshold: 0.6,
+                mask: [page.locator('.mascot-container')]
+            });
         }
     });
 

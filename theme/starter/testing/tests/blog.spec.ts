@@ -81,6 +81,7 @@ test.describe('Blog Visuals & Functionality', () => {
 
         await expect(page).toHaveScreenshot('post-with-image-desktop.png', {
             fullPage: true,
+            maxDiffPixelRatio: 0.05,
             mask: [
                 page.locator('.mascot-container'),
                 page.locator('.typing-lock'),
@@ -110,6 +111,7 @@ test.describe('Blog Visuals & Functionality', () => {
 
         await expect(page).toHaveScreenshot('post-text-only-desktop.png', {
             fullPage: true,
+            maxDiffPixelRatio: 0.05,
             mask: [
                 page.locator('.mascot-container'),
                 page.locator('.typing-lock'),

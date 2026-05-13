@@ -6,7 +6,12 @@ import Navigation from "@freelance-persona/components/Navigation.astro";
 import KatexLoader from "@freelance-persona/components/KatexLoader.astro";
 import { themeConfig } from "@freelance-persona/config";
 
-// Font imports removed - should be handled by the consumer/starter
+// Font imports
+import "@fontsource/adwaita-sans/400.css";
+import "@fontsource/adwaita-sans/700.css";
+import "@fontsource/adwaita-mono/400.css";
+import "@fontsource/raleway/400.css";
+import "@fontsource/raleway/700.css";
 
 // Import Global Styles
 import "@freelance-persona/styles/main.scss";
@@ -73,6 +78,8 @@ interface Props {
   navType?: "home" | "page";
   page_margin_left?: string;
   page_margin_right?: string;
+  nav_menu_width?: string;
+  nav_pill_expanded_width?: string;
 }
 
 const {
@@ -91,15 +98,20 @@ const globalMarginLeft =
 const globalMarginRight =
   Astro.props.page_margin_right || layout.page_margin_right || globalMarginLeft;
 
+const navMenuWidth = 
+  Astro.props.nav_menu_width || layout.nav_menu_width || "8.75rem";
+const navPillExpandedWidth = 
+  Astro.props.nav_pill_expanded_width || layout.nav_pill_expanded_width || "11.25rem";
+
 // --- FONTS CONFIGURATION ---
 const fonts = themeConfig.fonts || {};
 const colors = themeConfig.colors || {};
 
-// Level 4: Code Fallback (Generic System Fonts)
-const headingFont = fonts.headings || "sans-serif";
-const bodyFont = fonts.body || "sans-serif";
-const navFont = fonts.navigation || "sans-serif";
-const monospaceFont = fonts.monospace || "monospace";
+// Level 4: Code Fallback (Fontsource Defaults)
+const headingFont = fonts.headings || '"Adwaita Sans", sans-serif';
+const bodyFont = fonts.body || '"Adwaita Sans", sans-serif';
+const navFont = fonts.navigation || '"Raleway", sans-serif';
+const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
 ---
 
 <!DOCTYPE html>
@@ -113,6 +125,8 @@ const monospaceFont = fonts.monospace || "monospace";
     html:root {
       --global-margin-left: ${globalMarginLeft}; 
       --global-margin-right: ${globalMarginRight};
+      --nav-menu-width: ${navMenuWidth};
+      --nav-pill-expanded-width: ${navPillExpandedWidth};
       --heading-font: ${headingFont};
       --default-font: ${bodyFont};
       --nav-font: ${navFont};
@@ -141,6 +155,11 @@ const monospaceFont = fonts.monospace || "monospace";
       ${
         colors.light?.card_border
           ? `--card-border: ${colors.light.card_border};`
+          : ""
+      }
+      ${
+        colors.light?.code_background
+          ? `--code-background: ${colors.light.code_background};`
           : ""
       }
       ${
@@ -277,6 +296,11 @@ const monospaceFont = fonts.monospace || "monospace";
             ${
               colors.dark.card_border
                 ? `--card-border: ${colors.dark.card_border};`
+                : ""
+            }
+            ${
+              colors.dark.code_background
+                ? `--code-background: ${colors.dark.code_background};`
                 : ""
             }
             ${

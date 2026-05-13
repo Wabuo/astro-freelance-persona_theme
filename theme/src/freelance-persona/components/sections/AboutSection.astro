@@ -3,6 +3,8 @@ import { Image } from "astro:assets";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import ImageAttribution from "@freelance-persona/components/ui/ImageAttribution.astro";
 import { themeConfig } from "@freelance-persona/config";
+import { Icon } from "astro-icon/components";
+import { transformIcon } from "@freelance-persona/utils/iconUtils";
 
 interface Props {
   id: string;
@@ -131,7 +133,10 @@ const hasSidebar = !!(
                           }
                         >
                           {item.icon && (
-                            <i class={`${item.icon} qualifications-icon`} />
+                            <i
+                              class={`${item.icon} qualifications-icon`}
+                              aria-hidden="true"
+                            />
                           )}
 
                           <div class="qualifications-text-col">
@@ -155,6 +160,7 @@ const hasSidebar = !!(
                             <LinkTag
                               {...linkProps}
                               class="cert-img-only-link"
+                              aria-label={item.text}
                               style="display: block; line-height: 0;"
                             >
                               <div class="qualifications-cert-img">

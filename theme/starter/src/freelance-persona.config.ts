@@ -71,6 +71,8 @@ export const themeConfig: PersonaConfig = {
       page_margin_left: "8.875rem", // "140px"
 
       //page_margin_right: "1em", // <- Uncomment to set manually. Defaults to page_margin_left
+      // nav_menu_width: "8.75rem", // 140px (Collapsed width of the sidebar)
+      nav_pill_expanded_width: "10rem", // 180px (How wide pills expand on hover)
     },
     scroll_animations: {
       enabled: true,
@@ -113,7 +115,10 @@ export const themeConfig: PersonaConfig = {
       nav_dropdown_color: "#212529",
       // nav_dropdown_hover: "#0563bb", // Defaults to accent
       header_background: "rgba(255, 255, 255, 0.82)", // Glassmorphism header
-      header_color: "#ffffff"
+      header_color: "#ffffff",
+
+      // Code Block Specifics
+      code_background: "#f6f6f6", // Adwaita-adjacent light grey
     },
 
     dark: {
@@ -135,6 +140,9 @@ export const themeConfig: PersonaConfig = {
       tag_background: "#383838",
       tag_text: "#ffffff",
       tag_border: "#444444",
+
+      // Code Block Specifics
+      code_background: "#303030", // Adwaita-adjacent surface color
 
       input_background: "#242424",
       input_border: "#444444",
@@ -209,7 +217,11 @@ export const themeConfig: PersonaConfig = {
     business_license: "Sole Proprietor / Put your business license here", //can be empty if unaplicable
     vat_id: "PUT YOUR VAT ID HERE", //can be empty if unaplicable
     jurisdiction: "PersonaCity, Country", // can be empty if unaplicable
-    disclaimer: "src/content/legal/disclaimer.md",
+    // DISCLAIMER / ADDITIONAL LEGAL TEXT
+    // 1. Create a file in `src/content/legal/` (e.g. `disclaimer.md`)
+    // 2. Set the ID here (e.g. "disclaimer"). 
+    // If the file is missing, it will display the theme's help guide ("guide").
+    disclaimer: "guide",
   },
 
   credits: [

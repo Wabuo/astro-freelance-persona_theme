@@ -378,7 +378,15 @@ const blog = defineCollection({
   }),
 });
 
+const legal = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/legal" }),
+  schema: z.object({
+    title: z.string().optional(),
+  }),
+});
+
 export const collections = {
   sections,
   blog_posts: blog,
+  legal,
 };

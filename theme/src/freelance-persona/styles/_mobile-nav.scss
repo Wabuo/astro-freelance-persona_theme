@@ -1,3 +1,5 @@
+@use 'theme-context' as *;
+
 @mixin styles() {
   /* Shared Mobile Drawer (Popover API) Styles */
 

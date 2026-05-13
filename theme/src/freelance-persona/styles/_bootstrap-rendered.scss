@@ -1,0 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+// src/styles/_bootstrap-rendered.scss
+// This module handles the actual CSS generation for Bootstrap components.
+
+// 1. Load Bootstrap Core (Required for variables and mixins in this module scope)
+@import "bootstrap-core";
+
+// 2. Load Rendering Components
+@import "bootstrap/scss/bootstrap";

@@ -129,17 +129,25 @@
   }
 
   .navmenu a i,
-  .navmenu .theme-toggle i,
   .navmenu a:focus i {
     font-size: 1.25rem;
     /* 20px */
+    width: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Theme toggle icons specifically (handled by Navigation.astro display logic) */
+  .navmenu .theme-toggle i {
+    font-size: 1.25rem;
   }
 
   /* Custom SVG Icon Styling */
   .navmenu a svg.navicon {
-    width: 1.5rem;
-    height: 1.5rem;
-    min-width: 1.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    min-width: 1.25rem;
     flex-shrink: 0;
     fill: currentColor;
     transform: scale(1.8);
@@ -160,12 +168,10 @@
     fill: var(--contrast-color) !important;
   }
 
-  /* Theme Toggle Icons (Native Logic) handled globally */
-
   .navmenu a span:not(.theme-icon-container),
   .navmenu .theme-toggle span:not(.theme-icon-container),
   .navmenu a:focus span:not(.theme-icon-container) {
-    padding: 0 0.3125rem 0 0.4375rem;
+    padding: 0 0.3rem 0 0.75rem;
     overflow: hidden;
     white-space: nowrap;
   }
@@ -174,6 +180,15 @@
 
     .navmenu ul {
       width: var(--nav-menu-width);
+      transition: width 0.3s ease-in-out;
+    }
+
+    /* Container-based expansion: When hovering the menu area, the container expands */
+    /* This allows pills (width: 100%) to grow into the newly available space */
+    .navmenu:hover ul,
+    .navmenu:focus-within ul,
+    .navmenu:has(.theme-menu-toggle-checkbox:checked) ul {
+      width: var(--nav-pill-expanded-width, 15rem);
     }
 
     .navmenu a,
@@ -208,6 +223,7 @@
   .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-toggle,
   .navmenu li:hover>a,
   .navmenu .theme-toggle-container:hover>.theme-toggle {
+    /* Pills fill the parent UL as it expands */
     max-width: 100%;
     color: var(--contrast-color);
   }

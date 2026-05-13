@@ -1,6 +1,7 @@
 ---
 import { getLicenseLink } from "@freelance-persona/utils/licenseUtils";
 import { Icon } from "astro-icon/components";
+import { transformIcon } from "@freelance-persona/utils/iconUtils";
 
 interface Props {
   img_credit?: { name: string; url?: string; icon?: string } | "hidden"; // Credit MUST be an object or "hidden" in new schema

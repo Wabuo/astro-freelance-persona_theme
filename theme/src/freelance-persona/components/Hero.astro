@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import { themeConfig } from "@freelance-persona/config";
+import { Icon } from "astro-icon/components";
+import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import ImageAttribution from "./ui/ImageAttribution.astro";
 
 interface Props {
@@ -217,7 +219,7 @@ const heroSectionStyle = {
   <div class="container" data-reveal="zoom-out">
     <div class={`row ${alignSettings.row}`}>
       <div class={`${colClass} ${alignSettings.text}`} style={fineTuneStyle}>
-        <h2>{title}</h2>
+        <h1>{title}</h1>
 
         {
           hero_typing_text && (
@@ -452,6 +454,5 @@ const heroSectionStyle = {
 
   .social-links a:hover {
     color: var(--accent-color);
-    transform: scale(1.1);
   }
 </style>

@@ -1,3 +1,5 @@
+@use 'theme-context' as *;
+
 /*
  * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
  * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
@@ -99,7 +101,11 @@
 }
 
 .feature-icon {
-    font-size: 1.5rem;
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: inherit;
 
     // Sizing for Lance Icon specifically

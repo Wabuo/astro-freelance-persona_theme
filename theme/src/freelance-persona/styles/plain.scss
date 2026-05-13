@@ -50,19 +50,26 @@
   border-radius: var(--img-border-radius);
 }
 
-/* Dark Mode Adaptation for generic pages */
-/* Dark Mode Adaptation for generic pages */
+/* Plain/Legal page — dark mode card effect.
+   Strategy: padding grows the box inward; negative margin pulls it back out
+   by the same amount, stealing from surrounding empty space instead of
+   compressing the content. Zero layout shift for the text. */
 
-/* Helper Mixin for Plain Dark Mode */
+$card-padding: 2rem;
+
 @mixin plain-dark-theme {
-
   .plain,
   .page-content,
   .legal-content {
     background-color: var(--surface-color);
     color: var(--default-color);
-    border-radius: var(--img-border-radius, 1rem);
-    padding: 2rem;
+    border-radius: var(--img-border-radius, 0.625rem);
+    /* Expand outward — counteracts the padding so text never moves */
+    padding: $card-padding;
+    margin-left: -$card-padding;
+    margin-right: -$card-padding;
+    /* Visual border via box-shadow — outside the box model, no reflow */
+    box-shadow: 0 0 0 1px var(--card-border);
   }
 }
 

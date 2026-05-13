@@ -4,29 +4,67 @@
 
 // src/freelance-persona/styles/_code-blocks.scss
 
-/* Expressive Code Customizations */
-.expressive-code {
-  margin: 1.5rem 0;
-  
-  /* Adwaita-adjacent styling */
-  --ec-brdRad: 0.5rem;
-  --ec-brdWdth: 1px;
-  --ec-brdCol: color-mix(in srgb, var(--bs-border-color), transparent 70%);
-  
-  /* Connect to our theme variables */
-  --ec-bg: var(--code-background);
-  
-  /* Ensure the frame is clean */
-  .frame {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: var(--ec-brdWdth) solid var(--ec-brdCol);
-  }
+/* ============================================================
+   Expressive Code Customizations
 
-  /* Transition for a smooth feeling */
-  transition: transform 0.2s ease;
-  
-  &:hover {
-    // Very subtle lift
-    --ec-brdCol: color-mix(in srgb, var(--bs-border-color), transparent 40%);
+   Theme switching strategy (all CSS-native, zero JS):
+   - EC's useDarkModeMediaQuery handles OS dark preference
+   - EC's themeCssSelector handles manual :has(.theme-state-dark:checked)
+   - This file handles the edge case: OS dark + user forces light
+     by resetting EC tokens and frame vars back to light values.
+
+   EC fully manages its own copy-button opacity/hover behaviour via
+   @media (hover: hover). We must NOT override opacity here or we
+   break the hover-reveal interaction.
+   ============================================================ */
+
+.expressive-code {
+  margin: 2rem 0;
+
+  /* Connect to our theme variables for a designed-in look */
+  --ec-bg: var(--code-background);
+  --ec-brdRad: 0.5rem;
+  --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
+
+  .frame {
+    background-color: var(--ec-bg);
   }
 }
+
+/* =============================================================
+   EDGE CASE: OS prefers dark BUT user has forced light.
+   EC's @media (prefers-color-scheme: dark) activates dark tokens
+   and frame vars. We counteract by resetting to light values.
+   ============================================================= */
+@media (prefers-color-scheme: dark) {
+  :root:has(.theme-state-light:checked) {
+    /* Reset EC tokens from dark (--1) back to light (--0) */
+    .expressive-code .ec-line :where(span[style^='--']:not([class])) {
+      color: var(--0, inherit);
+      background-color: var(--0bg, transparent);
+      font-style: var(--0fs, inherit);
+      font-weight: var(--0fw, inherit);
+      text-decoration: var(--0td, inherit);
+    }
+
+    /* Reset key EC frame variables to github-light values */
+    .expressive-code {
+      --ec-codeFg: #24292e;
+      --ec-brdCol: #e1e4e8;
+      --ec-frm-inlBtnFg: #24292e;
+      --ec-frm-inlBtnBg: #24292e;
+      --ec-frm-inlBtnBrd: #24292e;
+      --ec-frm-edActTabBg: #fff;
+      --ec-frm-edActTabFg: #2f363d;
+      --ec-frm-edTabBarBg: #f6f8fa;
+      --ec-frm-edTabBarBrdCol: #e1e4e8;
+      --ec-frm-trmTtbFg: #2f363d;
+      --ec-frm-trmTtbBg: #fff;
+      --ec-frm-trmTtbBrdBtmCol: #e1e4e8;
+      --ec-frm-shdCol: #00000028;
+      --ec-frm-frameBoxShdCssVal: 0.1rem 0.1rem 0.2rem #00000028;
+    }
+  }
+}
+
+

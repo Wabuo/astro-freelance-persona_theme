@@ -589,6 +589,9 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
     />
 
     <script is:inline>
+      // Restore persisted theme preference by checking the matching radio input.
+      // No data-theme attribute needed — Expressive Code and all other styles use
+      // the same CSS-native :has() + @media selectors as the rest of the site.
       const t = localStorage.getItem("theme");
       if (t === "light" || t === "dark") {
         const el = document.getElementById("theme-" + t);

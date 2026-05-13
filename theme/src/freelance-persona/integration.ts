@@ -42,7 +42,24 @@ export default function freelancePersona(): AstroIntegration {
         updateConfig({
           integrations: [
             astroExpressiveCode({
-              themes: ['github-dark', 'github-light'],
+              themes: ['github-light', 'github-dark'],
+              // CSS-native theme switching strategy:
+              // 1. useDarkModeMediaQuery handles OS preference (prefers-color-scheme)
+              // 2. themeCssSelector adds a manual override for :has(.theme-state-dark)
+              // 3. The edge case "OS dark + user forces light" is handled in
+              //    _code-blocks.scss (resets EC tokens/vars back to light).
+              //
+              // NOTE: EC's themeCssSelector does NOT support @media at-rules —
+              // it only accepts plain CSS selectors.
+              useDarkModeMediaQuery: true,
+              themeCssSelector: (theme) => {
+                if (theme.name === 'github-dark') {
+                  // Manual dark override: user explicitly chose dark on a light-OS
+                  return ':root:has(.theme-state-dark:checked) &';
+                }
+                // Light is the default base — no extra selector needed
+                return false;
+              },
               useThemedScrollbars: false,
               styleOverrides: {
                 borderRadius: '0.5rem',
@@ -50,7 +67,6 @@ export default function freelancePersona(): AstroIntegration {
                 codePaddingBlock: '1.25rem',
                 // Using our theme variables for a designed-in look
                 codeBackground: 'var(--code-background)',
-                codeForeground: 'var(--default-color)',
                 uiFontFamily: 'var(--default-font)',
                 codeFontFamily: 'var(--monospace-font)',
               }

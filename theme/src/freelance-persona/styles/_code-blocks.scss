@@ -26,6 +26,10 @@
   --ec-brdRad: 0.5rem;
   --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
 
+  /* Style the "Copied!" tooltip message */
+  --ec-frm-tooltipSuccessBg: var(--accent-color);
+  --ec-frm-tooltipSuccessFg: var(--contrast-color);
+
   .frame {
     background-color: var(--ec-bg);
   }

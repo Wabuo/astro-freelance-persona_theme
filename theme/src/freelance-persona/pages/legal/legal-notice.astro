@@ -2,6 +2,7 @@
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import { themeConfig } from "@freelance-persona/config";
+import { getEntry, render } from "astro:content";
 import { parse } from "marked";
 
 const { legal, email, phone, address, author } = themeConfig;
@@ -28,51 +29,22 @@ const legalAddress = resolve(legal.legal_address, "theme_address", address);
 
 const pageTitle = legal.link_text || "Legal Notice / Impressum";
 
-// Parse optional markdown content
-let disclaimerContent = "";
-const rawDisclaimer = legal.disclaimer;
-
-// Use Vite's import.meta.glob to load raw markdown content at build time
-// eager: true since we want the content immediately for SSG
-const disclaimerFiles = import.meta.glob("/src/**/*.{md,mdx}", {
-  query: "?raw",
-  import: "default",
-  eager: true,
-});
-
-const getFileContent = (pathStrOrKey: string) => {
-  if (!pathStrOrKey) return undefined;
-  // Vite glob keys are relative to root, starting with /
-  // e.g., "/src/content/legal.md"
-  // User config might be "src/content/legal.md"
-  const key = pathStrOrKey.startsWith("/") ? pathStrOrKey : "/" + pathStrOrKey;
-  return disclaimerFiles[key] as string | undefined;
-};
-
-if (rawDisclaimer) {
-  // Check if it looks like a path
-  if (rawDisclaimer.endsWith(".md") || rawDisclaimer.endsWith(".mdx")) {
-    const foundContent = getFileContent(rawDisclaimer);
-
-    if (foundContent) {
-      disclaimerContent = foundContent;
-    } else {
-      // Fallback: Try to read LEGAL_RESOURCES.md
-      const resourcesContent = getFileContent("src/LEGAL_RESOURCES.md");
-
-      if (resourcesContent) {
-        disclaimerContent = `> **⚠️ Configuration Warning**\n> \n> The disclaimer file configured at \`${rawDisclaimer}\` was not found in the build.\n> Ensure the file exists and restart the dev server/rebuild.\n> \n> Displaying \`src/LEGAL_RESOURCES.md\` help guide:\n\n---\n\n${resourcesContent}`;
-      } else {
-        disclaimerContent = `*Error: Disclaimer file not found at \`${rawDisclaimer}\`, and no fallback resources found.*`;
-      }
-    }
-  } else {
-    // Treat as literal string content
-    disclaimerContent = rawDisclaimer;
-  }
+// Native Content Collection Resolution
+// We look for the disclaimer ID in the 'legal' collection.
+// If the user provided a path ending in .md (old style), we extract the filename as the ID.
+let disclaimerId = legal.disclaimer || "guide";
+if (disclaimerId.endsWith(".md")) {
+  disclaimerId = disclaimerId.split("/").pop()?.replace(".md", "") || "guide";
 }
 
-const disclaimerHtml = disclaimerContent ? await parse(disclaimerContent) : "";
+let entry = await getEntry("legal", disclaimerId);
+
+// Fallback to the guide if the user's file is missing
+if (!entry) {
+  entry = await getEntry("legal", "guide");
+}
+
+const { Content } = entry ? await render(entry) : { Content: null };
 ---
 
 <BaseLayout title={pageTitle}>
@@ -155,8 +127,10 @@ const disclaimerHtml = disclaimerContent ? await parse(disclaimerContent) : "";
 
         {/* Disclaimer / Additional Legal Text */}
         {
-          disclaimerHtml && (
-            <div class="legal-text mt-5" set:html={disclaimerHtml} />
+          Content && (
+            <div class="legal-text mt-5">
+              <Content />
+            </div>
           )
         }
       </div>
@@ -212,5 +186,19 @@ const disclaimerHtml = disclaimerContent ? await parse(disclaimerContent) : "";
   .legal-note {
     color: color-mix(in srgb, var(--default-color), transparent 40%);
     font-size: 0.9em;
+  }
+
+  /* Shiki Code Block Styling (Match Blog Posts) */
+  .legal-text :global(.astro-code) {
+    padding: 1.25rem;
+    border-radius: 0.25rem;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+    font-family: var(--font-mono, monospace);
+    overflow-x: auto;
+  }
+
+  .legal-text :global(code) {
+    font-family: var(--font-mono, monospace);
   }
 </style>

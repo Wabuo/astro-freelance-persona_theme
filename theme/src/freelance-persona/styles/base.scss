@@ -58,6 +58,7 @@
   --bs-body-bg: #ffffff;
   --bs-body-color: #212529;
   --underline-color: var(--accent-color);
+  --code-background: #f6f6f6;
 }
 
 @mixin dark-theme {
@@ -86,6 +87,7 @@
   --bs-body-color: #e0e0e0;
   --bs-border-color: color-mix(in srgb, var(--default-color), transparent 85%);
   --underline-color: color-mix(in srgb, var(--accent-color), transparent 45%);
+  --code-background: var(--surface-color);
 }
 
 /* 1. Base: Light (Default) */
@@ -154,6 +156,7 @@
 :root {
   --nav-icon-size: 3.5rem; // 56px
   --nav-menu-width: 8.75rem; // 140px
+  --nav-pill-expanded-width: 11.25rem; // 180px
   --nav-menu-mobile-width: 18.75rem; // 300px
   --nav-menu-border-padding: 0.9375rem; // 15px
   --nav-menu-mobile-border-width: 1px; // 1px
@@ -376,4 +379,59 @@ html:has(.header[popover]:popover-open) {
       }
     }
   }
+}
+/*--------------------------------------------------------------
+# Code Blocks (Legal & Content)
+--------------------------------------------------------------*/
+pre {
+  background: color-mix(in srgb, var(--default-color), transparent 95%);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  margin: 1.5rem 0;
+}
+
+code {
+  font-family: var(--monospace-font);
+  font-size: 0.9em;
+  color: var(--accent-color);
+  background: color-mix(in srgb, var(--accent-color), transparent 92%);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+}
+
+/* Shiki Dual Theme Support with Theme Switcher */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+}
+
+/* Dark Mode Activation */
+:root:has(.theme-state-dark:checked) .astro-code,
+:root:has(.theme-state-dark:checked) .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(.theme-state-light:checked)) .astro-code,
+  :root:not(:has(.theme-state-light:checked)) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+}
+
+.astro-code {
+  border: 1px solid color-mix(in srgb, var(--bs-border-color), transparent 60%);
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
 }

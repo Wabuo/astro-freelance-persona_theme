@@ -1,3 +1,5 @@
+@use 'theme-context' as *;
+
 @mixin styles() {
   /*
    * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
@@ -60,6 +62,7 @@
 
     i {
       font-size: 0.85em;
+      vertical-align: middle;
     }
 
     .license-line {

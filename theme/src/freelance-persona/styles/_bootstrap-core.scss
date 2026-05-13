@@ -1,0 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+// src/styles/_bootstrap-core.scss
+// This file provides the Bootstrap core context to theme modules.
+// We use @import here because Bootstrap's internal dependency tree 
+// for core assets (functions -> variables -> mixins) still relies 
+// on global scope which @use isolation breaks.
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";

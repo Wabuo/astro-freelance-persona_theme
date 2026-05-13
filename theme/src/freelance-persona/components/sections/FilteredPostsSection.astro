@@ -6,6 +6,7 @@ import { slugify } from "@freelance-persona/utils/slugify";
 import ImageAttribution from "@freelance-persona/components/ui/ImageAttribution.astro";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   id?: string;
@@ -86,7 +87,7 @@ const getExcerpt = (body: string) => {
       <SectionTitle title={title} subtitle={subtitle} />
 
       <div class="container" data-reveal="fade-up">
-        <div class="row gy-4" style="--bs-gutter-x: 1.5rem;">
+        <div class="row" style="--bs-gutter-x: 2rem; --bs-gutter-y: 2rem;">
           {displayedPosts.map((post) => (
             <div class={colClass}>
               <Card href={`/posts/${post.id.split("/").pop()}`} class="h-100">

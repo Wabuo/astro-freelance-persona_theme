@@ -7,6 +7,8 @@
 // Shared navigation links component - used by both desktop and mobile nav
 import { getCollection } from "astro:content";
 import { themeConfig } from "@freelance-persona/config";
+import { Icon } from "astro-icon/components";
+import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
 
 interface Props {
@@ -35,6 +37,7 @@ const getLink = (id: string) => {
 
 <nav id={isMobile ? "navmenu-mobile" : "navmenu"} class="navmenu">
   <ul>
+
     <li>
       <a
         href={isHome ? "#hero" : "/"}

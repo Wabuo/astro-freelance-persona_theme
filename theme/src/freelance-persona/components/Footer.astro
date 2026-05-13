@@ -1,6 +1,8 @@
 ---
 // src/freelance-persona/components/Footer.astro
 import { themeConfig } from "@freelance-persona/config";
+import { Icon } from "astro-icon/components";
+import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import { parse } from "marked"; // <--- The "real" parser
 
 const { title, quote, social_links, copyright, credits } = themeConfig;

@@ -11,32 +11,36 @@
 // to ensure correct loading in Yarn PnP environments.
 
 // 2. Vendor Imports
+// 2. Vendor & Context Setup
+@use "theme-context" as *;
 @use "bootstrap/scss/bootstrap";
 @use "bootstrap-icons/font/bootstrap-icons.css";
 @use "academicons/css/academicons.css";
 
 // 3. Theme Core Styles
+
+// 4. Theme Core Styles
 @use "base";
 @use "preloader";
 @use "plain";
+@use "code-blocks";
 
-// 4. Global Component Styles
+// 5. Global Component Styles
 @use "section";
 @use "hero";
 @use "about";
-@use 'contact';
-@use 'footer';
-@use 'widgets';
-@use 'cards';
-@use 'features';
-@use 'filtered-posts';
+@use "contact";
+@use "footer";
+@use "widgets";
+@use "cards";
+@use "features";
+@use "filtered-posts";
 @use "blog";
 @use "blog-post";
 @use "blog-categories";
 @use "breadcrumbs";
 
-
-// 5. Conditional Navigation Styles
+// 6. Conditional Navigation Styles
 @use "theme-dropdown";
 @use "nav-home";
 @use "nav-page";

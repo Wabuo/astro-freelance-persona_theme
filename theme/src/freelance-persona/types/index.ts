@@ -32,6 +32,8 @@ export interface VisualsConfig {
   layout?: {
     page_margin_left?: string;
     page_margin_right?: string;
+    nav_menu_width?: string;
+    nav_pill_expanded_width?: string;
   };
   mascot_image?: string;
 }
@@ -67,6 +69,9 @@ export interface ColorPalette {
   nav_dropdown_hover?: string;
   header_background?: string;
   header_color?: string;
+
+  // Code Blocks
+  code_background?: string;
 }
 
 export interface PersonaConfig {

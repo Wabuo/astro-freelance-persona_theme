@@ -1,6 +1,7 @@
 ---
 // src/components/Navigation.astro
 // Two-element navigation architecture: Desktop nav + Mobile popover nav
+import { Icon } from "astro-icon/components";
 import NavLinks from "@freelance-persona/components/ui/_NavLinks.astro";
 
 // Props: isHome determines link behavior and styling
@@ -97,8 +98,8 @@ const { isHome = false } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.5rem; /* Match the 1.5rem min-width layout footprint of SVG navicons */
-    height: 1.5rem;
+    width: 1.25rem; /* Match the 1.25rem footprint of standard navicons */
+    height: 1.25rem;
     flex-shrink: 0;
   }
 
@@ -130,11 +131,13 @@ const { isHome = false } = Astro.props;
     display: none;
   }
   :global(:root:has(.theme-state-os:checked) .theme-toggle .theme-icon-os),
-  :global(
-    :root:has(.theme-state-light:checked) .theme-toggle .theme-icon-light
-  ),
+  :global(:root:has(.theme-state-light:checked) .theme-toggle .theme-icon-light),
   :global(:root:has(.theme-state-dark:checked) .theme-toggle .theme-icon-dark) {
-    display: inline-block;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   /* Styling for items in the dropdown drawer */

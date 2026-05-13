@@ -1,8 +1,9 @@
 @use "mobile-nav";
+@use 'theme-context' as *;
 
 @mixin styles() {
   @include mobile-nav.styles();
-  /*
+/*
    * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
    *
    * SPDX-License-Identifier: MIT
@@ -128,57 +129,6 @@
 
     }
 
-    /* Theme Toggle Icons (Native Logic - Shared) */
-    .theme-icon-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* 1. Reset: Hide both by default */
-    .theme-icon-container .theme-icon-moon,
-    .theme-icon-container .theme-icon-sun {
-      display: none !important;
-    }
-
-    /* 2. Logic Matrix (Using & for body reference) */
-
-    /* Case A: OS Dark (Current=Dark) -> Show Sun */
-    @media (prefers-color-scheme: dark) {
-
-      /* Default: Show Sun */
-      .theme-icon-container .theme-icon-sun {
-        display: block !important;
-      }
-
-      /* Checked (Invert -> Light): Show Moon */
-      &:has(.theme-checkbox:checked) .theme-icon-container .theme-icon-sun {
-        display: none !important;
-      }
-
-      &:has(.theme-checkbox:checked) .theme-icon-container .theme-icon-moon {
-        display: block !important;
-      }
-    }
-
-    /* Case B: OS Light (Current=Light) -> Show Moon */
-    @media (prefers-color-scheme: light) {
-
-      /* Default: Show Moon */
-      .theme-icon-container .theme-icon-moon {
-        display: block !important;
-      }
-
-      /* Checked (Invert -> Dark): Show Sun */
-      &:has(.theme-checkbox:checked) .theme-icon-container .theme-icon-moon {
-        display: none !important;
-      }
-
-      &:has(.theme-checkbox:checked) .theme-icon-container .theme-icon-sun {
-        display: block !important;
-      }
-    }
-
     .navmenu a i {
       display: none;
     }
@@ -191,9 +141,9 @@
 
   @media (min-width: 992px) {
 
-    .navmenu a i,
-    .navmenu .theme-toggle i,
-    .navmenu a:focus i {
+    .navmenu a .navicon,
+    .navmenu .theme-toggle .navicon,
+    .navmenu a:focus .navicon {
       font-size: 0.75rem;
       /* 12px */
       line-height: 0;

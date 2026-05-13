@@ -4,6 +4,7 @@
 
 // src/freelance-persona/integration.ts
 import type { AstroIntegration } from 'astro';
+import astroExpressiveCode from 'astro-expressive-code';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
@@ -39,6 +40,22 @@ export default function freelancePersona(): AstroIntegration {
         }
 
         updateConfig({
+          integrations: [
+            astroExpressiveCode({
+              themes: ['github-dark', 'github-light'],
+              useThemedScrollbars: false,
+              styleOverrides: {
+                borderRadius: '0.5rem',
+                codePaddingInline: '1.25rem',
+                codePaddingBlock: '1.25rem',
+                // Using our theme variables for a designed-in look
+                codeBackground: 'var(--code-background)',
+                codeForeground: 'var(--default-color)',
+                uiFontFamily: 'var(--default-font)',
+                codeFontFamily: 'var(--monospace-font)',
+              }
+            })
+          ],
           vite: {
             resolve: {
               alias: [
@@ -64,7 +81,7 @@ export default function freelancePersona(): AstroIntegration {
               },
             },
             ssr: {
-              noExternal: ['astro-freelance-persona_theme']
+              noExternal: ['astro-freelance-persona_theme', '@iconify-json/bi', '@iconify-json/academicons', 'astro-icon']
             }
           },
         });

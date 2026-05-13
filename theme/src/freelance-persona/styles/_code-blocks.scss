@@ -1,0 +1,32 @@
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
+// src/freelance-persona/styles/_code-blocks.scss
+
+/* Expressive Code Customizations */
+.expressive-code {
+  margin: 1.5rem 0;
+  
+  /* Adwaita-adjacent styling */
+  --ec-brdRad: 0.5rem;
+  --ec-brdWdth: 1px;
+  --ec-brdCol: color-mix(in srgb, var(--bs-border-color), transparent 70%);
+  
+  /* Connect to our theme variables */
+  --ec-bg: var(--code-background);
+  
+  /* Ensure the frame is clean */
+  .frame {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: var(--ec-brdWdth) solid var(--ec-brdCol);
+  }
+
+  /* Transition for a smooth feeling */
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    // Very subtle lift
+    --ec-brdCol: color-mix(in srgb, var(--bs-border-color), transparent 40%);
+  }
+}

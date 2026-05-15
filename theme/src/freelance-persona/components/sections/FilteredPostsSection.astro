@@ -17,6 +17,7 @@ interface Props {
   limit?: number;
   columns?: number;
   scale?: number;
+  gutter?: "default" | "wide"; // "default" = gy-4 1.5rem (inner pages), "wide" = 2rem (home page)
 }
 const {
   id,
@@ -27,7 +28,14 @@ const {
   limit = 3,
   columns = 3,
   scale = 1,
+  gutter = "default",
 } = Astro.props;
+
+// Gutter styles
+const rowClass = gutter === "wide" ? "row" : "row gy-4";
+const gutterStyle = gutter === "wide"
+  ? "--bs-gutter-x: 2rem; --bs-gutter-y: 2rem;"
+  : "--bs-gutter-x: 1.5rem;";
 
 // 1. Fetch ALL posts (only if posts not provided)
 const allPosts = posts ? [] : await getCollection("blog_posts");
@@ -87,7 +95,7 @@ const getExcerpt = (body: string) => {
       <SectionTitle title={title} subtitle={subtitle} />
 
       <div class="container" data-reveal="fade-up">
-        <div class="row" style="--bs-gutter-x: 2rem; --bs-gutter-y: 2rem;">
+        <div class={rowClass} style={gutterStyle}>
           {displayedPosts.map((post) => (
             <div class={colClass}>
               <Card href={`/posts/${post.id.split("/").pop()}`} class="h-100">

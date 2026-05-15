@@ -36,6 +36,30 @@
 }
 
 /* =============================================================
+   DARK MODE: Remove EC's built-in box shadow.
+   EC uses a heavy #0000005b shadow in dark mode which creates
+   a muddy look on dark surfaces. Adwaita uses borders, not
+   shadows, for visual separation. The --ec-brdCol border is
+   sufficient.
+   ============================================================= */
+
+/* Case A: OS prefers dark AND user has not forced light */
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(.theme-state-light:checked)) .expressive-code {
+    --ec-frm-shdCol: transparent;
+    --ec-frm-frameBoxShdCssVal: none;
+  }
+}
+
+/* Case B: OS prefers light BUT user has forced dark */
+@media (prefers-color-scheme: light) {
+  :root:has(.theme-state-dark:checked) .expressive-code {
+    --ec-frm-shdCol: transparent;
+    --ec-frm-frameBoxShdCssVal: none;
+  }
+}
+
+/* =============================================================
    EDGE CASE: OS prefers dark BUT user has forced light.
    EC's @media (prefers-color-scheme: dark) activates dark tokens
    and frame vars. We counteract by resetting to light values.

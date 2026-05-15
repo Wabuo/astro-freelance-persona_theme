@@ -54,8 +54,11 @@ export default function freelancePersona(): AstroIntegration {
               useDarkModeMediaQuery: true,
               themeCssSelector: (theme) => {
                 if (theme.name === 'github-dark') {
-                  // Manual dark override: user explicitly chose dark on a light-OS
-                  return ':root:has(.theme-state-dark:checked) &';
+                  // Manual dark override: user explicitly chose dark on a light-OS.
+                  // NOTE: Do NOT include ':root' or '&' here — EC wraps with :root
+                  // internally and appends .expressive-code automatically.
+                  // Returning ':root:has(...) &' caused :root:root:has(...) .expressive-code .expressive-code
+                  return ':has(.theme-state-dark:checked)';
                 }
                 // Light is the default base — no extra selector needed
                 return false;

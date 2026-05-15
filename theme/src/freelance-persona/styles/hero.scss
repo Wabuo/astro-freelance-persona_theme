@@ -129,7 +129,8 @@
 //   layout-locking container (which has a fixed min-width).
 @media (prefers-color-scheme: dark) {
 
-  :root:not(:has(.theme-state-light:checked)) .hero p span.typed {
+  :root:not(:has(.theme-state-light:checked)) .hero p span.typed,
+  :root:not(:has(.theme-state-light:checked)) .hero p span.noscript-text {
     background-color: var(--accent-color);
     color: var(--contrast-color);
     padding: 0 0.1em;
@@ -141,7 +142,8 @@
 }
 
 @media (prefers-color-scheme: light) {
-  :root:has(.theme-state-dark:checked) .hero p span.typed {
+  :root:has(.theme-state-dark:checked) .hero p span.typed,
+  :root:has(.theme-state-dark:checked) .hero p span.noscript-text {
     background-color: var(--accent-color);
     color: var(--contrast-color);
     padding: 0 0.1em;
@@ -159,7 +161,8 @@
 // Both explicit OS Light vs Explicit Light Override logic
 @media (prefers-color-scheme: light) {
   :root:not(:has(.theme-state-dark:checked)) {
-    .hero p span.typed {
+    .hero p span.typed,
+    .hero p span.noscript-text {
       background-color: transparent;
       color: var(--accent-color);
       padding: 0;
@@ -178,7 +181,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root:has(.theme-state-light:checked) {
-    .hero p span.typed {
+    .hero p span.typed,
+    .hero p span.noscript-text {
       background-color: transparent;
       color: var(--accent-color);
       padding: 0;

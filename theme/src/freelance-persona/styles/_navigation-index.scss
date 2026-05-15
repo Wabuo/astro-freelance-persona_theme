@@ -185,8 +185,15 @@
 
     /* Container-based expansion: When hovering the menu area, the container expands */
     /* This allows pills (width: 100%) to grow into the newly available space */
+    /* 
+      :focus-within is scoped to exclude the case where only the toggle checkbox has
+      focus. That happens transiently when the backdrop label is clicked (the browser
+      moves focus to the associated input). Excluding it lets the pill collapse in a
+      single dismiss gesture without needing JS. Normal keyboard nav (links, pill label)
+      is unaffected since those elements are not .theme-menu-toggle-checkbox.
+    */
     .navmenu:hover ul,
-    .navmenu:focus-within ul,
+    .navmenu:focus-within:not(:has(.theme-menu-toggle-checkbox:focus)) ul,
     .navmenu:has(.theme-menu-toggle-checkbox:checked) ul {
       width: var(--nav-pill-expanded-width, 15rem);
     }
@@ -259,10 +266,12 @@
 
   @media (min-width: 992px) {
 
-    /* Keep the pill wide while the menu is open */
+    /* Keep the pill wide while the menu is open, but NOT when only the toggle
+       checkbox has focus — that transient state only occurs during light-dismiss
+       (browser focuses the associated input when its label is clicked). */
     .navmenu .theme-toggle-container.active>a,
-    .navmenu .theme-toggle-container:focus-within>a,
-    .navmenu .theme-toggle-container:focus-within>.theme-toggle,
+    .navmenu .theme-toggle-container:focus-within:not(:has(.theme-menu-toggle-checkbox:focus))>a,
+    .navmenu .theme-toggle-container:focus-within:not(:has(.theme-menu-toggle-checkbox:focus))>.theme-toggle,
     .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked)>.theme-toggle {
       max-width: 100%;
       color: var(--contrast-color);

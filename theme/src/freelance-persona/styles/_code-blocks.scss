@@ -41,22 +41,29 @@
    a muddy look on dark surfaces. Adwaita uses borders, not
    shadows, for visual separation. The --ec-brdCol border is
    sufficient.
+
+   Specificity note: EC's themeCssSelector generates rules at
+   (0,4,0). We use :root:root to reach (0,5,0) and win
+   regardless of stylesheet load order.
    ============================================================= */
 
-/* Case A: OS prefers dark AND user has not forced light */
+/* Case A: OS prefers dark AND user has not forced light.
+   :root:root boosts specificity above EC's themeCssSelector rules. */
 @media (prefers-color-scheme: dark) {
-  :root:not(:has(.theme-state-light:checked)) .expressive-code {
+  :root:root:not(:has(.theme-state-light:checked)) .expressive-code {
     --ec-frm-shdCol: transparent;
     --ec-frm-frameBoxShdCssVal: none;
+    --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
   }
 }
 
-/* Case B: OS prefers light BUT user has forced dark */
-@media (prefers-color-scheme: light) {
-  :root:has(.theme-state-dark:checked) .expressive-code {
-    --ec-frm-shdCol: transparent;
-    --ec-frm-frameBoxShdCssVal: none;
-  }
+/* Case B: User explicitly forced dark.
+   NO media query wrapper — this must fire for both OS=dark and OS=light
+   (Case A only covers OS=dark; this covers OS=light+user=dark). */
+:root:root:has(.theme-state-dark:checked) .expressive-code {
+  --ec-frm-shdCol: transparent;
+  --ec-frm-frameBoxShdCssVal: none;
+  --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
 }
 
 /* =============================================================

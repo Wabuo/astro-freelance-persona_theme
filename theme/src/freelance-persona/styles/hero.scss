@@ -107,6 +107,7 @@
 
 .hero h1 {
   margin: 0;
+  margin-block: 0; /* Reset UA stylesheet h1 margin — h1 gets larger margins than h2 by default */
   font-size: var(--title-font-size);
   font-weight: 700;
 }

@@ -308,7 +308,7 @@
     .navmenu a:hover,
     .navmenu .theme-toggle:hover,
     .navmenu .theme-toggle-container.active>a,
-    .navmenu .theme-toggle-container:focus-within>a,
+    .navmenu .theme-toggle-container:focus-within:not(:has(.theme-menu-toggle-checkbox:focus))>a,
     .navmenu li:hover>a {
       max-width: 100%;
       color: var(--contrast-color);
@@ -317,7 +317,7 @@
     .navmenu a:hover span:not(.theme-icon-container),
     .navmenu .theme-toggle:hover span:not(.theme-icon-container),
     .navmenu .theme-toggle-container.active>a span:not(.theme-icon-container),
-    .navmenu .theme-toggle-container:focus-within>a span:not(.theme-icon-container),
+    .navmenu .theme-toggle-container:focus-within:not(:has(.theme-menu-toggle-checkbox:focus))>a span:not(.theme-icon-container),
     .navmenu li:hover>a span:not(.theme-icon-container) {
       display: block;
     }

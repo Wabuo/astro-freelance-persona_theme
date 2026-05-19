@@ -47,7 +47,6 @@ export interface HeroContent {
     title: string;
     img_credit?: string | { name: string; url: string; icon?: string };
     img_copyright?: string;
-    img_copyright?: string;
     img_license?: string | { license: string; url: string };
 
     // New Config Fields

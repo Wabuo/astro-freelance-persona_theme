@@ -87,7 +87,7 @@ test.describe('Interactions & Responsiveness', () => {
     });
 
     test('Contact Form Input Focus', async ({ page }, testInfo) => {
-        if (testInfo.project.name === 'noscript') test.skip('Focus styles/interactions behave differently without JS');
+        if (testInfo.project.name === 'noscript') test.skip(true, 'Focus styles/interactions behave differently without JS');
         await page.goto('/');
         
         // Find the name input

@@ -32,8 +32,8 @@ test.describe('Global Icon Fixes', () => {
             const computedStyle = await icon.evaluate((el) => {
                 const style = window.getComputedStyle(el);
                 return {
-                    userSelect: style.userSelect || style.webkitUserSelect,
-                    caretColor: style.caretColor,
+                    userSelect: style.getPropertyValue('user-select'),
+                    caretColor: style.getPropertyValue('caret-color'),
                 };
             });
 

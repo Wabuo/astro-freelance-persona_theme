@@ -16,11 +16,9 @@ interface Props {
   categories: {
     title: string;
     image?: ImageMetadata;
-    img_credit?:
-      | string
-      | { name: string; url: string; icon?: string }
-      | "hidden";
-    img_license?: string | "hidden";
+    img_credit?: { name: string; url?: string; icon?: string } | "hidden";
+    img_copyright?: string;
+    img_license?: string | { license: string; url: string } | "hidden";
     background_color?: string;
     tags: string[];
     description?: string;
@@ -89,7 +87,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
           // Filter posts for this category
           const categoryPosts = sortedPosts
             .filter((post) =>
-              post.data.tags.some((tag) => category.tags.includes(tag))
+              post.data.tags.some((tag: string) => category.tags.includes(tag))
             )
             .slice(0, 2);
 

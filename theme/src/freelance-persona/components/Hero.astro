@@ -4,6 +4,7 @@ import { themeConfig } from "@freelance-persona/config";
 import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import ImageAttribution from "./ui/ImageAttribution.astro";
+import type { SocialLink } from "../types";
 
 interface Props {
   title?: string;
@@ -260,7 +261,7 @@ const heroSectionStyle = {
         {
           social_links && social_links.length > 0 && (
             <div class={`social-links ${alignSettings.flex}`}>
-              {social_links.map((link) => (
+              {social_links.map((link: SocialLink) => (
                 <a
                   href={link.url}
                   class={link.name.toLowerCase()}

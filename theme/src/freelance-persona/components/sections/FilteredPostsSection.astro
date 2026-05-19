@@ -10,7 +10,7 @@ import { Icon } from "astro-icon/components";
 
 interface Props {
   id?: string;
-  title?: string;
+  title: string;
   subtitle?: string;
   tags_to_filter_posts_by?: string[];
   posts?: any[];
@@ -153,7 +153,7 @@ const getExcerpt = (body: string) => {
                           </h2>
 
                           <div class="post-tags mb-0">
-                            {post.data.tags?.map((tag) => (
+                            {post.data.tags?.map((tag: string) => (
                               <span
                                 class="tag badge me-1"
                                 style="font-size: 0.6em;"
@@ -205,7 +205,7 @@ const getExcerpt = (body: string) => {
                     {/* Tags Display */}
                     {post.data.tags && post.data.tags.length > 0 && (
                       <div class="d-inline-block">
-                        {post.data.tags.map((tag) => {
+                        {post.data.tags.map((tag: string) => {
                           const isFiltered =
                             tags_to_filter_posts_by?.includes(tag);
                           return (

@@ -130,7 +130,7 @@ test.describe('Visual Hover States', () => {
     });
 
     test('Contact: Inputs & Button', async ({ page }, testInfo) => {
-        if (testInfo.project.name === 'noscript') test.skip('Focus/Hover interactions behave differently without JS');
+        if (testInfo.project.name === 'noscript') test.skip(true, 'Focus/Hover interactions behave differently without JS');
         await page.locator('#contact').scrollIntoViewIfNeeded();
 
         // Submit Button
@@ -148,7 +148,7 @@ test.describe('Visual Hover States', () => {
         }
     });
 
-    test('Theme Menu: Dropdown Hovers', async ({ page, isMobile }, testInfo) => {
+    test('Theme Menu: Dropdown Hovers', async ({ page, isMobile }) => {
         if (isMobile) {
             // 3. Mobile drawer
             await page.goto('/');

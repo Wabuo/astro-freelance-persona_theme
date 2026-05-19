@@ -15,7 +15,7 @@ interface Props {
   // Image Attribution (Updated Schema)
   img_credit?: { name: string; url?: string; icon?: string } | "hidden";
   img_copyright?: string;
-  img_license?: string | { name: string; url: string } | "hidden";
+  img_license?: string | { license: string; url: string } | "hidden";
   background_image_anchor?: string;
 
   // Typing Config
@@ -94,10 +94,14 @@ const {
 const { social_links } = themeConfig;
 
 if (title === "CONFIG MISSING") {
-  console.warn("⚠️ [freelance-persona] Hero title is missing. Please check src/content/sections/hero.md.");
+  console.warn(
+    "⚠️ [freelance-persona] Hero title is missing. Please check src/content/sections/hero.md.",
+  );
 }
 if (hero_typing_text === "Error: src/content/sections/hero.md not found") {
-  console.warn("⚠️ [freelance-persona] hero_typing_text is missing. Please check src/content/sections/hero.md.");
+  console.warn(
+    "⚠️ [freelance-persona] hero_typing_text is missing. Please check src/content/sections/hero.md.",
+  );
 }
 
 // --- DYNAMIC BACKGROUND LOGIC ---
@@ -236,11 +240,16 @@ const heroSectionStyle = {
                     data-pause-duration={pause_duration}
                   />
 
-                  <span class="typed-cursor" aria-hidden="true">|</span>
+                  <span class="typed-cursor" aria-hidden="true">
+                    |
+                  </span>
                 </span>
                 <noscript>
                   <span class="noscript-text">
-                    {hero_typing_text.split(",").map(s => s.trim()).join(", ")}
+                    {hero_typing_text
+                      .split(",")
+                      .map((s) => s.trim())
+                      .join(", ")}
                   </span>
                 </noscript>
               </p>

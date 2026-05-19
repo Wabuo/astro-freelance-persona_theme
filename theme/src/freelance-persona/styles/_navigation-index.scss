@@ -128,23 +128,24 @@
     /* Ensure pill is clickable above the light-dismiss backdrop */
   }
 
-  .navmenu a i,
-  .navmenu a:focus i {
+  .navmenu a [data-icon],
+  .navmenu a:focus [data-icon] {
     font-size: 1.25rem;
     /* 20px */
     width: 1.25rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    height: 1.25rem;
+    min-width: 1.25rem;
+    flex-shrink: 0;
+    display: inline-block;
   }
 
   /* Theme toggle icons specifically (handled by Navigation.astro display logic) */
-  .navmenu .theme-toggle i {
+  .navmenu .theme-toggle [data-icon] {
     font-size: 1.25rem;
   }
 
-  /* Custom SVG Icon Styling */
-  .navmenu a svg.navicon {
+  /* Custom SVG Icon Styling (LanceIcon only) */
+  .navmenu a svg.navicon:not([data-icon]) {
     width: 1.5rem;
     height: 1.5rem;
     min-width: 1.5rem;
@@ -158,13 +159,13 @@
   }
 
   /* Ensure the colored part turns white on hover */
-  .navmenu a svg.navicon .colored-part {
+  .navmenu a svg.navicon:not([data-icon]) .colored-part {
     transition: fill 0.3s ease-in-out;
     will-change: fill;
   }
 
-  .navmenu a:hover svg.navicon .colored-part,
-  .navmenu li:hover>a svg.navicon .colored-part {
+  .navmenu a:hover svg.navicon:not([data-icon]) .colored-part,
+  .navmenu li:hover>a svg.navicon:not([data-icon]) .colored-part {
     fill: var(--contrast-color) !important;
   }
 

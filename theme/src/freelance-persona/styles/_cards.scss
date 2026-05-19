@@ -1,8 +1,7 @@
 @use 'theme-context' as *;
 
 /*
- * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
- * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -15,6 +14,11 @@
 
 .card-wrapper {
     height: 100%;
+    text-decoration: none;
+    
+    &:hover, &:focus {
+        text-decoration: none;
+    }
 }
 
 .card-base {
@@ -32,6 +36,11 @@
     height: 100%;
     text-decoration: none;
     color: inherit;
+    
+    &:hover, &:focus {
+        text-decoration: none;
+    }
+    
     /* Optimize Performance & Fix Chrome Sub-pixel Glitch */
     will-change: transform, box-shadow;
     backface-visibility: hidden;

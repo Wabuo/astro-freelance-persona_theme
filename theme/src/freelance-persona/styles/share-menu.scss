@@ -1,6 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
- * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -26,7 +25,7 @@
         color: var(--accent-color);
     }
 
-    i {
+    [data-icon] {
         font-size: 1.2rem;
     }
 }
@@ -102,7 +101,7 @@
     white-space: nowrap !important;
     /* Prevent wrapping forcefully */
 
-    i {
+    [data-icon] {
         font-size: 1.1rem;
         width: 1.2rem;
         /* Fixed width for alignment */
@@ -120,7 +119,7 @@
         background-color: color-mix(in srgb, var(--default-color), transparent 94%);
 
         // Only change ICON color to accent (as requested), text remains default
-        i {
+        [data-icon] {
             color: var(--accent-color);
         }
     }

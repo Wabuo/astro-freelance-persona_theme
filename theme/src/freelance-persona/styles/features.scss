@@ -1,8 +1,7 @@
 @use 'theme-context' as *;
 
 /*
- * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
- * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -66,6 +65,10 @@
     color: inherit;
     display: block;
     height: 100%;
+    
+    &:hover, &:focus {
+        text-decoration: none;
+    }
 }
 
 /* Card Container Styling */
@@ -81,6 +84,10 @@
 .feature-group-wrapper:hover .card-base {
     transform: translateY(-0.3125rem);
     box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.1);
+}
+
+.feature-group-wrapper:hover .feature-description-card {
+    color: var(--accent-color);
 }
 
 /* --- Icon and Text Styles --- */
@@ -129,6 +136,8 @@
     line-height: 1.625;
     white-space: pre-line;
     font-family: var(--theme-font-family-body, sans-serif);
+    transition: color 0.3s ease-out;
+    will-change: color;
 }
 
 /* --- Hover Action Element (Call-to-Action Text) --- */

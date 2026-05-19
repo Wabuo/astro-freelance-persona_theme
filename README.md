@@ -29,12 +29,12 @@ npm create astro@latest -- --template YourGitHubName/astro-freelance-persona/sta
 3. **Privacy First:** No external CDNs, minimal JS bloat.
 4. **Configuration, Not Prescription:** The `starter` config file should be minimal. Defaults live in the lowest sensible level of code/logic that consumes the value, not in the user's config file or a theme wide shadow config file.
 5. **We are pre alpha:** There is no such thing as backward compatibility.
-6. **We dont care about backward compatibility:** If something breaks, there will be a new major release. No such thing as LTS! This is a roaling release kinda model.
+6. **We dont care about backward compatibility:** If something breaks, there will be a new major release. No such thing as LTS! This is a rolling release kinda model.
 
 ## Configuration
 
 The Main configuration file is `src/freelance-persona.config.ts`.<br>
-This file is mainly for theme/web page wide sttings.<br>
+This file is mainly for theme/web page wide settings.<br>
 Each markdown file defining a page can override these settings and will often also offer page/section specific settings.
 
 ### 🎨 Font Configuration
@@ -88,14 +88,14 @@ This repository is set up as a **Monorepo** using **Bun Workspaces**.
    Copy all files from the `starter` directory to the `playground` directory.
 
    ```fish
-   cp -r theme/starter/* playground/
+   cp -a theme/starter/* playground/
    ```
 
    You can now edit the files in the `playground` directory to test the theme.
 
    - ##### Reset playground
 
-      To reset the playground to the original state, delete the `playground` directory and run `cp -r theme/starter/* playground/` again, then run `bun install` in the root directory.
+      To reset the playground to the original state, delete the `playground` directory and run `cp -a theme/starter/* playground/` again, then run `bun install` in the root directory.
 
 3. #### Install Dependencies
 

@@ -64,14 +64,14 @@ if (!showCredit && !line2Text) {
           {showCredit ? (
             <>
               {/* Standard Credit with Camera Icon */}
-              <i class="bi bi-camera-fill" />:{" "}
+              <Icon name="bi:camera-fill" class="bi-camera-fill" />:{" "}
               {creditUrl && !disableLinks ? (
                 <a href={creditUrl} target="_blank" rel="noopener noreferrer">
                   {creditName}
                   {creditIcon && (
                     <>
                       {" "}
-                      @ <i class={creditIcon} />
+                      @ <Icon name={transformIcon(creditIcon)} />
                     </>
                   )}
                 </a>
@@ -81,7 +81,7 @@ if (!showCredit && !line2Text) {
                   {creditIcon && (
                     <>
                       {" "}
-                      @ <i class={creditIcon} />
+                      @ <Icon name={transformIcon(creditIcon)} />
                     </>
                   )}
                 </span>

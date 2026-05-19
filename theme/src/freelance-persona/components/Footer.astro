@@ -29,7 +29,7 @@ const creditsHtml = await parse(finalCreditsString);
             target="_blank"
             rel="noopener noreferrer"
           >
-            <i class={link.icon_class} aria-hidden="true" />
+            <Icon name={transformIcon(link.icon_class)} aria-hidden="true" />
           </a>
         ))
       }

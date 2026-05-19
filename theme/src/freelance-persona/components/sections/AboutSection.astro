@@ -133,8 +133,9 @@ const hasSidebar = !!(
                           }
                         >
                           {item.icon && (
-                            <i
-                              class={`${item.icon} qualifications-icon`}
+                            <Icon
+                              name={transformIcon(item.icon)}
+                              class="qualifications-icon"
                               aria-hidden="true"
                             />
                           )}

@@ -7,10 +7,14 @@
 
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
 import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
 import { themeConfig } from "@freelance-persona/config";
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/**/*.{jpeg,jpg,png,gif,svg}');
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/**/*.{jpeg,jpg,png,gif,svg}",
+);
 const imagePath = themeConfig.visuals?.mascot_image;
-const lancyImageModule = imagePath && images[imagePath] ? await images[imagePath]() : null;
+const lancyImageModule =
+  imagePath && images[imagePath] ? await images[imagePath]() : null;
 const lancyImage = lancyImageModule?.default;
 
 const title = "403 - Access Denied";
@@ -23,19 +27,24 @@ const description = "You do not have permission to view this page.";
   >
     <div class="container text-center" data-reveal="fade-up">
       <div class="mascot-container mb-4">
-        {lancyImage ? (
-          <Image
-            src={lancyImage}
-            alt="Mascot stopping you with a sword"
-            width={350}
-            height={350}
-            class="img-fluid lancy-403"
-          />
-        ) : (
-          <div class="mascot-placeholder" style="width:350px; height:350px; display:inline-block; border: 2px dashed var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: var(--accent-color);">
-            <i class="bi bi-shield-lock"></i>
-          </div>
-        )}
+        {
+          lancyImage ? (
+            <Image
+              src={lancyImage}
+              alt="Mascot stopping you with a sword"
+              width={350}
+              height={350}
+              class="img-fluid lancy-403"
+            />
+          ) : (
+            <div
+              class="mascot-placeholder"
+              style="width:350px; height:350px; display:inline-block; border: 2px dashed var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: var(--accent-color);"
+            >
+              <Icon name="bi:shield-lock" />
+            </div>
+          )
+        }
       </div>
 
       <h1>403</h1>

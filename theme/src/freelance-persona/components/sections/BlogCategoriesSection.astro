@@ -59,9 +59,11 @@ const {
 
 // Fetch all blog posts once
 const allPosts = await getCollection("blog_posts");
-const sortedPosts = allPosts.sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const sortedPosts = allPosts.sort((a, b) => {
+  const dateDiff = b.data.date.valueOf() - a.data.date.valueOf();
+  if (dateDiff !== 0) return dateDiff;
+  return b.id.localeCompare(a.id);
+});
 
 // Visual Overrides CSS
 const sectionStyle = `

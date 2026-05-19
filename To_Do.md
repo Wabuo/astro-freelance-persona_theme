@@ -1,11 +1,16 @@
-> While it works great for a single static theme, it creates a specificity nightmare the moment you introduce a dynamic Dark Mode toggle, because inline styles (1,0,0,0) will always win against external CSS classes (0,1,0). The "cleaner" architectural way to do this would be to generate a <style id="theme-config"> :root { ... } </style> block in the <head> instead of using the style="..." attribute, so the specificities match. However, since the template is already built this way, using !important for your dark mode SCSS overrides is the standard, accepted workaround!
+<!--
+SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
 
-We should fix this, when we migrate the css to more modern imports! !FixMe!
+SPDX-License-Identifier: MIT
+-->
 
+# To Do
 
+## Deferred from Audit (May 2026)
 
-Ok the lance icon is back to normal, thx
-
-continue fising the codbeblock stuff, dont redesign the genneral codeblocks they where nice, same for the syntax highlighting the only thing that needs fixing is the collor sheme of the syntax highlighting switching from night/day aka dark/light mode with the theme when the theme switches or we will always have issues ither with contrast in the dark or in the light theme ... this should be controled by our brothers native theme switcher
-
-continue
+- [ ] **README "YourGitHubName" placeholder**: Replace with actual org name once GitHub organisation is created
+- [ ] **`index.js` vs `package.json` exports reconciliation**: The root `index.js` re-exports components but `package.json` `exports` field takes precedence — reconcile or remove `index.js`
+- [ ] **`tsconfig.json` starter alias**: Currently points to `../src/freelance-persona/*` (monorepo-only). Update to point to npm package once published, with local dev fallback
+- [ ] **Icon migration (astro-icon)**: Infrastructure is ready (`astro-icon`, `@iconify-json/*`, `transformIcon()`, `<Icon>` imports in 10 files) but never activated. Replace all `<i class="bi bi-...">` with `<Icon name="bi:..." />`, remove Bootstrap Icons font import from `main.scss`. Estimated ~30 locations.
+- [ ] **Unsplash license**: Consider adding `"Unsplash"` to `LICENSE_URLS` in `licenseUtils.ts` if user demand warrants it
+ 

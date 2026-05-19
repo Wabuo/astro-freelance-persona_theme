@@ -117,6 +117,7 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="utf-8" />
   {/* Dynamic Theme Config */}
   <style
     is:inline
@@ -426,6 +427,11 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
                 : ""
             }
             ${
+              colors.dark.code_background
+                ? `--code-background: ${colors.dark.code_background};`
+                : ""
+            }
+            ${
               colors.dark.tag_background
                 ? `--tag-background: ${colors.dark.tag_background};`
                 : ""
@@ -564,8 +570,8 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
       name="theme-state"
       id="theme-os"
       class="theme-state-os sr-only"
-      aria-hidden="true"
       tabindex="-1"
+      aria-label="System Default Theme"
       checked
       style="position: fixed;"
     />
@@ -574,8 +580,8 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
       name="theme-state"
       id="theme-light"
       class="theme-state-light sr-only"
-      aria-hidden="true"
       tabindex="-1"
+      aria-label="Light Theme"
       style="position: fixed;"
     />
     <input
@@ -583,8 +589,8 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
       name="theme-state"
       id="theme-dark"
       class="theme-state-dark sr-only"
-      aria-hidden="true"
       tabindex="-1"
+      aria-label="Dark Theme"
       style="position: fixed;"
     />
 

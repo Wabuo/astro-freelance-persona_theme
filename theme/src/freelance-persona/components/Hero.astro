@@ -238,10 +238,9 @@ const heroSectionStyle = {
 
                   <span class="typed-cursor" aria-hidden="true">|</span>
                 </span>
-
                 <noscript>
                   <span class="noscript-text">
-                    {hero_typing_text.split(",").join(", ")}
+                    {hero_typing_text.split(",").map(s => s.trim()).join(", ")}
                   </span>
                 </noscript>
               </p>
@@ -260,7 +259,7 @@ const heroSectionStyle = {
                   rel="noopener noreferrer"
                   aria-label={link.name}
                 >
-                  <i class={link.icon_class} />
+                  <Icon name={transformIcon(link.icon_class)} />
                 </a>
               ))}
             </div>

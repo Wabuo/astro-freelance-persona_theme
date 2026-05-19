@@ -21,9 +21,6 @@ const __dirname = path.dirname(__filename);
 // Content directory relative to this file (testing/utils/ -> src/content/)
 const CONTENT_DIR = path.resolve(__dirname, '../../src/content');
 
-interface ContentFrontmatter {
-    [key: string]: unknown;
-}
 
 /**
  * Parse frontmatter from a markdown file

@@ -10,7 +10,11 @@
                 "src/content/*"
             ],
             "@freelance-persona/*": [
-                "../src/freelance-persona/*"
+                "../src/freelance-persona/*",
+                "../theme/src/freelance-persona/*"
+            ],
+            "@freelance-persona/config": [
+                "src/freelance-persona.config.ts"
             ]
         }
     },

@@ -5,7 +5,28 @@ import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 
+interface Props {
+  entry: {
+    id: string;
+    data: {
+      title: string;
+      subtitle?: string;
+      contact_items?: {
+        label: string;
+        value: string;
+        icon: string;
+        type?: "email" | "phone" | "address" | "text";
+      }[];
+      nudge_x?: string;
+      nudge_y?: string;
+      content_scale?: number;
+      delay?: number;
+    };
+  };
+}
+
 const { entry } = Astro.props;
+
 if (!entry) throw new Error('ContactSection requires an "entry" prop.');
 
 const {

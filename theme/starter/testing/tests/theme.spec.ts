@@ -101,7 +101,7 @@ test.describe('Theme Toggle & Dark Mode', () => {
     });
 
     test('Preference Persists on Reload', async ({ page }, testInfo) => {
-        if (testInfo.project.name === 'noscript') test.skip('Persistence requires JavaScript');
+        if (testInfo.project.name === 'noscript') test.skip(true, 'Persistence requires JavaScript');
         
         await page.goto('/');
         await page.waitForLoadState('load');
@@ -139,7 +139,7 @@ test.describe('Theme Toggle & Dark Mode', () => {
     });
 
     test('Layout Stability on Theme Switch (Home Page)', async ({ page }, testInfo) => {
-        if (testInfo.project.name === 'noscript' || testInfo.project.name === 'chromium-dark') test.skip('Redundant or not applicable');
+        if (testInfo.project.name === 'noscript' || testInfo.project.name === 'chromium-dark') test.skip(true, 'Redundant or not applicable');
 
         await page.goto('/');
         await page.waitForLoadState('load');
@@ -202,7 +202,7 @@ test.describe('Theme Toggle & Dark Mode', () => {
 
     for (const p of pages) {
         test(`Layout Stability on Theme Switch (${p.name})`, async ({ page }, testInfo) => {
-            if (testInfo.project.name === 'noscript' || testInfo.project.name === 'chromium-dark') test.skip('Redundant or not applicable');
+            if (testInfo.project.name === 'noscript' || testInfo.project.name === 'chromium-dark') test.skip(true, 'Redundant or not applicable');
 
             await page.goto(p.url);
             await page.waitForLoadState('load');

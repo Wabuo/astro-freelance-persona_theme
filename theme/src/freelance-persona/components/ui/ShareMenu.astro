@@ -26,14 +26,15 @@ const encodedDesc = encodeURIComponent(description);
     aria-expanded="false"
     aria-haspopup="true"
   >
-    <i class="bi bi-share"></i>
+    <Icon name="bi:share" />
   </button>
 
   <div class="share-dropdown">
     <div class="share-menu-list">
       <!-- Copy Link -->
       <button class="share-menu-item action-copy-link" data-url={url}>
-        <i class="bi bi-link-45deg"></i>
+        <Icon name="bi:link-45deg" class="icon-link-default" />
+        <Icon name="bi:check2" class="icon-link-success" style="display: none;" />
         <span class="label">Get link</span>
       </button>
 
@@ -47,7 +48,7 @@ const encodedDesc = encodeURIComponent(description);
         rel="noopener noreferrer"
         class="share-menu-item"
       >
-        <i class="bi bi-linkedin"></i>
+        <Icon name="bi:linkedin" />
         <span>Share on LinkedIn</span>
       </a>
 
@@ -58,7 +59,7 @@ const encodedDesc = encodeURIComponent(description);
         rel="noopener noreferrer"
         class="share-menu-item"
       >
-        <i class="bi bi-facebook"></i>
+        <Icon name="bi:facebook" />
         <span>Share on Facebook</span>
       </a>
 
@@ -69,7 +70,7 @@ const encodedDesc = encodeURIComponent(description);
         rel="noopener noreferrer"
         class="share-menu-item"
       >
-        <i class="bi bi-twitter-x"></i>
+        <Icon name="bi:twitter-x" />
         <span>Share on X</span>
       </a>
 
@@ -78,7 +79,7 @@ const encodedDesc = encodeURIComponent(description);
         href={`mailto:?subject=${encodedTitle}&body=Check out this post: ${encodedUrl}`}
         class="share-menu-item"
       >
-        <i class="bi bi-envelope"></i>
+        <Icon name="bi:envelope" />
         <span>Email</span>
       </a>
     </div>
@@ -91,7 +92,9 @@ const encodedDesc = encodeURIComponent(description);
 
 <script>
   function initShareMenu() {
-    const wrappers = document.querySelectorAll(".share-menu-wrapper:not([data-initialized])");
+    const wrappers = document.querySelectorAll(
+      ".share-menu-wrapper:not([data-initialized])",
+    );
 
     wrappers.forEach((wrapper) => {
       const btn = wrapper.querySelector(".share-btn");
@@ -109,13 +112,15 @@ const encodedDesc = encodeURIComponent(description);
         const expanded = btn.getAttribute("aria-expanded") === "true";
 
         // Close other open menus first
-        document.querySelectorAll(".share-menu-wrapper .share-btn.active").forEach(otherBtn => {
+        document
+          .querySelectorAll(".share-menu-wrapper .share-btn.active")
+          .forEach((otherBtn) => {
             if (otherBtn !== btn) {
-                otherBtn.classList.remove("active");
-                otherBtn.nextElementSibling?.classList.remove("show");
-                otherBtn.setAttribute("aria-expanded", "false");
+              otherBtn.classList.remove("active");
+              otherBtn.nextElementSibling?.classList.remove("show");
+              otherBtn.setAttribute("aria-expanded", "false");
             }
-        });
+          });
 
         btn.setAttribute("aria-expanded", String(!expanded));
         dropdown.classList.toggle("show");
@@ -127,28 +132,28 @@ const encodedDesc = encodeURIComponent(description);
         copyBtn.addEventListener("click", async () => {
           const link = copyBtn.getAttribute("data-url");
           const label = copyBtn.querySelector(".label");
-          const icon = copyBtn.querySelector("i");
-          
+          const defaultIcon = copyBtn.querySelector(".icon-link-default") as HTMLElement;
+          const successIcon = copyBtn.querySelector(".icon-link-success") as HTMLElement;
+
           if (!link) return;
 
           try {
             await navigator.clipboard.writeText(link);
-            
+
             // Visual Feedback
             if (label) label.textContent = "Copied!";
-            if (icon) {
-                icon.classList.remove("bi-link-45deg");
-                icon.classList.add("bi-check2");
+            if (defaultIcon && successIcon) {
+              defaultIcon.style.display = "none";
+              successIcon.style.display = "inline-block";
             }
-            
-            setTimeout(() => {
-               if (label) label.textContent = "Get link";
-               if (icon) {
-                icon.classList.remove("bi-check2");
-                icon.classList.add("bi-link-45deg");
-               }
-            }, 2000);
 
+            setTimeout(() => {
+              if (label) label.textContent = "Get link";
+              if (defaultIcon && successIcon) {
+                defaultIcon.style.display = "inline-block";
+                successIcon.style.display = "none";
+              }
+            }, 2000);
           } catch (err) {
             console.error("Failed to copy: ", err);
           }
@@ -158,26 +163,28 @@ const encodedDesc = encodeURIComponent(description);
 
     // Close on Click Outside (Global - once)
     if (!window.hasShareMenuGlobalListener) {
-        document.addEventListener("click", (e) => {
-            const target = e.target as Node;
-            if (!target.parentElement?.closest(".share-menu-wrapper")) {
-                document.querySelectorAll(".share-dropdown.show").forEach((menu) => {
-                    menu.classList.remove("show");
-                    const btn = menu.previousElementSibling;
-                    if (btn) {
-                        btn.setAttribute("aria-expanded", "false");
-                        btn.classList.remove("active");
-                    }
-                });
+      document.addEventListener("click", (e) => {
+        const target = e.target as Node;
+        if (!target.parentElement?.closest(".share-menu-wrapper")) {
+          document.querySelectorAll(".share-dropdown.show").forEach((menu) => {
+            menu.classList.remove("show");
+            const btn = menu.previousElementSibling;
+            if (btn) {
+              btn.setAttribute("aria-expanded", "false");
+              btn.classList.remove("active");
             }
-        });
-        window.hasShareMenuGlobalListener = true;
+          });
+        }
+      });
+      window.hasShareMenuGlobalListener = true;
     }
   }
 
   // Type definition for window property
   declare global {
-    interface Window { hasShareMenuGlobalListener: boolean; }
+    interface Window {
+      hasShareMenuGlobalListener: boolean;
+    }
   }
 
   // Initialize after Astro swaps and on initial load

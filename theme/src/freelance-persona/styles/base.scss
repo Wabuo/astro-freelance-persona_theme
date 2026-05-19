@@ -249,7 +249,9 @@ a {
 
 a:hover {
   color: color-mix(in srgb, var(--accent-color), transparent var(--transition-hover-transparency));
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-color), transparent 50%);
+  text-underline-offset: 2px;
 }
 
 h1,
@@ -306,6 +308,14 @@ html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
 /*--------------------------------------------------------------
 # Global Icon Fixes
 --------------------------------------------------------------*/
+/* Global Icon Styling for astro-icon SVGs */
+[data-icon] {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em; /* Standard vertical alignment for font icons */
+  fill: currentColor;
+}
+
 /* 
   Prevent icons from being treated as text (blinking caret, selection).
   Targeting:
@@ -313,11 +323,13 @@ html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
   - .ai (Academicons)
   - [class*="icon-"] (Common pattern)
   - [class*=" bi-"] (Bootstrap mixin safety)
+  - [data-icon] (astro-icon)
 */
 .bi,
 .ai,
 [class*="icon-"],
-[class*=" bi-"] {
+[class*=" bi-"],
+[data-icon] {
   user-select: none;
   -webkit-user-select: none;
   caret-color: transparent;

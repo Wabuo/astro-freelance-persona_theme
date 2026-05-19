@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
 //
 // SPDX-License-Identifier: MIT
 
@@ -21,7 +21,7 @@ export const themeConfig: PersonaConfig = {
   title: "freelance-persona — an Astro 5 Theme ",
   author: "freelance-persona, Astro Theme", // Used for meta tags and the 'theme_author' token
   description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.\
-  Initally ported from Persona-Zola, modernized and expanded with some custom adptions and the fetures section from Zola-Goyo ",
+  Initially ported from Persona-Zola, modernized and expanded with some custom adaptations and the features section from Zola-Goyo ",
 
   // ===================================================================================
   // 2. CONTACT DETAILS
@@ -72,7 +72,7 @@ export const themeConfig: PersonaConfig = {
 
       //page_margin_right: "1em", // <- Uncomment to set manually. Defaults to page_margin_left
       // nav_menu_width: "8.75rem", // 140px (Collapsed width of the sidebar)
-      nav_pill_expanded_width: "10rem", // 180px (How wide pills expand on hover)
+      nav_pill_expanded_width: "10.35rem", // 165.6px (How wide pills expand on hover)
     },
     scroll_animations: {
       enabled: true,
@@ -167,12 +167,12 @@ export const themeConfig: PersonaConfig = {
   // B. Typography & Fonts
   // -----------------------------------------------------------------------------------
   fonts: {
-    // I recommend using @fontsource packages. 
-    // Example: `bun add @fontsource/adwaita-sans` and import in src/fonts.ts
-    headings: "Adwaita Sans",
-    body: "Adwaita Sans",
-    navigation: '"Raleway", sans-serif',
-    monospace: '"Adwaita Mono", Courier, monospace',
+    // The starter ships with Poppins (nav), Raleway (headings), and Roboto (body).
+    // See src/fonts.ts for the font imports. Install new fonts via: bun add @fontsource/font-name
+    headings: '"Raleway", sans-serif',
+    body: '"Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif',
+    navigation: '"Poppins", sans-serif',
+    monospace: '"Courier New", Courier, monospace',
 
     // Font Size Overrides (Uncomment to adjust base sizes)
     /*
@@ -229,7 +229,7 @@ export const themeConfig: PersonaConfig = {
     "Theme: [Freelance Persona](https://github.com/wabuo/astro_freelance-persona_theme)",
     "Contact form via [Formspark](https://formspark.io)",
     "With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)",
-    "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), [Fontsource](https://fontsource.org/), [Akademicons](https://akademiicons.com/), [Katex](https://katex.org/) & [Marked](https://github.com/markedjs/marked)",
+    "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), [Fontsource](https://fontsource.org/), [Academicons](https://jpswalsh.github.io/academicons/), [Katex](https://katex.org/) & [Marked](https://github.com/markedjs/marked)",
   ],
 };
 

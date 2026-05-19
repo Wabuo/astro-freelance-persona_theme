@@ -37,14 +37,13 @@ const getLink = (id: string) => {
 
 <nav id={isMobile ? "navmenu-mobile" : "navmenu"} class="navmenu">
   <ul>
-
     <li>
       <a
         href={isHome ? "#hero" : "/"}
         class={isHome ? "active" : ""}
         aria-label="Home"
       >
-        <i class="bi bi-house navicon"></i>
+        <Icon name="bi:house" class="navicon" />
         <span>Home</span>
       </a>
     </li>
@@ -80,7 +79,7 @@ const getLink = (id: string) => {
                 {section.data.icon_class === "lance-icon" ? (
                   <LanceIcon class="navicon" />
                 ) : (
-                  <i class={`${section.data.icon_class} navicon`} />
+                  <Icon name={transformIcon(section.data.icon_class)} class="navicon" />
                 )}
                 <span>{section.data.title}</span>
               </a>
@@ -93,23 +92,23 @@ const getLink = (id: string) => {
     {/* Theme Toggle (Dropdown Menu - Pure CSS Hover + Native Click) */}
     <li class="dropdown theme-toggle-container">
       <!-- Invisible backdrop for light dismiss click-outside to close natively -->
-      <label for={toggleId} class="theme-menu-backdrop" aria-hidden="true"></label>
+      <label for={toggleId} class="theme-menu-backdrop" aria-hidden="true"
+      ></label>
       <input
         type="checkbox"
         id={toggleId}
         class="sr-only theme-menu-toggle-checkbox"
         aria-label="Theme Preferences"
-        aria-hidden="true"
       />
 
       <label for={toggleId} class="theme-toggle">
         <span class="theme-icon-container">
-          <i class="bi bi-circle-half navicon theme-icon-os"></i>
-          <i class="bi bi-sun navicon theme-icon-light"></i>
-          <i class="bi bi-moon navicon theme-icon-dark"></i>
+          <Icon name="bi:circle-half" class="navicon theme-icon-os" />
+          <Icon name="bi:sun" class="navicon theme-icon-light" />
+          <Icon name="bi:moon" class="navicon theme-icon-dark" />
         </span>
         <span class="theme-text-label">Theme</span>
-        <i class="bi bi-chevron-down toggle-dropdown"></i>
+        <Icon name="bi:chevron-down" class="toggle-dropdown" />
       </label>
       <ul class="theme-dropdown-menu">
         <li>
@@ -117,13 +116,13 @@ const getLink = (id: string) => {
             for="theme-os"
             class="theme-toggle-label dropdown-item theme-label-os"
           >
-            <i class="bi bi-circle-half navicon"></i><span class="theme-name"
+            <Icon name="bi:circle-half" class="navicon" /><span class="theme-name"
               >Auto</span
             >
-            <i class="bi bi-toggle-off toggle-icon toggle-off"></i>
-            <i
-              class="bi bi-toggle-on toggle-icon toggle-on"
-              style="display: none;"></i>
+            <Icon name="bi:toggle-off" class="toggle-icon toggle-off" />
+            <Icon
+              name="bi:toggle-on" class="toggle-icon toggle-on"
+              style="display: none;" />
           </label>
         </li>
         <li>
@@ -131,13 +130,13 @@ const getLink = (id: string) => {
             for="theme-light"
             class="theme-toggle-label dropdown-item theme-label-light"
           >
-            <i class="bi bi-sun navicon"></i><span class="theme-name"
+            <Icon name="bi:sun" class="navicon" /><span class="theme-name"
               >Light</span
             >
-            <i class="bi bi-toggle-off toggle-icon toggle-off"></i>
-            <i
-              class="bi bi-toggle-on toggle-icon toggle-on"
-              style="display: none;"></i>
+            <Icon name="bi:toggle-off" class="toggle-icon toggle-off" />
+            <Icon
+              name="bi:toggle-on" class="toggle-icon toggle-on"
+              style="display: none;" />
           </label>
         </li>
         <li>
@@ -145,13 +144,13 @@ const getLink = (id: string) => {
             for="theme-dark"
             class="theme-toggle-label dropdown-item theme-label-dark"
           >
-            <i class="bi bi-moon navicon"></i><span class="theme-name"
+            <Icon name="bi:moon" class="navicon" /><span class="theme-name"
               >Dark</span
             >
-            <i class="bi bi-toggle-off toggle-icon toggle-off"></i>
-            <i
-              class="bi bi-toggle-on toggle-icon toggle-on"
-              style="display: none;"></i>
+            <Icon name="bi:toggle-off" class="toggle-icon toggle-off" />
+            <Icon
+              name="bi:toggle-on" class="toggle-icon toggle-on"
+              style="display: none;" />
           </label>
         </li>
       </ul>

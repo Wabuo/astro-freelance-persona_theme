@@ -1,5 +1,5 @@
 ---
-# SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+# SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
 #
 # SPDX-License-Identifier: MIT
 
@@ -11,7 +11,7 @@ icon_class: "lance-icon"
 
 features:
   - title: "Blazing Fast"
-    desc: "Built with Astro 5 and zero-JS core. Scores 100/100 on Lighthouse/PageSpeed."
+    desc: "Built with Astro 5 and zero-JS core."
     icon: "bi bi-lightning-charge"
     link: "/coming-soon"
     button_text: "Tell me More"

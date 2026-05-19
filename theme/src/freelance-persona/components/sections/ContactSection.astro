@@ -134,7 +134,9 @@ const sectionStyle = `
                       (delay || contentDelay) + index * staggerDelay
                     }
                   >
-                    <i class={info.icon} />
+                    <span class="contact-icon-pill">
+                      <Icon name={transformIcon(info.icon)} />
+                    </span>
                     <div>
                       <h3>{info.label}</h3>
                       <p>{info.content}</p>
@@ -148,7 +150,9 @@ const sectionStyle = `
                       (delay || contentDelay) + index * staggerDelay
                     }
                   >
-                    <i class={info.icon} />
+                    <span class="contact-icon-pill">
+                      <Icon name={transformIcon(info.icon)} />
+                    </span>
                     <div>
                       <h3>{info.label}</h3>
                       <p>{info.content}</p>
@@ -356,6 +360,9 @@ const sectionStyle = `
     color: var(--accent-color);
     margin-bottom: 0;
     transition: 0.3s;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.2rem;
   }
 
   /* 3. HOVER STATE: Underline the text when hovering the wrapper */
@@ -366,7 +373,7 @@ const sectionStyle = `
   }
 
   /* Optional: Light up the icon background on hover too (standard theme behavior) */
-  .email-wrapper:hover i {
+  .email-wrapper:hover .contact-icon-pill {
     background: var(--accent-color);
     color: var(--contrast-color);
   }

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
 //
 // SPDX-License-Identifier: MIT
 
@@ -136,14 +136,14 @@ test.describe('Visual Hover States', () => {
         // Submit Button
         const btn = page.locator('#contact button[type="submit"]');
         await btn.hover();
-        await page.waitForTimeout(300);
+        await page.waitForTimeout(500); // Increased from 300 to match 0.4s transition
         await expect(btn).toHaveScreenshot('contact-submit-hover.png');
 
         // Email Link
         const emailLink = page.locator('.email-wrapper');
         if (await emailLink.count() > 0) {
             await emailLink.hover();
-            await page.waitForTimeout(300);
+            await page.waitForTimeout(500); // Increased from 300
             await expect(emailLink).toHaveScreenshot('contact-email-hover.png');
         }
     });

@@ -1,7 +1,7 @@
 @use 'attribution';
 
 /*
- * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
  *
  * SPDX-License-Identifier: MIT
@@ -250,10 +250,12 @@
   a.recent-post-link {
     color: var(--heading-color);
     text-decoration: none;
-    color: var(--heading-color);
-    text-decoration: none;
     // TARGET SPECIFIC PROPERTIES to avoid animating 'transform' or 'all' which causes re-rasterization
     transition: color 0.2s ease-out;
+
+    &:hover, &:focus {
+      text-decoration: none;
+    }
 
     /* Fix text anti-aliasing jitter: 
        Remove backface-visibility/transform on the text link itself if it's not moving, 
@@ -310,6 +312,11 @@
   padding: var(--mini-card-padding-y) 0;
   /* Drastically reduced padding */
   position: relative;
+  text-decoration: none;
+
+  &:hover, &:focus {
+    text-decoration: none;
+  }
 
   /* Remove default inner card padding so variable controls everything */
   .card-content {

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
 /**
  * Utility to transform legacy icon-font classes (Bootstrap, Academicons)
  * to the astro-icon format (provider:name).

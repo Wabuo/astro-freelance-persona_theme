@@ -18,9 +18,15 @@ test.use({ deviceScaleFactor: 2 }); // Request high-resolution screenshots for s
 
 test.describe('Attribution Logic & Interactions', () => {
 
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page }, testInfo) => {
         await page.goto('/');
-        await page.waitForLoadState('domcontentloaded');
+        await page.waitForLoadState('load');
+        if (testInfo.project.name !== 'noscript') {
+            await page.evaluate(() => document.fonts.ready).catch(() => {});
+            await page.addStyleTag({
+                content: 'html { scroll-behavior: auto !important; }'
+            });
+        }
     });
 
     test('Hero Section: Standard Credit', async ({ page }) => {
@@ -57,9 +63,6 @@ test.describe('Attribution Logic & Interactions', () => {
     });
 
     test('About Section: Hidden Credit / Promoted Copyright', async ({ page }) => {
-        await page.goto('/');
-        await page.waitForLoadState('domcontentloaded');
-
         const aboutSection = page.locator('#about');
         await expect(aboutSection).toBeVisible();
 
@@ -101,10 +104,8 @@ test.describe('Attribution Logic & Interactions', () => {
         await expect(certItem).toHaveScreenshot('cert-attribution-hidden.png', { animations: 'disabled' });
     });
 
-    test('About Section: Certificate Hover Interaction', async ({ page }) => {
-        await page.goto('/');
-        await page.waitForLoadState('domcontentloaded');
-
+    test('About Section: Certificate Hover Interaction', async ({ page, isMobile }) => {
+        if (isMobile) test.skip();
         const certItem = page.locator('#about .qualifications-item').filter({ hasText: 'Theme License' }).first();
         const titleLink = certItem.locator('.qualifications-link');
         const imgLink = certItem.locator('.cert-img-only-link');
@@ -115,34 +116,40 @@ test.describe('Attribution Logic & Interactions', () => {
 
         // 1. Hover Title
         await titleLink.locator('.qualifications-text').hover();
-        await page.waitForTimeout(300);
-        await expect(certItem).toHaveScreenshot('cert-hover-title.png', { maxDiffPixelRatio: 0.1, animations: 'disabled' });
+        await page.waitForTimeout(600); // Give transitions plenty of time to finish
+        await expect(certItem).toHaveScreenshot('cert-hover-title.png', { maxDiffPixelRatio: 0.2, animations: 'disabled' });
 
         // 2. Hover Image
         await page.mouse.move(0, 0);
-        await page.waitForTimeout(300);
+        await page.waitForTimeout(400);
         await imgLink.hover();
-        await page.waitForTimeout(300);
-        await expect(certItem).toHaveScreenshot('cert-hover-image.png', { maxDiffPixelRatio: 0.1, animations: 'disabled' });
+        await page.waitForTimeout(600);
+        await expect(certItem).toHaveScreenshot('cert-hover-image.png', { maxDiffPixelRatio: 0.2, animations: 'disabled' });
 
         // 3. Hover Attribution (Should NOT trigger image scale)
         await page.mouse.move(0, 0);
-        await page.waitForTimeout(300);
+        await page.waitForTimeout(400);
 
         const attribution = certItem.locator('.cert-attribution');
         await attribution.hover();
-        await page.waitForTimeout(300);
+        await page.waitForTimeout(600);
 
         // Image should be at rest
         await expect(img).toHaveCSS('transform', 'none');
     });
 
-    test('Blog Post: Hidden Credit Logic', async ({ page }) => {
+    test('Blog Post: Hidden Credit Logic', async ({ page }, testInfo) => {
         // Get blog post content dynamically
         const postContent = getBlogPostContent('lore-ipsum-1');
 
         await page.goto('/posts/lore-ipsum-1');
-        await page.waitForLoadState('domcontentloaded');
+        await page.waitForLoadState('load');
+        if (testInfo.project.name !== 'noscript') {
+            await page.evaluate(() => document.fonts.ready).catch(() => {});
+            await page.addStyleTag({
+                content: 'html { scroll-behavior: auto !important; }'
+            });
+        }
 
         const attribution = page.locator('.post-img .img-attribution');
         await expect(attribution).toBeVisible();

@@ -1,10 +1,10 @@
 {
   "name": "astro-freelance-persona_theme",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A modern, responsive and lightweight theme for freelancing, portfolio, and blog.",
   "type": "module",
   "license": "MIT",
-  "author": "Fabio Rieker",
+  "author": "freelance-persona_theme Project Contributors",
   "exports": {
     ".": "./src/freelance-persona/integration.ts",
     "./components/*": "./src/freelance-persona/components/*",

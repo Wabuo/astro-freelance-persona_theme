@@ -88,4 +88,4 @@ Freelance Persona theme embodies a 'Terminal Architect' aesthetic: industrial mi
 Next task: theme switcher UI refinement.
 
 ---
-*Last updated: 2026‑03‑05 (during onboarding session)*
+*Last updated: 2026‑03‑05 (during onboarding session) (now massivly outdated, we basically need a complete re onboarding)*

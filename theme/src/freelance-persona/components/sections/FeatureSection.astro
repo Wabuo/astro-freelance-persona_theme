@@ -96,13 +96,14 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                       {feature.icon === "lance-icon" ? (
                         <LanceIcon class="feature-icon lance-icon-svg icon-main" />
                       ) : (
-                        <i class={`${feature.icon} feature-icon icon-main`} />
+                        <Icon name={transformIcon(feature.icon)} class="feature-icon icon-main" />
                       )}
 
                       {/* Secondary Icon */}
                       {feature.secondary_icon && (
-                        <i
-                          class={`${feature.secondary_icon} feature-icon icon-secondary`}
+                        <Icon
+                          name={transformIcon(feature.secondary_icon)}
+                          class="feature-icon icon-secondary"
                         />
                       )}
                     </div>

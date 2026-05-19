@@ -87,7 +87,11 @@ const filteredPosts = allPosts
   .filter((post: any) =>
     post.data.tags.some((tag: string) => tags.includes(tag))
   )
-  .sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort((a: any, b: any) => {
+    const dateDiff = b.data.date.valueOf() - a.data.date.valueOf();
+    if (dateDiff !== 0) return dateDiff;
+    return b.id.localeCompare(a.id);
+  });
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-GB", {

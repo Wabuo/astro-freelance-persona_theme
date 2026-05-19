@@ -3,7 +3,7 @@
 
 @mixin styles() {
   @include mobile-nav.styles();
-/*
+  /*
    * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
    *
    * SPDX-License-Identifier: MIT
@@ -112,6 +112,7 @@
     }
 
     .navmenu a,
+    .navmenu .theme-toggle,
     .navmenu a:focus {
       color: var(--nav-color);
       padding: 1rem 0.9375rem;
@@ -129,7 +130,7 @@
 
     }
 
-    .navmenu a i {
+    .navmenu a [data-icon] {
       display: none;
     }
   }
@@ -142,13 +143,15 @@
   @media (min-width: 992px) {
 
     .navmenu a .navicon,
-    .navmenu .theme-toggle .navicon,
     .navmenu a:focus .navicon {
-      font-size: 0.75rem;
-      /* 12px */
-      line-height: 0;
+      font-size: 1rem;
       margin-left: 0.3125rem;
-      /* 5px */
+      transition: 0.3s;
+    }
+
+    .navmenu .theme-toggle [data-icon] {
+      font-size: 0.75rem; /* Set to 12px for crisp rendering at a smaller size */
+      margin-left: 0.3125rem;
       transition: 0.3s;
     }
 
@@ -197,9 +200,9 @@
       color: var(--nav-dropdown-color);
     }
 
-    .navmenu .dropdown ul a i {
-      font-size: 0.75rem;
-      /* 12px */
+    .navmenu .dropdown ul a [data-icon] {
+      font-size: 0.65rem;
+      /* 10-11px approximately */
     }
 
     .navmenu .dropdown ul a:hover,
@@ -281,9 +284,9 @@
       background: transparent;
     }
 
-    .navmenu a i,
-    .navmenu .theme-toggle i,
-    .navmenu a:focus i {
+    .navmenu a [data-icon],
+    .navmenu .theme-toggle [data-icon],
+    .navmenu a:focus [data-icon] {
       font-size: 1.25rem;
       /* 20px */
     }

@@ -2,8 +2,7 @@
 
 @use 'theme-context' as *;
 /*
- * SPDX-FileCopyrightText: 2026 2026 The freelance-persona_theme Project Contributors
- * SPDX-FileCopyrightText: 2026, 2026 The freelance-persona_theme Project Contributors
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  *
  * SPDX-License-Identifier: MIT
  */
@@ -200,7 +199,7 @@
   padding-left: 0.625rem; // 10px
 }
 
-.blog-post .meta-top #info li i {
+.blog-post .meta-top #info li [data-icon] {
   font-size: 1rem; // 16px
   margin-right: 0.5rem; // 8px
   line-height: 0;
@@ -220,7 +219,7 @@
   border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
 }
 
-.blog-post .meta-bottom i {
+.blog-post .meta-bottom [data-icon] {
   color: color-mix(in srgb, var(--default-color), transparent 40%);
   display: inline;
 }
@@ -266,7 +265,7 @@
   font-size: 1rem; // 16px
 }
 
-.blog-post .meta-bottom .share i {
+.blog-post .meta-bottom .share [data-icon] {
   padding-left: 0.3125rem; // 5px
 }
 
@@ -364,7 +363,7 @@
   background-color: #e0e0e0;
 } */
 
-.share-button i {
+.share-button [data-icon] {
   font-size: 1.25rem; // 20px
 }
 
@@ -415,7 +414,7 @@
   padding: 0;
 }
 
-.share-menu-item i {
+.share-menu-item [data-icon] {
   width: 1.25rem; // 20px
   height: 1.25rem; // 20px
   margin-right: 0.75rem; // 12px
@@ -555,7 +554,7 @@
   color: color-mix(in srgb, var(--default-color), transparent 20%);
 }
 
-.blog-comments .comment h5 .reply i {
+.blog-comments .comment h5 .reply [data-icon] {
   font-size: 1.25rem;
   /* 20px */
 }

@@ -1,0 +1,13 @@
+#!/bin/sh
+if ! command -v changeset >/dev/null 2>&1; then
+  echo "🛑 HALT: 'changeset' command not found in your PATH!"
+  exit 1
+fi
+
+changeset_count=$(find .changeset -maxdepth 1 -name "*.md" ! -name "README.md" | grep -c "")
+if [ "$changeset_count" -eq 0 ]; then
+  echo "🛑 HALT: No changeset found! Run 'changeset' before pushing."
+  echo "(Admin bypass: 'git push --no-verify')"
+  exit 1
+fi
+exit 0

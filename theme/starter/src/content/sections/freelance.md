@@ -26,7 +26,7 @@ features:
     desc: "Mobile-first approach. Looks great on phones, tablets, and desktops."
     icon: "bi bi-phone"
     secondary_icon: "bi bi-laptop"
-    link: "https://github.com/freelance-persona"
+    link: "https://github.com/freelance-persona/astro-freelance-persona_theme"
     button_text: "Source Code"
 
   - title: "Static & Secure"

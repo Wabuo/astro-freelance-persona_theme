@@ -3,7 +3,7 @@
   "private": true,
   "workspaces": [
     "theme",
-    "playground"
+    "theme/starter"
   ],
   "scripts": {
     "dev": "bun --filter my-freelance-portfolio dev",

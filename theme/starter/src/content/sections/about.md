@@ -16,7 +16,7 @@ avatar: "@/assets/img/avatar.svg"
 #   url: "..."
 avatar_credit: 
   name: "freelance-persona"
-  url: "https://github.com/wabuo/astro_freelance-persona_theme"  
+  url: "https://github.com/freelance-persona/astro-freelance-persona_theme"
 avatar_license: "CC BY-SA 4.0"
 avatar_styles:
   float_margin_top: "-5rem"
@@ -36,7 +36,7 @@ qualifications_sidebar:
     img_credit: "hidden"
     img_copyright: "freelance-persona"
     img_license: "CC0"
-    link: "https://github.com/wabuo/astro_freelance-persona_theme/blob/main/LICENSE"
+    link: "https://github.com/freelance-persona/astro-freelance-persona_theme/blob/main/LICENSE"
 
   - text: "Tech Stack"
     subtitle: 

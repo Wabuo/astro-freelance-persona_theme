@@ -14,8 +14,8 @@ Modernized and adapted to Astro 5.
 To create a new website using this theme, simply run the following command. This will download the starter template and set everything up for you.
 
 ```bash
-# Replace 'YourGitHubName' with the actual GitHub username where the theme is hosted
-npm create astro@latest -- --template YourGitHubName/astro-freelance-persona/starter
+# To use the template from the official repository:
+npm create astro@latest -- --template freelance-persona/astro-freelance-persona_theme/theme/starter
 ```
 
 ## 📜 The "Manifesto" (Agreed Design Rules)
@@ -65,7 +65,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 This repository is set up as a **Monorepo** using **Bun Workspaces**.
 
-- **Root**: Contains the Theme package (`astro-freelance-persona`).
+- **Root**: Contains the Theme package (`astro-freelance-persona_theme`).
 - **`starter/`**: Contains a clean sample template for the theme.
 - **`playground/`**: An initially empty folder, to be used as a local development and testing environment, copy the content of starter here.
 
@@ -78,10 +78,10 @@ This repository is set up as a **Monorepo** using **Bun Workspaces**.
 
 1. #### Clone the Repository
 
-   ```fish
-   git clone [https://github.com/YourGitHubName/astro-freelance-persona.git](https://github.com/YourGitHubName/astro-freelance-persona.git)
-   cd astro-freelance-persona
-   ```
+    ```fish
+    git clone https://github.com/freelance-persona/astro-freelance-persona_theme.git
+    cd astro-freelance-persona_theme
+    ```
 
 2. #### Copy files from starter to playground
 
@@ -152,7 +152,7 @@ Tests are located in `testing/tests/` and use the `testing/utils/content-parser.
 ### Architecture Notes
 
 - **`playground/package.json`**: During local development, this uses the local version of the theme. When published as a template, it uses the version from the npm registry.
-- **Imports**: The starter imports components from the theme package (e.g., `astro-freelance-persona/components/...`) just like a real user would.
+- **Imports**: The starter imports components from the theme package (e.g., `astro-freelance-persona_theme/components/...`) just like a real user would.
 
 ### Custom services/products pages
 

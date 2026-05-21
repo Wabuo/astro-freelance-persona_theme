@@ -40,7 +40,7 @@ export const themeConfig: PersonaConfig = {
   social_links: [
     {
       name: "GitHub",
-      url: "https://github.com/wabuo/astro_freelance-persona_theme",
+      url: "https://github.com/freelance-persona/astro-freelance-persona_theme",
       icon_class: "bi bi-github"
     },
     {
@@ -226,7 +226,7 @@ export const themeConfig: PersonaConfig = {
 
   credits: [
     "", // empty row at the top
-    "Theme: [Freelance Persona](https://github.com/wabuo/astro_freelance-persona_theme)",
+    "Theme: [Freelance Persona](https://github.com/freelance-persona/astro-freelance-persona_theme)",
     "Contact form via [Formspark](https://formspark.io)",
     "With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)",
     "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), [Fontsource](https://fontsource.org/), [Academicons](https://jpswalsh.github.io/academicons/), [Katex](https://katex.org/) & [Marked](https://github.com/markedjs/marked)",

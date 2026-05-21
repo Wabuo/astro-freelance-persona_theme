@@ -38,11 +38,13 @@ test('Home Visual Regression', async ({ page }, testInfo) => {
         // Ensure all images are fully loaded and decoded
         await page.evaluate(async () => {
             const images = Array.from(document.querySelectorAll('img'));
+            images.forEach(img => img.loading = 'eager'); // Force eager loading
             await Promise.all(images.map(img => {
                 if (img.complete) return Promise.resolve();
                 return new Promise((resolve) => {
                     img.addEventListener('load', resolve);
                     img.addEventListener('error', resolve);
+                    setTimeout(resolve, 5000); // 5s fallback timeout
                 });
             }));
         });

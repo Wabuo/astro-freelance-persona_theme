@@ -164,5 +164,6 @@ Linked to by freelance features should follow the following setup:
 <br>
 <br>
 
-— *This Theme and anything attached to it, comes with absolutely no warranty, I've got no idea what I'm doing!*<br>
-*(and can't spell — shoutout to my fellow dyslexic)*
+— *This theme, and anything attached to it, comes with absolutely no warranty, I've got no idea what I'm doing!*<br>
+*(and can't spell — shoutout to my fellow dyslexics)*
+

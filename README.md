@@ -15,7 +15,7 @@ To create a new website using this theme, simply run the following command. This
 
 ```bash
 # To use the template from the official repository:
-npm create astro@latest -- --template freelance-persona/astro-freelance-persona_theme/theme/starter
+bun create astro@latest -- --template freelance-persona/astro-freelance-persona_theme/theme/starter
 ```
 
 ## 📜 The "Manifesto" (Agreed Design Rules)
@@ -95,7 +95,7 @@ This repository is set up as a **Monorepo** using **Bun Workspaces**.
 
    Run the setup script from the root directory. This will copy the starter template into a git-ignored `playground` directory and automatically link the local theme for you.
 
-   ```fish
+   ```sh
    bun run playground:setup
    ```
 
@@ -148,6 +148,22 @@ bunx playwright test --reporter=list
 ```
 
 Tests are located in `testing/tests/` and use the `testing/utils/content-parser.ts` utility to dynamically read expected values from your content files.
+
+#### 📸 Visual Regression Testing & Snapshots
+
+The test suite includes visual regression tests that verify UI consistency using Playwright screenshots.
+
+*   **Intentionally Git-Ignored:** To prevent bloating the repository with large binary files, all `*.png` snapshot references are git-ignored. Snapshots only live locally and on CI environments.
+*   **Generating Baseline Snapshots:** Because snapshots are not committed to Git, you must generate the initial baseline screenshots on your local environment before running tests:
+    ```fish
+    # Navigate to the playground and update snapshots
+    cd playground
+    bun run test --update-snapshots
+    ```
+*   **Syncing Snapshots (For Theme/Starter Developers):** Tests run in the ephemeral `playground` workspace. To ensure updated snapshots persist across playground resets (`bun run playground:setup`), copy the updated snapshots back to the starter source folder:
+    ```fish
+    cp -r playground/testing/tests/*-snapshots/ theme/starter/testing/tests/
+    ```
 
 ### Architecture Notes
 

@@ -44,6 +44,10 @@ SPDX-License-Identifier: MIT
   - Used for verification of graceful degradation.
   - Project: `bun x playwright test --project=noscript`
   - **Rule:** Preloader must be hidden (`display: none`), Content must be visible (`opacity: 1`).
+- **Visual Regression Snapshots:** All reference `*.png` images are git-ignored in the repository via `theme/.gitignore` (`*.png`). They are not committed to Git.
+  - To update or generate baseline screenshots locally: run `bun run test --update-snapshots` inside `playground/`.
+  - To preserve new/updated snapshots across `bun run playground:setup` resets, copy them back from playground to the starter template:
+    `cp -r playground/testing/tests/*-snapshots/ theme/starter/testing/tests/`
 - **Path Aliases:** Tests use `@/*` (e.g., `import { themeConfig } from '@/freelance-persona.config'`) which maps to `src/*` in the starter context.
 
 ### 4. 📦 Project Architecture (Monorepo)

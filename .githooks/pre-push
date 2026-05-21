@@ -1,17 +1,24 @@
 #!/bin/sh
-# SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
-#
-# SPDX-License-Identifier: MIT
 
-if ! command -v changeset >/dev/null 2>&1; then
-  echo "🛑 HALT: 'changeset' command not found in your PATH!"
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$current_branch" = "master" ]; then
+  exit 0
+fi
+
+if ! command -v bun >/dev/null 2>&1; then
+  echo "🛑 HALT: 'bun' command not found in PATH."
   exit 1
 fi
 
 changeset_count=$(find .changeset -maxdepth 1 -name "*.md" ! -name "README.md" | grep -c "")
+
 if [ "$changeset_count" -eq 0 ]; then
-  echo "🛑 HALT: No changeset found! Run 'changeset' before pushing."
+  echo "🛑 HALT: No changeset found!"
+  echo "You are pushing commits without declaring a version bump."
+  echo "Run 'bunx changeset' to generate release notes before pushing."
   echo "(Admin bypass: 'git push --no-verify')"
   exit 1
 fi
+
+echo "✅ Changeset found. Pushing..."
 exit 0

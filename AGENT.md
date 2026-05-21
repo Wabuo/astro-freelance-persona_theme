@@ -16,10 +16,11 @@ SPDX-License-Identifier: MIT
 
 ### 1. Manual dev or build and preview server
 
-- **Manual Verification:** If you want view the site manually via the browser:
-  - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; fuser -k 4321/tcp; bun run dev`
-  - `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run build; fuser -k 4321/tcp; bun run preview`
-  - **Full Rebuild & Test:** `pkill -f "bun run dev"; pkill -f "bun run preview"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; fuser -k 4321/tcp; bun run test --reporter=list`
+- **Manual Verification:** If you want to view the site manually via the browser:
+  - **Setup / Reset Playground:** `bun run playground:setup`
+  - **Dev Server:** `bun run dev`
+  - **Build & Preview:** `bun run build; fuser -k 4321/tcp; bun run preview`
+  - **Full Test:** `bun run test --reporter=list`
 
 ### 2. ⚡ Server Management (Automated)
 
@@ -119,8 +120,14 @@ SPDX-License-Identifier: MIT
 **Fix:** The Vite/Astro cache is likely stale. Perform a CLEAN REBUILD:
 
 ```fish
-pkill -f "bun run dev"; rm -rf playground; mkdir -p playground/; cp -a theme/starter/. playground/; bun install; bun run dev
+bun run playground:setup && bun run dev
 ```
+
+### 📦 Version Mismatch after Release / Versioning
+
+**Symptom:** `bun install` fails with `GET https://registry.npmjs.org/astro-freelance-persona_theme - 404` or similar resolution errors.
+**Cause:** The version in `theme/package.json` was bumped (e.g. by `changeset version`), but `theme/starter/package.json` was not updated because it is not a workspace package. When `playground` copies `starter`'s package.json, the root `bun install` attempts to resolve the old version from npm registry because the local version no longer satisfies the range in `starter/package.json`.
+**Fix:** Manually update `"astro-freelance-persona_theme"` in `theme/starter/package.json` to match the new version in `theme/package.json` (e.g. `^0.1.0-alpha.0`).
 
 ### 🧩 Content Collections in Monorepos
 

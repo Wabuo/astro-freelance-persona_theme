@@ -6,13 +6,14 @@
     "theme/starter"
   ],
   "scripts": {
-    "dev": "bun --filter my-freelance-portfolio dev",
-    "build": "bun --filter my-freelance-portfolio build",
-    "preview": "bun --filter my-freelance-portfolio preview",
-    "check": "bun --filter my-freelance-portfolio check",
-    "test": "bun --filter my-freelance-portfolio test",
-    "test:e2e": "bun --filter my-freelance-portfolio test",
-    "test:e2e:ui": "bun --filter my-freelance-portfolio exec playwright test --ui"
+    "dev": "cd playground && bun run dev",
+    "build": "cd playground && bun run build",
+    "preview": "cd playground && bun run preview",
+    "check": "cd playground && bun run check",
+    "test": "cd playground && bun run test",
+    "test:e2e": "cd playground && bun run test",
+    "test:e2e:ui": "cd playground && bun exec playwright test --ui",
+    "playground:setup": "fuser -k 4321/tcp || true; fuser -k 4322/tcp || true; rm -rf playground && mkdir -p playground && cp -a theme/starter/. playground && cd playground && bun link astro-freelance-persona_theme"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",

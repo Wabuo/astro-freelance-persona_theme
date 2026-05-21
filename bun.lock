@@ -15,32 +15,9 @@
         "@playwright/test": "^1.57.0",
       },
     },
-    "playground": {
-      "name": "my-freelance-portfolio",
-      "version": "0.0.1",
-      "dependencies": {
-        "@astrojs/check": "^0.9.6",
-        "@fontsource/poppins": "^5.2.7",
-        "@fontsource/raleway": "^5.2.8",
-        "@fontsource/roboto": "^5.2.9",
-        "@iconify-json/academicons": "^1.2.4",
-        "@iconify-json/bi": "^1.2.7",
-        "astro": "^5.0.0",
-        "astro-freelance-persona_theme": "^0.0.1",
-        "astro-icon": "^1.1.5",
-        "typescript": "^5.9.3",
-      },
-      "devDependencies": {
-        "@playwright/test": "^1.40.0",
-        "@types/js-yaml": "^4.0.9",
-        "js-yaml": "^4.1.0",
-        "sass-embedded": "^1.0.0",
-        "sharp": "^0.34.5",
-      },
-    },
     "theme": {
       "name": "astro-freelance-persona_theme",
-      "version": "0.0.1",
+      "version": "0.1.0-alpha.0",
       "dependencies": {
         "@fontsource/raleway": "^5.2.8",
         "@iconify-json/academicons": "^1.2.4",
@@ -62,6 +39,29 @@
       },
       "peerDependencies": {
         "astro": "^5.0.0",
+      },
+    },
+    "theme/starter": {
+      "name": "my-freelance-portfolio",
+      "version": "0.0.1",
+      "dependencies": {
+        "@astrojs/check": "^0.9.6",
+        "@fontsource/poppins": "^5.2.7",
+        "@fontsource/raleway": "^5.2.8",
+        "@fontsource/roboto": "^5.2.9",
+        "@iconify-json/academicons": "^1.2.4",
+        "@iconify-json/bi": "^1.2.7",
+        "astro": "^5.0.0",
+        "astro-freelance-persona_theme": "^0.1.0-alpha.0",
+        "astro-icon": "^1.1.5",
+        "typescript": "^5.9.3",
+      },
+      "devDependencies": {
+        "@playwright/test": "^1.40.0",
+        "@types/js-yaml": "^4.0.9",
+        "js-yaml": "^4.1.0",
+        "sass-embedded": "^1.0.0",
+        "sharp": "^0.34.5",
       },
     },
   },
@@ -874,7 +874,7 @@
 
     "muggle-string": ["muggle-string@0.4.1", "", {}, "sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ=="],
 
-    "my-freelance-portfolio": ["my-freelance-portfolio@workspace:playground"],
+    "my-freelance-portfolio": ["my-freelance-portfolio@workspace:theme/starter"],
 
     "nanoid": ["nanoid@3.3.12", "", { "bin": { "nanoid": "bin/nanoid.cjs" } }, "sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ=="],
 

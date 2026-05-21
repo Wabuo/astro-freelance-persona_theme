@@ -1,0 +1,11 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "my-freelance-portfolio": "0.0.1",
+    "astro-freelance-persona_theme": "0.0.1"
+  },
+  "changesets": [
+    "nine-sides-beg"
+  ]
+}

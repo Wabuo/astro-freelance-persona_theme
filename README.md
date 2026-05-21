@@ -83,27 +83,27 @@ This repository is set up as a **Monorepo** using **Bun Workspaces**.
     cd astro-freelance-persona_theme
     ```
 
-2. #### Copy files from starter to playground
+2. #### Install Dependencies
 
-   Copy all files from the `starter` directory to the `playground` directory.
+   Run this in the root directory. It installs dependencies for the theme and the starter template.
 
    ```fish
-   cp -a theme/starter/* playground/
+   bun install
+   ```
+
+3. #### Setup the Playground
+
+   Run the setup script from the root directory. This will copy the starter template into a git-ignored `playground` directory and automatically link the local theme for you.
+
+   ```fish
+   bun run playground:setup
    ```
 
    You can now edit the files in the `playground` directory to test the theme.
 
    - ##### Reset playground
 
-      To reset the playground to the original state, delete the `playground` directory and run `cp -a theme/starter/* playground/` again, then run `bun install` in the root directory.
-
-3. #### Install Dependencies
-
-   Run this in the root directory. It installs dependencies for **both** the theme and the starter, and links them together automatically.
-
-   ```fish
-   bun install
-   ```
+      To reset the playground to its original state, simply run `bun run playground:setup` again.
 
 4. #### Start Development Server
 

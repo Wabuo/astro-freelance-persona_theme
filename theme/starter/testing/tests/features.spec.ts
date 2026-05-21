@@ -48,7 +48,7 @@ test.describe('Features/Services Section Links', () => {
         const sourceAction = sourceCard.locator('.feature-hover-action');
         await expect(sourceAction).toBeVisible();
         await expect(sourceAction).toHaveText('Source Code');
-        await expect(sourceCard).toHaveAttribute('href', 'https://github.com/freelance-persona');
+        await expect(sourceCard).toHaveAttribute('href', 'https://github.com/freelance-persona/astro-freelance-persona_theme');
     });
 
 });

@@ -5,6 +5,14 @@
   "type": "module",
   "license": "MIT",
   "author": "freelance-persona_theme Project Contributors",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freelance-persona/astro-freelance-persona_theme.git"
+  },
+  "bugs": {
+    "url": "https://github.com/freelance-persona/astro-freelance-persona_theme/issues"
+  },
+  "homepage": "https://github.com/freelance-persona/astro-freelance-persona_theme#readme",
   "exports": {
     ".": "./src/freelance-persona/integration.ts",
     "./components/*": "./src/freelance-persona/components/*",

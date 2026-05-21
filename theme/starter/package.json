@@ -12,15 +12,15 @@
     "astro": "astro"
   },
   "dependencies": {
+    "astro-freelance-persona_theme": "^0.0.1",
+    "astro": "^5.0.0",
+    "astro-icon": "^1.1.5",
     "@astrojs/check": "^0.9.6",
+    "@iconify-json/bi": "^1.2.7",
+    "@iconify-json/academicons": "^1.2.4",
     "@fontsource/poppins": "^5.2.7",
     "@fontsource/raleway": "^5.2.8",
     "@fontsource/roboto": "^5.2.9",
-    "astro": "^5.0.0",
-    "astro-freelance-persona_theme": "^0.1.0",
-    "astro-icon": "^1.1.5",
-    "@iconify-json/bi": "^1.2.7",
-    "@iconify-json/academicons": "^1.2.4",
     "typescript": "^5.9.3"
   },
   "devDependencies": {

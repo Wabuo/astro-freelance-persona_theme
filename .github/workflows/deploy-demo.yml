@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'theme/**'
+      - 'package.json'
+      - 'bun.lockb'
+      - '.github/workflows/deploy-demo.yml'
   workflow_dispatch:
 
 env:

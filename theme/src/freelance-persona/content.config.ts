@@ -357,6 +357,8 @@ const blog = defineCollection({
     ]).optional(),
 
     tags: z.array(z.string()),
+    tex: z.boolean().optional(),
+    layout_style: z.enum(['standard', 'science']).optional(),
   }).superRefine((data, ctx) => {
     // If thumbnail is present, require attribution fields
     if (data.thumbnail) {

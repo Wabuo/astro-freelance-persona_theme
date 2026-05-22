@@ -1,0 +1,91 @@
+@use 'attribution';
+
+/* Modern Scientific/Editorial Figure Cards */
+.post-figure {
+  position: relative; /* Contain absolute overlay */
+  background-color: var(--card-background);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  border-radius: 0.375rem;
+  padding: 1.25rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
+  margin-bottom: 1.5rem;
+
+  /* Inherit and include theme attribution overlay styles */
+  @include attribution.styles();
+
+  /* Media elements (SVG or Img) */
+  svg, img {
+    margin: 0 auto !important;
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  img {
+    border-radius: 0.1875rem;
+  }
+
+  /* Figure Captions */
+  figcaption {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed color-mix(in srgb, var(--default-color), transparent 90%);
+    font-size: 0.825rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+    font-family: var(--default-font);
+    text-align: center;
+
+    .figure-title {
+      font-weight: 600;
+      color: var(--heading-color);
+      
+      &::before {
+        content: "Figure: ";
+        color: var(--accent-color);
+      }
+    }
+
+    .figure-desc {
+      font-style: italic;
+    }
+
+    .figure-attribution {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      font-style: normal;
+      margin-left: 0.25rem;
+
+      a {
+        color: var(--accent-color);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  /* Responsive layout: clear floats on mobile viewports (< 576px) */
+  &[style*="float: left"],
+  &[style*="float:left"] {
+    @media (max-width: 576px) {
+      float: none !important;
+      display: block !important;
+      width: 100% !important;
+      margin: 1.5rem 0 !important;
+    }
+  }
+
+  &[style*="float: right"],
+  &[style*="float:right"] {
+    @media (max-width: 576px) {
+      float: none !important;
+      display: block !important;
+      width: 100% !important;
+      margin: 1.5rem 0 !important;
+    }
+  }
+}

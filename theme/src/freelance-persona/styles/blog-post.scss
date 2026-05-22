@@ -1,6 +1,6 @@
 @use 'attribution';
-
 @use 'theme-context' as *;
+@use 'blog-figures';
 /*
  * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
  *
@@ -85,6 +85,7 @@
 
 .blog-post .post-content {
   margin-top: 1.25rem; // 20px
+  display: flow-root;
 }
 
 .blog-post .post-content p {
@@ -101,6 +102,43 @@
   margin-right: auto;
   margin-bottom: 1.25rem; // 20px
   margin-top: 0.625rem; // 10px
+}
+
+.blog-post .post-content svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.25rem; // 20px
+  margin-top: 0.625rem; // 10px
+}
+
+.blog-post .post-content.science-layout {
+  text-align: justify;
+
+  p {
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 768px) {
+    column-count: 2;
+    column-gap: 2.5rem;
+    column-rule: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+
+    h3, blockquote, table, iframe, pre, .expressive-code {
+      column-span: all;
+    }
+
+    svg, img {
+      &[style*="margin: 1.5rem auto"], &[style*="margin:1.5rem auto"] {
+        column-span: all;
+        max-width: 60%;
+        margin: 2.5rem auto;
+      }
+    }
+  }
 }
 
 .blog-post .post-content h3 {

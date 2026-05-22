@@ -9,6 +9,8 @@ import icon from 'astro-icon';
 import freelancePersona from 'astro-freelance-persona_theme';
 
 export default defineConfig({
+  site: process.env.SITE_URL,
+  base: process.env.BASE_PATH,
   integrations: [
     icon({
       include: {

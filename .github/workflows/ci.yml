@@ -3,6 +3,11 @@ name: CI Gatekeeper
 on:
   pull_request:
     branches: [ main ]
+    paths:
+      - 'theme/**'
+      - 'package.json'
+      - 'bun.lockb'
+      - '.github/workflows/ci.yml'
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'

@@ -1,0 +1,63 @@
+name: CI Gatekeeper
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Run Betterleaks (Security)
+        run: |
+          wget https://github.com/betterleaks/betterleaks/releases/latest/download/betterleaks_linux_amd64 -O betterleaks
+          chmod +x betterleaks
+          ./betterleaks detect -v
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Fetch Playwright Snapshots
+        id: snapshot-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            theme/starter/testing/tests/**/*-snapshots
+          key: snapshots-${{ github.event.pull_request.base.sha }}
+
+      - name: Setup Playground
+        run: bun run playground:setup
+
+      - name: Astro Static Analysis (Fail Fast)
+        run: bun run check
+
+      - name: Install Playwright Browsers
+        if: steps.snapshot-cache.outputs.cache-hit == 'true'
+        run: bunx playwright install chromium firefox --with-deps
+
+      - name: Run Playwright Tests
+        if: steps.snapshot-cache.outputs.cache-hit == 'true'
+        run: bun run test
+
+      - name: Auto-trigger Baseline Generator
+        if: steps.snapshot-cache.outputs.cache-hit != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🛑 Snapshots missing or expired!"
+          echo "Triggering the Baseline Generator workflow on main to rebuild artifacts..."
+          # The workflow name must perfectly match the 'name:' in generate-baselines.yml
+          gh workflow run "Generate Baselines" --ref main
+          echo "✅ Build triggered. Please wait a couple of minutes for it to finish, then re-run this PR check."
+          exit 1

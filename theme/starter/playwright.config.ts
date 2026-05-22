@@ -50,15 +50,11 @@ export default defineConfig({
             name: 'Mobile Chrome',
             use: { ...devices['Pixel 5'] },
         },
+        /* Dark Mode Testing in Firefox */
         {
-            name: 'firefox',
-            use: { ...devices['Desktop Firefox'] },
-        },
-        /* Dark Mode Testing */
-        {
-            name: 'chromium-dark',
+            name: 'firefox-dark',
             use: { 
-                ...devices['Desktop Chrome'],
+                ...devices['Desktop Firefox'],
                 colorScheme: 'dark'
             },
         },

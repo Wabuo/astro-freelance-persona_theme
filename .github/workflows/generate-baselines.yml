@@ -1,0 +1,41 @@
+name: Generate Baselines
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  generate:
+    name: Generate Playwright Baselines
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Setup Playground
+        run: bun run playground:setup
+
+      - name: Install Playwright Browsers
+        run: bunx playwright install chromium firefox --with-deps
+
+      - name: Update Snapshots
+        run: |
+          cd playground
+          bun run test --update-snapshots
+          # Copy generated snapshots back to the theme/starter source folder so they can be cached
+          cp -r testing/tests/*-snapshots/ ../theme/starter/testing/tests/
+
+      - name: Save Snapshots Cache
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            theme/starter/testing/tests/**/*-snapshots
+          key: snapshots-${{ github.sha }}

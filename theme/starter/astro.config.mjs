@@ -10,7 +10,7 @@ import freelancePersona from 'astro-freelance-persona_theme';
 
 export default defineConfig({
   site: process.env.SITE_URL,
-  base: process.env.BASE_PATH,
+  base: process.env.BASE_PATH ? (process.env.BASE_PATH.endsWith('/') ? process.env.BASE_PATH : process.env.BASE_PATH + '/') : undefined,
   integrations: [
     icon({
       include: {

@@ -9,6 +9,7 @@ import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import { themeConfig } from "@freelance-persona/config";
+import { resolveLink } from "@freelance-persona/utils/linkUtils";
 const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/**/*.{jpeg,jpg,png,gif,svg}",
 );
@@ -54,7 +55,7 @@ const description = "We are working hard to bring you this page.";
         Check back soon for updates!
       </p>
 
-      <a href={import.meta.env.BASE_URL} class="btn-get-started"> Back to Home </a>
+      <a href={resolveLink("/")} class="btn-get-started"> Back to Home </a>
     </div>
   </section>
 </BaseLayout>

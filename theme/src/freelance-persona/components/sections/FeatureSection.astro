@@ -4,6 +4,7 @@ import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
 import { themeConfig } from "@freelance-persona/config";
 import { slugify } from "@freelance-persona/utils/slugify";
+import { resolveLink } from "@freelance-persona/utils/linkUtils";
 import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
 
@@ -61,14 +62,13 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
 
           const isUnavailable = feature.unavailable === true;
 
-          const finalLink = isUnavailable
+          const rawLink = isUnavailable
             ? undefined
-            : feature.link &&
-              !feature.link.startsWith("#") &&
-              !feature.link.startsWith("/") &&
-              !feature.link.startsWith("http")
-            ? `${import.meta.env.BASE_URL}services/${slugify(feature.title)}`
-            : feature.link;
+            : feature.link
+            ? feature.link
+            : `services/${slugify(feature.title)}`;
+
+          const finalLink = resolveLink(rawLink);
 
           return (
             <div

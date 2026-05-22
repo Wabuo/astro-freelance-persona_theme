@@ -7,6 +7,7 @@ import FilteredPostsSection from "@freelance-persona/components/sections/Filtere
 import Card from "@freelance-persona/components/ui/Card.astro";
 import { Image } from "astro:assets";
 import { slugify } from "@freelance-persona/utils/slugify";
+import { resolveLink } from "@freelance-persona/utils/linkUtils";
 
 // Generate paths for all categories defined in the section config
 export async function getStaticPaths() {
@@ -105,7 +106,7 @@ const formatDate = (date: Date) => {
 <BaseLayout title={`${title} - Blog`}>
   <Breadcrumbs
     crumbs={[
-      { label: "Home", href: import.meta.env.BASE_URL },
+      { label: "Home", href: resolveLink("/") },
       {
         label: parentTitle || "Blogs",
         href: `${import.meta.env.BASE_URL}#${parentId || "blog-categories"}`,
@@ -140,7 +141,7 @@ const formatDate = (date: Date) => {
             </div>
             <div class="empty-state">
               <p>No posts found in this category, yet.</p>
-              <a href={`${import.meta.env.BASE_URL}#blogs`} class="btn-return">
+              <a href={resolveLink("#blogs")} class="btn-return">
                 Return Home
               </a>
             </div>
@@ -161,7 +162,7 @@ const formatDate = (date: Date) => {
             <div class="posts-list">
               {filteredPosts.map((post: any) => (
                 <a
-                  href={`${import.meta.env.BASE_URL}posts/${post.id.split("/").pop()}`}
+                  href={resolveLink(`posts/${post.id.split("/").pop()}`)}
                   class="post-entry-link"
                 >
                   <article class="post-entry border-bottom">
@@ -177,7 +178,7 @@ const formatDate = (date: Date) => {
           ) : (
             <div class="empty-state">
               <p>No posts found in this category, yet.</p>
-              <a href={`${import.meta.env.BASE_URL}#blogs`} class="btn-return">
+              <a href={resolveLink("#blogs")} class="btn-return">
                 Return Home
               </a>
             </div>

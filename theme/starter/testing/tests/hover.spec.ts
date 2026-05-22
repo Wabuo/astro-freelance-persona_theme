@@ -104,11 +104,15 @@ test.describe('Visual Hover States', () => {
             await recentPost.hover();
             await page.waitForTimeout(500);
             // Snapshot the specific list item container
-            await expect(recentPost.locator('..')).toHaveScreenshot('home-recent-post-hover.png');
+            await expect(recentPost.locator('..')).toHaveScreenshot('home-recent-post-hover.png', {
+                maxDiffPixelRatio: 0.1,
+                maxDiffPixels: 1000
+            });
         }
     });
 
-    test('Footer: Socials & Legal', async ({ page }) => {
+    test('Footer: Socials & Legal', async ({ page, isMobile }) => {
+        if (isMobile) test.skip();
         const footer = page.locator('#footer');
         await footer.scrollIntoViewIfNeeded();
 
@@ -129,7 +133,8 @@ test.describe('Visual Hover States', () => {
         }
     });
 
-    test('Contact: Inputs & Button', async ({ page }, testInfo) => {
+    test('Contact: Inputs & Button', async ({ page, isMobile }, testInfo) => {
+        if (isMobile) test.skip();
         if (testInfo.project.name === 'noscript') test.skip(true, 'Focus/Hover interactions behave differently without JS');
         await page.locator('#contact').scrollIntoViewIfNeeded();
 

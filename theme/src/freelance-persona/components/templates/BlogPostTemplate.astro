@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
 import { Image } from "astro:assets";
 import { slugify } from "@freelance-persona/utils/slugify";
+import { resolveLink } from "@freelance-persona/utils/linkUtils";
 import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
 import BlogSidebar from "@freelance-persona/components/blog/BlogSidebar.astro";
 import ShareMenu from "@freelance-persona/components/ui/ShareMenu.astro";
@@ -37,7 +38,7 @@ if (blogsSection && blogsSection.data.categories && post.data.tags) {
   if (matchedCategory) {
     categoryCrumb = {
       label: matchedCategory.title,
-      href: `${import.meta.env.BASE_URL}blogs/${slugify(matchedCategory.title)}`,
+      href: resolveLink(`blogs/${slugify(matchedCategory.title)}`),
     };
   }
 }
@@ -47,7 +48,7 @@ const wordCount = post.body ? post.body.split(/\s+/g).length : 0;
 const readingTime = Math.ceil(wordCount / 200);
 
 const crumbs: { label: string; href?: string }[] = [
-  { label: "Home", href: import.meta.env.BASE_URL },
+  { label: "Home", href: resolveLink("/") },
 ];
 
 if (parentSection) {

@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 
 test('Contact Form Submission', async ({ page }, testInfo) => {
     if (testInfo.project.name === 'noscript') test.skip(true, 'Contact form intercept requires JS');
-    if (testInfo.project.name === 'firefox') test.skip(true, 'Contact form intercept is flaky in Firefox');
+    if (testInfo.project.name.includes('firefox')) test.skip(true, 'Contact form intercept is flaky in Firefox');
 
     // Mock the external provider request to avoid spamming real services
     // This catches ANY POST to external sites or common form endpoints

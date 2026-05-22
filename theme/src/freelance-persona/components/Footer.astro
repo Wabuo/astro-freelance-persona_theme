@@ -3,6 +3,7 @@
 import { themeConfig } from "@freelance-persona/config";
 import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
+import { resolveLink } from "@freelance-persona/utils/linkUtils";
 import { parse } from "marked"; // <--- The "real" parser
 
 const { title, quote, social_links, copyright, credits } = themeConfig;
@@ -42,7 +43,7 @@ const creditsHtml = await parse(finalCreditsString);
           themeConfig.legal?.enabled && (
             <>
               <span class="legal-separator mx-2">|</span>
-              <a href={`${import.meta.env.BASE_URL}legal/legal-notice`} class="legal-link">
+              <a href={resolveLink("legal/legal-notice")} class="legal-link">
                 {themeConfig.legal.link_text || "Legal Notice"}
               </a>
             </>

@@ -23,7 +23,7 @@ const recentPosts = allPosts
           recentPosts.map((post) => (
             <li class="post-item">
               <h4>
-                <a href={`/posts/${post.id.split("/").pop()}`}>
+                <a href={`${import.meta.env.BASE_URL}posts/${post.id.split("/").pop()}`}>
                   {post.data.title}
                 </a>
               </h4>

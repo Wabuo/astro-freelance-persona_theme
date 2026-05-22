@@ -67,7 +67,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
               !feature.link.startsWith("#") &&
               !feature.link.startsWith("/") &&
               !feature.link.startsWith("http")
-            ? `/services/${slugify(feature.title)}`
+            ? `${import.meta.env.BASE_URL}services/${slugify(feature.title)}`
             : feature.link;
 
           return (

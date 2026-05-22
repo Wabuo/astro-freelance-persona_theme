@@ -9,6 +9,7 @@ import { getCollection } from "astro:content";
 import { themeConfig } from "@freelance-persona/config";
 import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
+import { resolveLink } from "@freelance-persona/utils/linkUtils";
 import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
 
 interface Props {
@@ -26,12 +27,11 @@ const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
 
 // Helper to determine the href
 const getLink = (id: string) => {
-  const baseUrl = import.meta.env.BASE_URL;
   if (isHome) {
     return `#${id}`; // Scroll to section
   } else {
     // For inner pages, link to the homepage anchor
-    return `${baseUrl}#${id}`;
+    return `${import.meta.env.BASE_URL}#${id}`;
   }
 };
 ---
@@ -40,7 +40,7 @@ const getLink = (id: string) => {
   <ul>
     <li>
       <a
-        href={isHome ? "#hero" : import.meta.env.BASE_URL}
+        href={isHome ? "#hero" : resolveLink("/")}
         class={isHome ? "active" : ""}
         aria-label="Home"
       >

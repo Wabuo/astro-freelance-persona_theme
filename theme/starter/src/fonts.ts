@@ -10,25 +10,25 @@
 // 3. Update the freelance-persona.config.ts to use the font family name
 
 // --- Poppins (Headings) ---
-import '@fontsource/poppins/300.css';
-import '@fontsource/poppins/400.css';
-import '@fontsource/poppins/500.css';
-import '@fontsource/poppins/600.css';
-import '@fontsource/poppins/700.css';
+import '@fontsource/poppins/latin-300.css';
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-500.css';
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-700.css';
 
 // --- Raleway (Navigation) ---
-import '@fontsource/raleway/300.css';
-import '@fontsource/raleway/400.css';
-import '@fontsource/raleway/500.css';
-import '@fontsource/raleway/600.css';
-import '@fontsource/raleway/700.css';
+import '@fontsource/raleway/latin-300.css';
+import '@fontsource/raleway/latin-400.css';
+import '@fontsource/raleway/latin-500.css';
+import '@fontsource/raleway/latin-600.css';
+import '@fontsource/raleway/latin-700.css';
 
 // --- Roboto (Body) ---
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/300-italic.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/400-italic.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/500-italic.css';
-import '@fontsource/roboto/700.css';
-import '@fontsource/roboto/700-italic.css';
+import '@fontsource/roboto/latin-300.css';
+import '@fontsource/roboto/latin-300-italic.css';
+import '@fontsource/roboto/latin-400.css';
+import '@fontsource/roboto/latin-400-italic.css';
+import '@fontsource/roboto/latin-500.css';
+import '@fontsource/roboto/latin-500-italic.css';
+import '@fontsource/roboto/latin-700.css';
+import '@fontsource/roboto/latin-700-italic.css';

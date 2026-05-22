@@ -103,7 +103,7 @@ const getExcerpt = (body: string) => {
         <div class={rowClass} style={gutterStyle}>
           {displayedPosts.map((post) => (
             <div class={colClass}>
-              <Card href={`/posts/${post.id.split("/").pop()}`} class="h-100">
+              <Card href={`${import.meta.env.BASE_URL}posts/${post.id.split("/").pop()}`} class="h-100">
                 {/* Image Slot */}
                 <div slot="image" class="post-image-container">
                   {post.data.thumbnail ? (

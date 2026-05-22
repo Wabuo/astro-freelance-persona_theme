@@ -37,7 +37,7 @@ if (blogsSection && blogsSection.data.categories && post.data.tags) {
   if (matchedCategory) {
     categoryCrumb = {
       label: matchedCategory.title,
-      href: `/blogs/${slugify(matchedCategory.title)}`,
+      href: `${import.meta.env.BASE_URL}blogs/${slugify(matchedCategory.title)}`,
     };
   }
 }
@@ -47,7 +47,7 @@ const wordCount = post.body ? post.body.split(/\s+/g).length : 0;
 const readingTime = Math.ceil(wordCount / 200);
 
 const crumbs: { label: string; href?: string }[] = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: import.meta.env.BASE_URL },
 ];
 
 if (parentSection) {
@@ -55,7 +55,7 @@ if (parentSection) {
   const sectionId = (parentSection.data as any).custom_id || parentSection.id;
   crumbs.push({
     label: parentSection.data.title,
-    href: `/#${sectionId}`,
+    href: `${import.meta.env.BASE_URL}#${sectionId}`,
   });
 }
 

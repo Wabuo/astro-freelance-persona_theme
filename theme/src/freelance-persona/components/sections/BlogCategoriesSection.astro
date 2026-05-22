@@ -92,7 +92,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
             .slice(0, 2);
 
           // Basic link construction - Link to the dedicated category page
-          const linkUrl = `/blogs/${slugify(category.title)}`;
+          const linkUrl = `${import.meta.env.BASE_URL}blogs/${slugify(category.title)}`;
 
           // Resolve Overlay Colors
           const opacity = category.overlay_opacity ?? 0.4;
@@ -239,7 +239,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                       {categoryPosts.map((post) => (
                         <li class="recent-post-item">
                           <a
-                            href={`/posts/${post.id.split("/").pop()}`}
+                            href={`${import.meta.env.BASE_URL}posts/${post.id.split("/").pop()}`}
                             class="recent-post-link"
                           >
                             <span class="post-title">{post.data.title}</span>
@@ -288,7 +288,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
               .filter(Boolean)
               .join(" ");
 
-            const linkUrl = `/blogs/${slugify(category.title)}`;
+            const linkUrl = `${import.meta.env.BASE_URL}blogs/${slugify(category.title)}`;
 
             return (
               <div

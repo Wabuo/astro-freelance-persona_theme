@@ -26,11 +26,12 @@ const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
 
 // Helper to determine the href
 const getLink = (id: string) => {
+  const baseUrl = import.meta.env.BASE_URL;
   if (isHome) {
     return `#${id}`; // Scroll to section
   } else {
     // For inner pages, link to the homepage anchor
-    return `/#${id}`;
+    return `${baseUrl}#${id}`;
   }
 };
 ---
@@ -39,7 +40,7 @@ const getLink = (id: string) => {
   <ul>
     <li>
       <a
-        href={isHome ? "#hero" : "/"}
+        href={isHome ? "#hero" : import.meta.env.BASE_URL}
         class={isHome ? "active" : ""}
         aria-label="Home"
       >

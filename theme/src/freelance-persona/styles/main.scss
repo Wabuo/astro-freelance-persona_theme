@@ -10,10 +10,9 @@
 // NOTE: Fonts are now imported in layouts/BaseLayout.astro via JS 
 // to ensure correct loading in Yarn PnP environments.
 
-// 2. Vendor Imports
 // 2. Vendor & Context Setup
 @use "theme-context" as *;
-@use "bootstrap/scss/bootstrap";
+@use "bootstrap-custom";
 
 // 3. Theme Core Styles
 

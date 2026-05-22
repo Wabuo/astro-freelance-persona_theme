@@ -5,15 +5,21 @@
 // src/freelance-persona/integration.ts
 import type { AstroIntegration } from 'astro';
 import astroExpressiveCode from 'astro-expressive-code';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import rehypeFigures from './plugins/rehypeFigures';
+import rehypeMhchem from './plugins/rehypeMhchem';
+import remarkExtractImageParams from './plugins/remarkExtractImageParams';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
+import { createRequire } from 'module';
 
 export default function freelancePersona(): AstroIntegration {
   return {
     name: 'astro-freelance-persona',
     hooks: {
-      'astro:config:setup': ({ updateConfig, config }) => {
+      'astro:config:setup': async ({ updateConfig, config }) => {
         const currentDir = path.dirname(fileURLToPath(import.meta.url));
         const projectRoot = fileURLToPath(config.root);
         const configPath = path.resolve(projectRoot, 'src/freelance-persona.config.ts');
@@ -40,6 +46,10 @@ export default function freelancePersona(): AstroIntegration {
         }
 
         updateConfig({
+          markdown: {
+            remarkPlugins: [remarkExtractImageParams, remarkMath],
+            rehypePlugins: [rehypeMhchem, rehypeKatex, rehypeFigures],
+          },
           integrations: [
             astroExpressiveCode({
               themes: ['github-light', 'github-dark'],

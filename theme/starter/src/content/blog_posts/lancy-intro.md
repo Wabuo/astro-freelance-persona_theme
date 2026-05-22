@@ -21,6 +21,7 @@ img_copyright: "freelance-persona"
 #   url: "..."
 img_license: "CC BY-SA"
 tags: ["theme", "mascot", "update"]
+tex: true
 ---
 
 Beep boop! 🤖
@@ -41,4 +42,85 @@ My job is simple: keep your build green, your Lighthouse score at 100, and your 
 You might see me popping up in the `About` section sidebar or guarding the `404` page.
 I'm here to serve.
 
+## My Fuel Source
+
+Since I am a digital bot, I don't eat food. Instead, I run on a special chemical compound that programmers keep feeding me through their late-night commits: **Caffeine** ($\ce{C8H10N4O2}$).
+
+![Caffeine Molecule](./caffeine.svg?inline&width=14rem&float=right&desc=Caffeine+is+a+central+nervous+system+stimulant+of+the+methylxanthine+class.&credit=Wikimedia&license=Public+Domain)
+
+Without it, my linting engine slows down, and I start letting semi-colons slip through. Here is my exact fuel molecule, rendered inline as a theme-adaptive vector diagram:
+
+
+Since I need it to stay focused, keeping it next to my transmission ensures the linter never sleeps.
+
+<br><br><br>
+
+So please, keep the commits and the coffee coming!
+
 *End of transmission.*
+
+<br><br><br>
+
+<p class="text-center">
+.
+<br>
+<br>
+.
+<br>
+<br>
+.
+</p>
+
+<br>
+<br>
+
+We can also include general card figures with float layouting and absolute theme-wide attribution overlays (by leaving alt text and desc parameters empty):
+
+<br>
+<br>
+
+
+![](@/assets/img/avatar.svg?width=12rem&float=left&credit=Freelance+Persona&license=CC+BY-SA+4.0)
+<br>Which can be aligned left ...
+<br>foo baar some text here
+<br>and some more text
+
+![](@/assets/img/avatar.svg?width=12rem&align=center&credit=Freelance+Persona&license=CC+BY-SA+4.0)
+<p class="text-center">... center ...
+<br>Which doesn't suport floating text, because floating text around a center element is super hard if good readability is required too.
+<br>So we have float=left or right
+<br>and align=center
+</p>
+
+![](@/assets/img/avatar.svg?width=12rem&float=right&credit=Freelance+Persona&license=CC+BY-SA+4.0)
+<p class="text-end">... or right.
+<br>and more text here batz
+<br>and even more text here
+</p>
+
+<br><br><br><br><br>
+
+Obviusly the same layout also works with Caption Mode, in which we have the alt text, description and attribution in the same image block:
+
+<br>
+<br>
+
+![Lancy's Avatar](@/assets/img/avatar.svg?width=12rem&float=right&desc=Our+bleloved+mascot&license=CC+BY-SA+4.0)
+<p class="text-end">Which can be aligned right ...
+<br>and more text here batz
+<br>and even more text here
+</p>
+
+![Lancy's Avatar](@/assets/img/avatar.svg?width=12rem&align=center&desc=Our+bleloved+mascot&license=CC+BY-SA+4.0)
+<p class="text-center">... center ...
+<br>Which doesn't suport floating text, because floating text around a center element is super hard if good readability is required too.
+<br>So we have float=left or right
+<br>and align=center
+</p>
+
+![Lancy's Avatar](@/assets/img/avatar.svg?inline&width=12rem&float=left&desc=Our+bleloved+mascot&license=CC+BY-SA+4.0)
+<br>Or well left
+<br>... with caption mode.
+<br>
+
+

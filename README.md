@@ -37,6 +37,43 @@ The Main configuration file is `src/freelance-persona.config.ts`.<br>
 This file is mainly for theme/web page wide settings.<br>
 Each markdown file defining a page can override these settings and will often also offer page/section specific settings.
 
+### 🧪 Math, Chemistry & Figure Layouts
+
+This theme includes built-in support for mathematical formatting, chemical equations, theme-adaptive vector drawings, and advanced figure layouts.
+
+1. **Math & Chemical Equations**:
+   Enable LaTeX math and chemical reactions by setting `tex: true` in your post frontmatter.
+   - **Math**: Use standard delimiters like `$E = mc^2$` (inline) or `$$a^2 + b^2 = c^2$$` (block).
+   - **Chemical Formulas**: Use the `mhchem` syntax `$\ce{C8H10N4O2}$` or `$$\ce{CO2 + H2O -> H2CO3}$$`.
+
+2. **Theme-Aware Chemical Diagrams**:
+   To include skeletal formulas or structures (e.g. from ChemDraw or MarvinSketch) that automatically adapt their stroke and fill colors to Light/Dark modes:
+   - Save your unedited SVG in your content folder.
+   - Reference it in Markdown using the `?inline` parameter. Sizing, text wrapping, and alignment parameters are supported (see below).
+   - The build pipeline will inline the SVG and map all black/dark colors to `currentColor`, making them responsive to theme toggles.
+
+3. **Figure Card Layouts (All Formats)**:
+   Any image link in a blog post (PNG, JPG, SVG) referenced with query parameters (e.g. `?width=12rem&float=right`) will be wrapped in an editorial-style `.post-figure` card:
+   - **Sizing (`width`)**: Sets custom widths. An explicit relative CSS unit (e.g. `width=14rem`, `width=8em`, or `width=50%`) is **required** (unitless numbers and `px` are rejected).
+   - **Float (Text Wrap)**: Float the graphic so paragraph text wraps around it using `float=left` or `float=right`. Floats are automatically cleared on mobile viewports (`< 576px`) to prevent text squishing.
+   - **Alignment (Block)**: Align the graphic block using `align=left`, `align=center` (default), or `align=right` (for block layouts where text does not wrap alongside it).
+   - **Descriptions & Captions**: Setting an alt text (e.g. `![Caffeine Molecule]`) or a `desc` parameter (e.g. `?desc=Some+description`) automatically creates a `<figcaption>` card section at the bottom.
+   - **Image Attributions**: Provide image attribution using `credit`, `credit_url` (or `credit_url`), `license`, and `copyright` query parameters. If a caption is present, the attribution displays inline at the bottom of the caption. If no caption is present, it renders as a subtle theme-wide absolute overlay at the bottom-right.
+   - **Path Resolution**: You can reference images relatively inside the content folder (e.g., `./caffeine.svg`) or use the global `@/` alias (e.g., `@/assets/img/avatar.svg`).
+
+   ```markdown
+   <!-- Left-floated inline SVG card with description and attribution in the caption -->
+   ![Caffeine Molecule](./caffeine.svg?inline&width=14rem&float=left&desc=Caffeine+is+a+stimulant.&credit=Wikimedia&license=Public+Domain)
+
+   <!-- Right-floated avatar image with absolute attribution overlay (no caption) -->
+   ![](@/assets/img/avatar.svg?width=12rem&float=right&credit=Freelance+Persona&license=MIT)
+   ```
+
+4. **Asset Optimization & Sizing Limitations**:
+   - **Vite Asset Pipeline**: Local images inside your content directories alongside your markdown files are copied, optimized, and hashed by Vite into the output `dist/_astro/` assets folder at build time.
+   - **Sizing Limitation**: The `width` parameter scales the figure container card dynamically in the browser using CSS container rules. It does not resize the source file dimensions or generate fluid responsive `srcset`s at build time. For heavy photography or image galleries requiring deep source-level dimension optimization, use Astro's native `<Image>` or `<Picture>` components in a `.astro` template rather than raw Markdown images.
+
+
 ### 🎨 Font Configuration
 
 This theme uses a configurable font system. The starter template comes with **Poppins**, **Raleway**, and **Roboto** pre-configured.

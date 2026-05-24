@@ -67,7 +67,7 @@ if (categoryCrumb) {
 crumbs.push({ label: post.data.title });
 ---
 
-<BaseLayout title={post.data.title} navType="page" tex={true}>
+<BaseLayout title={post.data.title} navType="page" tex={post.data.tex || false}>
   <Breadcrumbs crumbs={crumbs} showTitle={false} />
 
   <div class="container">
@@ -155,7 +155,7 @@ crumbs.push({ label: post.data.title });
               <div class="meta-top-divider"></div>
             </div>
 
-            <div class="post-content">
+            <div class={`post-content ${post.data.layout_style === "science" ? "science-layout" : ""}`}>
               <slot />
             </div>
           </article>

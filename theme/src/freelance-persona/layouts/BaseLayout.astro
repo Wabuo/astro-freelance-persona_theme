@@ -10,6 +10,11 @@ import { themeConfig } from "@freelance-persona/config";
 import "@fontsource/raleway/latin-400.css";
 import "@fontsource/raleway/latin-700.css";
 
+// Dynamic font URLs for preloading
+import raleway400Url from "@fontsource/raleway/files/raleway-latin-400-normal.woff2?url";
+import poppins400Url from "@fontsource/poppins/files/poppins-latin-400-normal.woff2?url";
+import roboto400Url from "@fontsource/roboto/files/roboto-latin-400-normal.woff2?url";
+
 // Import Global Styles
 import "@freelance-persona/styles/main.scss";
 
@@ -115,6 +120,11 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+
+    <!-- Preload critical fonts for immediate rendering -->
+    <link rel="preload" href={raleway400Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={poppins400Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={roboto400Url} as="font" type="font/woff2" crossorigin />
   {/* Dynamic Theme Config */}
   <style
     is:inline

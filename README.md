@@ -212,6 +212,24 @@ The test suite includes visual regression tests that verify UI consistency using
 Linked to by freelance features should follow the following setup:
 "Create a new file at `src/pages/services/your-service-name.astro` and then link to it in your `freelance.md` config."
 
+## 🔒 Security & Local Hooks
+
+To ensure commits remain secure, release-ready, and free of accidental secrets, you can install the repository's git and Jujutsu hooks:
+
+### Git Hooks Installation
+Run the following command from the repository root:
+```bash
+git config core.hooksPath .githooks
+```
+
+### Jujutsu (jj) Hooks Installation
+Add the following alias to your global `~/.config/jj/config.toml` configuration:
+```toml
+[aliases]
+push-safe = ["util", "exec", "--", "/home/fabio/Documents/Programming/Website/Astro/astro_freelance-persona_theme/.jj-hooks/pre-push.sh"]
+```
+Then use `jj push-safe` instead of `jj git push` to push bookmarks.
+
 <br>
 <br>
 <br>

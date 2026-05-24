@@ -40,6 +40,10 @@
   "peerDependencies": {
     "astro": "^5.0.0"
   },
+  "engines": {
+    "node": ">=22.14.0",
+    "bun": ">=1.1.0"
+  },
   "dependencies": {
     "@fontsource/poppins": "^5.2.7",
     "@fontsource/raleway": "^5.2.8",

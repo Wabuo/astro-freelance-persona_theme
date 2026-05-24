@@ -74,7 +74,7 @@ So please, keep the commits and the coffee coming!
 <br>
 <br>
 
-We can also include general card figures with float layouting and absolute theme-wide attribution overlays (by leaving alt text and desc parameters empty):
+We can also include general card figures with float layouting and absolute theme-wide attribution overlays (by leaving alt text and desc parameters empty, which makes more sense for bigger pictures):
 
 <br>
 <br>

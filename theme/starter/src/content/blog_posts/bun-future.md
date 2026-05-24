@@ -18,6 +18,7 @@ img_copyright: "freelance-persona"
 #   url: "..."
 img_license: "CC0"
 tags: ["coding", "it"]
+tex: true
 ---
 
 ## Fast, All-in-One
@@ -40,3 +41,11 @@ const server = Bun.serve({
 ## Compatibility
 
 It aims for complete Node.js compatibility, making migration easy.
+
+## Math Formula Compilation Test
+
+Here is an inline formula: $E = mc^2$ and a block formula:
+
+$$
+a^2 + b^2 = c^2
+$$

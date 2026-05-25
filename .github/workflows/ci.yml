@@ -7,6 +7,7 @@ on:
       - 'theme/**'
       - 'package.json'
       - 'bun.lock'
+      - 'renovate.json'
       - '.github/workflows/ci.yml'
   workflow_dispatch:
 
@@ -15,18 +16,14 @@ env:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
-      actions: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-
-      - name: Install Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
 
       - name: Run Betterleaks (Security)
         uses: docker://ghcr.io/betterleaks/betterleaks:v1.3.1
@@ -44,8 +41,55 @@ jobs:
           fi
           echo "✅ Changeset verified."
 
+      - name: Install Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+
       - name: Install Dependencies
         run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Check if Renovate Config Changed
+        id: check-renovate
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          elif git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep -q 'renovate.json'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate Renovate Configuration
+        if: steps.check-renovate.outputs.changed == 'true'
+        run: bunx --package renovate renovate-config-validator
+
+      - name: Setup Playground
+        run: bun run playground:setup
+
+      - name: Astro Static Analysis (Fail Fast)
+        run: bun run check
+
+  visual-tests:
+    name: Playwright Visual Regression
+    needs: validate
+    runs-on: ubuntu-24.04
+    environment: visual-tests
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Setup Playground
+        run: bun run playground:setup
 
       - name: Fetch Playwright Snapshots
         id: snapshot-cache
@@ -54,15 +98,6 @@ jobs:
           path: |
             theme/starter/testing/tests/**/*-snapshots
           key: snapshots-${{ github.event.pull_request.base.sha }}
-
-      - name: Validate Renovate Configuration
-        run: bunx --package renovate renovate-config-validator
-
-      - name: Setup Playground
-        run: bun run playground:setup
-
-      - name: Astro Static Analysis (Fail Fast)
-        run: bun run check
 
       - name: Install Playwright Browsers
         if: steps.snapshot-cache.outputs.cache-hit == 'true'

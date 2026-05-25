@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Harden Host Egress Traffic
-        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         with:
           egress-policy: block
           allowed-endpoints: >
@@ -20,7 +20,7 @@ jobs:
             registry.npmjs.org:443
 
       - name: Checkout Workspace State
-        uses: actions/checkout@11bd71901bea81993200787e91129f1b95b8d00d # v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Setup Bun Environment
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
@@ -40,7 +40,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Host Egress Traffic
-        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         with:
           egress-policy: block
           allowed-endpoints: >
@@ -54,7 +54,7 @@ jobs:
             tuf-repo-cdn.sigstore.dev:443
 
       - name: Checkout Workspace State
-        uses: actions/checkout@11bd71901bea81993200787e91129f1b95b8d00d # v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Confirm Working Directory Integrity Matches Origin Commit
         run: |
@@ -65,7 +65,7 @@ jobs:
           fi
 
       - name: Initialize Sterile Node/npm Framework
-        uses: actions/setup-node@1d0ff469b62b6d0ad9b0af0fb3b1e40be53ce9b9 # v4.2.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'

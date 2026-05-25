@@ -1,20 +1,23 @@
 #!/bin/sh
 # Path: .jj-hooks/pre-push.sh
 
-# 1. Check if we are on the main bookmark
-# We evaluate if the working copy revision (@) is exactly the 'main' bookmark.
-if [ -n "$(jj --no-pager log -r "@ & main" --no-graph)" ]; then
-  echo "ℹ️ On main bookmark. Skipping changeset check."
-else
-  # 2. Check for changeset files
-  changeset_count=$(find .changeset -maxdepth 1 -name "*.md" ! -name "README.md" | grep -c "")
-  if [ "$changeset_count" -eq 0 ]; then
-    echo "🛑 HALT: No changeset found!"
-    echo "You are pushing commits without declaring a version bump."
+# 1. Check if theme or package.json changes are being pushed
+# We list files modified in the commits between the remote tracking bookmark and the current revision (@).
+echo "🔍 Checking for theme and package.json changes in this push..."
+push_diff=$(jj --no-pager diff -r "remote_bookmarks(remote=origin)..@" --summary 2>/dev/null)
+
+if echo "$push_diff" | grep -E '^(M|A|D|R) (theme/|package\.json)' >/dev/null 2>&1; then
+  # Yes, theme or package.json changes were detected.
+  # We must ensure that at least one changeset file (.changeset/*.md) is being added or modified in the pushed commits.
+  if ! echo "$push_diff" | grep -E '^(M|A) \.changeset/[^/]*\.md$' >/dev/null 2>&1; then
+    echo "🛑 HALT: No changeset found for your changes!"
+    echo "You are pushing commits that modify the theme or package.json without declaring a version bump."
     echo "Run 'bunx changeset' to generate release notes before pushing."
     exit 1
   fi
-  echo "✅ Changeset check passed."
+  echo "✅ Changeset check passed (changeset found)."
+else
+  echo "ℹ️ No theme or package.json changes detected in this push. Skipping changeset check."
 fi
 
 # 3. Check for secrets using Betterleaks

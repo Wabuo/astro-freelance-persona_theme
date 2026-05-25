@@ -71,6 +71,9 @@ jobs:
   visual-tests:
     name: Playwright Visual Regression
     needs: validate
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.pull_request.labels.*.name, 'run-visual-tests')
     runs-on: ubuntu-24.04
     environment: visual-tests
     permissions:

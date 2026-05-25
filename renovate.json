@@ -8,12 +8,7 @@
   "minimumReleaseAgeBehaviour": "timestamp-required",
   "internalChecksFilter": "strict",
   "osvVulnerabilityAlerts": true,
-  "packageRules": [
-    {
-      "matchVulnerabilityAlerts": true,
-      "minimumReleaseAge": "0 days",
-      "prCreation": "immediate",
-      "commitMessagePrefix": "🚨 SECURITY FIX: "
-    }
-  ]
+  "vulnerabilityAlerts": {
+    "commitMessagePrefix": "🚨 SECURITY FIX: "
+  }
 }

@@ -169,10 +169,12 @@ export const themeConfig: PersonaConfig = {
   fonts: {
     // The starter ships with Poppins (nav), Raleway (headings), and Roboto (body).
     // See src/fonts.ts for the font imports. Install new fonts via: bun add @fontsource/font-name
-    headings: '"Raleway", sans-serif',
-    body: '"Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif',
-    navigation: '"Poppins", sans-serif',
-    monospace: '"Courier New", Courier, monospace',
+    // Note: Default fonts are preloaded dynamically for performance. If you change them,
+    // see theme/src/freelance-persona/layouts/BaseLayout.astro to update preload links.
+    headings: "Raleway",
+    body: "Roboto",
+    navigation: "Poppins",
+    monospace: "Courier New",
 
     // Font Size Overrides (Uncomment to adjust base sizes)
     /*

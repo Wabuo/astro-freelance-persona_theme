@@ -1,0 +1,79 @@
+name: Secure Theme Package Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  validate:
+    name: Validate Quality Gate
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Harden Host Egress Traffic
+        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        with:
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+            api.github.com:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+
+      - name: Checkout Workspace State
+        uses: actions/checkout@11bd71901bea81993200787e91129f1b95b8d00d # v4.2.2
+
+      - name: Setup Bun Environment
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+
+      - name: Safe Sync Dependencies Without Lifecycle Scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Validate Layout & Components Structural Health
+        run: bun run check
+
+  publish:
+    name: Hardened Registry Publication
+    needs: validate
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Harden Host Egress Traffic
+        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        with:
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+            api.github.com:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+            fulcio.sigstore.dev:443
+            rekor.sigstore.dev:443
+            token.actions.githubusercontent.com:443
+            tuf-repo-cdn.sigstore.dev:443
+
+      - name: Checkout Workspace State
+        uses: actions/checkout@11bd71901bea81993200787e91129f1b95b8d00d # v4.2.2
+
+      - name: Confirm Working Directory Integrity Matches Origin Commit
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "🚨 CRITICAL VIOLATION: Working space dirty. Something altered code files during execution. Halt."
+            git status
+            exit 1
+          fi
+
+      - name: Initialize Sterile Node/npm Framework
+        uses: actions/setup-node@1d0ff469b62b6d0ad9b0af0fb3b1e40be53ce9b9 # v4.2.0
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Dry Run Manifest Audit
+        run: npm pack --dry-run
+        working-directory: theme
+
+      - name: Cryptographic Trusted Publication With Public Code Provenance
+        run: npm stage publish --provenance --access public
+        working-directory: theme

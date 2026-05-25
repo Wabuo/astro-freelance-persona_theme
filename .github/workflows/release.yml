@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'theme/**'
+      - 'package.json'
+      - 'bun.lock'
+      - '.github/workflows/release.yml'
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
@@ -16,23 +21,31 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      id-token: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Harden Host Egress Traffic
+        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        with:
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+            api.github.com:443
+            objects.githubusercontent.com:443
+
+      - uses: actions/checkout@11bd71901bea81993200787e91129f1b95b8d00d # v4.2.2
         with:
           fetch-depth: 0
 
       - name: Install Bun
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
 
       - name: Install Dependencies
-        run: bun install
+        run: bun install --frozen-lockfile --ignore-scripts
 
-      - name: Create Release Pull Request or Publish
+      - name: Create Release Pull Request
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@06245a4e0a36c064a573d4150030f5ec548e4fcc # v1.4.10
         with:
-          publish: npm publish --provenance --access public
           version: bunx changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -54,6 +54,9 @@ jobs:
             theme/starter/testing/tests/**/*-snapshots
           key: snapshots-${{ github.event.pull_request.base.sha }}
 
+      - name: Validate Renovate Configuration
+        run: bunx --package renovate renovate-config-validator
+
       - name: Setup Playground
         run: bun run playground:setup
 

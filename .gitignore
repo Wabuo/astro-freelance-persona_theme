@@ -26,9 +26,14 @@ pnpm-debug.log*
 
 
 ### Playground
-##  Ignore everything but keep the empty folder to not confuese users
 playground/*
 !playground/.gitkeep
+
+### Playwright Testing
+*-snapshots/
+playwright-report/
+test-results/
+
 
 PROJECT_STATE.md
 .roo/*
@@ -39,3 +44,10 @@ PROJECT_STATE.md
 To_Do.md
 theme/scratch/
 
+######################################################
+## Ignore files the user might axidentally commit
+######################################################
+
+*.jpg
+*.png
+*.webp

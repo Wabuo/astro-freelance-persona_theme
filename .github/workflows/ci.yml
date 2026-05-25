@@ -8,6 +8,7 @@ on:
       - 'package.json'
       - 'bun.lock'
       - '.github/workflows/ci.yml'
+  workflow_dispatch:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
@@ -77,7 +78,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "🛑 Snapshots missing or expired!"
-          echo "Triggering the Baseline Generator workflow on main to rebuild artifacts..."
-          gh workflow run "Generate Baselines" --ref main
-          echo "✅ Build triggered. Please wait a couple of minutes for it to finish, then re-run this PR check."
+          echo "Attempting to trigger the Baseline Generator workflow on main to rebuild artifacts..."
+          if gh workflow run "Generate Baselines" --ref main; then
+            echo "✅ Build triggered. Please wait a couple of minutes for it to finish, then re-run this PR check."
+          else
+            echo "⚠️ Notice: Unable to auto-trigger the baseline builder (this is expected for PRs from forks due to GitHub token restrictions)."
+            echo "👉 Please manually run the 'Generate Baselines' workflow from the Actions tab in the GitHub UI."
+          fi
           exit 1

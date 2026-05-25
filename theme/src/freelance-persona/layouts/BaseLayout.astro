@@ -10,9 +10,24 @@ import { themeConfig } from "@freelance-persona/config";
 import "@fontsource/raleway/latin-400.css";
 import "@fontsource/raleway/latin-700.css";
 
-// Dynamic font URLs for preloading
-import raleway400Url from "@fontsource/raleway/files/raleway-latin-400-normal.woff2?url";
-import poppins400Url from "@fontsource/poppins/files/poppins-latin-400-normal.woff2?url";
+// --- DYNAMIC FONT PRELOADING (PageSpeed Optimization) ---
+// To get a 100/100 Mobile PageSpeed score, we preload the critical font files (.woff2)
+// used above the fold. This prevents layout shifts (CLS) and delays in rendering text (LCP).
+//
+// Why here and not in freelance-persona.config.ts?
+// - Web E2E tests (Playwright) and node scripts import the config file directly in a Node.js 
+//   environment. Node.js does not understand Vite's "?url" asset query suffix and would crash.
+// Why not in fonts.ts?
+// - CSS imports in fonts.ts only bundle the fonts, but they do not expose the final resolved 
+//   asset URLs to JavaScript. We need these URLs here to render `<link rel="preload">` in the HTML.
+//
+// How to adapt if you change fonts in freelance-persona.config.ts:
+// 1. Install your new font: `bun add @fontsource/your-font`
+// 2. Import its CSS weights in `theme/starter/src/fonts.ts`
+// 3. (Optional but recommended) Import the `.woff2?url` asset of your new font below,
+//    and update the matching `preloadUrls.push(...)` block in the frontmatter below.
+import raleway700Url from "@fontsource/raleway/files/raleway-latin-700-normal.woff2?url";
+import poppins300Url from "@fontsource/poppins/files/poppins-latin-300-normal.woff2?url";
 import roboto400Url from "@fontsource/roboto/files/roboto-latin-400-normal.woff2?url";
 
 // Import Global Styles
@@ -109,11 +124,44 @@ const navPillExpandedWidth =
 const fonts = themeConfig.fonts || {};
 const colors = themeConfig.colors || {};
 
-// Level 4: Code Fallback (Fontsource Defaults)
-const headingFont = fonts.headings || '"Adwaita Sans", sans-serif';
-const bodyFont = fonts.body || '"Adwaita Sans", sans-serif';
-const navFont = fonts.navigation || '"Raleway", sans-serif';
-const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
+// Level 4: Code Fallback (Fontsource Defaults) with Auto-Fallback Stack
+const headingFont = fonts.headings
+  ? (fonts.headings.includes(",") ? fonts.headings : `"${fonts.headings}", sans-serif`)
+  : '"Adwaita Sans", sans-serif';
+
+const bodyFont = fonts.body
+  ? (fonts.body.includes(",") ? fonts.body : `"${fonts.body}", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif`)
+  : '"Adwaita Sans", sans-serif';
+
+const navFont = fonts.navigation
+  ? (fonts.navigation.includes(",") ? fonts.navigation : `"${fonts.navigation}", sans-serif`)
+  : '"Raleway", sans-serif';
+
+const monospaceFont = fonts.monospace
+  ? (fonts.monospace.includes(",") ? fonts.monospace : `"${fonts.monospace}", Courier, monospace`)
+  : '"Adwaita Mono", Courier, monospace';
+
+// --- DYNAMIC FONT PRELOADING ---
+const cleanFontName = (fontStr: string) => {
+  if (!fontStr) return "";
+  return fontStr.split(',')[0].replace(/['"]/g, '').trim().toLowerCase();
+};
+
+const headingsFontName = cleanFontName(headingFont);
+const bodyFontName = cleanFontName(bodyFont);
+const navFontName = cleanFontName(navFont);
+
+const preloadUrls: string[] = [];
+
+if (headingsFontName === "raleway") {
+  preloadUrls.push(raleway700Url);
+}
+if (navFontName === "poppins") {
+  preloadUrls.push(poppins300Url);
+}
+if (bodyFontName === "roboto") {
+  preloadUrls.push(roboto400Url);
+}
 ---
 
 <!DOCTYPE html>
@@ -122,9 +170,11 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
     <meta charset="utf-8" />
 
     <!-- Preload critical fonts for immediate rendering -->
-    <link rel="preload" href={raleway400Url} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={poppins400Url} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={roboto400Url} as="font" type="font/woff2" crossorigin />
+    {
+      preloadUrls.map((url) => (
+        <link rel="preload" href={url} as="font" type="font/woff2" crossorigin />
+      ))
+    }
   {/* Dynamic Theme Config */}
   <style
     is:inline
@@ -635,13 +685,17 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
           }, 600);
         }
       }
-      // Run on standard load
+      // Run on DOMContentLoaded or load (whichever fires first)
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", removePreloader);
+      } else {
+        removePreloader();
+      }
       window.addEventListener("load", removePreloader);
-      // Run on Astro navigation (Client Router)
       document.addEventListener("astro:page-load", removePreloader);
 
       // Safety timeout
-      setTimeout(removePreloader, 1500);
+      setTimeout(removePreloader, 1000);
     </script>
 
     {
@@ -765,12 +819,20 @@ const monospaceFont = fonts.monospace || '"Adwaita Mono", Courier, monospace';
       };
 
       // C. Navigation Event Listener
-      document.addEventListener("astro:page-load", () => {
+      const runInit = () => {
         if (!document.documentElement.classList.contains("anim-init")) {
             initScrollAnimations();
             document.documentElement.classList.add("anim-init");
         }
-      });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", runInit);
+      } else {
+        runInit();
+      }
+
+      document.addEventListener("astro:page-load", runInit);
       
       // Cleanup on swap to allow re-init for new elements
       document.addEventListener("astro:after-swap", () => {

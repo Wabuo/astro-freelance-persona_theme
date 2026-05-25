@@ -114,7 +114,7 @@ const getExcerpt = (body: string) => {
                         class="img-fluid post-image"
                         width={600}
                         quality="high"
-                        format="webp"
+                        format={post.data.thumbnail.format === 'svg' ? 'svg' : 'webp'}
                       />
                       {/* Attribution overlay */}
                       <ImageAttribution

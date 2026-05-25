@@ -70,7 +70,7 @@ crumbs.push({ label: post.data.title });
 const optimizedThumbnail = post.data.thumbnail
   ? await getImage({
       src: post.data.thumbnail,
-      format: "webp",
+      format: post.data.thumbnail.format === 'svg' ? 'svg' : 'webp',
       width: 1100,
       quality: "high",
     })
@@ -102,7 +102,7 @@ const optimizedThumbnail = post.data.thumbnail
                     class="img-fluid"
                     width={1100}
                     quality="high"
-                    format="webp"
+                    format={post.data.thumbnail.format === 'svg' ? 'svg' : 'webp'}
                   />
                   {/* Attribution overlay */}
                   <ImageAttribution

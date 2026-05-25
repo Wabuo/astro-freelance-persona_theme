@@ -207,7 +207,7 @@ const heroSectionStyle = {
           class="hero-bg"
           width={1920}
           height={1080}
-          format="webp"
+          format={finalImage.format === 'svg' ? 'svg' : 'webp'}
           loading="eager"
           fetchpriority="high"
         />

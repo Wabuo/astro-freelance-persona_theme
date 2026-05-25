@@ -21,7 +21,7 @@ const heroData = heroEntry?.data || {};
 const optimizedHeroBg = heroData.background_image
   ? await getImage({
       src: heroData.background_image,
-      format: "webp",
+      format: heroData.background_image.format === 'svg' ? 'svg' : 'webp',
       width: 1920,
       height: 1080,
     })

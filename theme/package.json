@@ -65,7 +65,7 @@
     "@types/bootstrap": "^5.2.10",
     "@types/node": "^25.0.2",
     "astro": "^6.1.10",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.0"
   },
   "scripts": {
     "dev": "astro dev",

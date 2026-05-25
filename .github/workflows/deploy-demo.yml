@@ -7,7 +7,7 @@ on:
     paths:
       - 'theme/**'
       - 'package.json'
-      - 'bun.lockb'
+      - 'bun.lock'
       - '.github/workflows/deploy-demo.yml'
   workflow_dispatch:
 
@@ -27,13 +27,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bea81993200787e91129f1b95b8d00d # v4.2.2
 
       - name: Install Bun
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
 
       - name: Install Dependencies
-        run: bun install
+        run: bun install --frozen-lockfile --ignore-scripts
 
       - name: Setup Playground
         run: bun run playground:setup
@@ -42,7 +42,7 @@ jobs:
         run: bun run build
 
       - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc603a1163273e04e2840552b759620ed7681 # v3.0.1
         with:
           path: ./playground/dist
 
@@ -56,4 +56,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db9016c905b1b78297ea70c41d00b3f86b7722 # v4.0.5

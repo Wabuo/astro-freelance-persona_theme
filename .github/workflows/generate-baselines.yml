@@ -1,14 +1,6 @@
 name: Generate Baselines
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'theme/**'
-      - 'package.json'
-      - 'bun.lockb'
-      - '.github/workflows/generate-baselines.yml'
   workflow_dispatch:
 
 env:
@@ -20,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bea81993200787e91129f1b95b8d00d # v4.2.2
 
       - name: Install Bun
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
 
       - name: Install Dependencies
-        run: bun install
+        run: bun install --frozen-lockfile --ignore-scripts
 
       - name: Setup Playground
         run: bun run playground:setup
@@ -38,11 +30,10 @@ jobs:
         run: |
           cd playground
           bun run test --update-snapshots
-          # Copy generated snapshots back to the theme/starter source folder so they can be cached
           cp -r testing/tests/*-snapshots/ ../theme/starter/testing/tests/
 
       - name: Save Snapshots Cache
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         with:
           path: |
             theme/starter/testing/tests/**/*-snapshots

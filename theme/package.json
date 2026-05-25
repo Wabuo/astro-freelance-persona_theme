@@ -38,7 +38,7 @@
     "astro-theme"
   ],
   "peerDependencies": {
-    "astro": "^5.0.0"
+    "astro": "^6.1.10"
   },
   "engines": {
     "node": ">=22.14.0",
@@ -64,7 +64,7 @@
     "@astrojs/check": "^0.9.6",
     "@types/bootstrap": "^5.2.10",
     "@types/node": "^25.0.2",
-    "astro": "^5.16.5",
+    "astro": "^6.1.10",
     "typescript": "^5.9.3"
   },
   "scripts": {

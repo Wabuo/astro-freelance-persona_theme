@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "astro-freelance-persona_theme": "^0.1.0-alpha.0",
-    "astro": "^5.0.0",
+    "astro": "^6.1.10",
     "astro-icon": "^1.1.5",
     "@astrojs/check": "^0.9.6",
     "@iconify-json/bi": "^1.2.7",

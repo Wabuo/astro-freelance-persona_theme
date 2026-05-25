@@ -20,7 +20,7 @@ jobs:
       actions: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@11bd71901bea81993200787e91129f1b95b8d00d # v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
@@ -48,7 +48,7 @@ jobs:
 
       - name: Fetch Playwright Snapshots
         id: snapshot-cache
-        uses: actions/cache/restore@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
             theme/starter/testing/tests/**/*-snapshots

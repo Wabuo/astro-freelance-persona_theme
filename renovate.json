@@ -10,5 +10,11 @@
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
     "commitMessagePrefix": "🚨 SECURITY FIX: "
-  }
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": false
+    }
+  ]
 }

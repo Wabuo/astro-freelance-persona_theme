@@ -2,7 +2,7 @@
 // src/freelance-persona/components/templates/BlogPostTemplate.astro
 import { getCollection } from "astro:content";
 import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import { slugify } from "@freelance-persona/utils/slugify";
 import { resolveLink } from "@freelance-persona/utils/linkUtils";
 import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
@@ -65,9 +65,19 @@ if (categoryCrumb) {
 }
 
 crumbs.push({ label: post.data.title });
+
+// Optimize/resolve the post thumbnail URL for preloading in <head>
+const optimizedThumbnail = post.data.thumbnail
+  ? await getImage({
+      src: post.data.thumbnail,
+      format: "webp",
+      width: 1100,
+      quality: "high",
+    })
+  : null;
 ---
 
-<BaseLayout title={post.data.title} navType="page" tex={post.data.tex || false}>
+<BaseLayout title={post.data.title} navType="page" tex={post.data.tex || false} preloadImageUrl={optimizedThumbnail?.src}>
   <Breadcrumbs crumbs={crumbs} showTitle={false} />
 
   <div class="container">

@@ -11,10 +11,21 @@ import FilteredPostsSection from "@freelance-persona/components/sections/Filtere
 import FeatureSection from "@freelance-persona/components/sections/FeatureSection.astro";
 import BlogCategoriesSection from "@freelance-persona/components/sections/BlogCategoriesSection.astro";
 import AboutSection from "@freelance-persona/components/sections/AboutSection.astro";
+import { getImage } from "astro:assets";
 
 // 1. HERO DATA FETCHING
 const heroEntry = await getEntry("sections", "hero");
 const heroData = heroEntry?.data || {};
+
+// Optimize/resolve the background image URL for preloading in <head>
+const optimizedHeroBg = heroData.background_image
+  ? await getImage({
+      src: heroData.background_image,
+      format: "webp",
+      width: 1920,
+      height: 1080,
+    })
+  : null;
 
 // 2. CONTENT SECTIONS
 const allSections = await getCollection("sections");
@@ -23,7 +34,7 @@ const contentSections = allSections
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title={themeConfig.title} navType="home">
+<BaseLayout title={themeConfig.title} navType="home" preloadImageUrl={optimizedHeroBg?.src}>
   <Hero
     title={heroData.title}
     hero_typing_text={heroData.hero_typing_text}

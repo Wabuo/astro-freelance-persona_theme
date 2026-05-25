@@ -277,7 +277,7 @@ code {
   opacity: 1;
   transform: none;
   transition-property: opacity, transform;
-  transition-duration: 0.8s;
+  transition-duration: 0.5s;
   transition-timing-function: ease-out;
 }
 
@@ -286,7 +286,7 @@ code {
 html.js-loading [data-reveal],
 html.js-ready [data-reveal]:not(.revealed) {
   opacity: 0;
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
 html.js-loading [data-reveal="fade-up"],

@@ -97,6 +97,7 @@ interface Props {
   page_margin_right?: string;
   nav_menu_width?: string;
   nav_pill_expanded_width?: string;
+  preloadImageUrl?: string;
 }
 
 const {
@@ -104,6 +105,7 @@ const {
   description = themeConfig.description,
   tex = false,
   navType = "page",
+  preloadImageUrl,
 } = Astro.props;
 
 const bodyClass = navType === "home" ? "home-page" : "inner-page";
@@ -174,6 +176,11 @@ if (bodyFontName === "roboto") {
       preloadUrls.map((url) => (
         <link rel="preload" href={url} as="font" type="font/woff2" crossorigin />
       ))
+    }
+    {
+      preloadImageUrl && (
+        <link rel="preload" href={preloadImageUrl} as="image" />
+      )
     }
   {/* Dynamic Theme Config */}
   <style
@@ -682,7 +689,7 @@ if (bodyFontName === "roboto") {
           preloader.style.opacity = "0";
           setTimeout(() => {
             preloader.remove();
-          }, 600);
+          }, 250);
         }
       }
       // Run on DOMContentLoaded or load (whichever fires first)
@@ -695,7 +702,7 @@ if (bodyFontName === "roboto") {
       document.addEventListener("astro:page-load", removePreloader);
 
       // Safety timeout
-      setTimeout(removePreloader, 1000);
+      setTimeout(removePreloader, 500);
     </script>
 
     {
@@ -711,7 +718,7 @@ if (bodyFontName === "roboto") {
       const animConfig = ${JSON.stringify(
         themeConfig.visuals?.scroll_animations || {
           enabled: true,
-          duration: 600,
+          duration: 500,
           delay: 0,
           threshold: 0.1,
           root_margin: "0px 0px -50px 0px",

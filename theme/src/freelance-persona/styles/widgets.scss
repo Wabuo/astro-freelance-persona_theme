@@ -162,12 +162,13 @@
 }
 
 .recent-posts-widget .post-item h4 a {
-  color: var(--default-color);
+  color: var(--accent-color);
   transition: 0.3s;
 }
 
 .recent-posts-widget .post-item h4 a:hover {
-  color: var(--accent-color);
+  color: var(--default-color);
+  text-decoration: underline;
 }
 
 .recent-posts-widget .post-item time {

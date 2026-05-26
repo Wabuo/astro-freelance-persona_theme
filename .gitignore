@@ -49,5 +49,8 @@ theme/scratch/
 ######################################################
 
 *.jpg
+*.jpg.license
 *.png
+*.png.license
 *.webp
+*.webp.license

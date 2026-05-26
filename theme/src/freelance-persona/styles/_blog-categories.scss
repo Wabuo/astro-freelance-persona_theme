@@ -248,7 +248,7 @@
 
   /* The Link is now the Flex Container */
   a.recent-post-link {
-    color: var(--heading-color);
+    color: var(--accent-color);
     text-decoration: none;
     // TARGET SPECIFIC PROPERTIES to avoid animating 'transform' or 'all' which causes re-rasterization
     transition: color 0.2s ease-out;
@@ -276,9 +276,9 @@
       text-decoration-color: var(--underline-color);
     }
 
-    /* Target Title specifically for underline */
+    /* Target Title specifically for color change on hover */
     &:hover .post-title {
-      color: var(--accent-color);
+      color: var(--heading-color);
     }
 
     /* Target Date specifically for color change */

@@ -11,7 +11,7 @@ icon_class: "lance-icon"
 
 features:
   - title: "Blazing Fast"
-    desc: "Built with Astro 5 and zero-JS core."
+    desc: "Built with Astro 5 and zero-JS core. Degrades extreamly gracefully in a no-JS environment."
     icon: "bi bi-lightning-charge"
     link: "/coming-soon"
     button_text: "Tell me More"

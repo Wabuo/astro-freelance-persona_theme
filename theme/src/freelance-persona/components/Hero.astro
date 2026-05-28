@@ -209,6 +209,7 @@ const heroSectionStyle = {
           height={1080}
           format={finalImage.format === 'svg' ? 'svg' : 'webp'}
           loading="eager"
+          decoding="sync"
           fetchpriority="high"
         />
         {/* Hero Background Attribution */}
@@ -368,12 +369,9 @@ const heroSectionStyle = {
   }
 
   initTyped();
-  document.addEventListener("astro:page-load", initTyped);
-  document.addEventListener("astro:before-swap", () => {
-    const typedEl = document.querySelector(".typed");
-    // @ts-ignore
-    if (typedEl && typedEl._stopTyping) typedEl._stopTyping();
-  });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTyped);
+  }
 </script>
 
 <style>

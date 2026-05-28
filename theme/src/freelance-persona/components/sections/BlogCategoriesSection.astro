@@ -183,6 +183,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                       class="category-image"
                       width={600}
                       format={category.image.format === 'svg' ? 'svg' : undefined}
+                      decoding="sync"
                     />
                   ) : (
                     <div

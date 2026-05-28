@@ -1,6 +1,5 @@
 ---
 // src/freelance-persona/layouts/BaseLayout.astro
-import { ClientRouter } from "astro:transitions";
 import Footer from "@freelance-persona/components/Footer.astro";
 import Navigation from "@freelance-persona/components/Navigation.astro";
 import KatexLoader from "@freelance-persona/components/KatexLoader.astro";
@@ -186,6 +185,7 @@ if (bodyFontName === "roboto") {
   <style
     is:inline
     id="theme-config"
+    data-astro-transition-persist="theme-config"
     set:html={`
     html:root {
       --global-margin-left: ${globalMarginLeft}; 
@@ -305,6 +305,13 @@ if (bodyFontName === "roboto") {
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      @view-transition {
+        navigation: auto;
+      }
+    }
+  </style>
 
   {
     /* Dynamic Dark Mode Overrides - Moved to HEAD for ViewTransition compatibility */
@@ -314,6 +321,7 @@ if (bodyFontName === "roboto") {
       <style
         is:inline
         id="theme-dynamic-styles"
+        data-astro-transition-persist="theme-dynamic-styles"
         set:html={`
         @media (prefers-color-scheme: dark) {
           html:root:not(:has(.theme-state-light:checked)) {
@@ -577,8 +585,6 @@ if (bodyFontName === "roboto") {
   <meta name="author" content={themeConfig.author} />
   <link rel="canonical" href={Astro.url.href} />
 
-  <ClientRouter />
-
   {
     faviconSrc && (
       <link
@@ -677,7 +683,7 @@ if (bodyFontName === "roboto") {
 
     <Footer />
 
-    <div id="preloader"></div>
+    <div id="preloader" data-astro-transition-persist="preloader"></div>
 
     {/* KATE-X LOADER */}
     {tex && <KatexLoader />}
@@ -688,7 +694,7 @@ if (bodyFontName === "roboto") {
         if (preloader) {
           preloader.style.opacity = "0";
           setTimeout(() => {
-            preloader.remove();
+            preloader.style.display = "none";
           }, 250);
         }
       }
@@ -699,7 +705,6 @@ if (bodyFontName === "roboto") {
         removePreloader();
       }
       window.addEventListener("load", removePreloader);
-      document.addEventListener("astro:page-load", removePreloader);
 
       // Safety timeout
       setTimeout(removePreloader, 500);
@@ -715,15 +720,14 @@ if (bodyFontName === "roboto") {
     <script
       is:inline
       set:html={`
-      const animConfig = ${JSON.stringify(
-        themeConfig.visuals?.scroll_animations || {
-          enabled: true,
-          duration: 500,
-          delay: 0,
-          threshold: 0.1,
-          root_margin: "0px 0px -50px 0px",
-        }
-      )};
+      const userAnimConfig = ${JSON.stringify(themeConfig.visuals?.scroll_animations || {})};
+      const animConfig = Object.assign({
+        enabled: true,
+        duration: 500,
+        delay: 0,
+        threshold: 0.1,
+        root_margin: "0px 0px -50px 0px"
+      }, userAnimConfig);
       const delaysConfig = ${JSON.stringify(themeConfig.visuals?.delays || {})};
       
       const initScrollAnimations = () => {
@@ -758,6 +762,12 @@ if (bodyFontName === "roboto") {
         );
 
         elements.forEach((el) => {
+          // Skip elements already revealed during VT swap (instant-reveal)
+          if (el.classList.contains("revealed")) {
+            el.style.transition = "";
+            return;
+          }
+
           // Apply duration from config if not overridden inline
           if (!el.style.transitionDuration) {
             el.style.transitionDuration = animConfig.duration + "ms";
@@ -838,13 +848,6 @@ if (bodyFontName === "roboto") {
       } else {
         runInit();
       }
-
-      document.addEventListener("astro:page-load", runInit);
-      
-      // Cleanup on swap to allow re-init for new elements
-      document.addEventListener("astro:after-swap", () => {
-        document.documentElement.classList.remove("anim-init");
-      });
     `}
     ></script>
   </body>

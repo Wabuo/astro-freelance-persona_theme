@@ -115,6 +115,8 @@ const getExcerpt = (body: string) => {
                         width={600}
                         quality="high"
                         format={post.data.thumbnail.format === 'svg' ? 'svg' : 'webp'}
+                        loading="eager"
+                        decoding="sync"
                       />
                       {/* Attribution overlay */}
                       <ImageAttribution

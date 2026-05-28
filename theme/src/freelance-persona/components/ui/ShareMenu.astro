@@ -188,5 +188,9 @@ const encodedDesc = encodeURIComponent(description);
   }
 
   // Initialize after Astro swaps and on initial load
-  document.addEventListener("astro:page-load", initShareMenu);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initShareMenu);
+  } else {
+    initShareMenu();
+  }
 </script>

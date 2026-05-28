@@ -104,6 +104,7 @@ const optimizedThumbnail = post.data.thumbnail
                     quality="high"
                     format={post.data.thumbnail.format === 'svg' ? 'svg' : 'webp'}
                     loading="eager"
+                    decoding="sync"
                     fetchpriority="high"
                   />
                   {/* Attribution overlay */}

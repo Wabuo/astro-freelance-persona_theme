@@ -365,14 +365,6 @@ const { isHome = false } = Astro.props;
 
       updateActiveLink();
       document.addEventListener("scroll", updateActiveLink);
-
-      document.addEventListener(
-        "astro:before-swap",
-        () => {
-          document.removeEventListener("scroll", updateActiveLink);
-        },
-        { once: true },
-      );
     }
   };
 
@@ -422,6 +414,10 @@ const { isHome = false } = Astro.props;
     initThemeToggle();
   };
 
-  // Run on every page load (Client Router compatible)
-  document.addEventListener("astro:page-load", initAll);
+  // Run on page load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAll);
+  } else {
+    initAll();
+  }
 </script>

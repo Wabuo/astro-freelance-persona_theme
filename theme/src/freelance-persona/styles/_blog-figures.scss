@@ -2,7 +2,8 @@
 
 /* Modern Scientific/Editorial Figure Cards */
 .post-figure {
-  position: relative; /* Contain absolute overlay */
+  position: relative;
+  /* Contain absolute overlay */
   background-color: var(--card-background);
   border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
   border-radius: 0.375rem;
@@ -17,17 +18,19 @@
   /* Custom override to move attribution statically below the image */
   .img-attribution {
     position: static;
-    margin-top: 0.75rem;
+    margin-top: 1rem;
     align-items: flex-end;
   }
 
   /* Media elements (SVG or Img) */
-  svg, img {
+  svg,
+  img {
     margin: 0 auto !important;
     display: block;
     max-width: 100%;
     height: auto;
     box-shadow: none !important;
+    // box-shadow: 0 0 0 1px color-mix(in srgb, var(--default-color), transparent 92%) !important;
   }
 
   img {
@@ -36,9 +39,9 @@
 
   /* Figure Captions */
   figcaption {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     padding-top: 0.75rem;
-    border-top: 1px dashed color-mix(in srgb, var(--default-color), transparent 90%);
+    border-top: 1px dashed color-mix(in srgb, var(--default-color), transparent 80%);
     font-size: 0.825rem;
     line-height: 1.45;
     color: var(--text-muted);
@@ -48,7 +51,7 @@
     .figure-title {
       font-weight: 600;
       color: var(--heading-color);
-      
+
       &::before {
         content: "Figure: ";
         color: var(--accent-color);

@@ -9,16 +9,18 @@
   "internalChecksFilter": "strict",
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
+    "enabled": true,
     "commitMessagePrefix": "🚨 SECURITY FIX: "
   },
   "packageRules": [
     {
-      "matchUpdateTypes": ["major"],
-      "dependencyDashboardApproval": false
-    },
-    {
-      "matchPackageNames": ["katex", "rehype-katex"],
-      "groupName": "KaTeX and Rehype-KaTeX"
+      "matchPackagePatterns": ["*"],
+      "enabled": false
     }
-  ]
+  ],
+  "lockfileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 5am"],
+    "commitMessageAction": "Update and optimize lockfile graph"
+  }
 }

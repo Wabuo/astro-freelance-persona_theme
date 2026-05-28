@@ -186,6 +186,7 @@ if (bodyFontName === "roboto") {
   <style
     is:inline
     id="theme-config"
+    data-astro-transition-persist="theme-config"
     set:html={`
     html:root {
       --global-margin-left: ${globalMarginLeft}; 
@@ -314,6 +315,7 @@ if (bodyFontName === "roboto") {
       <style
         is:inline
         id="theme-dynamic-styles"
+        data-astro-transition-persist="theme-dynamic-styles"
         set:html={`
         @media (prefers-color-scheme: dark) {
           html:root:not(:has(.theme-state-light:checked)) {

@@ -66,6 +66,12 @@ SPDX-License-Identifier: MIT
   - **Reason:** Astro aliases (like `@/assets`) fail in monorepo workspaces if the consuming project (playground) doesn't have the explicit mapping to its own `src`.
   - **Prefer Path Aliases:** Use path aliases (`@/assets/img/avatar.jpg`) instead of relative paths (`../../assets/img/avatar.jpg`) for better code maintainability and to avoid issues with nested directory structures, relative paths are considered bad practice!
 
+### 5. 🚫 Directory Execution Restrictions (Monorepo Guard)
+
+- **Rule:** **NEVER** run `bun install`, `bun run build`, `bun run dev`, or `bun run preview` directly inside the `theme/` or `theme/starter/` subdirectories.
+- **Reason:** Running execution or installation commands inside these packages generates local `node_modules`, `.astro`, or `dist` folders. This pollutes the clean starter template, gets copied to the playground during setup, and leads to non-canonical builds, workspace resolution issues, and weird phantom behaviors.
+- **Workflow:** All validation, execution, and local dev server runs **MUST** be performed from the workspace root or inside the `playground/` directory (after setting it up via `bun run playground:setup`).
+
 ---
 
 ## 🧠 DESIGN PATTERNS

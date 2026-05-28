@@ -705,6 +705,13 @@ if (bodyFontName === "roboto") {
 
       // Safety timeout
       setTimeout(removePreloader, 500);
+
+      // CRITICAL FIX: View Transitions inject the raw HTML of the new page, which includes the <div id="preloader">.
+      // We must remove it from the new document *before* the swap happens, otherwise it will flash on every client-side navigation!
+      document.addEventListener("astro:before-swap", (e) => {
+        const newPreloader = e.newDocument.getElementById("preloader");
+        if (newPreloader) newPreloader.remove();
+      });
     </script>
 
     {

@@ -14,8 +14,12 @@
   },
   "packageRules": [
     {
-      "matchPackagePatterns": ["*"],
-      "enabled": false
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": false
+    },
+    {
+      "matchPackageNames": ["katex", "rehype-katex"],
+      "groupName": "KaTeX and Rehype-KaTeX"
     }
   ],
   "lockfileMaintenance": {

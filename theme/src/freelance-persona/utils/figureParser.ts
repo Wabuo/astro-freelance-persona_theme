@@ -263,7 +263,7 @@ export function buildAttributionOverlay(data: FigureParams) {
   return {
     type: 'element',
     tagName: 'div',
-    properties: { class: 'img-attribution img-attribution--light' },
+    properties: { class: 'img-attribution' },
     children
   };
 }

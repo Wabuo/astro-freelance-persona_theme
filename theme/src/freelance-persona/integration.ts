@@ -12,8 +12,13 @@ import remarkExtractImageParams from './plugins/remarkExtractImageParams';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
+import { createRequire } from 'module';
 
 export default function freelancePersona(): AstroIntegration {
+  const require = createRequire(import.meta.url);
+  const katexDir = path.dirname(require.resolve('katex/package.json'));
+  const mhchemPath = require.resolve('katex/contrib/mhchem');
+
   return {
     name: 'astro-freelance-persona',
     hooks: {
@@ -90,15 +95,21 @@ export default function freelancePersona(): AstroIntegration {
               }
             },
             resolve: {
-              // Force Vite to resolve katex from the project root, not from
-              // rehype-katex's own node_modules. Without this, package managers
-              // may install katex@0.16.x (rehype-katex's range) alongside our
-              // katex@0.17.x, creating two independent singletons. The mhchem
-              // side-effect import in rehypeKatexWrapper registers \ce on one
-              // singleton while rehype-katex renders on the other → broken.
-              // dedupe ensures a single shared katex instance for all importers.
-              dedupe: ['katex'],
+              // Force Vite to resolve exact katex imports to our monorepo's version.
+              // This is safer than `dedupe: ['katex']` because dedupe intercepts ALL
+              // imports starting with 'katex/' (including CSS) and passes them to
+              // Rollup's node-resolve, which crashes on '?url' suffixes in CI.
+              // By using exact-match aliases, we only force the singletons to match,
+              // and let Vite handle the CSS imports normally.
               alias: [
+                {
+                  find: /^katex$/,
+                  replacement: katexDir
+                },
+                {
+                  find: /^katex\/contrib\/mhchem$/,
+                  replacement: mhchemPath
+                },
                 {
                   find: '@freelance-persona/config',
                   replacement: generatedConfigPath

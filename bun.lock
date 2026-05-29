@@ -17,7 +17,7 @@
     },
     "theme": {
       "name": "astro-freelance-persona_theme",
-      "version": "0.1.0-alpha.1",
+      "version": "0.1.0-alpha.2",
       "dependencies": {
         "@fontsource/poppins": "^5.2.7",
         "@fontsource/raleway": "^5.2.8",

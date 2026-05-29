@@ -13,7 +13,6 @@ import remarkExtractImageParams from './plugins/remarkExtractImageParams';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
-import { createRequire } from 'module';
 
 export default function freelancePersona(): AstroIntegration {
   return {
@@ -86,6 +85,11 @@ export default function freelancePersona(): AstroIntegration {
             })
           ],
           vite: {
+            server: {
+              fs: {
+                allow: ['/']
+              }
+            },
             resolve: {
               alias: [
                 {

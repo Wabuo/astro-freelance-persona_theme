@@ -222,7 +222,7 @@ Run the following command from the repository root:
 git config core.hooksPath .githooks
 ```
 
-### Jujutsu (jj) Hooks Installation
+### Jujutsu (jj) Hooks Installation (outdated !FixMe!)
 Add the following alias to your global `~/.config/jj/config.toml` configuration:
 ```toml
 [aliases]

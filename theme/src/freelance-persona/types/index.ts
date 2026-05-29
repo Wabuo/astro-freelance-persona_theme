@@ -158,4 +158,9 @@ export interface PersonaConfig {
     disclaimer?: string; // Optional markdown for legal disclaimer
     legal_note?: string; // Optional unintrusive note
   };
+
+  // MathJax Configuration
+  mathjax?: {
+    packages?: string[];
+  };
 }

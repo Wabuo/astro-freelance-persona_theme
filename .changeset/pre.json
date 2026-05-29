@@ -6,6 +6,7 @@
     "astro-freelance-persona_theme": "0.0.1"
   },
   "changesets": [
+    "fix-katex-mismatch",
     "nine-sides-beg",
     "perf-image-preload-preloader",
     "perf-optimization-font-preload"

@@ -1,5 +1,11 @@
 # astro-freelance-persona_theme
 
+## 0.1.0-alpha.2
+
+### Patch Changes
+
+- fix(deps): resolve KaTeX version mismatch dynamically via Rehype wrapper
+
 ## 0.1.0-alpha.1
 
 ### Patch Changes

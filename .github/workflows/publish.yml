@@ -80,9 +80,9 @@ jobs:
           TAG=$(node -p "const v = require('./package.json').version; v.includes('-') ? v.split('-')[1].split('.')[0] : ''")
           if [ -n "$TAG" ]; then
             echo "📦 Publishing pre-release version with tag: $TAG"
-            npm stage publish --provenance --access public --tag "$TAG"
+            npm publish --provenance --access public --tag "$TAG"
           else
             echo "📦 Publishing stable version to latest"
-            npm stage publish --provenance --access public
+            npm publish --provenance --access public
           fi
         working-directory: theme

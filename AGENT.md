@@ -139,6 +139,19 @@ bun run playground:setup && bun run dev
 **Cause:** The version in `theme/package.json` was bumped (e.g. by `changeset version`), but `theme/starter/package.json` was not updated because it is not a workspace package. When `playground` copies `starter`'s package.json, the root `bun install` attempts to resolve the old version from npm registry because the local version no longer satisfies the range in `starter/package.json`.
 **Fix:** Manually update `"astro-freelance-persona_theme"` in `theme/starter/package.json` to match the new version in `theme/package.json` (e.g. `^0.1.0-alpha.0`).
 
+### 🌐 Standalone Template `@freelance-persona/*` Resolution / Symlink Mismatch
+
+**Symptom:** Build fails with Vite/Rollup unresolved imports on `@freelance-persona/*` (in standalone user projects) or fails with `No cached compile metadata found` style errors (in monorepo playground builds).
+**Cause:** The starter template's `tsconfig.json` paths must resolve `@freelance-persona/*` differently depending on the context: via relative paths in the monorepo workspace (to avoid symlink/real-path mismatches in Vite), and via `node_modules` inside a standalone user project.
+**Fix:** Define the paths in `theme/starter/tsconfig.json` to check relative paths first, followed by the `node_modules` package fallback:
+```json
+            "@freelance-persona/*": [
+                "../src/freelance-persona/*",
+                "../theme/src/freelance-persona/*",
+                "node_modules/astro-freelance-persona_theme/src/freelance-persona/*"
+            ]
+```
+
 ### 🧩 Content Collections in Monorepos
 
 **Symptom:** Theme schema updates are ignored by `playground` or `starter`.

@@ -90,6 +90,14 @@ export default function freelancePersona(): AstroIntegration {
               }
             },
             resolve: {
+              // Force Vite to resolve katex from the project root, not from
+              // rehype-katex's own node_modules. Without this, package managers
+              // may install katex@0.16.x (rehype-katex's range) alongside our
+              // katex@0.17.x, creating two independent singletons. The mhchem
+              // side-effect import in rehypeKatexWrapper registers \ce on one
+              // singleton while rehype-katex renders on the other → broken.
+              // dedupe ensures a single shared katex instance for all importers.
+              dedupe: ['katex'],
               alias: [
                 {
                   find: '@freelance-persona/config',

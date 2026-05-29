@@ -22,7 +22,7 @@
       "groupName": "KaTeX and Rehype-KaTeX"
     }
   ],
-  "lockfileMaintenance": {
+  "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["before 5am"],
     "commitMessageAction": "Update and optimize lockfile graph"

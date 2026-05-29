@@ -6,9 +6,8 @@
 import type { AstroIntegration } from 'astro';
 import astroExpressiveCode from 'astro-expressive-code';
 import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 import rehypeFigures from './plugins/rehypeFigures';
-import rehypeMhchem from './plugins/rehypeMhchem';
+import rehypeKatexWrapper from './plugins/rehypeKatexWrapper';
 import remarkExtractImageParams from './plugins/remarkExtractImageParams';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -47,7 +46,7 @@ export default function freelancePersona(): AstroIntegration {
         updateConfig({
           markdown: {
             remarkPlugins: [remarkExtractImageParams, remarkMath],
-            rehypePlugins: [rehypeMhchem, rehypeKatex, rehypeFigures],
+            rehypePlugins: [rehypeKatexWrapper, rehypeFigures],
           },
           integrations: [
             astroExpressiveCode({

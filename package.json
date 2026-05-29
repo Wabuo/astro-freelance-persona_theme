@@ -27,10 +27,6 @@
     "@iconify-json/academicons": "^1.2.4",
     "@iconify-json/bi": "^1.2.7",
     "astro-expressive-code": "^0.42.0",
-    "astro-icon": "^1.1.5",
-    "katex": "^0.17.0"
-  },
-  "overrides": {
-    "katex": "$katex"
+    "astro-icon": "^1.1.5"
   }
 }

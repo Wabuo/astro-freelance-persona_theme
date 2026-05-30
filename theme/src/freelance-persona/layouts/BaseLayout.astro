@@ -2,7 +2,6 @@
 // src/freelance-persona/layouts/BaseLayout.astro
 import Footer from "@freelance-persona/components/Footer.astro";
 import Navigation from "@freelance-persona/components/Navigation.astro";
-import KatexLoader from "@freelance-persona/components/KatexLoader.astro";
 import { themeConfig } from "@freelance-persona/config";
 
 // Font imports
@@ -684,9 +683,6 @@ if (bodyFontName === "roboto") {
     <Footer />
 
     <div id="preloader" data-astro-transition-persist="preloader"></div>
-
-    {/* KATE-X LOADER */}
-    {tex && <KatexLoader />}
 
     <script is:inline>
       function removePreloader() {

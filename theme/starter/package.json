@@ -16,6 +16,7 @@
     "astro": "^6.1.10",
     "astro-icon": "^1.1.5",
     "@astrojs/check": "^0.9.6",
+    "@astrojs/mdx": "^4.0.8",
     "@iconify-json/bi": "^1.2.7",
     "@iconify-json/academicons": "^1.2.4",
     "@fontsource/poppins": "^5.2.7",

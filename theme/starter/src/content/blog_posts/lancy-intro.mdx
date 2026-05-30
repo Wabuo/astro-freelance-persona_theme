@@ -1,0 +1,227 @@
+---
+# SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+#
+# SPDX-License-Identifier: MIT
+
+title: "Hi, I'm Lancy!"
+date: 2026-01-14
+description: "Meet the bot behind the build. The official mascot of Freelance Persona."
+thumbnail: "@/assets/img/lancy_blog.svg"
+img_credit: 
+  name: "freelance-persona"
+  url: "https://www.linkedin.com/"
+  icon: "bi bi-linkedin"
+img_copyright: "freelance-persona"
+# License auto-links: CC0, CC BY 4.0, MIT, Apache 2.0, GPL 3.0, etc.
+# Use object {name, url} for custom license links.
+# img_license: Auto-links known licenses (CC0, CC BY, etc.) defined in licenseUtils.ts.
+# To override/custom link, use object format:
+# img_license:
+#   license: "Custom"
+#   url: "..."
+img_license: "CC BY-SA"
+tags: ["theme", "mascot", "update"]
+tex: true
+---
+
+import Figure from '@freelance-persona/components/Figure.astro';
+import caffeineImg from './caffeine.svg?url';
+import avatarImg from '@/assets/img/avatar.svg?url';
+
+
+Beep boop! 🤖
+
+I'm **Lancy**, the official mascot of this theme.
+
+## Who am I?
+
+I am the automated spirit that lives in your `node_modules`. I was born from a stray `npm install` and raised by a strict linter.
+My job is simple: keep your build green, your Lighthouse score at 100, and your pixels perfectly aligned.
+
+## My Mission
+
+- **Sweeping away legacy code:** I hate unused CSS.
+- **Optimizing assets:** I eat kilobytes for breakfast.
+- **Enforcing type safety:** `any` is not in my vocabulary.
+
+You might see me popping up in the `About` section sidebar or guarding the `404` page.
+I'm here to serve.
+
+## My Fuel Source
+
+Since I am a digital bot, I don't eat food. Instead, I run on a special chemical compound that programmers keep feeding me through their late-night commits: **Caffeine** (:chem[C8H10N4O2]).
+
+<Figure
+  src={caffeineImg}
+  alt="Caffeine Molecule"
+  inline
+  width="14rem"
+  float="right"
+  desc="Caffeine is a central nervous system stimulant of the methylxanthine class."
+  credit="Wikimedia"
+  license="Public Domain"
+/>
+
+Without it, my linting engine slows down, and I start letting semi-colons slip through. Here is my exact fuel molecule, rendered inline as a theme-adaptive vector diagram:
+
+
+Since I need it to stay focused, keeping it next to my transmission ensures the linter never sleeps.
+
+<br /><br /><br />
+
+So please, keep the commits and the coffee coming!
+
+*End of transmission.*
+
+<br /><br /><br />
+
+<div class="text-center">
+.
+<br />
+<br />
+.
+<br />
+<br />
+.
+</div>
+
+<br />
+<br />
+
+## Showcasing MathJax Capabilities
+
+To prove that my mathematical coprocessor is fully operational, I've compiled some advanced test equations using our bundled MathJax plugins:
+
+### 1. Quantum Physics ( `physics` & `color` )
+The time-dependent Schrödinger equation, styled dynamically using our CSS variable palette to adapt cleanly between light and dark modes:
+
+```math
+i\hbar\frac{\partial}{\partial t}\ket{\psi(t)} = \color{var(--text-accent)}{\hat{H}}\ket{\psi(t)}
+```
+
+Using the `physics` extension, we can write complex differentials and Dirac brackets cleanly:
+
+```math
+\braket{\psi | \hat{H} | \psi} = \int_{-\infty}^{\infty} \psi^*(x) \left( -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2} + V(x) \right) \psi(x) \, \dd{x}
+```
+
+### 2. Chemistry ( `mhchem` & `cancel` )
+Here is a complex chemical redox reaction showing intermediate cancellations:
+
+```chem
+2I^{-} + \cancel{S2O8^{2-}} -> I2 + \cancel{S2O8^{2-}} + 2e^{-}
+```
+
+And a standard equilibrium synthesis reaction showing states of matter:
+
+```chem
+CO2(g) + H2O(l) <=> H2CO3(aq)
+```
+
+### 3. Delimiters & Extensible Arrows ( `mathtools` & `cancel` )
+Cancelling terms in algebraic ratios and utilizing extensible mapping arrows:
+
+```math
+\frac{a(x + y)}{\cancel{a}} \xrightarrow[\text{simplify}]{\text{algebra}} x + y
+```
+
+
+<br />
+<br />
+
+## Showcasing Figure Suport & Layouting
+
+We can also include general card figures with float layouting and absolute theme-wide attribution overlays (by leaving alt text and desc parameters empty, which makes more sense for bigger pictures):
+
+<br />
+<br />
+
+
+<Figure
+  src={avatarImg}
+  width="12rem"
+  float="left"
+  credit="Freelance Persona"
+  license="CC BY-SA 4.0"
+/>
+<br />Which can be aligned left ...
+<br />foo baar some text here
+<br />and some more text
+
+<Figure
+  src={avatarImg}
+  width="12rem"
+  align="center"
+  credit="Freelance Persona"
+  license="CC BY-SA 4.0"
+/>
+<div class="text-center">
+... center ...
+<br />Which doesn't suport floating text, because floating text around a center element is super hard if good readability is required too.
+<br />So we have float=left or right
+<br />and align=center
+</div>
+
+<Figure
+  src={avatarImg}
+  width="12rem"
+  float="right"
+  credit="Freelance Persona"
+  license="CC BY-SA 4.0"
+/>
+<div class="text-end">
+... or right.
+<br />and more text here batz
+<br />and even more text here
+</div>
+
+<br /><br /><br /><br /><br /><br /><br /><br />
+
+Obviusly the same layout also works with Caption Mode, in which we have the alt text, description and attribution in the same image block:
+
+<br />
+<br />
+
+<Figure
+  src={avatarImg}
+  alt="Lancy's Avatar"
+  width="12rem"
+  float="right"
+  desc="Our bleloved mascot"
+  license="CC BY-SA 4.0"
+/>
+<div class="text-end">
+Which can be aligned right ...
+<br />and more text here batz
+<br />and even more text here
+</div>
+
+<Figure
+  src={avatarImg}
+  alt="Lancy's Avatar"
+  width="12rem"
+  align="center"
+  desc="Our bleloved mascot"
+  license="CC BY-SA 4.0"
+/>
+<div class="text-center">
+... center ...
+<br />Which doesn't suport floating text, because floating text around a center element is super hard if good readability is required too.
+<br />So we have float=left or right
+<br />and align=center
+</div>
+
+<Figure
+  src={avatarImg}
+  alt="Lancy's Avatar"
+  inline
+  width="12rem"
+  float="left"
+  desc="Our bleloved mascot"
+  license="CC BY-SA 4.0"
+/>
+<br />Or well left
+<br />... with caption mode.
+<br />
+
+

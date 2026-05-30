@@ -104,7 +104,10 @@ export function getBlogPostContent(slug: string): BlogPostContent {
         return null;
     }
 
-    const filePath = findFile(blogDir, `${slug}.md`);
+    let filePath = findFile(blogDir, `${slug}.mdx`);
+    if (!filePath) {
+        filePath = findFile(blogDir, `${slug}.md`);
+    }
     if (!filePath) {
         throw new Error(`Blog post not found: ${slug}`);
     }

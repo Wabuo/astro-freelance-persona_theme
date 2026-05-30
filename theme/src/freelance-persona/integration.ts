@@ -5,20 +5,19 @@
 // src/freelance-persona/integration.ts
 import type { AstroIntegration } from 'astro';
 import astroExpressiveCode from 'astro-expressive-code';
+import mdx from '@astrojs/mdx';
+import remarkDirective from 'remark-directive';
 import remarkMath from 'remark-math';
+import remarkMagicMath from './plugins/remarkMagicMath';
 import rehypeFigures from './plugins/rehypeFigures';
-import rehypeKatexWrapper from './plugins/rehypeKatexWrapper';
 import remarkExtractImageParams from './plugins/remarkExtractImageParams';
-import { fileURLToPath } from 'url';
+import rehypeMathjaxChtml from 'rehype-mathjax/chtml';
+import { fileURLToPath, pathToFileURL } from 'url';
 import path from 'path';
 import fs from 'fs';
-import { createRequire } from 'module';
+import { unified } from '@astrojs/markdown-remark';
 
 export default function freelancePersona(): AstroIntegration {
-  const require = createRequire(import.meta.url);
-  const katexDir = path.dirname(require.resolve('katex/package.json'));
-  const mhchemPath = require.resolve('katex/contrib/mhchem');
-
   return {
     name: 'astro-freelance-persona',
     hooks: {
@@ -48,10 +47,53 @@ export default function freelancePersona(): AstroIntegration {
           console.error(`[FreelancePersona] Failed to write generated config:`, e);
         }
 
+        // Load the parsed configuration object using a synchronous regex parser
+        // to avoid "Vite module runner has been closed" errors in production builds.
+        let userMathPackages = ['mhchem', 'physics', 'color', 'cancel', 'mathtools'];
+        try {
+          if (fs.existsSync(configPath)) {
+            const configText = fs.readFileSync(configPath, 'utf-8');
+            const packagesMatch = configText.match(/packages\s*:\s*\[([^\]]*)\]/);
+            if (packagesMatch) {
+              const packagesListStr = packagesMatch[1];
+              const pkgRegex = /['"`]([^'"`]+)['"`]/g;
+              const extracted: string[] = [];
+              let match;
+              while ((match = pkgRegex.exec(packagesListStr)) !== null) {
+                extracted.push(match[1]);
+              }
+              if (extracted.length > 0) {
+                userMathPackages = extracted;
+              }
+            }
+          }
+        } catch (e) {
+          console.warn(`[FreelancePersona] Failed to parse packages config from ${configPath}. Using defaults.`, e);
+        }
+        const remarkPluginsList = [
+          remarkExtractImageParams,
+          remarkDirective,
+          remarkMath,
+          remarkMagicMath
+        ];
+
+        const rehypePluginsList = [
+          // Single-Pass: Process all formulas (Inline & Block) into CHTML
+          [rehypeMathjaxChtml, {
+            chtml: {
+              fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+            },
+            tex: {
+              packages: ['base', 'ams', 'nocomplain', ...userMathPackages]
+            }
+          }],
+          rehypeFigures
+        ];
+
         updateConfig({
           markdown: {
-            remarkPlugins: [remarkExtractImageParams, remarkMath],
-            rehypePlugins: [rehypeKatexWrapper, rehypeFigures],
+            remarkPlugins: remarkPluginsList,
+            rehypePlugins: rehypePluginsList
           },
           integrations: [
             astroExpressiveCode({
@@ -86,7 +128,8 @@ export default function freelancePersona(): AstroIntegration {
                 uiFontFamily: 'var(--default-font)',
                 codeFontFamily: 'var(--monospace-font)',
               }
-            })
+            }),
+            mdx()
           ],
           vite: {
             server: {
@@ -95,21 +138,7 @@ export default function freelancePersona(): AstroIntegration {
               }
             },
             resolve: {
-              // Force Vite to resolve exact katex imports to our monorepo's version.
-              // This is safer than `dedupe: ['katex']` because dedupe intercepts ALL
-              // imports starting with 'katex/' (including CSS) and passes them to
-              // Rollup's node-resolve, which crashes on '?url' suffixes in CI.
-              // By using exact-match aliases, we only force the singletons to match,
-              // and let Vite handle the CSS imports normally.
               alias: [
-                {
-                  find: /^katex$/,
-                  replacement: katexDir
-                },
-                {
-                  find: /^katex\/contrib\/mhchem$/,
-                  replacement: mhchemPath
-                },
                 {
                   find: '@freelance-persona/config',
                   replacement: generatedConfigPath
@@ -137,7 +166,6 @@ export default function freelancePersona(): AstroIntegration {
           },
         });
       },
-
     },
   };
 }

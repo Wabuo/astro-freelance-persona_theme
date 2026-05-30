@@ -15,7 +15,6 @@ import rehypeMathjaxChtml from 'rehype-mathjax/chtml';
 import { fileURLToPath, pathToFileURL } from 'url';
 import path from 'path';
 import fs from 'fs';
-import { unified } from '@astrojs/markdown-remark';
 
 export default function freelancePersona(): AstroIntegration {
   return {

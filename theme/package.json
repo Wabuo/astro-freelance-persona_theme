@@ -38,14 +38,14 @@
     "astro-theme"
   ],
   "peerDependencies": {
-    "astro": "^6.1.10"
+    "astro": "^6.0.0"
   },
   "engines": {
     "node": ">=22.14.0",
     "bun": ">=1.1.0"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.0.8",
+    "@astrojs/mdx": "^4.3.14",
     "@fontsource/poppins": "^5.2.7",
     "@fontsource/raleway": "^5.2.8",
     "@fontsource/roboto": "^5.2.9",
@@ -57,6 +57,7 @@
     "marked": "^18.0.0",
     "rehype-mathjax": "^6.0.0",
     "remark-directive": "^3.0.0",
+    "remark-math": "^6.0.0",
     "sass-embedded": "^1.97.0",
     "sharp": "^0.34.5",
     "unist-util-visit": "^5.0.0"

@@ -10,10 +10,6 @@ declare module '@freelance-persona/config' {
   export default themeConfig;
 }
 
-declare module 'katex/dist/contrib/auto-render' {
-  export default function renderMathInElement(element: HTMLElement, options?: any): void;
-}
-
 declare module 'astro:content' {
   export interface CollectionEntryMock {
     id: string;

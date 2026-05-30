@@ -7,15 +7,15 @@ import type { AstroIntegration } from 'astro';
 import astroExpressiveCode from 'astro-expressive-code';
 import mdx from '@astrojs/mdx';
 import remarkDirective from 'remark-directive';
+import remarkMath from 'remark-math';
 import remarkMagicMath from './plugins/remarkMagicMath';
-import rehypeRevealMath from './plugins/rehypeRevealMath';
 import rehypeFigures from './plugins/rehypeFigures';
 import remarkExtractImageParams from './plugins/remarkExtractImageParams';
-import rehypeMathjaxChtml from 'rehype-mathjax/chtml.js';
-import rehypeMathjaxSvg from 'rehype-mathjax/svg.js';
+import rehypeMathjaxChtml from 'rehype-mathjax/chtml';
 import { fileURLToPath, pathToFileURL } from 'url';
 import path from 'path';
 import fs from 'fs';
+import { unified } from '@astrojs/markdown-remark';
 
 export default function freelancePersona(): AstroIntegration {
   return {
@@ -47,50 +47,55 @@ export default function freelancePersona(): AstroIntegration {
           console.error(`[FreelancePersona] Failed to write generated config:`, e);
         }
 
-        // Load the parsed configuration object to extract custom mathjax settings
+        // Load the parsed configuration object using a synchronous regex parser
+        // to avoid "Vite module runner has been closed" errors in production builds.
         let userMathPackages = ['mhchem', 'physics', 'color', 'cancel', 'mathtools'];
         try {
           if (fs.existsSync(configPath)) {
-            const userConfigModule = await import(pathToFileURL(configPath).href);
-            const userConfig = userConfigModule.default || userConfigModule.themeConfig || {};
-            if (userConfig.mathjax?.packages && Array.isArray(userConfig.mathjax.packages)) {
-              userMathPackages = userConfig.mathjax.packages;
+            const configText = fs.readFileSync(configPath, 'utf-8');
+            const packagesMatch = configText.match(/packages\s*:\s*\[([^\]]*)\]/);
+            if (packagesMatch) {
+              const packagesListStr = packagesMatch[1];
+              const pkgRegex = /['"`]([^'"`]+)['"`]/g;
+              const extracted: string[] = [];
+              let match;
+              while ((match = pkgRegex.exec(packagesListStr)) !== null) {
+                extracted.push(match[1]);
+              }
+              if (extracted.length > 0) {
+                userMathPackages = extracted;
+              }
             }
           }
         } catch (e) {
-          console.warn(`[FreelancePersona] Failed to import packages config from ${configPath}. Using defaults.`, e);
+          console.warn(`[FreelancePersona] Failed to parse packages config from ${configPath}. Using defaults.`, e);
         }
+        const remarkPluginsList = [
+          remarkExtractImageParams,
+          remarkDirective,
+          remarkMath,
+          remarkMagicMath
+        ];
+
+        const rehypePluginsList = [
+          // Single-Pass: Process all formulas (Inline & Block) into CHTML
+          [rehypeMathjaxChtml, {
+            chtml: {
+              fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+            },
+            tex: {
+              packages: ['base', 'ams', 'nocomplain', ...userMathPackages]
+            }
+          }],
+          rehypeFigures
+        ];
 
         updateConfig({
           markdown: {
-            remarkPlugins: [
-              remarkExtractImageParams,
-              remarkDirective,
-              remarkMagicMath
-            ],
-            rehypePlugins: [
-              // Pass 1: Inline formulas (HTML/CHTML)
-              [rehypeMathjaxChtml, {
-                chtml: {
-                  fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
-                },
-                tex: {
-                  packages: { '[+]': userMathPackages }
-                }
-              }],
-              // Pass 2: Unhide block math
-              rehypeRevealMath,
-              // Pass 3: Block formulas (SVG)
-              [rehypeMathjaxSvg, {
-                tex: {
-                  packages: { '[+]': userMathPackages }
-                }
-              }],
-              rehypeFigures
-            ],
+            remarkPlugins: remarkPluginsList,
+            rehypePlugins: rehypePluginsList
           },
           integrations: [
-            mdx(),
             astroExpressiveCode({
               themes: ['github-light', 'github-dark'],
               // CSS-native theme switching strategy:
@@ -123,10 +128,10 @@ export default function freelancePersona(): AstroIntegration {
                 uiFontFamily: 'var(--default-font)',
                 codeFontFamily: 'var(--monospace-font)',
               }
-            })
+            }),
+            mdx()
           ],
           vite: {
-            plugins: [],
             server: {
               fs: {
                 allow: ['/']
@@ -161,7 +166,6 @@ export default function freelancePersona(): AstroIntegration {
           },
         });
       },
-
     },
   };
 }

@@ -13,7 +13,7 @@ export default function remarkMagicMath() {
           const content = node.children[0]?.value || '';
           const mathContent = node.name === 'chem' ? `\\ce{${content}}` : content;
           
-          // Convert to a hast node (HTML span) so rehype can process it
+          // Convert to a hast node (HTML span) so rehype-mathjax can process it
           node.data = node.data || {};
           node.data.hName = 'span';
           node.data.hProperties = { className: ['math', 'math-inline'] };
@@ -24,11 +24,17 @@ export default function remarkMagicMath() {
       // Task B: Block code nodes
       if (node.type === 'code') {
         if (node.lang === 'math' || node.lang === 'chem') {
-          if (node.lang === 'chem') {
-            node.value = `\\ce{\n${node.value}\n}`;
-          }
-          // Temporarily hide from first rehype pass
-          node.lang = 'math-hidden';
+          const content = node.value;
+          const mathContent = node.lang === 'chem' ? `\\ce{${content}}` : content;
+          
+          // Convert to a hast node (HTML div) so rehype-mathjax can process it
+          node.type = 'paragraph';
+          node.data = node.data || {};
+          node.data.hName = 'div';
+          node.data.hProperties = { className: ['math', 'math-display'] };
+          node.children = [{ type: 'text', value: mathContent }];
+          delete node.value;
+          delete node.lang;
         }
       }
     });

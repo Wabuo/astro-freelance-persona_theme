@@ -20,7 +20,11 @@ SPDX-License-Identifier: MIT
   - **Setup / Reset Playground:** `bun run playground:setup`
   - **Dev Server:** `bun run dev`
   - **Build & Preview:** `bun run build; fuser -k 4321/tcp; bun run preview`
-  - **Full Test:** `bun run test --reporter=list`
+  - **astro check** `bun run check`
+  - **Full Test, use sparcely:** `bun run test --reporter=list`
+
+### cd ing into the playground should bever be required during normal workflows, we have aliases to work from the root!
+- edit something in starter ... reset the playground ... run waht ever u wanted to use
 
 ### 2. ⚡ Server Management (Automated)
 

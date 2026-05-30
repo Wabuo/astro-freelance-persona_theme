@@ -202,6 +202,13 @@ export const themeConfig: PersonaConfig = {
     access_key: "your-access-key-here",
   },
 
+  // MathJax Options
+  mathjax: {
+    // These defaults support advanced calculus, quantum mechanics, CSS-variable coloring, 
+    // reaction cancellations, and extensible arrows/delimiters.
+    packages: ['mhchem', 'physics', 'color', 'cancel', 'mathtools'],
+  },
+
   // ===================================================================================
   // 6. FOOTER & LEGAL
   // ===================================================================================
@@ -231,7 +238,7 @@ export const themeConfig: PersonaConfig = {
     "Theme: [Freelance Persona](https://github.com/freelance-persona/astro-freelance-persona_theme)",
     "Contact form via [Formspark](https://formspark.io)",
     "With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)",
-    "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), [Fontsource](https://fontsource.org/), [Academicons](https://jpswalsh.github.io/academicons/), [Katex](https://katex.org/) & [Marked](https://github.com/markedjs/marked)",
+    "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), [Fontsource](https://fontsource.org/), [Academicons](https://jpswalsh.github.io/academicons/), [MathJax](https://www.mathjax.org/) & [Marked](https://github.com/markedjs/marked)",
   ],
 };
 

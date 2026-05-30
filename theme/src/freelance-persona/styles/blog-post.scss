@@ -693,3 +693,7 @@
   color: var(--contrast-color);
   background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
 }
+.text-center p, .text-end p, .text-start p {
+  text-align: inherit !important;
+}
+

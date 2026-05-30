@@ -88,6 +88,49 @@ So please, keep the commits and the coffee coming!
 <br />
 <br />
 
+## Showcasing MathJax Capabilities
+
+To prove that my mathematical coprocessor is fully operational, I've compiled some advanced test equations using our bundled MathJax plugins:
+
+### 1. Quantum Physics ( `physics` & `color` )
+The time-dependent Schrödinger equation, styled dynamically using our CSS variable palette to adapt cleanly between light and dark modes:
+
+```math
+i\hbar\frac{\partial}{\partial t}\ket{\psi(t)} = \color{var(--text-accent)}{\hat{H}}\ket{\psi(t)}
+```
+
+Using the `physics` extension, we can write complex differentials and Dirac brackets cleanly:
+
+```math
+\braket{\psi | \hat{H} | \psi} = \int_{-\infty}^{\infty} \psi^*(x) \left( -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2} + V(x) \right) \psi(x) \, \dd{x}
+```
+
+### 2. Chemistry ( `mhchem` & `cancel` )
+Here is a complex chemical redox reaction showing intermediate cancellations:
+
+```chem
+2I^{-} + \cancel{S2O8^{2-}} -> I2 + \cancel{S2O8^{2-}} + 2e^{-}
+```
+
+And a standard equilibrium synthesis reaction showing states of matter:
+
+```chem
+CO2(g) + H2O(l) <=> H2CO3(aq)
+```
+
+### 3. Delimiters & Extensible Arrows ( `mathtools` & `cancel` )
+Cancelling terms in algebraic ratios and utilizing extensible mapping arrows:
+
+```math
+\frac{a(x + y)}{\cancel{a}} \xrightarrow[\text{simplify}]{\text{algebra}} x + y
+```
+
+
+<br />
+<br />
+
+## Showcasing Figure Suport & Layouting
+
 We can also include general card figures with float layouting and absolute theme-wide attribution overlays (by leaving alt text and desc parameters empty, which makes more sense for bigger pictures):
 
 <br />
@@ -132,7 +175,7 @@ We can also include general card figures with float layouting and absolute theme
 <br />and even more text here
 </div>
 
-<br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br />
 
 Obviusly the same layout also works with Caption Mode, in which we have the alt text, description and attribution in the same image block:
 

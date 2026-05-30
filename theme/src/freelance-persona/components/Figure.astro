@@ -1,0 +1,139 @@
+---
+// theme/src/freelance-persona/components/Figure.astro
+import { Image } from 'astro:assets';
+import { figureQuerySchema, generateFigureStyle } from '../utils/figureParser';
+import { getLicenseLink } from '../utils/licenseUtils';
+
+interface Props {
+  src: any;
+  alt?: string;
+  inline?: boolean;
+  width?: string;
+  float?: 'left' | 'right';
+  align?: 'left' | 'center' | 'right';
+  desc?: string;
+  credit?: string;
+  creditUrl?: string;
+  license?: string;
+  copyright?: string;
+}
+
+const {
+  src,
+  alt = '',
+  inline,
+  width,
+  float,
+  align,
+  desc,
+  credit,
+  creditUrl,
+  license,
+  copyright,
+} = Astro.props;
+
+// Validate parameters with Zod schema
+const paramsObj = figureQuerySchema.parse({
+  inline,
+  width,
+  float,
+  align,
+  desc,
+  credit,
+  creditUrl,
+  license,
+  copyright,
+  altText: alt || undefined,
+});
+
+const figureStyle = generateFigureStyle(paramsObj);
+const isCaptionActive = !!paramsObj.altText || !!paramsObj.desc;
+const hasAttribution = !!paramsObj.credit || !!paramsObj.license || !!paramsObj.copyright;
+
+// Resolve license link info
+const licenseInfo = paramsObj.license ? getLicenseLink(paramsObj.license) : null;
+
+// Determine image source type
+const isImageMetadata = typeof src === 'object' && src !== null;
+---
+
+<figure class="post-figure" style={figureStyle}>
+  {isImageMetadata ? (
+    <Image src={src} alt={alt || paramsObj.altText || ''} class="figure-img" style="width: 100%; height: auto; display: block;" />
+  ) : (
+    <img src={src} alt={alt || paramsObj.altText || ''} class="figure-img" style="width: 100%; height: auto; display: block;" />
+  )}
+
+  {isCaptionActive && (
+    <figcaption>
+      {paramsObj.altText && <strong class="figure-title">{paramsObj.altText}</strong>}
+      {paramsObj.altText && paramsObj.desc && '. '}
+      {paramsObj.desc && <span class="figure-desc">{paramsObj.desc}</span>}
+      {hasAttribution && (
+        <>
+          {' '}
+          <span class="figure-attribution">
+            (
+            {paramsObj.credit && (
+              <>
+                Credit:{' '}
+                {paramsObj.creditUrl ? (
+                  <a href={paramsObj.creditUrl} target="_blank" rel="noopener noreferrer">{paramsObj.credit}</a>
+                ) : (
+                  paramsObj.credit
+                )}
+              </>
+            )}
+            {paramsObj.credit && (paramsObj.copyright || licenseInfo) && ', '}
+            {paramsObj.copyright && <>© {paramsObj.copyright}</>}
+            {paramsObj.copyright && licenseInfo && ', '}
+            {licenseInfo && (
+              <>
+                License:{' '}
+                {licenseInfo.url ? (
+                  <a href={licenseInfo.url} target="_blank" rel="noopener noreferrer">{licenseInfo.license}</a>
+                ) : (
+                  licenseInfo.license
+                )}
+              </>
+            )}
+            )
+          </span>
+        </>
+      )}
+    </figcaption>
+  )}
+
+  {!isCaptionActive && hasAttribution && (
+    <div class="img-attribution">
+      {paramsObj.credit && (
+        <span class="credit-line">
+          <svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" style="display: inline-block; vertical-align: -0.125em; margin-right: 0.25rem;">
+            <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+            <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z" />
+          </svg>
+          : {paramsObj.creditUrl ? (
+            <a href={paramsObj.creditUrl} target="_blank" rel="noopener noreferrer">{paramsObj.credit}</a>
+          ) : (
+            paramsObj.credit
+          )}
+        </span>
+      )}
+      {(paramsObj.copyright || licenseInfo) && (
+        <span class="license-line">
+          {paramsObj.copyright && <>{paramsObj.copyright}</>}
+          {paramsObj.copyright && licenseInfo && ', '}
+          {licenseInfo && (
+            <>
+              {licenseInfo.url ? (
+                <a href={licenseInfo.url} target="_blank" rel="noopener noreferrer">{licenseInfo.license}</a>
+              ) : (
+                licenseInfo.license
+              )}
+            </>
+          )}
+        </span>
+      )}
+    </div>
+  )}
+</figure>

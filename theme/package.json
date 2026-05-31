@@ -1,6 +1,6 @@
 {
   "name": "astro-freelance-persona_theme",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "description": "A modern, responsive and lightweight theme for freelancing, portfolio, and blog.",
   "type": "module",
   "license": "MIT",
@@ -19,6 +19,7 @@
     "./layouts/*": "./src/freelance-persona/layouts/*",
     "./pages/*": "./src/freelance-persona/pages/*",
     "./styles/*": "./src/freelance-persona/styles/*",
+    "./utils/*": "./src/freelance-persona/utils/*",
     "./config": "./src/freelance-persona.config.ts",
     "./content.config": "./src/freelance-persona/content.config.ts",
     "./types": "./src/freelance-persona/types/index.ts"

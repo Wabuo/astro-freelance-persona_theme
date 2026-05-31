@@ -11,7 +11,9 @@
 --------------------------------------------------------------*/
 .footer {
   color: var(--default-color);
-  background-color: color-mix(in srgb, var(--default-color), transparent 97%);
+  /* Solid equivalent of the original: color-mix(..., transparent 97%).
+     3% default-color + 97% background-color = same visual tint, no alpha. */
+  background-color: color-mix(in srgb, var(--default-color), var(--background-color) 97%);
   font-size: var(--normal-font-size);
   text-align: center;
   padding: var(--spacing-lg) 0;

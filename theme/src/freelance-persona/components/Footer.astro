@@ -5,6 +5,7 @@ import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import { resolveLink } from "@freelance-persona/utils/linkUtils";
 import { parse } from "marked"; // <--- The "real" parser
+import { replaceBuildTokens } from "@freelance-persona/utils/buildInfo";
 
 const { title, quote, social_links, copyright, credits } = themeConfig;
 
@@ -13,7 +14,7 @@ const creditsArray = Array.isArray(credits) ? [...credits] : [credits || ""];
 
 // Join lines with explicit break and parse
 const finalCreditsString = creditsArray.join(" <br> ");
-const creditsHtml = await parse(finalCreditsString);
+const creditsHtml = await parse(replaceBuildTokens(finalCreditsString));
 ---
 
 <footer id="footer" class="footer position-relative">

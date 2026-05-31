@@ -45,7 +45,7 @@
     "bun": ">=1.1.0"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/mdx": "^5.0.0",
     "@fontsource/poppins": "^5.2.7",
     "@fontsource/raleway": "^5.2.8",
     "@fontsource/roboto": "^5.2.9",

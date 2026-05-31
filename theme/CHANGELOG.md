@@ -1,5 +1,11 @@
 # astro-freelance-persona_theme
 
+## 0.1.0-alpha.5
+
+### Minor Changes
+
+- Implement dynamic build-time version introspection and token replacement in the footer, qualifications, and features.
+
 ## 0.1.0-alpha.2
 
 ### Patch Changes

@@ -818,7 +818,7 @@ if (bodyFontName === "roboto") {
                 // Base delay + (Index * staggerTime)
                 // We ensure item inherits transition properties if not set
                 if (!item.style.transition) {
-                   item.style.transition = "all " + animConfig.duration + "ms ease-out";
+                   item.style.transition = "opacity " + animConfig.duration + "ms ease-out, transform " + animConfig.duration + "ms ease-out";
                    item.style.transitionDelay = (delay + (index * staggerTime)) + "ms";
                 } else {
                    // Append delay if existing

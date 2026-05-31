@@ -19,6 +19,7 @@
     "./layouts/*": "./src/freelance-persona/layouts/*",
     "./pages/*": "./src/freelance-persona/pages/*",
     "./styles/*": "./src/freelance-persona/styles/*",
+    "./utils/*": "./src/freelance-persona/utils/*",
     "./config": "./src/freelance-persona.config.ts",
     "./content.config": "./src/freelance-persona/content.config.ts",
     "./types": "./src/freelance-persona/types/index.ts"

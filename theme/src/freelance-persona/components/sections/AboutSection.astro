@@ -5,6 +5,7 @@ import ImageAttribution from "@freelance-persona/components/ui/ImageAttribution.
 import { themeConfig } from "@freelance-persona/config";
 import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
+import { replaceBuildTokens } from "@freelance-persona/utils/buildInfo";
 
 interface Props {
   id: string;
@@ -149,7 +150,7 @@ const hasSidebar = !!(
                                 : [item.subtitle]
                               ).map((sub) => (
                                 <span class="qualifications-subtitle">
-                                  {sub}
+                                  {replaceBuildTokens(sub)}
                                 </span>
                               ))}
                           </div>

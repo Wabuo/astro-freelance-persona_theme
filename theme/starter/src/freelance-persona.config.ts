@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { PersonaConfig } from 'astro-freelance-persona_theme/types';
+import { astroMajorVersion } from 'astro-freelance-persona_theme/utils/buildInfo';
 
 
 /**
@@ -18,7 +19,7 @@ export const themeConfig: PersonaConfig = {
   // ===================================================================================
   // 1. SITE IDENTITY & METADATA
   // ===================================================================================
-  title: "freelance-persona — an Astro 5 Theme ",
+  title: `freelance-persona — an Astro ${astroMajorVersion} Theme`,
   author: "freelance-persona, Astro Theme", // Used for meta tags and the 'theme_author' token
   description: "A modern, responsive and lightweight theme for freelancers, portfolio, and blog.\
   Initially ported from Persona-Zola, modernized and expanded with some custom adaptations and the features section from Zola-Goyo ",
@@ -238,7 +239,7 @@ export const themeConfig: PersonaConfig = {
     "Theme: [Freelance Persona](https://github.com/freelance-persona/astro-freelance-persona_theme)",
     "Contact form via [Formspark](https://formspark.io)",
     "With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)",
-    "Powered by [Astro5](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), [Fontsource](https://fontsource.org/), [Academicons](https://jpswalsh.github.io/academicons/), [MathJax](https://www.mathjax.org/) & [Marked](https://github.com/markedjs/marked)",
+    `Powered by [Astro ${astroMajorVersion}](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), [Fontsource](https://fontsource.org/), [Academicons](https://jpswalsh.github.io/academicons/), [MathJax](https://www.mathjax.org/) & [Marked](https://github.com/markedjs/marked)`,
   ],
 };
 

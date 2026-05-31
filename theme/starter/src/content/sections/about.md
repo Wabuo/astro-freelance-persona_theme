@@ -40,8 +40,8 @@ qualifications_sidebar:
 
   - text: "Tech Stack"
     subtitle: 
-      - "Astro 6.1+"
-      - "Bootstrap 5.3"
+      - "Astro {{astro_minor}}"
+      - "Bootstrap {{bootstrap_minor}}"
       - "TypeScript"
     icon: "bi bi-stack"
   

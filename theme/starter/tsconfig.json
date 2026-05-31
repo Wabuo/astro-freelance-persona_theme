@@ -14,6 +14,11 @@
                 "../theme/src/freelance-persona/*",
                 "node_modules/astro-freelance-persona_theme/src/freelance-persona/*"
             ],
+            "astro-freelance-persona_theme/*": [
+                "../src/freelance-persona/*",
+                "../theme/src/freelance-persona/*",
+                "node_modules/astro-freelance-persona_theme/src/freelance-persona/*"
+            ],
             "@freelance-persona/config": [
                 "src/freelance-persona.config.ts"
             ]

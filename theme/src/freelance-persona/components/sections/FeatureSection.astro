@@ -7,6 +7,7 @@ import { slugify } from "@freelance-persona/utils/slugify";
 import { resolveLink } from "@freelance-persona/utils/linkUtils";
 import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
+import { replaceBuildTokens } from "@freelance-persona/utils/buildInfo";
 
 interface Props {
   id: string;
@@ -112,7 +113,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                 {finalLink && <div class="feature-card-shadow" />}
 
                 <h3 class="feature-title-card">{feature.title}</h3>
-                <p class="feature-description-card">{feature.desc}</p>
+                <p class="feature-description-card">{replaceBuildTokens(feature.desc)}</p>
 
                 {(feature.button_text || isUnavailable) && (
                   <div class="feature-hover-action">

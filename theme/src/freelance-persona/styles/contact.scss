@@ -169,10 +169,10 @@
   border-radius: 0.25rem;
   /* 4px */
   border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
-  /* Keep the semi-transparent background for the input */
-  background: color-mix(in srgb, var(--background-color), transparent 50%);
+  /* Solid background — prevents Chromium compositor flash on focus (alpha change = layer repaint) */
+  background: var(--surface-color);
   color: var(--default-color);
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  transition: border-color 0.3s ease;
 }
 
 .contact .contact-form .input-box textarea {
@@ -186,8 +186,8 @@
 .contact .contact-form .input-box textarea:focus,
 .contact .contact-form .input-box textarea:valid {
   border-color: var(--accent-color);
-  /* Optional: Make input solid on focus for better readability */
-  background: var(--background-color);
+  /* Same background — no alpha change means no compositor flash */
+  background: var(--surface-color);
 }
 
 .contact .contact-form .input-box .label {

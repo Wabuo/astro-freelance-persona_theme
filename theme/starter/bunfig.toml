@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+#
+# SPDX-License-Identifier: MIT
+
+[install]
+# Enforce minimum release age (5 days in seconds: 5 * 24 * 60 * 60 = 432000)
+# This prevents Bun from resolving or installing dependencies released within the last 5 days,
+# protecting the project against supply-chain attacks.
+minimumReleaseAge = 432000

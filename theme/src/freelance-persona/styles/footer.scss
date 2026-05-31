@@ -14,6 +14,8 @@
   /* Solid equivalent of the original: color-mix(..., transparent 97%).
      3% default-color + 97% background-color = same visual tint, no alpha. */
   background-color: color-mix(in srgb, var(--default-color), var(--background-color) 97%);
+  /* Mirror the nav's bottom separator — same accent-blue tint, creates visual bookending */
+  border-top: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
   font-size: var(--normal-font-size);
   text-align: center;
   padding: var(--spacing-lg) 0;

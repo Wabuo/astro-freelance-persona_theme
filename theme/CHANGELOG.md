@@ -1,5 +1,11 @@
 # astro-freelance-persona_theme
 
+## 0.1.0-alpha.6
+
+### Minor Changes
+
+- Fix UI clipping issue, and made favicon theme aware.
+
 ## 0.1.0-alpha.5
 
 ### Minor Changes

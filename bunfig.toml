@@ -7,3 +7,7 @@
 # This prevents Bun from resolving or installing dependencies released within the last 5 days,
 # protecting the project against supply-chain attacks.
 minimumReleaseAge = 432000
+minimumReleaseAgeExcludes = [
+  "astro-freelance-persona_theme"
+]
+

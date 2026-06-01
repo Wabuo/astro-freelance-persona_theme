@@ -15,10 +15,6 @@
 .card-wrapper {
     height: 100%;
     text-decoration: none;
-    /* Contain repaints from the card's hover animation to this column.
-       Prevents the lifted card from invalidating adjacent paint regions
-       (gutters, sidebar, footer) in Chromium. */
-    contain: paint;
     
     &:hover, &:focus {
         text-decoration: none;

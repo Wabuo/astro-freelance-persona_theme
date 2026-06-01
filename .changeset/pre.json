@@ -10,6 +10,7 @@
     "fix-katex-mismatch",
     "nine-sides-beg",
     "perf-image-preload-preloader",
-    "perf-optimization-font-preload"
+    "perf-optimization-font-preload",
+    "ui-clipping-fix-and-theme-aware-favicon"
   ]
 }

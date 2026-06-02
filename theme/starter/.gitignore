@@ -8,6 +8,7 @@ node_modules/
 # Build Outputs
 dist/
 .astro/
+freelance-persona-config-generated.ts
 
 # Environment Variables
 .env

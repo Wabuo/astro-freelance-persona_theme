@@ -17,6 +17,8 @@ interface Props {
   img_credit?: { name: string; url?: string; icon?: string } | "hidden";
   img_copyright?: string;
   img_license?: string | { license: string; url: string } | "hidden";
+  img_attribution_position?: "bottom_left" | "bottom_right" | "top_left" | "top_right";
+  img_attribution_theme?: "light" | "dark" | "auto";
   background_image_anchor?: string;
 
   // Typing Config
@@ -59,6 +61,8 @@ const {
   img_credit,
   img_copyright,
   img_license,
+  img_attribution_position,
+  img_attribution_theme,
 
   title = "CONFIG MISSING",
   hero_typing_text = "Error: src/content/sections/hero.md not found",
@@ -218,6 +222,8 @@ const heroSectionStyle = {
           img_credit={img_credit}
           img_copyright={img_copyright}
           img_license={img_license}
+          position={img_attribution_position}
+          theme={img_attribution_theme}
         />
       </>
     )

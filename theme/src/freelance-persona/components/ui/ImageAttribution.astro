@@ -7,6 +7,8 @@ interface Props {
   img_credit?: { name: string; url?: string; icon?: string } | "hidden"; // Credit MUST be an object or "hidden" in new schema
   img_copyright?: string; // Owner
   img_license?: string | { license: string; url: string } | "hidden";
+  position?: "bottom_left" | "bottom_right" | "top_left" | "top_right";
+  theme?: "light" | "dark" | "auto";
 
   // Styling overrides
   containerClass?: string;
@@ -20,7 +22,18 @@ const {
   img_license,
   containerClass = "",
   disableLinks = false,
+  position = "bottom_right",
+  theme = "auto",
 } = Astro.props;
+
+const classMap = {
+  bottom_right: "",
+  bottom_left: "img-attribution--bottom-left",
+  top_right: "img-attribution--top-right",
+  top_left: "img-attribution--top-left",
+};
+const positionClass = classMap[position] || "";
+const themeClass = theme === "light" ? "img-attribution--theme-light" : theme === "dark" ? "img-attribution--theme-dark" : "";
 
 // LOGIC PREPARATION
 
@@ -57,7 +70,7 @@ if (!showCredit && !line2Text) {
 
 {
   (showCredit || line2Text) && (
-    <div class={`img-attribution ${containerClass}`}>
+    <div class={`img-attribution ${positionClass} ${themeClass} ${containerClass}`}>
       {/* Line 1: Credit OR Promoted Copyright */}
       {(showCredit || promoteCopyright) && (
         <span class="credit-line">

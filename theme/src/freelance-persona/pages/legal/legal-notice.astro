@@ -32,16 +32,16 @@ const pageTitle = legal.link_text || "Legal Notice / Impressum";
 // Native Content Collection Resolution
 // We look for the disclaimer ID in the 'legal' collection.
 // If the user provided a path ending in .md (old style), we extract the filename as the ID.
-let disclaimerId = legal.disclaimer || "guide";
+let disclaimerId = legal.disclaimer || "legal-guide";
 if (disclaimerId.endsWith(".md")) {
-  disclaimerId = disclaimerId.split("/").pop()?.replace(".md", "") || "guide";
+  disclaimerId = disclaimerId.split("/").pop()?.replace(".md", "") || "legal-guide";
 }
 
 let entry = await getEntry("legal", disclaimerId);
 
 // Fallback to the guide if the user's file is missing
 if (!entry) {
-  entry = await getEntry("legal", "guide");
+  entry = await getEntry("legal", "legal-guide");
 }
 
 const { Content } = entry ? await render(entry) : { Content: null };
@@ -72,17 +72,17 @@ const { Content } = entry ? await render(entry) : { Content: null };
           <h4>Contact</h4>
           <p>
             {
-              email && (
+              legalEmail && (
                 <span>
-                  <strong>Email:</strong> {email}
+                  <strong>Email:</strong> {legalEmail}
                   <br />
                 </span>
               )
             }
             {
-              phone && (
+              legalPhone && (
                 <span>
-                  <strong>Phone:</strong> {phone}
+                  <strong>Phone:</strong> {legalPhone}
                   <br />
                 </span>
               )

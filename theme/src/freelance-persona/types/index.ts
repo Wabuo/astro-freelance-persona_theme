@@ -99,6 +99,11 @@ export interface PersonaConfig {
     access_key?: string; // For Web3/Formspark
     ntfy_topic?: string;
     ntfy_server?: string; // Default: https://ntfy.sh
+    checkboxes?: {
+      id: string;
+      label: string;
+      required: boolean;
+    }[];
   };
 
   /**
@@ -148,9 +153,12 @@ export interface PersonaConfig {
   legal?: {
     enabled?: boolean;
     link_text?: string; // e.g., "Legal Notice" or "Impressum"
+    privacy_enabled?: boolean;
+    privacy_link_text?: string; // e.g., "Privacy Policy"
     legal_name?: string; // Full legal name if different from author
     legal_address?: string; // Specific legal address or "theme_address"
     legal_email?: string; // Specific legal email or "theme_email"
+    privacy_email?: string; // Specific privacy email, distinct from legal_email
     legal_phone?: string; // Specific legal phone or "theme_phone"
     business_license?: string;
     vat_id?: string;

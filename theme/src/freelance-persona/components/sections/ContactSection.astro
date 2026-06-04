@@ -4,6 +4,8 @@ import { themeConfig } from "@freelance-persona/config";
 import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+import ObfuscatedEmail from "@freelance-persona/components/ui/ObfuscatedEmail.astro";
+import { parseInline } from "marked";
 
 interface Props {
   entry: {
@@ -147,8 +149,7 @@ const sectionStyle = `
             resolvedItems.map((info, index) => (
               <>
                 {info.type === "email" ? (
-                  <a
-                    href={`mailto:${info.content}`}
+                  <div
                     class="info-item d-flex email-wrapper"
                     data-reveal="fade-up"
                     data-reveal-delay={
@@ -160,9 +161,9 @@ const sectionStyle = `
                     </span>
                     <div>
                       <h3>{info.label}</h3>
-                      <p>{info.content}</p>
+                      <ObfuscatedEmail email={info.content} />
                     </div>
-                  </a>
+                  </div>
                 ) : (
                   <div
                     class="info-item d-flex"
@@ -198,8 +199,20 @@ const sectionStyle = `
               data-reveal-delay="400"
               data-provider={provider}
               data-netlify={provider === "netlify" ? "true" : undefined}
+              data-netlify-honeypot={provider === "netlify" ? "bot-field" : undefined}
               name={provider === "netlify" ? "contact" : undefined}
             >
+              {/* Provider Specific Native Honeypots */}
+              {provider === "formspark" && (
+                <input type="checkbox" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+              )}
+              {provider === "web3forms" && (
+                <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+              )}
+              {provider === "netlify" && (
+                <input name="bot-field" style="display:none" />
+              )}
+
               {/* Access Key input only needed for Formspark/Web3 if not in URL */}
               {provider === "web3forms" && (
                 <input type="hidden" name="access_key" value={accessKey} />
@@ -271,6 +284,26 @@ const sectionStyle = `
                     </label>
                   </div>
                 </div>
+
+                {themeConfig.contact_form?.checkboxes?.map((checkbox) => (
+                  <div class="col-md-12">
+                    <div class="form-check text-start d-flex gap-2">
+                      <input 
+                        class="form-check-input mt-1" 
+                        type="checkbox" 
+                        name={checkbox.id} 
+                        id={checkbox.id} 
+                        required={checkbox.required} 
+                      />
+                      <label 
+                        class="form-check-label checkbox-label" 
+                        style="font-size: 0.9em; line-height: 1.4;"
+                        for={checkbox.id} 
+                        set:html={parseInline(checkbox.label)} 
+                      />
+                    </div>
+                  </div>
+                ))}
 
                 <div class="col-md-12 text-center">
                   <div class="loading">Loading</div>
@@ -360,6 +393,22 @@ const sectionStyle = `
       }
     });
   });
+
+  // Prevent label click from toggling checkbox if text was selected
+  const labels = document.querySelectorAll(".checkbox-label");
+  labels.forEach((label) => {
+    label.addEventListener("click", (e) => {
+      // If clicking a link inside the label, let standard browser behavior handle it
+      const target = e.target as HTMLElement;
+      if (target.closest("a")) {
+        return;
+      }
+      const selection = window.getSelection();
+      if (selection && selection.toString().trim() !== "") {
+        e.preventDefault();
+      }
+    });
+  });
 </script>
 
 <style>
@@ -368,34 +417,51 @@ const sectionStyle = `
       scale(var(--content-scale, 1));
   }
 
-  /* 1. RESET: Make the anchor behave like a block div (no default link color) */
   .email-wrapper {
     text-decoration: none;
-    color: inherit; /* Inherit text color from parent (usually dark/white) */
-    cursor: pointer;
+    color: inherit;
     transition: 0.3s;
-  }
-
-  /* 2. TEXT COLOR: The email address is ALWAYS accent color */
-  .email-wrapper p {
-    color: var(--accent-color);
-    margin-bottom: 0;
-    transition: 0.3s;
-    text-decoration: underline;
-    text-decoration-color: transparent;
-    text-underline-offset: 0.2rem;
-  }
-
-  /* 3. HOVER STATE: Underline the text when hovering the wrapper */
-  .email-wrapper:hover p {
-    text-decoration: underline;
-    text-decoration-color: var(--accent-color);
-    text-underline-offset: 0.2rem; /* 3px -> ~0.2rem */
   }
 
   /* Optional: Light up the icon background on hover too (standard theme behavior) */
   .email-wrapper:hover .contact-icon-pill {
     background: var(--accent-color);
     color: var(--contrast-color);
+  }
+
+  /* Style links inside the Markdown checkboxes */
+  .checkbox-label :global(a) {
+    color: var(--accent-color);
+    text-decoration: underline;
+  }
+
+  .checkbox-label {
+    color: var(--text-muted);
+    cursor: pointer;
+    caret-color: transparent !important;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+  }
+
+  /* Make checkbox inputs theme-aware */
+  .form-check-input {
+    background-color: var(--surface-color);
+    border-color: color-mix(in srgb, var(--default-color), transparent 60%);
+    cursor: pointer;
+    caret-color: transparent !important;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  }
+
+  .form-check-input:checked {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+  }
+
+  .form-check-input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--accent-color), transparent 75%);
   }
 </style>

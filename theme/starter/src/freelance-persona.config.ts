@@ -201,6 +201,18 @@ export const themeConfig: PersonaConfig = {
   contact_form: {
     provider: "formspark",
     access_key: "your-access-key-here",
+    checkboxes: [
+      {
+        id: "privacy_consent",
+        label: "I have read and agree to the [Privacy Policy](/legal/privacy-policy). My data (e.g. name, email, and metadata such as IP address) will be processed solely for the purpose of handling this inquiry.",
+        required: true,
+      },
+      // {
+      //   id: "marketing_consent",
+      //   label: "I would like to receive occasional updates and newsletters. I can withdraw this consent at any time via the contact details in the [Privacy Policy](/legal/privacy-policy).",
+      //   required: false,
+      // }
+    ],
   },
 
   // MathJax Options
@@ -219,9 +231,12 @@ export const themeConfig: PersonaConfig = {
   legal: {
     enabled: true,
     link_text: "Legal Notice",
+    privacy_enabled: true,
+    privacy_link_text: "Privacy Policy",
     legal_name: "PUT YOUR LEGAL NAME HERE", //can be theme_name
     legal_address: "theme_address",
     legal_email: "theme_email",
+    privacy_email: "privacy@example.com", // Used for privacy inquiries
     legal_phone: "theme_phone", //can be empty if unaplicable
     legal_note: "I love remote places. If I'm unavailable, I'm likely off-grid: flying, spelunking, or exploring. <br> Please email or SMS, and I'll reply upon my return to civilization.", // optional
     business_license: "Sole Proprietor / Put your business license here", //can be empty if unaplicable
@@ -230,8 +245,8 @@ export const themeConfig: PersonaConfig = {
     // DISCLAIMER / ADDITIONAL LEGAL TEXT
     // 1. Create a file in `src/content/legal/` (e.g. `disclaimer.md`)
     // 2. Set the ID here (e.g. "disclaimer"). 
-    // If the file is missing, it will display the theme's help guide ("guide").
-    disclaimer: "guide",
+    // If the file is missing, it will display the theme's help guide ("legal-guide").
+    disclaimer: "legal-guide",
   },
 
   credits: [

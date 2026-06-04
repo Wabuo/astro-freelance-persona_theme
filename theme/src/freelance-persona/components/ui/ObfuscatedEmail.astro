@@ -1,0 +1,137 @@
+---
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  email: string;
+}
+
+const { email } = Astro.props;
+
+// No-JS fallback string — always shown visually, never the raw email
+const obfuscatedStr = email.replace(/@/g, '[at]').replace(/\./g, '[dot]');
+
+// Encode the email for the data attribute so it's not trivially scrapeable
+// We use a simple base64 encoding — not cryptographic, but defeats regex scrapers
+const encodedEmail = Buffer.from(email).toString('base64');
+---
+
+<div class="obfuscated-email-wrapper" data-e={encodedEmail}>
+  <noscript>
+    <span class="email-text">{obfuscatedStr}</span>
+  </noscript>
+  <button class="email-copy-btn" aria-label="Copy email address" style="display: none;">
+    <span class="email-text obfuscated-display">{obfuscatedStr}</span>
+    <span class="copy-icon-wrapper">
+      <Icon name="bi:copy" class="icon-copy-default" />
+      <Icon name="bi:check2" class="icon-copy-success" style="display: none;" />
+    </span>
+  </button>
+</div>
+
+<style>
+  .obfuscated-email-wrapper {
+    display: inline-block;
+  }
+  
+  .email-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: var(--accent-color);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .email-copy-btn:hover {
+    color: color-mix(in srgb, var(--accent-color), transparent 25%);
+  }
+  
+  .email-copy-btn.copied {
+    color: var(--accent-color);
+  }
+  
+  .copy-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+  
+  .email-copy-btn:hover .copy-icon-wrapper {
+    opacity: 1;
+  }
+  
+  /* Fallback text style */
+  noscript .email-text {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9em;
+    color: var(--accent-color);
+  }
+</style>
+
+<script>
+  function initEmailObfuscation() {
+    const wrappers = document.querySelectorAll('.obfuscated-email-wrapper:not([data-initialized])');
+    
+    wrappers.forEach(wrapper => {
+      wrapper.setAttribute('data-initialized', 'true');
+      const encoded = wrapper.getAttribute('data-e');
+      const btn = wrapper.querySelector('.email-copy-btn') as HTMLButtonElement;
+      const displaySpan = wrapper.querySelector('.obfuscated-display') as HTMLSpanElement;
+      const defaultIcon = wrapper.querySelector('.icon-copy-default') as HTMLElement;
+      const successIcon = wrapper.querySelector('.icon-copy-success') as HTMLElement;
+      
+      if (!btn || !encoded) return;
+      
+      // Decode the email only in memory — never write it to the DOM
+      const email = atob(encoded);
+      
+      // Reveal the interactive button (since JS is enabled)
+      btn.style.display = 'inline-flex';
+      // Keep the obfuscated display text — do NOT reveal the clean email
+      
+      btn.addEventListener('click', async () => {
+        try {
+          // Copy the clean email to the clipboard
+          await navigator.clipboard.writeText(email);
+          
+          btn.classList.add('copied');
+          displaySpan.textContent = "Copied!";
+          if (defaultIcon && successIcon) {
+            defaultIcon.style.display = 'none';
+            successIcon.style.display = 'inline-block';
+          }
+          
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            // Restore the obfuscated text, not the clean email
+            displaySpan.textContent = email.replace(/@/g, '[at]').replace(/\./g, '[dot]');
+            if (defaultIcon && successIcon) {
+              defaultIcon.style.display = 'inline-block';
+              successIcon.style.display = 'none';
+            }
+          }, 2000);
+        } catch (err) {
+          console.error("Failed to copy email: ", err);
+        }
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEmailObfuscation);
+  } else {
+    initEmailObfuscation();
+  }
+</script>

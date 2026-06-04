@@ -258,7 +258,12 @@ const heroSectionStyle = {
                     {hero_typing_text
                       .split(",")
                       .map((s) => s.trim())
-                      .join(", ")}
+                      .map((item, idx, arr) => (
+                        <>
+                          {item}
+                          {idx < arr.length - 1 && <br />}
+                        </>
+                      ))}
                   </span>
                 </noscript>
               </p>
@@ -446,8 +451,12 @@ const heroSectionStyle = {
   noscript {
     display: inline;
   }
-  noscript + .typing-lock {
-    display: none;
+  :global(.no-js) .typing-lock {
+    display: none !important;
+  }
+  :global(.no-js) .hero p {
+    white-space: normal !important;
+    display: block !important;
   }
 
   /* SOCIALS LOGIC */

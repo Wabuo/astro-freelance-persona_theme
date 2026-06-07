@@ -33,9 +33,9 @@
   <defs
      id="defs1">
     <style>
-      #path1 { fill: #000000 !important; }
+      #path1 { fill: #272829 !important; }
       @media (prefers-color-scheme: dark) {
-        #path1 { fill: #ffffff !important; }
+        #path1 { fill: #e0e0e0 !important; }
       }
     </style>
   </defs>

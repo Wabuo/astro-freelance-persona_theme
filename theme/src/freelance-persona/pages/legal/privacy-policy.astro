@@ -3,11 +3,10 @@ import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import { themeConfig } from "@freelance-persona/config";
 import { getEntry, render } from "astro:content";
-import { parse } from "marked";
 
 const { legal, email, phone, address, author } = themeConfig;
 
-if (!legal?.enabled) {
+if (!legal?.privacy_enabled) {
   return Astro.redirect("/");
 }
 
@@ -23,25 +22,19 @@ const resolve = (
 };
 
 const legalName = resolve(legal.legal_name, "theme_name", author);
-const legalEmail = resolve(legal.legal_email, "theme_email", email);
+// Use the dedicated privacy email, fallback to legal_email, then general email
+const privacyEmail = resolve(legal.privacy_email, "theme_email", resolve(legal.legal_email, "theme_email", email));
 const legalPhone = resolve(legal.legal_phone, "theme_phone", phone);
 const legalAddress = resolve(legal.legal_address, "theme_address", address);
 
-const pageTitle = legal.link_text || "Legal Notice / Impressum";
+const pageTitle = legal.privacy_link_text || "Privacy Policy";
 
 // Native Content Collection Resolution
-// We look for the disclaimer ID in the 'legal' collection.
-// If the user provided a path ending in .md (old style), we extract the filename as the ID.
-let disclaimerId = legal.disclaimer || "legal-guide";
-if (disclaimerId.endsWith(".md")) {
-  disclaimerId = disclaimerId.split("/").pop()?.replace(".md", "") || "legal-guide";
-}
-
-let entry = await getEntry("legal", disclaimerId);
+let entry = await getEntry("legal", "privacy-policy");
 
 // Fallback to the guide if the user's file is missing
 if (!entry) {
-  entry = await getEntry("legal", "legal-guide");
+  entry = await getEntry("legal", "privacy-guide");
 }
 
 const { Content } = entry ? await render(entry) : { Content: null };
@@ -54,7 +47,7 @@ const { Content } = entry ? await render(entry) : { Content: null };
 
       <div class="legal-content animate-in">
         <div class="legal-block">
-          <h4>Responsible for Content</h4>
+          <h4>Responsible for Privacy</h4>
           <p>
             <strong>{legalName}</strong><br />
             {
@@ -69,12 +62,12 @@ const { Content } = entry ? await render(entry) : { Content: null };
         </div>
 
         <div class="legal-block">
-          <h4>Contact</h4>
+          <h4>Privacy Contact</h4>
           <p>
             {
-              legalEmail && (
+              privacyEmail && (
                 <span>
-                  <strong>Email:</strong> {legalEmail}
+                  <strong>Email:</strong> {privacyEmail}
                   <br />
                 </span>
               )
@@ -98,34 +91,7 @@ const { Content } = entry ? await render(entry) : { Content: null };
           </p>
         </div>
 
-        {
-          legal.vat_id && (
-            <div class="legal-block">
-              <h4>VAT ID</h4>
-              <p>{legal.vat_id}</p>
-            </div>
-          )
-        }
-
-        {
-          legal.business_license && (
-            <div class="legal-block">
-              <h4>Business License / Registry</h4>
-              <p>{legal.business_license}</p>
-            </div>
-          )
-        }
-
-        {
-          legal.jurisdiction && (
-            <div class="legal-block">
-              <h4>Jurisdiction</h4>
-              <p>{legal.jurisdiction}</p>
-            </div>
-          )
-        }
-
-        {/* Disclaimer / Additional Legal Text */}
+        {/* Privacy Policy Content */}
         {
           Content && (
             <div class="legal-text mt-5">

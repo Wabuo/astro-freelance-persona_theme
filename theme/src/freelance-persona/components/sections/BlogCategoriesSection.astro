@@ -20,6 +20,8 @@ interface Props {
     img_credit?: { name: string; url?: string; icon?: string } | "hidden";
     img_copyright?: string;
     img_license?: string | { license: string; url: string } | "hidden";
+    img_attribution_position?: "bottom_left" | "bottom_right" | "top_left" | "top_right";
+    img_attribution_theme?: "light" | "dark" | "auto";
     background_color?: string;
     tags: string[];
     description?: string;
@@ -203,6 +205,8 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                     img_credit={category.img_credit}
                     img_copyright={category.img_copyright}
                     img_license={category.img_license}
+                    position={category.img_attribution_position}
+                    theme={category.img_attribution_theme}
                   />
                 </div>
 

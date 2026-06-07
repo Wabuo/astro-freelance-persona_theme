@@ -27,6 +27,9 @@ const licenseSchema = z.union([
   z.literal('hidden'),
 ]);
 
+const attributionPositionSchema = z.enum(["bottom_left", "bottom_right", "top_left", "top_right"]).default("bottom_right").optional();
+const attributionThemeSchema = z.enum(["light", "dark", "auto"]).default("auto").optional();
+
 // 1. SECTIONS COLLECTION
 const sections = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/sections" }),
@@ -45,6 +48,8 @@ const sections = defineCollection({
       img_credit: creditSchema.optional(), // Required check done in superRefine
       img_copyright: copyrightSchema,
       img_license: licenseSchema.optional(), // Required check done in superRefine
+      img_attribution_position: attributionPositionSchema,
+      img_attribution_theme: attributionThemeSchema,
       background_overlay_transparency: z.string().optional(),
       background_image_anchor: z.string().optional(),
 
@@ -182,6 +187,8 @@ const sections = defineCollection({
         img_credit: creditSchema.optional(), // Image attribution (required when image is present)
         img_copyright: copyrightSchema,
         img_license: licenseSchema.optional(), // Image license (required when image is present)
+        img_attribution_position: attributionPositionSchema,
+        img_attribution_theme: attributionThemeSchema,
         background_color: z.string().optional(), // Solid color fallback
         tags: z.array(z.string()), // Array of tags to filter by
         description: z.string().optional(),
@@ -356,6 +363,8 @@ const blog = defineCollection({
       }),
     ]).optional(),
 
+    img_attribution_position: attributionPositionSchema,
+    img_attribution_theme: attributionThemeSchema,
     tags: z.array(z.string()),
     tex: z.boolean().optional(),
     layout_style: z.enum(['standard', 'science']).optional(),

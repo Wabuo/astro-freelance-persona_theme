@@ -50,6 +50,16 @@ const creditsHtml = await parse(replaceBuildTokens(finalCreditsString));
             </>
           )
         }
+        {
+          themeConfig.legal?.privacy_enabled && (
+            <>
+              <span class="legal-separator mx-2">|</span>
+              <a href={resolveLink("legal/privacy-policy")} class="legal-link">
+                {themeConfig.legal.privacy_link_text || "Privacy Policy"}
+              </a>
+            </>
+          )
+        }
       </div>
       {/* Render the fully parsed HTML */}
       <div class="credits" set:html={creditsHtml} />

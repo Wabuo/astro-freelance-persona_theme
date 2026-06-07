@@ -82,8 +82,11 @@
   @media (prefers-color-scheme: dark) {
     :root:not(:has(.theme-state-light:checked)) & {
       background:
-        linear-gradient(color-mix(in srgb, var(--background-color), transparent 55%), color-mix(in srgb, var(--background-color), transparent 40%)),
-        /* Dark Dimmer (Adjust % to change darkness - currently 60% opacity) */
+        linear-gradient(
+          color-mix(in srgb, var(--background-color), transparent calc(var(--transparency) + 30%)),
+          color-mix(in srgb, var(--background-color), transparent calc(var(--transparency) + 15%))
+        ),
+        /* Dark Dimmer (Adjust % to change darkness - scales with --transparency) */
         linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
       /* White Haze (Bottom) */
     }
@@ -92,8 +95,11 @@
   @media (prefers-color-scheme: light) {
     :root:has(.theme-state-dark:checked) & {
       background:
-        linear-gradient(color-mix(in srgb, var(--background-color), transparent 55%), color-mix(in srgb, var(--background-color), transparent 40%)),
-        /* Dark Dimmer (Adjust % to change darkness - currently 60% opacity) */
+        linear-gradient(
+          color-mix(in srgb, var(--background-color), transparent calc(var(--transparency) + 30%)),
+          color-mix(in srgb, var(--background-color), transparent calc(var(--transparency) + 15%))
+        ),
+        /* Dark Dimmer (Adjust % to change darkness - scales with --transparency) */
         linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
       /* White Haze (Bottom) */
     }

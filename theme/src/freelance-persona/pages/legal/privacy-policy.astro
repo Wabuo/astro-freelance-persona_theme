@@ -1,0 +1,170 @@
+---
+import BaseLayout from "@freelance-persona/layouts/BaseLayout.astro";
+import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
+import { themeConfig } from "@freelance-persona/config";
+import { getEntry, render } from "astro:content";
+
+const { legal, email, phone, address, author } = themeConfig;
+
+if (!legal?.privacy_enabled) {
+  return Astro.redirect("/");
+}
+
+// Token Resolution Logic
+const resolve = (
+  val: string | undefined,
+  token: string,
+  fallback: string | undefined,
+) => {
+  if (!val) return fallback;
+  if (val === token) return fallback;
+  return val;
+};
+
+const legalName = resolve(legal.legal_name, "theme_name", author);
+// Use the dedicated privacy email, fallback to legal_email, then general email
+const privacyEmail = resolve(legal.privacy_email, "theme_email", resolve(legal.legal_email, "theme_email", email));
+const legalPhone = resolve(legal.legal_phone, "theme_phone", phone);
+const legalAddress = resolve(legal.legal_address, "theme_address", address);
+
+const pageTitle = legal.privacy_link_text || "Privacy Policy";
+
+// Native Content Collection Resolution
+let entry = await getEntry("legal", "privacy-policy");
+
+// Fallback to the guide if the user's file is missing
+if (!entry) {
+  entry = await getEntry("legal", "privacy-guide");
+}
+
+const { Content } = entry ? await render(entry) : { Content: null };
+---
+
+<BaseLayout title={pageTitle}>
+  <section class="section">
+    <div class="container" style="max-width: 800px;">
+      <SectionTitle title={pageTitle} />
+
+      <div class="legal-content animate-in">
+        <div class="legal-block">
+          <h4>Responsible for Privacy</h4>
+          <p>
+            <strong>{legalName}</strong><br />
+            {
+              legalAddress && (
+                <span>
+                  {legalAddress}
+                  <br />
+                </span>
+              )
+            }
+          </p>
+        </div>
+
+        <div class="legal-block">
+          <h4>Privacy Contact</h4>
+          <p>
+            {
+              privacyEmail && (
+                <span>
+                  <strong>Email:</strong> {privacyEmail}
+                  <br />
+                </span>
+              )
+            }
+            {
+              legalPhone && (
+                <span>
+                  <strong>Phone:</strong> {legalPhone}
+                  <br />
+                </span>
+              )
+            }
+            {
+              legal.legal_note && (
+                <span
+                  class="legal-note d-block mt-3"
+                  set:html={legal.legal_note}
+                />
+              )
+            }
+          </p>
+        </div>
+
+        {/* Privacy Policy Content */}
+        {
+          Content && (
+            <div class="legal-text mt-5">
+              <Content />
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-content {
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    padding: var(--spacing-lg) 0;
+    font-family: var(--font-body);
+  }
+
+  .legal-block {
+    margin-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--bs-border-color);
+    padding-bottom: var(--spacing-md);
+  }
+
+  .legal-block:last-child {
+    border-bottom: none;
+  }
+
+  h4 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--bs-heading-color);
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+  }
+
+  .legal-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--default-color);
+  }
+
+  /* Match the "comfortable" muted headers from the top section */
+  .legal-text :global(h1),
+  .legal-text :global(h2),
+  .legal-text :global(h3),
+  .legal-text :global(h4),
+  .legal-text :global(h5),
+  .legal-text :global(h6) {
+    font-family: var(--font-heading);
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .legal-note {
+    color: color-mix(in srgb, var(--default-color), transparent 40%);
+    font-size: 0.9em;
+  }
+
+  /* Shiki Code Block Styling (Match Blog Posts) */
+  .legal-text :global(.astro-code) {
+    padding: 1.25rem;
+    border-radius: 0.25rem;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+    font-family: var(--font-mono, monospace);
+    overflow-x: auto;
+  }
+
+  .legal-text :global(code) {
+    font-family: var(--font-mono, monospace);
+  }
+</style>

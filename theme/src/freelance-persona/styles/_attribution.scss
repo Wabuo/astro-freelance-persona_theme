@@ -67,6 +67,32 @@
     .license-line {
       font-style: italic;
     }
+
+    &.img-attribution--bottom-left {
+      bottom: 0.5rem;
+      left: 0.5rem;
+      right: auto;
+      align-items: flex-start;
+    }
+    &.img-attribution--top-right {
+      top: 0.5rem;
+      right: 0.5rem;
+      bottom: auto;
+      align-items: flex-end;
+    }
+    &.img-attribution--top-left {
+      top: 0.5rem;
+      left: 0.5rem;
+      bottom: auto;
+      right: auto;
+      align-items: flex-start;
+    }
+    &.img-attribution--theme-light {
+      color: color-mix(in srgb, #e0e0e0, transparent 65%) !important;
+    }
+    &.img-attribution--theme-dark {
+      color: color-mix(in srgb, #272829, transparent 65%) !important;
+    }
   }
 
   // Variant: Single line (for small cards)

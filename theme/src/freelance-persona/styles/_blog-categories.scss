@@ -249,12 +249,12 @@
   /* The Link is now the Flex Container */
   a.recent-post-link {
     color: var(--accent-color);
-    text-decoration: none;
+    text-decoration: none !important;
     // TARGET SPECIFIC PROPERTIES to avoid animating 'transform' or 'all' which causes re-rasterization
     transition: color 0.2s ease-out;
 
     &:hover, &:focus {
-      text-decoration: none;
+      text-decoration: none !important;
     }
 
     /* Fix text anti-aliasing jitter: 
@@ -274,6 +274,7 @@
     .post-title {
       text-decoration: underline;
       text-decoration-color: var(--underline-color);
+      text-underline-offset: 2px;
     }
 
     /* Target Title specifically for color change on hover */
@@ -283,8 +284,7 @@
 
     /* Target Date specifically for color change */
     &:hover .post-date {
-      /* Slightly muted accent color (similar to active tags) */
-      color: color-mix(in srgb, var(--accent-color), transparent 25%);
+      color: var(--default-color);
     }
   }
 

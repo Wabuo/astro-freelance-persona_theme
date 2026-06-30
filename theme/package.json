@@ -39,14 +39,14 @@
     "astro-theme"
   ],
   "peerDependencies": {
-    "astro": "^6.0.0"
+    "astro": "^6.0.0 || ^7.0.0"
   },
   "engines": {
     "node": ">=22.14.0",
     "bun": ">=1.1.0"
   },
   "dependencies": {
-    "@astrojs/mdx": "^6.0.0",
+    "@astrojs/mdx": "^7.0.0",
     "@fontsource/poppins": "^5.2.7",
     "@fontsource/raleway": "^5.2.8",
     "@fontsource/roboto": "^5.2.9",
@@ -67,7 +67,7 @@
     "@astrojs/check": "^0.9.6",
     "@types/bootstrap": "^5.2.10",
     "@types/node": "^25.0.2",
-    "astro": "^6.4.3",
+    "astro": "^7.0.0",
     "typescript": "^6.0.0"
   },
   "scripts": {

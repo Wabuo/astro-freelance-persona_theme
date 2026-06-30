@@ -1,5 +1,15 @@
 # astro-freelance-persona_theme
 
+# 0.1.0-alpha.7
+
+### Minor Changes
+
+- Bump to Astro7 and small UI fixes
+
+### Minor Changes
+
+- Bump to Astro7 and small UI fixes
+
 ## 0.1.0-alpha.6
 
 ### Minor Changes

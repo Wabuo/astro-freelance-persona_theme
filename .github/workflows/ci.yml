@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run Betterleaks (Security)
-        uses: docker://ghcr.io/betterleaks/betterleaks:v1.3.1
+        uses: docker://ghcr.io/betterleaks/betterleaks:v1.6.0
         with:
           args: detect -v
 

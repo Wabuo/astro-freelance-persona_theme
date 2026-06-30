@@ -8,6 +8,7 @@
   "changesets": [
     "dynamic-version-introspection",
     "fix-katex-mismatch",
+    "fruity-cases-see",
     "nine-sides-beg",
     "perf-image-preload-preloader",
     "perf-optimization-font-preload",

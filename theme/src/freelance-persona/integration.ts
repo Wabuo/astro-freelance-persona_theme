@@ -12,6 +12,7 @@ import remarkMagicMath from './plugins/remarkMagicMath';
 import rehypeFigures from './plugins/rehypeFigures';
 import remarkExtractImageParams from './plugins/remarkExtractImageParams';
 import rehypeMathjaxChtml from 'rehype-mathjax/chtml';
+import { unified } from '@astrojs/markdown-remark';
 import { fileURLToPath, pathToFileURL } from 'url';
 import path from 'path';
 import fs from 'fs';
@@ -91,8 +92,10 @@ export default function freelancePersona(): AstroIntegration {
 
         updateConfig({
           markdown: {
-            remarkPlugins: remarkPluginsList,
-            rehypePlugins: rehypePluginsList
+            processor: unified({
+              remarkPlugins: remarkPluginsList,
+              rehypePlugins: rehypePluginsList
+            })
           },
           integrations: [
             astroExpressiveCode({

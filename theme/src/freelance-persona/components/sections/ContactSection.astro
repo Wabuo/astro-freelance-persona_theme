@@ -150,11 +150,12 @@ const sectionStyle = `
               <>
                 {info.type === "email" ? (
                   <div
-                    class="info-item d-flex email-wrapper"
+                    class="info-item d-flex email-wrapper obfuscated-email-wrapper"
                     data-reveal="fade-up"
                     data-reveal-delay={
                       (delay || contentDelay) + index * staggerDelay
                     }
+                    data-e={Buffer.from(info.content).toString('base64')}
                   >
                     <span class="contact-icon-pill">
                       <Icon name={transformIcon(info.icon)} />
@@ -421,12 +422,21 @@ const sectionStyle = `
     text-decoration: none;
     color: inherit;
     transition: 0.3s;
+    cursor: pointer;
   }
 
   /* Optional: Light up the icon background on hover too (standard theme behavior) */
   .email-wrapper:hover .contact-icon-pill {
     background: var(--accent-color);
     color: var(--contrast-color);
+  }
+
+  /* Sync inner ObfuscatedEmail button state when hovering the wrapper */
+  .email-wrapper:hover :global(.email-copy-btn) {
+    color: color-mix(in srgb, var(--accent-color), transparent 25%);
+  }
+  .email-wrapper:hover :global(.copy-icon-wrapper) {
+    opacity: 1;
   }
 
 

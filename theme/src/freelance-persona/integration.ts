@@ -50,6 +50,7 @@ export default function freelancePersona(): AstroIntegration {
         // Load the parsed configuration object using a synchronous regex parser
         // to avoid "Vite module runner has been closed" errors in production builds.
         let userMathPackages = ['mhchem', 'physics', 'color', 'cancel', 'mathtools'];
+        let codeBlocksConfig: { frames?: { enabled?: boolean; showCopyButton?: boolean; defaultFrame?: 'auto' | 'code' | 'terminal' | 'none' }; lineNumbers?: boolean } = {};
         try {
           if (fs.existsSync(configPath)) {
             const configText = fs.readFileSync(configPath, 'utf-8');
@@ -66,10 +67,31 @@ export default function freelancePersona(): AstroIntegration {
                 userMathPackages = extracted;
               }
             }
+
+            // Parse codeBlocks config
+            const codeBlocksMatch = configText.match(/codeBlocks\s*:\s*\{([\s\S]*?)\n\s*\}/);
+            if (codeBlocksMatch) {
+              const codeBlocksStr = codeBlocksMatch[1];
+              const framesMatch = codeBlocksStr.match(/frames\s*:\s*\{([\s\S]*?)\}/);
+              if (framesMatch) {
+                const framesStr = framesMatch[1];
+                codeBlocksConfig.frames = {};
+                const enabledMatch = framesStr.match(/enabled\s*:\s*(true|false)/);
+                if (enabledMatch) codeBlocksConfig.frames.enabled = enabledMatch[1] === 'true';
+                const copyBtnMatch = framesStr.match(/showCopyButton\s*:\s*(true|false)/);
+                if (copyBtnMatch) codeBlocksConfig.frames.showCopyButton = copyBtnMatch[1] === 'true';
+                const frameMatch = framesStr.match(/defaultFrame\s*:\s*['"`](auto|code|terminal|none)['"`]/);
+                if (frameMatch) codeBlocksConfig.frames.defaultFrame = frameMatch[1] as 'auto' | 'code' | 'terminal' | 'none';
+              }
+              const lineNumbersMatch = codeBlocksStr.match(/lineNumbers\s*:\s*(true|false)/);
+              if (lineNumbersMatch) codeBlocksConfig.lineNumbers = lineNumbersMatch[1] === 'true';
+            }
           }
         } catch (e) {
           console.warn(`[FreelancePersona] Failed to parse packages config from ${configPath}. Using defaults.`, e);
         }
+        const framesConfig = codeBlocksConfig.frames ?? { enabled: true, showCopyButton: true, defaultFrame: 'code' };
+        const terminalLanguages = ['sh', 'shell', 'bash', 'zsh', 'fish', 'powershell', 'ps', 'ps1', 'cmd', 'bat', 'batch', 'console', 'nu', 'nushell'];
         const remarkPluginsList = [
           remarkExtractImageParams,
           remarkDirective,
@@ -121,6 +143,17 @@ export default function freelancePersona(): AstroIntegration {
                 return false;
               },
               useThemedScrollbars: false,
+              frames: framesConfig.enabled === false ? false : {
+                showCopyToClipboardButton: framesConfig.showCopyButton !== false,
+                extractFileNameFromCode: false,
+              },
+              customCreateBlock: ({ input }) => {
+                // Force 'code' frame for terminal languages to avoid the 3-dots terminal UI
+                if (framesConfig.defaultFrame === 'code' && terminalLanguages.includes(input.language)) {
+                  return { ...input, props: { ...input.props, frame: 'code' } };
+                }
+                return input;
+              },
               styleOverrides: {
                 borderRadius: '0.5rem',
                 codePaddingInline: '1.25rem',
@@ -129,6 +162,11 @@ export default function freelancePersona(): AstroIntegration {
                 codeBackground: 'var(--code-background)',
                 uiFontFamily: 'var(--default-font)',
                 codeFontFamily: 'var(--monospace-font)',
+                frames: {
+                  terminalTitlebarDotsOpacity: '0',
+                  editorBackground: 'var(--code-background)',
+                  terminalBackground: 'var(--code-background)',
+                }
               }
             }),
             mdx()

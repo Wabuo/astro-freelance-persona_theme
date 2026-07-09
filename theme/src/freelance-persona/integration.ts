@@ -16,6 +16,7 @@ import { unified } from '@astrojs/markdown-remark';
 import { fileURLToPath, pathToFileURL } from 'url';
 import path from 'path';
 import fs from 'fs';
+import { mathjaxFontsPlugin } from './plugins/mathjaxFontsPlugin';
 
 export default function freelancePersona(): AstroIntegration {
   return {
@@ -103,7 +104,7 @@ export default function freelancePersona(): AstroIntegration {
           // Single-Pass: Process all formulas (Inline & Block) into CHTML
           [rehypeMathjaxChtml, {
             chtml: {
-              fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+              fontURL: '/fonts/mathjax/'
             },
             tex: {
               packages: ['base', 'ams', 'nocomplain', ...userMathPackages]
@@ -172,6 +173,7 @@ export default function freelancePersona(): AstroIntegration {
             mdx()
           ],
           vite: {
+            plugins: [mathjaxFontsPlugin()],
             server: {
               fs: {
                 allow: ['/']

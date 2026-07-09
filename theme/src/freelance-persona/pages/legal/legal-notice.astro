@@ -7,8 +7,9 @@ import { parse } from "marked";
 
 const { legal, email, phone, address, author } = themeConfig;
 
-if (!legal?.enabled) {
-  return Astro.redirect("/");
+export async function getStaticPaths() {
+  if (!legal?.enabled) return [];
+  return [{ params: {}, props: {} }];
 }
 
 // Token Resolution Logic
@@ -73,7 +74,7 @@ const { Content } = entry ? await render(entry) : { Content: null };
           <p>
             {
               legalEmail && (
-                <span>
+                <span data-nosnippet>
                   <strong>Email:</strong> {legalEmail}
                   <br />
                 </span>

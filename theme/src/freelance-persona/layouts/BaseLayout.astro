@@ -23,10 +23,19 @@ import "@fontsource/raleway/latin-700.css";
 // 1. Install your new font: `bun add @fontsource/your-font`
 // 2. Import its CSS weights in `theme/starter/src/fonts.ts`
 // 3. (Optional but recommended) Import the `.woff2?url` asset of your new font below,
-//    and update the matching `preloadUrls.push(...)` block in the frontmatter below.
+//    and add it to the FONT_PRELOAD_MAP.
+//    Supported out of the box: Raleway, Poppins, Roboto, Inter, Open Sans, Source Sans 3, Montserrat
 import raleway700Url from "@fontsource/raleway/files/raleway-latin-700-normal.woff2?url";
 import poppins300Url from "@fontsource/poppins/files/poppins-latin-300-normal.woff2?url";
 import roboto400Url from "@fontsource/roboto/files/roboto-latin-400-normal.woff2?url";
+
+// Map of font family name (lowercase) to preload URL
+// Add more entries here when adding new fonts to the theme
+const FONT_PRELOAD_MAP: Record<string, string> = {
+  raleway: raleway700Url,
+  poppins: poppins300Url,
+  roboto: roboto400Url,
+};
 
 // Import Global Styles
 import "@freelance-persona/styles/main.scss";
@@ -151,16 +160,21 @@ const headingsFontName = cleanFontName(headingFont);
 const bodyFontName = cleanFontName(bodyFont);
 const navFontName = cleanFontName(navFont);
 
+// Dynamically determine which fonts to preload based on configured font families
+const fontRoles = [
+  { name: headingsFontName, weight: '400' }, // headings - typically bold
+  { name: bodyFontName, weight: '400' },     // body - regular
+  { name: navFontName, weight: '300' },      // navigation - light
+];
+
 const preloadUrls: string[] = [];
 
-if (headingsFontName === "raleway") {
-  preloadUrls.push(raleway700Url);
-}
-if (navFontName === "poppins") {
-  preloadUrls.push(poppins300Url);
-}
-if (bodyFontName === "roboto") {
-  preloadUrls.push(roboto400Url);
+for (const role of fontRoles) {
+  const fontKey = role.name;
+  const preloadUrl = FONT_PRELOAD_MAP[fontKey];
+  if (preloadUrl && !preloadUrls.includes(preloadUrl)) {
+    preloadUrls.push(preloadUrl);
+  }
 }
 ---
 

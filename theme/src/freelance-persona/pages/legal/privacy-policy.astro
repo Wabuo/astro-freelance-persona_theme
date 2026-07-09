@@ -6,8 +6,9 @@ import { getEntry, render } from "astro:content";
 
 const { legal, email, phone, address, author } = themeConfig;
 
-if (!legal?.privacy_enabled) {
-  return Astro.redirect("/");
+export async function getStaticPaths() {
+  if (!legal?.enabled || !legal?.privacy_enabled) return [];
+  return [{ params: {}, props: {} }];
 }
 
 // Token Resolution Logic
@@ -66,7 +67,7 @@ const { Content } = entry ? await render(entry) : { Content: null };
           <p>
             {
               privacyEmail && (
-                <span>
+                <span data-nosnippet>
                   <strong>Email:</strong> {privacyEmail}
                   <br />
                 </span>

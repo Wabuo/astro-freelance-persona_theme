@@ -26,7 +26,7 @@
   "dependencies": {
     "@iconify-json/academicons": "^1.2.4",
     "@iconify-json/bi": "^1.2.7",
-    "astro-expressive-code": "^0.43.0",
+    "astro-expressive-code": "^0.44.0",
     "astro-icon": "^1.1.5"
   }
 }

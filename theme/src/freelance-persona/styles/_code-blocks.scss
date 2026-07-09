@@ -81,24 +81,6 @@
       font-weight: var(--0fw, inherit);
       text-decoration: var(--0td, inherit);
     }
-
-    /* Reset key EC frame variables to github-light values */
-    .expressive-code {
-      --ec-codeFg: #24292e;
-      --ec-brdCol: #e1e4e8;
-      --ec-frm-inlBtnFg: #24292e;
-      --ec-frm-inlBtnBg: #24292e;
-      --ec-frm-inlBtnBrd: #24292e;
-      --ec-frm-edActTabBg: #fff;
-      --ec-frm-edActTabFg: #2f363d;
-      --ec-frm-edTabBarBg: #f6f8fa;
-      --ec-frm-edTabBarBrdCol: #e1e4e8;
-      --ec-frm-trmTtbFg: #2f363d;
-      --ec-frm-trmTtbBg: #fff;
-      --ec-frm-trmTtbBrdBtmCol: #e1e4e8;
-      --ec-frm-shdCol: #00000028;
-      --ec-frm-frameBoxShdCssVal: 0.1rem 0.1rem 0.2rem #00000028;
-    }
   }
 }
 

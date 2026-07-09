@@ -171,4 +171,14 @@ export interface PersonaConfig {
   mathjax?: {
     packages?: string[];
   };
+
+  // Code Blocks Configuration
+  codeBlocks?: {
+    frames?: {
+      enabled?: boolean;              // Default: true
+      showCopyButton?: boolean;       // Default: true
+      defaultFrame?: 'auto' | 'code' | 'terminal' | 'none'; // Default: 'code'
+    };
+    lineNumbers?: boolean;            // Default: false
+  };
 }

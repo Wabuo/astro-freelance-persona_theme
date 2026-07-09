@@ -13,10 +13,11 @@ import rehypeFigures from './plugins/rehypeFigures';
 import remarkExtractImageParams from './plugins/remarkExtractImageParams';
 import rehypeMathjaxChtml from 'rehype-mathjax/chtml';
 import { unified } from '@astrojs/markdown-remark';
-import { fileURLToPath, pathToFileURL } from 'url';
+import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
 import { mathjaxFontsPlugin } from './plugins/mathjaxFontsPlugin';
+import { virtualConfigPlugin } from './plugins/virtualConfig';
 
 export default function freelancePersona(): AstroIntegration {
   return {
@@ -25,74 +26,8 @@ export default function freelancePersona(): AstroIntegration {
       'astro:config:setup': async ({ updateConfig, config }) => {
         const currentDir = path.dirname(fileURLToPath(import.meta.url));
         const projectRoot = fileURLToPath(config.root);
-        const configPath = path.resolve(projectRoot, 'src/freelance-persona.config.ts');
         const utilsPath = path.resolve(currentDir, 'utils');
 
-        // Read config file content to serve as virtual module
-        // This avoids resolution issues in Node/SSR where aliases fail for external deps
-        let configContent = '';
-        try {
-          configContent = fs.readFileSync(configPath, 'utf-8');
-          console.log(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[32m✔ Successfully loaded theme configuration\x1b[0m from \x1b[90msrc/freelance-persona.config.ts\x1b[0m`);
-        } catch (e) {
-          console.warn(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[33m⚠ Could not find ${configPath}. Using default framework configuration.\x1b[0m`);
-          configContent = 'export const themeConfig = {}; export default themeConfig;';
-        }
-
-        // Write to a temporary generated file to ensure Vite treats it as TypeScript
-        // This avoids "Virtual Module" transformation issues
-        const generatedConfigPath = path.resolve(projectRoot, 'src/freelance-persona-config-generated.ts');
-        try {
-          fs.writeFileSync(generatedConfigPath, configContent);
-        } catch (e) {
-          console.error(`[FreelancePersona] Failed to write generated config:`, e);
-        }
-
-        // Load the parsed configuration object using a synchronous regex parser
-        // to avoid "Vite module runner has been closed" errors in production builds.
-        let userMathPackages = ['mhchem', 'physics', 'color', 'cancel', 'mathtools'];
-        let codeBlocksConfig: { frames?: { enabled?: boolean; showCopyButton?: boolean; defaultFrame?: 'auto' | 'code' | 'terminal' | 'none' }; lineNumbers?: boolean } = {};
-        try {
-          if (fs.existsSync(configPath)) {
-            const configText = fs.readFileSync(configPath, 'utf-8');
-            const packagesMatch = configText.match(/packages\s*:\s*\[([^\]]*)\]/);
-            if (packagesMatch) {
-              const packagesListStr = packagesMatch[1];
-              const pkgRegex = /['"`]([^'"`]+)['"`]/g;
-              const extracted: string[] = [];
-              let match;
-              while ((match = pkgRegex.exec(packagesListStr)) !== null) {
-                extracted.push(match[1]);
-              }
-              if (extracted.length > 0) {
-                userMathPackages = extracted;
-              }
-            }
-
-            // Parse codeBlocks config
-            const codeBlocksMatch = configText.match(/codeBlocks\s*:\s*\{([\s\S]*?)\n\s*\}/);
-            if (codeBlocksMatch) {
-              const codeBlocksStr = codeBlocksMatch[1];
-              const framesMatch = codeBlocksStr.match(/frames\s*:\s*\{([\s\S]*?)\}/);
-              if (framesMatch) {
-                const framesStr = framesMatch[1];
-                codeBlocksConfig.frames = {};
-                const enabledMatch = framesStr.match(/enabled\s*:\s*(true|false)/);
-                if (enabledMatch) codeBlocksConfig.frames.enabled = enabledMatch[1] === 'true';
-                const copyBtnMatch = framesStr.match(/showCopyButton\s*:\s*(true|false)/);
-                if (copyBtnMatch) codeBlocksConfig.frames.showCopyButton = copyBtnMatch[1] === 'true';
-                const frameMatch = framesStr.match(/defaultFrame\s*:\s*['"`](auto|code|terminal|none)['"`]/);
-                if (frameMatch) codeBlocksConfig.frames.defaultFrame = frameMatch[1] as 'auto' | 'code' | 'terminal' | 'none';
-              }
-              const lineNumbersMatch = codeBlocksStr.match(/lineNumbers\s*:\s*(true|false)/);
-              if (lineNumbersMatch) codeBlocksConfig.lineNumbers = lineNumbersMatch[1] === 'true';
-            }
-          }
-        } catch (e) {
-          console.warn(`[FreelancePersona] Failed to parse packages config from ${configPath}. Using defaults.`, e);
-        }
-        const framesConfig = codeBlocksConfig.frames ?? { enabled: true, showCopyButton: true, defaultFrame: 'code' };
-        const terminalLanguages = ['sh', 'shell', 'bash', 'zsh', 'fish', 'powershell', 'ps', 'ps1', 'cmd', 'bat', 'batch', 'console', 'nu', 'nushell'];
         const remarkPluginsList = [
           remarkExtractImageParams,
           remarkDirective,
@@ -104,14 +39,17 @@ export default function freelancePersona(): AstroIntegration {
           // Single-Pass: Process all formulas (Inline & Block) into CHTML
           [rehypeMathjaxChtml, {
             chtml: {
-              fontURL: '/fonts/mathjax/'
+              fontURL: '/fonts/mathjax/',
+              adaptiveCSS: false
             },
             tex: {
-              packages: ['base', 'ams', 'nocomplain', ...userMathPackages]
+              packages: ['base', 'ams', 'nocomplain', ...['mhchem', 'physics', 'color', 'cancel', 'mathtools']]
             }
           }],
           rehypeFigures
         ];
+
+        const terminalLanguages = ['sh', 'shell', 'bash', 'zsh', 'fish', 'powershell', 'ps', 'ps1', 'cmd', 'bat', 'batch', 'console', 'nu', 'nushell'];
 
         updateConfig({
           markdown: {
@@ -144,13 +82,13 @@ export default function freelancePersona(): AstroIntegration {
                 return false;
               },
               useThemedScrollbars: false,
-              frames: framesConfig.enabled === false ? false : {
-                showCopyToClipboardButton: framesConfig.showCopyButton !== false,
+              frames: {
+                showCopyToClipboardButton: true,
                 extractFileNameFromCode: false,
               },
               customCreateBlock: ({ input }) => {
                 // Force 'code' frame for terminal languages to avoid the 3-dots terminal UI
-                if (framesConfig.defaultFrame === 'code' && terminalLanguages.includes(input.language)) {
+                if (terminalLanguages.includes(input.language)) {
                   return { ...input, props: { ...input.props, frame: 'code' } };
                 }
                 return input;
@@ -173,7 +111,7 @@ export default function freelancePersona(): AstroIntegration {
             mdx()
           ],
           vite: {
-            plugins: [mathjaxFontsPlugin()],
+            plugins: [mathjaxFontsPlugin(), virtualConfigPlugin()],
             server: {
               fs: {
                 allow: ['/']
@@ -183,7 +121,7 @@ export default function freelancePersona(): AstroIntegration {
               alias: [
                 {
                   find: '@freelance-persona/config',
-                  replacement: generatedConfigPath
+                  replacement: 'virtual:freelance-persona-config'
                 },
                 {
                   find: '@freelance-persona/utils',

@@ -13,8 +13,13 @@ export function mathjaxFontsPlugin() {
   return {
     name: 'freelance-persona:mathjax-fonts',
     configResolved(config) {
-      const projectRoot = config.root;
-      resolvedFontSourceDir = path.join(projectRoot, 'node_modules', '@mathjax', 'mathjax-newcm-font', 'chtml', 'woff2');
+      // config.root is the project root (playground)
+      // The theme is at <monorepo-root>/theme/
+      // The plugin file is at <monorepo-root>/theme/src/freelance-persona/plugins/mathjaxFontsPlugin.ts
+      const pluginFile = fileURLToPath(import.meta.url);
+      const themeSrcDir = path.resolve(pluginFile, '..', '..', '..'); // theme/src/
+      const themeRoot = path.resolve(themeSrcDir, '..'); // theme/
+      resolvedFontSourceDir = path.join(themeRoot, 'node_modules', 'mathjax-full', 'es5', 'output', 'chtml', 'fonts', 'woff-v2');
     },
     async writeBundle({ dir }) {
       const outDir = path.join(dir, 'fonts', 'mathjax');
@@ -22,13 +27,18 @@ export function mathjaxFontsPlugin() {
       
       if (fs.existsSync(resolvedFontSourceDir)) {
         const files = fs.readdirSync(resolvedFontSourceDir);
+        let copied = 0;
+        
         for (const file of files) {
-          fs.copyFileSync(
-            path.join(resolvedFontSourceDir, file),
-            path.join(outDir, file)
-          );
+          if (file.endsWith('.woff') || file.endsWith('.woff2')) {
+            fs.copyFileSync(
+              path.join(resolvedFontSourceDir, file),
+              path.join(outDir, file)
+            );
+            copied++;
+          }
         }
-        console.log(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[32m✔ Copied ${files.length} MathJax fonts to build output\x1b[0m`);
+        console.log(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[32m✔ Copied ${copied} MathJax fonts to build output\x1b[0m`);
       } else {
         console.warn(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[33m⚠ MathJax font source not found at ${resolvedFontSourceDir}\x1b[0m`);
       }

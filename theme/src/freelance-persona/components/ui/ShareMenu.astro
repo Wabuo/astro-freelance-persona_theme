@@ -5,6 +5,7 @@
 
 // src/freelance-persona/components/ui/ShareMenu.astro
 import { Icon } from "astro-icon/components";
+
 interface Props {
   url: string;
   title: string;
@@ -13,7 +14,7 @@ interface Props {
 
 const { url, title, description = "" } = Astro.props;
 
-// Encode for sharing
+// Encode for sharing (done at build time)
 const encodedUrl = encodeURIComponent(url);
 const encodedTitle = encodeURIComponent(title);
 const encodedDesc = encodeURIComponent(description);
@@ -29,7 +30,7 @@ const encodedDesc = encodeURIComponent(description);
     <Icon name="bi:share" />
   </button>
 
-  <div class="share-dropdown">
+  <div class="share-dropdown" data-dropdown>
     <div class="share-menu-list">
       <!-- Copy Link -->
       <button class="share-menu-item action-copy-link" data-url={url}>
@@ -91,6 +92,8 @@ const encodedDesc = encodeURIComponent(description);
 </style>
 
 <script>
+  import { initCustomDropdown } from "@freelance-persona/utils/dropdown";
+
   function initShareMenu() {
     const wrappers = document.querySelectorAll(
       ".share-menu-wrapper:not([data-initialized])",
@@ -105,27 +108,6 @@ const encodedDesc = encodeURIComponent(description);
 
       // Mark as initialized
       wrapper.setAttribute("data-initialized", "true");
-
-      // Toggle Menu
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const expanded = btn.getAttribute("aria-expanded") === "true";
-
-        // Close other open menus first
-        document
-          .querySelectorAll(".share-menu-wrapper .share-btn.active")
-          .forEach((otherBtn) => {
-            if (otherBtn !== btn) {
-              otherBtn.classList.remove("active");
-              otherBtn.nextElementSibling?.classList.remove("show");
-              otherBtn.setAttribute("aria-expanded", "false");
-            }
-          });
-
-        btn.setAttribute("aria-expanded", String(!expanded));
-        dropdown.classList.toggle("show");
-        btn.classList.toggle("active");
-      });
 
       // Copy Link Logic
       if (copyBtn) {
@@ -159,33 +141,33 @@ const encodedDesc = encodeURIComponent(description);
           }
         });
       }
-    });
 
-    // Close on Click Outside (Global - once)
-    if (!window.hasShareMenuGlobalListener) {
-      document.addEventListener("click", (e) => {
-        const target = e.target as Node;
-        if (!target.parentElement?.closest(".share-menu-wrapper")) {
-          document.querySelectorAll(".share-dropdown.show").forEach((menu) => {
-            menu.classList.remove("show");
-            const btn = menu.previousElementSibling;
-            if (btn) {
-              btn.setAttribute("aria-expanded", "false");
-              btn.classList.remove("active");
+      // Toggle dropdown on button click
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains("open");
+        
+        if (!isOpen) {
+          // Close other dropdowns
+          document.querySelectorAll("[data-dropdown].open").forEach((other) => {
+            if (other !== dropdown) {
+              other.classList.remove("open");
             }
           });
         }
+        
+        dropdown.classList.toggle("open");
+        btn.setAttribute("aria-expanded", String(!isOpen));
       });
-      window.hasShareMenuGlobalListener = true;
-    }
+    });
   }
 
-  // Type definition for window property
-  declare global {
-    interface Window {
-      hasShareMenuGlobalListener: boolean;
-    }
-  }
+  // Initialize dropdown behavior using shared utility
+  // Handles: click outside, ESC key, close other dropdowns
+  initCustomDropdown("[data-dropdown]", {
+    closeOnOutsideClick: true,
+    closeOnEscape: true,
+  });
 
   // Initialize after Astro swaps and on initial load
   if (document.readyState === "loading") {

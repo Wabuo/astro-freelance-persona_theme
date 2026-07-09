@@ -22,7 +22,8 @@
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
     "@mathjax/mathjax-newcm-font": "4",
-    "@playwright/test": "^1.60.0"
+    "@playwright/test": "^1.60.0",
+    "mathjax-full": "^3.2.2"
   },
   "dependencies": {
     "@iconify-json/academicons": "^1.2.4",

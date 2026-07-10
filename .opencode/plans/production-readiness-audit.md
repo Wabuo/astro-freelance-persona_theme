@@ -1,13 +1,14 @@
-# Production Readiness Audit & Implementation Plan (Final)
+# Production Readiness Audit & Implementation Plan
 
 ## Executive Summary
 
 **Current**: Alpha 0.1.0-alpha.8 → **Target**: Beta 0.1.0-beta.0
+We are past 0.1.0-beta.0 but i decided to rever back to pvokouutyslz because of massive UI issues, attempt the seccond, pvokouutyslz is early phase 2
 **Mode**: Single session, iterative, plan kept updated, you apply jj commits
 
 ---
 
-## 🔴 Critical - Beta Blockers (Phase 1)
+## 🔴 Critical - Beta Blockers (Phase 1) done
 
 ### 1.1 SEO: Sitemap + Robots.txt
 **Goal**: Legal pages indexed, **never cached** (no stale legal text liability)
@@ -83,6 +84,7 @@ export async function getStaticPaths() {
 ---
 
 ## 🟠 High - Architecture Cleanup (Phase 2)
+Some of this is done check where we are at
 
 ### 2.1 Virtual Config Module (Replace Regex + File Write)
 **Files**: `integration.ts`, new `virtual-config.ts`
@@ -112,6 +114,7 @@ utils/
 ```
 
 ### 2.3 Modernize Share Menu (Reuse Dropdown Module)
+reverted this was quite a back and forth so you best check the code and just copy the final aproach back into existance
 **File**: `theme/src/freelance-persona/components/ui/ShareMenu.astro`
 ```astro
 <div class="share-menu-wrapper">
@@ -131,7 +134,18 @@ utils/
 
 ---
 
-## 🟡 Medium - Bootstrap → UnoCSS Migration (Phase 3)
+## 🟡 Medium - Bootstrap → UnoCSS Migration (Phase 3) SCRATCH NOT HAPPENING
+This needs a lot more prepperation and we have to write a decent dedicated implementation plan for this!
+First we need to go over the the test suite and insure it is in decent state so that we can use it to insure our fully reimplemented css now in unoCSS is a picel perfect clone.
+
+We need to write a massive implementation plan going over all the needed desicions we will have to make when reimplementing all bootstrap css/js as unoCSS.
+The goal is to end up in a state where it is like if the theme was initially devoloped for/with unocss instead of being based on a 10 year old bootstarp theme moderniced forward on livsuport with different additions and modifications added to it.
+
+ergo we skip phase 3 tget into a decent state ro work on this and write a whole new reimplemet and migrate all botstrap css in UnoCSS and ditch botstrap like if it was never a thing.
+
+I asume most steps below here are obsolete now
+
+BUT we shoul carry forward that we will need to run some lighthouse optimisations in the end of it and after that enable copression probably zstd brotli and if needed also gz but i think brotly and zstd should do the trick
 
 ### 3.1 Add UnoCSS
 ```bash

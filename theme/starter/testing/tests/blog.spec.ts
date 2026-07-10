@@ -65,13 +65,6 @@ test.describe('Blog Visuals & Functionality', () => {
             await page.evaluate(() => document.fonts.ready);
         }
 
-        // Disable reveal animations for stability
-        if (testInfo.project.name !== 'noscript') {
-            await page.addStyleTag({
-                content: `[data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }`
-            });
-        }
-
         // Verify Image is present (Correct selector from BlogPostTemplate)
         const heroImage = page.locator('.post-img img');
         await expect(heroImage).toBeVisible();
@@ -85,7 +78,8 @@ test.describe('Blog Visuals & Functionality', () => {
             mask: [
                 page.locator('.mascot-container'),
                 page.locator('.typing-lock'),
-                page.locator('.typed-cursor')
+                page.locator('.typed-cursor'),
+                page.locator('.hero .typing-wrapper'),
             ]
         });
     });
@@ -98,13 +92,6 @@ test.describe('Blog Visuals & Functionality', () => {
             await page.evaluate(() => document.fonts.ready);
         }
 
-        // Disable reveal animations for stability
-        if (testInfo.project.name !== 'noscript') {
-            await page.addStyleTag({
-                content: `[data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }`
-            });
-        }
-
         // Verify Image is NOT present
         const heroImage = page.locator('.post-img img');
         await expect(heroImage).toBeHidden();
@@ -115,7 +102,8 @@ test.describe('Blog Visuals & Functionality', () => {
             mask: [
                 page.locator('.mascot-container'),
                 page.locator('.typing-lock'),
-                page.locator('.typed-cursor')
+                page.locator('.typed-cursor'),
+                page.locator('.hero .typing-wrapper'),
             ]
         });
     });

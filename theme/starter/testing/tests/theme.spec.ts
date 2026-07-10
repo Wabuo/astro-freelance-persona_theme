@@ -6,13 +6,9 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Theme Toggle & Dark Mode', () => {
     test.beforeEach(async ({ page }, testInfo) => {
-        // Disable transitions and animations for stable measurements
+        // Test-mode CSS handles animations/transitions
         if (testInfo.project.name !== 'noscript') {
-            await page.addInitScript(() => {
-                const style = document.createElement('style');
-                style.innerHTML = `* { transition: none !important; animation: none !important; scroll-behavior: auto !important; }`;
-                document.head.appendChild(style);
-            });
+            await page.evaluate(() => document.fonts.ready);
         }
     });
 
@@ -139,7 +135,7 @@ test.describe('Theme Toggle & Dark Mode', () => {
     });
 
     test('Layout Stability on Theme Switch (Home Page)', async ({ page }, testInfo) => {
-        if (testInfo.project.name === 'noscript' || testInfo.project.name === 'firefox-dark') test.skip(true, 'Redundant or not applicable');
+        if (testInfo.project.name === 'noscript') test.skip(true, 'Redundant');
 
         await page.goto('/');
         await page.waitForLoadState('load');
@@ -147,11 +143,6 @@ test.describe('Theme Toggle & Dark Mode', () => {
             await page.evaluate(() => document.fonts.ready);
         }
         
-        // Force immediate scrolling
-        if (testInfo.project.name !== 'noscript') {
-            await page.addStyleTag({ content: '* { scroll-behavior: auto !important; }' });
-        }
-
         const isMobile = page.viewportSize()!.width < 992;
         const navId = isMobile ? '#navmenu-mobile' : '#navmenu';
         const toggleId = isMobile ? 'theme-menu-toggle-mobile' : 'theme-menu-toggle-desktop';
@@ -202,7 +193,7 @@ test.describe('Theme Toggle & Dark Mode', () => {
 
     for (const p of pages) {
         test(`Layout Stability on Theme Switch (${p.name})`, async ({ page }, testInfo) => {
-            if (testInfo.project.name === 'noscript' || testInfo.project.name === 'firefox-dark') test.skip(true, 'Redundant or not applicable');
+            if (testInfo.project.name === 'noscript') test.skip(true, 'Redundant');
 
             await page.goto(p.url);
             await page.waitForLoadState('load');
@@ -210,11 +201,6 @@ test.describe('Theme Toggle & Dark Mode', () => {
                 await page.evaluate(() => document.fonts.ready);
             }
             
-            // Force immediate scrolling
-            if (testInfo.project.name !== 'noscript') {
-                await page.addStyleTag({ content: '* { scroll-behavior: auto !important; }' });
-            }
-
             const isMobile = page.viewportSize()!.width < 992;
             const navId = isMobile ? '#navmenu-mobile' : '#navmenu';
             const toggleId = isMobile ? 'theme-menu-toggle-mobile' : 'theme-menu-toggle-desktop';

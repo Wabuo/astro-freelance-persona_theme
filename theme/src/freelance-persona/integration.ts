@@ -51,6 +51,8 @@ export default function freelancePersona(): AstroIntegration {
 
         const terminalLanguages = ['sh', 'shell', 'bash', 'zsh', 'fish', 'powershell', 'ps', 'ps1', 'cmd', 'bat', 'batch', 'console', 'nu', 'nushell'];
 
+        const isTestMode = process.env.PLAYWRIGHT_TEST === 'true';
+
         updateConfig({
           markdown: {
             processor: unified({
@@ -112,6 +114,9 @@ export default function freelancePersona(): AstroIntegration {
           ],
           vite: {
             plugins: [mathjaxFontsPlugin(), virtualConfigPlugin()],
+            define: {
+              __TEST_MODE__: isTestMode,
+            },
             server: {
               fs: {
                 allow: ['/']

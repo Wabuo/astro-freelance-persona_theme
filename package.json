@@ -14,9 +14,10 @@
     "build": "cd playground && bun run build",
     "preview": "cd playground && bun run preview",
     "check": "cd playground && bun run check",
-    "test": "cd playground && bun run test",
+    "test": "cd playground && bun run test --project=firefox",
+    "test:full": "cd playground && bun run test",
     "test:e2e": "cd playground && bun run test",
-    "test:e2e:ui": "cd playground && bun exec playwright test --ui",
+    "test:e2e:ui": "cd playground && bunx playwright test --ui",
     "playground:setup": "fuser -k 4321/tcp || true; fuser -k 4322/tcp || true; cd theme && bun link && cd .. && rm -rf playground && mkdir -p playground && cp -a theme/starter/. playground && cd playground && bun link astro-freelance-persona_theme"
   },
   "devDependencies": {

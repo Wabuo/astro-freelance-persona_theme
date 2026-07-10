@@ -1,0 +1,90 @@
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
+import { test, expect } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load all config files from the configs directory
+const CONFIG_DIR = path.resolve(__dirname, '../configs');
+const configFiles = fs.readdirSync(CONFIG_DIR)
+  .filter(f => f.endsWith('.ts') && !f.endsWith('.d.ts'))
+  .sort();
+
+for (const configFile of configFiles) {
+  const configName = configFile.replace('.ts', '');
+  
+  test.describe(`Config Matrix: ${configName}`, () => {
+    test('Homepage renders with config applied', async ({ page }, testInfo) => {
+      await page.goto('/');
+      await page.waitForLoadState('load');
+      
+      // Fonts ready check (skip in noscript)
+      if (testInfo.project.name !== 'noscript') {
+        await page.evaluate(() => document.fonts.ready).catch(() => {});
+      }
+      
+      // Wait for any lazy images
+      await page.waitForTimeout(500);
+      
+      await expect(page).toHaveScreenshot(`config-matrix-${configName}-home.png`, {
+        fullPage: true,
+        maxDiffPixelRatio: 0.15,
+        mask: [
+          page.locator('.typing-lock'),
+          page.locator('.typed-cursor'),
+          page.locator('.mascot-container'),
+          page.locator('.hero .typing-wrapper'),
+        ],
+      });
+    });
+
+    test('Blog category page renders', async ({ page }, testInfo) => {
+      await page.goto('/blogs/design-system');
+      await page.waitForLoadState('load');
+      
+      if (testInfo.project.name !== 'noscript') {
+        await page.evaluate(() => document.fonts.ready).catch(() => {});
+      }
+      
+      await page.waitForTimeout(500);
+      
+      await expect(page).toHaveScreenshot(`config-matrix-${configName}-blog-list.png`, {
+        fullPage: true,
+        maxDiffPixelRatio: 0.15,
+        mask: [
+          page.locator('.typing-lock'),
+          page.locator('.typed-cursor'),
+          page.locator('.mascot-container'),
+        ],
+      });
+    });
+
+    test('Blog post page renders', async ({ page }, testInfo) => {
+      await page.goto('/posts/lancy-intro');
+      await page.waitForLoadState('load');
+      
+      if (testInfo.project.name !== 'noscript') {
+        await page.evaluate(() => document.fonts.ready).catch(() => {});
+      }
+      
+      await page.waitForTimeout(500);
+      
+      await expect(page).toHaveScreenshot(`config-matrix-${configName}-blog-post.png`, {
+        fullPage: true,
+        maxDiffPixelRatio: 0.1,
+        mask: [
+          page.locator('.typing-lock'),
+          page.locator('.typed-cursor'),
+          page.locator('.mascot-container'),
+          page.locator('.hero .typing-wrapper'),
+        ],
+      });
+    });
+  });
+}

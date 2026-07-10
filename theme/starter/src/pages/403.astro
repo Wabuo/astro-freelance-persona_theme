@@ -88,9 +88,6 @@ const description = "You do not have permission to view this page.";
       max-width: 100%;
       height: auto;
       filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
-      // A more rigid, guarding stance animation? Or just simple float?
-      // Let's keep the float but maybe slower to look imposing.
-      animation: float 8s ease-in-out infinite;
     }
 
     .btn-get-started {
@@ -166,15 +163,4 @@ const description = "You do not have permission to view this page.";
     }
   }
 
-  @keyframes float {
-    0% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
-  }
 </style>

@@ -86,7 +86,6 @@ const description = "The page you are looking for does not exist.";
       max-width: 100%;
       height: auto;
       filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
-      animation: float 6s ease-in-out infinite;
     }
 
     .btn-get-started {
@@ -109,7 +108,7 @@ const description = "The page you are looking for does not exist.";
     }
 
     /* Mobile Compact Layout */
-    @media (max-width: 768px) {
+@media (max-width: 768px) {
       min-height: 85vh; // Revert to stable vh
       padding: 1rem 0 2rem 0; // Tighten padding
 
@@ -134,18 +133,6 @@ const description = "The page you are looking for does not exist.";
       .btn-get-started {
         margin-top: 0.5rem;
       }
-    }
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-15px);
-    }
-    100% {
-      transform: translateY(0px);
     }
   }
 </style>

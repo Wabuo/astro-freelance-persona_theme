@@ -42,14 +42,17 @@ SPDX-License-Identifier: MIT
 
 - **Directory:** Tests are in `theme/starter/testing/tests/` (part of the starter template).
 - **Config:** `theme/starter/playwright.config.ts` handles the `webServer`, `noscript` project, and default reporters.
-- **Reporting:** **ALWAYS** use `--reporter=list` or `--reporter=line` to prevent hanging the terminal validation.
+- **Run from `theme/starter`:** All Playwright tests **MUST** be run from the `theme/starter` directory, not from root or playground.
+  - `cd theme/starter && PLAYWRIGHT_TEST=true bun x playwright test --reporter=list`
+  - The `PLAYWRIGHT_TEST=true` env var enables test-mode CSS (disables animations, reveals elements).
+- **Reporting:** **ALWAYS** use `--reporter=list` or `--reporter=line` to prevent hanging the terminal.
 - **Dynamic Content Parsing:** Tests use `testing/utils/content-parser.ts` to read expected values from content files dynamically. **NEVER** hardcode content values in tests.
 - **NoScript Testing:**
   - Used for verification of graceful degradation.
   - Project: `bun x playwright test --project=noscript`
   - **Rule:** Preloader must be hidden (`display: none`), Content must be visible (`opacity: 1`).
 - **Visual Regression Snapshots:** All reference `*.png` images are git-ignored in the repository via `theme/.gitignore` (`*.png`). They are not committed to Git.
-  - To update or generate baseline screenshots locally: run `bun run test --update-snapshots` inside `playground/`.
+  - To update or generate baseline screenshots locally: run `bun run test --update-snapshots` inside `theme/starter/`.
   - To preserve new/updated snapshots across `bun run playground:setup` resets, copy them back from playground to the starter template:
     `cp -r playground/testing/tests/*-snapshots/ theme/starter/testing/tests/`
 - **Path Aliases:** Tests use `@/*` (e.g., `import { themeConfig } from '@/freelance-persona.config'`) which maps to `src/*` in the starter context.

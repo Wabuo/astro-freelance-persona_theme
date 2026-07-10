@@ -23,9 +23,6 @@ test.describe('Attribution Logic & Interactions', () => {
         await page.waitForLoadState('load');
         if (testInfo.project.name !== 'noscript') {
             await page.evaluate(() => document.fonts.ready).catch(() => {});
-            await page.addStyleTag({
-                content: 'html { scroll-behavior: auto !important; }'
-            });
         }
     });
 
@@ -146,9 +143,6 @@ test.describe('Attribution Logic & Interactions', () => {
         await page.waitForLoadState('load');
         if (testInfo.project.name !== 'noscript') {
             await page.evaluate(() => document.fonts.ready).catch(() => {});
-            await page.addStyleTag({
-                content: 'html { scroll-behavior: auto !important; }'
-            });
         }
 
         const attribution = page.locator('.post-img .img-attribution');

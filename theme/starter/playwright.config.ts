@@ -41,33 +41,41 @@ export default defineConfig({
 
     /* Configure projects for major browsers */
     projects: [
+        /* Quick tier: firefox-light + chrome-mobile-dark (fast feedback) */
+        /* Full tier: all projects below (comprehensive coverage) */
         {
-            name: 'chromium',
-            use: { ...devices['Desktop Chrome'] },
+            name: 'firefox-light',
+            use: { ...devices['Desktop Firefox'], colorScheme: 'light' },
         },
-        // Test against mobile viewports.
         {
-            name: 'Mobile Chrome',
-            use: { ...devices['Pixel 5'] },
+            name: 'chrome-mobile-dark',
+            use: { ...devices['Pixel 5'], colorScheme: 'dark' },
         },
-        /* Dark Mode Testing in Firefox */
         {
             name: 'firefox-dark',
-            use: { 
-                ...devices['Desktop Firefox'],
-                colorScheme: 'dark'
+            use: { ...devices['Desktop Firefox'], colorScheme: 'dark' },
+        },
+        {
+            name: 'chrome-light',
+            use: { ...devices['Desktop Chrome'], colorScheme: 'light' },
+        },
+        {
+            name: 'firefox-mobile-light',
+            use: {
+                ...devices['Pixel 5'],
+                browserName: 'firefox',
+                colorScheme: 'light',
             },
         },
-        /* NoScript Environment */
         {
             name: 'noscript',
             use: {
                 ...devices['Desktop Chrome'],
-                javaScriptEnabled: false
+                javaScriptEnabled: false,
             },
         },
-        /* WebKit disabled locally due to missing system dependencies (libicu). 
-           Playwright bundled WebKit does not use system libraries on Linux. 
+        /* WebKit disabled locally due to missing system dependencies (libicu).
+           Playwright bundled WebKit does not use system libraries on Linux.
            Enable in CI environment. */
         // {
         //    name: 'webkit',
@@ -75,9 +83,9 @@ export default defineConfig({
         // },
     ],
 
-    /* Run your local dev server before starting the tests */
+/* Run your local dev server before starting the tests */
     webServer: {
-        command: 'bun run build && bun run preview',
+        command: 'PLAYWRIGHT_TEST=true bun run build && bun run preview',
         url: 'http://localhost:4321',
         reuseExistingServer: !process.env.CI,
         timeout: 120 * 1000,

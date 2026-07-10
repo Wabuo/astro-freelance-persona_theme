@@ -397,3 +397,43 @@ html:has(.header[popover]:popover-open) {
 --------------------------------------------------------------*/
 /* Legacy styles removed. Now using astro-expressive-code. */
 
+/*--------------------------------------------------------------
+# Test Mode: Deterministic Rendering for Visual Regression
+--------------------------------------------------------------*/
+[data-test-mode="true"] {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .typed-cursor {
+    display: none !important;
+  }
+
+  .typing-lock,
+  .typed {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .mascot-container {
+    animation: none !important;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+

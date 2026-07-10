@@ -16,15 +16,6 @@ test.describe('Visual Hover States', () => {
         if (testInfo.project.name !== 'noscript') {
             await page.evaluate(() => document.fonts.ready);
         }
-        // Disable transitions and reveal animations for stability
-        if (testInfo.project.name !== 'noscript') {
-            await page.addStyleTag({
-                content: `
-                    * { transition: none !important; animation: none !important; }
-                    [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
-                `
-            });
-        }
     });
 
     test('Hero Section: Social Links', async ({ page }) => {

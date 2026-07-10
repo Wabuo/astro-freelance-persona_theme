@@ -30,7 +30,11 @@ test.describe('Legal Page', () => {
 
         await expect(page).toHaveScreenshot('legal-page-desktop.png', {
             fullPage: true,
-            mask: [page.locator('.typing-lock'), page.locator('.typed-cursor')]
+            mask: [
+                page.locator('.typing-lock'),
+                page.locator('.typed-cursor'),
+                page.locator('.hero .typing-wrapper'),
+            ]
         });
     });
 

@@ -6,7 +6,7 @@
 
 @use "navigation";
 
-/* Applied only when body has .page-page class */
+/* Applied only when body has .inner-page class */
 body.inner-page {
   @include navigation.styles();
 }

@@ -11,20 +11,16 @@
 @import "bootstrap-core";
 
 // 2. Load Selected Bootstrap components
-// Wrap in @layer so unlayered theme styles (base.scss etc.) always win
-// without needing higher specificity selectors.
-@layer bootstrap {
-  @import "bootstrap/scss/root";
-  @import "bootstrap/scss/reboot";
-  @import "bootstrap/scss/type";
-  @import "bootstrap/scss/images";
-  @import "bootstrap/scss/containers";
-  @import "bootstrap/scss/grid";
-  @import "bootstrap/scss/forms";
-  @import "bootstrap/scss/buttons";
-  @import "bootstrap/scss/transitions";
-  @import "bootstrap/scss/dropdown";
-  @import "bootstrap/scss/badge";
-  @import "bootstrap/scss/helpers";
-  @import "bootstrap/scss/utilities/api";
-}
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/utilities/api";

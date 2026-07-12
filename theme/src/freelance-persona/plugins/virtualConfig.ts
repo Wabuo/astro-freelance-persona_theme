@@ -75,11 +75,18 @@ export function virtualConfigPlugin() {
   const virtualModuleId = 'virtual:freelance-persona-config';
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
+  function getConfigPath(): string {
+    if (process.env.THEME_CONFIG_PATH) {
+      return path.resolve(process.env.THEME_CONFIG_PATH);
+    }
+    return path.join(projectRoot, 'src', 'freelance-persona.config.ts');
+  }
+
   return {
     name: 'freelance-persona:virtual-config',
     configResolved(config) {
       projectRoot = config.root;
-      const configPath = path.join(projectRoot, 'src', 'freelance-persona.config.ts');
+      const configPath = getConfigPath();
       let configContent = '';
       try {
         configContent = fs.readFileSync(configPath, 'utf-8');
@@ -99,7 +106,7 @@ export function virtualConfigPlugin() {
       if (id === resolvedVirtualModuleId) {
         // Return the full config file content with TypeScript imports and type annotations stripped
         // This allows Vite to properly process the module
-        const configPath = path.join(projectRoot, 'src', 'freelance-persona.config.ts');
+        const configPath = getConfigPath();
         let configContent = '';
         try {
           configContent = fs.readFileSync(configPath, 'utf-8');

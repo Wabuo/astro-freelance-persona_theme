@@ -6,17 +6,23 @@ import type { PersonaConfig } from 'astro-freelance-persona_theme/types';
 import { astroMajorVersion } from 'astro-freelance-persona_theme/utils/buildInfo';
 
 /**
- * Config Matrix: Hero Layout Variants
- * Proves visuals.layout and hero content positioning works
+ * Config Matrix: Layout Pipeline
+ * Proves visuals.layout.* → CSS custom properties
+ * 
+ * Tests all 4 layout vars:
+ * - page_margin_left: 2rem (vs default 8.875rem) — dramatic visual difference
+ * - page_margin_right: 1rem (tests right margin var)
+ * - nav_pill_expanded_width: 8rem (vs default 10.35rem)
+ * - nav_menu_width: 6rem (vs default 8.75rem)
  */
 export const themeConfig: PersonaConfig = {
-  title: `freelance-persona — Config: Hero Variants (Astro ${astroMajorVersion})`,
+  title: `freelance-persona — Config: Layout (Astro ${astroMajorVersion})`,
   author: "freelance-persona Theme Test",
-  description: "Config matrix test for hero layout positioning",
+  description: "Config matrix test for layout overrides",
 
-  email: "hero-test@example.com",
-  phone: "+1555000005",
-  address: "123 Hero Test Ave",
+  email: "layout-test@example.com",
+  phone: "+1555000003",
+  address: "123 Layout Test Way",
 
   social_links: [
     { name: "GitHub", url: "https://github.com/test", icon_class: "bi bi-github" },
@@ -26,7 +32,9 @@ export const themeConfig: PersonaConfig = {
     mascot_image: "/src/assets/img/lancy.svg",
     layout: {
       page_margin_left: "2rem",
+      page_margin_right: "1rem",
       nav_pill_expanded_width: "8rem",
+      nav_menu_width: "6rem",
     },
     scroll_animations: { enabled: true },
   },
@@ -46,32 +54,32 @@ export const themeConfig: PersonaConfig = {
 
   contact_form: {
     provider: "mailto",
-    action: "mailto:hero-test@example.com",
+    action: "mailto:layout-test@example.com",
   },
 
-  quote: "Hero test quote",
-  copyright: "&copy; Hero Test",
-  credits: ["Config: Hero variants test"],
+  quote: "Layout test quote",
+  copyright: "&copy; Layout Test",
+  credits: ["Config: Layout test"],
 
   legal: {
     enabled: true,
     link_text: "Legal Notice",
     privacy_enabled: true,
     privacy_link_text: "Privacy Policy",
-    legal_name: "Hero Test Corp",
-    legal_address: "123 Hero Test Ave",
-    legal_email: "hero-test@example.com",
-    privacy_email: "privacy@hero-test.com",
-    legal_phone: "+1555000005",
+    legal_name: "Layout Test Corp",
+    legal_address: "123 Layout Test Way",
+    legal_email: "layout-test@example.com",
+    privacy_email: "privacy@layout-test.com",
+    legal_phone: "+1555000003",
     business_license: "Test: Sole Proprietor",
     vat_id: "TEST123",
     jurisdiction: "Testland",
     disclaimer: "legal-guide",
-    legal_note: "Hero test note",
+    legal_note: "Layout test note",
   },
 
   mathjax: {
-    packages: ['base', 'ams', 'nocomplain'],
+    packages: ['base', 'ams'],
   },
 
   codeBlocks: {

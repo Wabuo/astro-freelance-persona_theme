@@ -4,7 +4,12 @@
 
 import { test, expect } from '@playwright/test';
 
-test('Hero Layout Safety Check', async ({ page }) => {
+test('Hero Layout Safety Check', async ({ page }, testInfo) => {
+    // Firefox doesn't support dynamic viewport resizing well
+    if (testInfo.project.name === 'firefox-mobile-light') {
+        test.skip(true, 'Firefox does not support dynamic viewport resizing');
+    }
+
     // 1. Mobile Portrait (Safe? Should show full height usually)
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');

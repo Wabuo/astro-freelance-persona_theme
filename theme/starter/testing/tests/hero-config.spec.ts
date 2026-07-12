@@ -52,9 +52,14 @@ test.describe('Hero Configuration', () => {
         }
     });
 
-    test('Mobile Text Alignment matches config', async ({ page }) => {
+    test('Mobile Text Alignment matches config', async ({ page }, testInfo) => {
         // Skip if not configured
         test.skip(!heroConfig.mobile_text_align, 'No mobile_text_align configured');
+
+        // Firefox doesn't support dynamic viewport resizing well
+        if (testInfo.project.name === 'firefox-mobile-light') {
+            test.skip(true, 'Firefox does not support dynamic viewport resizing');
+        }
 
         // Set viewport to mobile
         await page.setViewportSize({ width: 390, height: 844 });

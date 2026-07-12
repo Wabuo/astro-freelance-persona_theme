@@ -24,11 +24,15 @@ test.describe('NoScript / JS Disabled Fallback', () => {
         await expect(firstReveal).toBeVisible();
         await expect(firstReveal).toHaveCSS('opacity', '1');
 
+        // Wait for fonts to load before screenshot
+        await page.waitForTimeout(2000);
+
         // 3. Visual Snapshot (Baseline for NoScript)
         // This ensures layout isn't broken when JS is off
         await expect(page).toHaveScreenshot('noscript-homepage.png', {
             fullPage: true,
-            animations: 'disabled' // Irrelevant as JS is off, but good practice
+            animations: 'disabled',
+            timeout: 10000
         });
     });
 

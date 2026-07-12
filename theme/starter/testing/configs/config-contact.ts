@@ -53,6 +53,11 @@ export const themeConfig: PersonaConfig = {
         label: "I agree to the [Privacy Policy](/legal/privacy-policy). My data will be processed solely for handling this inquiry.",
         required: true,
       },
+      {
+        id: "marketing_consent",
+        label: "I would like to receive occasional updates and newsletters.",
+        required: false,
+      },
     ],
   },
 
@@ -78,7 +83,7 @@ export const themeConfig: PersonaConfig = {
   },
 
   mathjax: {
-    packages: ['base', 'ams', 'nocomplain'],
+    packages: ['base', 'ams'],
   },
 
   codeBlocks: {

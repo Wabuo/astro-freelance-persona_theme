@@ -2,7 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { existsSync, readdirSync } from 'fs';
+import { homedir } from 'os';
+import { join } from 'path';
 import { defineConfig, devices } from '@playwright/test';
+
+// Pre-flight check: verify Playwright browsers are installed
+const browserCache = join(homedir(), '.cache', 'ms-playwright');
+if (!existsSync(browserCache) || readdirSync(browserCache).length === 0) {
+  console.error('\n❌ Playwright browsers not installed.');
+  console.error('   Run: bunx playwright install\n');
+  process.exit(1);
+}
 
 /**
  * See https://playwright.dev/docs/test-configuration.

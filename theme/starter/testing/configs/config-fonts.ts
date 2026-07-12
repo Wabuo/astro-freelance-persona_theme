@@ -41,7 +41,11 @@ export const themeConfig: PersonaConfig = {
     headings: '"Courier New", Courier, monospace',
     body: '"Georgia", serif',
     navigation: '"Impact", "Arial Black", sans-serif',
-    monospace: '"Monospace", monospace',
+    monospace: '"Courier New", Courier, monospace',
+    sizes: {
+      heading: "2.5rem",
+      title: "3rem",
+    },
   },
 
   contact_form: {
@@ -71,7 +75,7 @@ export const themeConfig: PersonaConfig = {
   },
 
   mathjax: {
-    packages: ['base', 'ams', 'nocomplain'],
+    packages: ['base', 'ams'],
   },
 
   codeBlocks: {

@@ -71,7 +71,7 @@ export const themeConfig: PersonaConfig = {
   },
 
   mathjax: {
-    packages: ['base', 'ams', 'nocomplain'],
+    packages: ['base', 'ams'],
   },
 
   codeBlocks: {

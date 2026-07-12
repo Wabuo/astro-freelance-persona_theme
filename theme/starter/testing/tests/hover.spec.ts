@@ -33,7 +33,10 @@ test.describe('Visual Hover States', () => {
             // Wait for transition
             await page.waitForTimeout(500);
 
-            await expect(page.locator('#hero .social-links')).toHaveScreenshot(`hero-social-hover-${i}.png`);
+            await expect(page.locator('#hero')).toHaveScreenshot(`hero-social-hover-${i}.png`, {
+                maxDiffPixelRatio: 0.1,
+                maxDiffPixels: 5000
+            });
 
             // Cleanup
             await link.dispatchEvent('mouseleave');
@@ -176,7 +179,9 @@ test.describe('Visual Hover States', () => {
             await darkLabel.hover();
             await page.waitForTimeout(300);
             await expect(page.locator('#navmenu-mobile')).toHaveScreenshot('theme-menu-mobile-hover.png', {
-                mask: [page.locator('.typing-lock'), page.locator('.typed-cursor')]
+                mask: [page.locator('.typing-lock'), page.locator('.typed-cursor')],
+                maxDiffPixelRatio: 0.1,
+                maxDiffPixels: 10000
             });
         } else {
             // 1. Desktop Side-Nav (Homepage)

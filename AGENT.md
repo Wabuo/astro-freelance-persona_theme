@@ -41,7 +41,7 @@ SPDX-License-Identifier: MIT
 ### 3. 🧪 Testing Standards (Playwright)
 
 - **Directory:** Tests are in `theme/starter/testing/tests/` (part of the starter template).
-- **Config:** `theme/starter/playwright.config.ts` handles the `webServer`, `noscript` project, and default reporters.
+- **Config:** `theme/starter/playwright.config.ts` handles the `webServer`, projects, and default reporters.
 - **Run from `theme/starter`:** All Playwright tests **MUST** be run from the `theme/starter` directory, not from root or playground.
   - `cd theme/starter && PLAYWRIGHT_TEST=true bun x playwright test --reporter=list`
   - The `PLAYWRIGHT_TEST=true` env var enables test-mode CSS (disables animations, reveals elements).
@@ -56,6 +56,50 @@ SPDX-License-Identifier: MIT
   - To preserve new/updated snapshots across `bun run playground:setup` resets, copy them back from playground to the starter template:
     `cp -r playground/testing/tests/*-snapshots/ theme/starter/testing/tests/`
 - **Path Aliases:** Tests use `@/*` (e.g., `import { themeConfig } from '@/freelance-persona.config'`) which maps to `src/*` in the starter context.
+
+#### Two-Tier Test Structure
+
+- **Quick Tier (`bun run test`):** 2 projects (firefox-light + chrome-mobile-dark) for fast feedback during development.
+- **Full Tier (`bun run test:full`):** All 6 projects for comprehensive cross-browser/device/scheme coverage before release.
+- **Config Matrix (`bun run test:matrix`):** Tests 5 config variants to verify config → page pipeline.
+- **Release (`bun run test:release`):** Full tier + config matrix.
+
+#### Projects
+
+| Project Name | Device | Color Scheme | Tier |
+|---|---|---|---|
+| `firefox-light` | Desktop Firefox | `light` | quick + full |
+| `chrome-mobile-dark` | Pixel 5 | `dark` | quick + full |
+| `firefox-dark` | Desktop Firefox | `dark` | full only |
+| `chrome-light` | Desktop Chrome | `light` | full only |
+| `firefox-mobile-light` | Mobile Firefox (Android) | `light` | full only |
+| `noscript` | Desktop Chrome | — (JS off) | full only |
+
+#### Test Commands
+
+- **Quick:** `bun run test` (or `cd theme/starter && bunx playwright test --project=firefox-light --project=chrome-mobile-dark --reporter=list`)
+- **Full:** `bun run test:full` (or `cd theme/starter && bunx playwright test --reporter=list`)
+- **Matrix:** `bun run test:matrix` (or `cd theme/starter && bun run scripts/test-config-matrix.ts`)
+- **Release:** `bun run test:release` (full + matrix)
+
+#### Config Matrix Testing
+
+The config matrix tests verify that theme config settings correctly propagate to the rendered page. It uses 5 config variants in `testing/configs/`:
+
+- `config-colors.ts`: Tests color CSS variables (light + dark mode)
+- `config-fonts.ts`: Tests font families + font sizes
+- `config-layout.ts`: Tests layout CSS variables (margins, nav widths)
+- `config-contact.ts`: Tests contact form provider + checkboxes
+- `config-noanim.ts`: Tests animation disable flag
+
+Each config is built separately and tested with `testing/tests/config-matrix.spec.ts`. The verification is CSS-tooling-agnostic (uses `getComputedStyle`) so it works before and after the UnoCSS migration.
+
+**Key files:**
+- `testing/configs/*.ts`: Config variants
+- `testing/configs/expectations.ts`: Expected values for programmatic verification
+- `testing/utils/verify-config.ts`: Verification utility
+- `scripts/test-config-matrix.ts`: Build script that iterates through configs
+- `playwright.matrix.config.ts`: Playwright config for matrix tests (2 projects: chromium + firefox-dark)
 
 ### 4. 📦 Project Architecture (Monorepo)
 

@@ -1,0 +1,822 @@
+
+Running 354 tests using 4 workers
+
+  ✓    2 [firefox-light] › testing/tests/attribution.spec.ts:62:4 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright (4.8s)
+  ✓    1 [firefox-light] › testing/tests/attribution.spec.ts:29:4 › Attribution Logic & Interactions › Hero Section: Standard Credit (4.7s)
+  ✓    5 [firefox-light] › testing/tests/blog.spec.ts:13:8 › Blog Visuals & Functionality › Category Views › List View Layout (Default) (2.0s)
+  ✓    3 [firefox-light] › testing/tests/attribution.spec.ts:138:4 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic (5.2s)
+  ✓    6 [firefox-light] › testing/tests/blog.spec.ts:25:8 › Blog Visuals & Functionality › Category Views › Grid View Layout (configured) (2.9s)
+  -    9 [firefox-light] › testing/tests/config-matrix.spec.ts:99:7 › Config matrix not active (set CONFIG_NAME env var)
+  ✓    8 [firefox-light] › testing/tests/blog.spec.ts:88:4 › Blog Visuals & Functionality › Post View: Text Only (4.4s)
+  ✓   10 [firefox-light] › testing/tests/config.spec.ts:13:4 › Configuration Integrity › Page Title matches Config (3.9s)
+  ✓    7 [firefox-light] › testing/tests/blog.spec.ts:60:4 › Blog Visuals & Functionality › Post View: With Image (6.8s)
+  ✓    4 [firefox-light] › testing/tests/attribution.spec.ts:104:4 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction (11.1s)
+  ✓   11 [firefox-light] › testing/tests/config.spec.ts:19:4 › Configuration Integrity › Social Links are rendered correctly (4.4s)
+  ✓   12 [firefox-light] › testing/tests/config.spec.ts:29:4 › Configuration Integrity › Contact Form Provider is applied (4.3s)
+  ✓   14 [firefox-light] › testing/tests/error.spec.ts:7:0 › 404 Page Visual Regression (4.4s)
+Configured: "bottom right", Computed: "100% 100%"
+  ✓   16 [firefox-light] › testing/tests/hero-config.spec.ts:12:4 › Hero Configuration › Desktop Background Anchor matches config (3.1s)
+  ✓   15 [firefox-light] › testing/tests/features.spec.ts:14:4 › Features/Services Section Links › Services section should have variable link types (4.5s)
+  ✓   13 [firefox-light] › testing/tests/contact.spec.ts:8:0 › Contact Form Submission (7.6s)
+  ✓   17 [firefox-light] › testing/tests/hero-config.spec.ts:55:4 › Hero Configuration › Mobile Text Alignment matches config (2.6s)
+  ✓   18 [firefox-light] › testing/tests/hero-safety.spec.ts:7:0 › Hero Layout Safety Check (4.9s)
+  ✓   19 [firefox-light] › testing/tests/home.spec.ts:7:0 › Home Visual Regression (5.4s)
+  ✓   21 [firefox-light] › testing/tests/hover.spec.ts:46:4 › Visual Hover States › Features: Available vs Unavailable Cards (5.4s)
+  ✓   22 [firefox-light] › testing/tests/hover.spec.ts:74:4 › Visual Hover States › Navigation: Side/Top Nav Pills (3.8s)
+  ✓   23 [firefox-light] › testing/tests/hover.spec.ts:95:4 › Visual Hover States › Blog: Recent Post Card (Home) (4.4s)
+  ✓   24 [firefox-light] › testing/tests/hover.spec.ts:108:4 › Visual Hover States › Footer: Socials & Legal (6.0s)
+  ✓   20 [firefox-light] › testing/tests/hover.spec.ts:21:4 › Visual Hover States › Hero Section: Social Links (11.6s)
+  ✓   25 [firefox-light] › testing/tests/hover.spec.ts:130:4 › Visual Hover States › Contact: Inputs & Button (5.6s)
+Found 34 icons to test.
+  ✓   27 [firefox-light] › testing/tests/hover.spec.ts:232:4 › Blog Category Card Hovers › Category Cards variants (4.6s)
+  ✓   29 [firefox-light] › testing/tests/interactions.spec.ts:9:4 › Interactions & Responsiveness › Scrollspy Updates Active Nav Link (3.0s)
+  ✓   26 [firefox-light] › testing/tests/hover.spec.ts:150:4 › Visual Hover States › Theme Menu: Dropdown Hovers (7.3s)
+  -   30 [firefox-light] › testing/tests/interactions.spec.ts:30:4 › Interactions & Responsiveness › Mobile Menu Interaction
+  ✓   28 [firefox-light] › testing/tests/icons.spec.ts:8:4 › Global Icon Fixes › Icons should not be selectable as text (7.3s)
+  ✓   32 [firefox-light] › testing/tests/interactions.spec.ts:89:4 › Interactions & Responsiveness › Contact Form Input Focus (4.7s)
+  ✓   33 [firefox-light] › testing/tests/legal.spec.ts:10:4 › Legal Page › Footer Link Navigates to Legal (4.9s)
+  ✓   31 [firefox-light] › testing/tests/interactions.spec.ts:76:4 › Interactions & Responsiveness › Layout Stability on Resize (6.4s)
+  ✓   34 [firefox-light] › testing/tests/legal.spec.ts:31:4 › Legal Page › Legal Page Visual Regression (5.6s)
+  ✓   37 [firefox-light] › testing/tests/noscript.spec.ts:39:4 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (2.7s)
+  ✓   35 [firefox-light] › testing/tests/navigation.spec.ts:13:4 › Navigation › Header Links work (4.7s)
+  ✓   38 [firefox-light] › testing/tests/routing.spec.ts:9:4 › Flat Blog Routing › Access nested post at root URL (Archive) (2.1s)
+  ✓   39 [firefox-light] › testing/tests/routing.spec.ts:15:4 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) (1.8s)
+  ✓   41 [firefox-light] › testing/tests/routing.spec.ts:33:4 › Flat Blog Routing › Category page links use flat URLs (Regression) (2.5s)
+  ✓   42 [firefox-light] › testing/tests/seo.spec.ts:8:4 › SEO Checks › Homepage Meta Tags (2.8s)
+  ✓   36 [firefox-light] › testing/tests/noscript.spec.ts:12:4 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (8.5s)
+  ✓   40 [firefox-light] › testing/tests/routing.spec.ts:21:4 › Flat Blog Routing › Nested URL should NOT exist (5.7s)
+  ✓   44 [firefox-light] › testing/tests/status-pages.spec.ts:10:4 › New Pages Verification › 404 Page should load with Lancy mascot (2.2s)
+  ✓   46 [firefox-light] › testing/tests/status-pages.spec.ts:45:4 › New Pages Verification › Coming Soon Page should load with "Watch This Space" (2.5s)
+  ✓   43 [firefox-light] › testing/tests/seo.spec.ts:21:4 › SEO Checks › Blog Post Meta Tags (5.0s)
+  ✓   47 [firefox-light] › testing/tests/theme.spec.ts:15:4 › Theme Toggle & Dark Mode › Default matches system preference (Dark) (2.3s)
+  ✓   45 [firefox-light] › testing/tests/status-pages.spec.ts:28:4 › New Pages Verification › 403 Page should load with "You Shall Not Pass" theme (4.8s)
+  ✓   48 [firefox-light] › testing/tests/theme.spec.ts:33:4 › Theme Toggle & Dark Mode › Default matches system preference (Light) (2.4s)
+  ✓   49 [firefox-light] › testing/tests/theme.spec.ts:48:4 › Theme Toggle & Dark Mode › Toggle Button Switches Theme (4.5s)
+  ✓   50 [firefox-light] › testing/tests/theme.spec.ts:99:4 › Theme Toggle & Dark Mode › Preference Persists on Reload (6.2s)
+  ✓   52 [firefox-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Development) (5.0s)
+  ✓   51 [firefox-light] › testing/tests/theme.spec.ts:137:4 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Home Page) (5.8s)
+  ✓   53 [firefox-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Design System) (4.1s)
+  ✓   54 [firefox-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: First Post) (4.0s)
+  ✓   55 [firefox-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: Lore Ipsum 10) (4.1s)
+  ✓   56 [firefox-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Legal Notice) (4.4s)
+  ✓   57 [firefox-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (404 Error Page) (3.5s)
+  ✓   58 [firefox-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (403 Error Page) (3.0s)
+  ✓   59 [firefox-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Coming Soon Page) (2.9s)
+  ✓   60 [chrome-mobile-dark] › testing/tests/attribution.spec.ts:29:4 › Attribution Logic & Interactions › Hero Section: Standard Credit (1.9s)
+  ✓   61 [chrome-mobile-dark] › testing/tests/attribution.spec.ts:62:4 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright (2.2s)
+  ✓   63 [chrome-mobile-dark] › testing/tests/blog.spec.ts:13:8 › Blog Visuals & Functionality › Category Views › List View Layout (Default) (1.4s)
+  -   62 [chrome-mobile-dark] › testing/tests/attribution.spec.ts:104:4 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction
+  ✓   65 [chrome-mobile-dark] › testing/tests/blog.spec.ts:25:8 › Blog Visuals & Functionality › Category Views › Grid View Layout (configured) (2.3s)
+  -   68 [chrome-mobile-dark] › testing/tests/config-matrix.spec.ts:99:7 › Config matrix not active (set CONFIG_NAME env var)
+  ✓   67 [chrome-mobile-dark] › testing/tests/blog.spec.ts:88:4 › Blog Visuals & Functionality › Post View: Text Only (1.4s)
+  ✓   64 [chrome-mobile-dark] › testing/tests/attribution.spec.ts:138:4 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic (2.4s)
+  ✓   69 [chrome-mobile-dark] › testing/tests/config.spec.ts:13:4 › Configuration Integrity › Page Title matches Config (1.2s)
+  ✓   71 [chrome-mobile-dark] › testing/tests/config.spec.ts:29:4 › Configuration Integrity › Contact Form Provider is applied (1.4s)
+  ✓   66 [chrome-mobile-dark] › testing/tests/blog.spec.ts:60:4 › Blog Visuals & Functionality › Post View: With Image (3.9s)
+  ✓   70 [chrome-mobile-dark] › testing/tests/config.spec.ts:19:4 › Configuration Integrity › Social Links are rendered correctly (1.8s)
+  ✓   73 [chrome-mobile-dark] › testing/tests/error.spec.ts:7:0 › 404 Page Visual Regression (1.6s)
+Configured: "bottom right", Computed: "100% 100%"
+  ✓   75 [chrome-mobile-dark] › testing/tests/hero-config.spec.ts:12:4 › Hero Configuration › Desktop Background Anchor matches config (1.5s)
+  ✓   74 [chrome-mobile-dark] › testing/tests/features.spec.ts:14:4 › Features/Services Section Links › Services section should have variable link types (2.2s)
+  ✓   76 [chrome-mobile-dark] › testing/tests/hero-config.spec.ts:55:4 › Hero Configuration › Mobile Text Alignment matches config (1.1s)
+  ✓   72 [chrome-mobile-dark] › testing/tests/contact.spec.ts:8:0 › Contact Form Submission (4.3s)
+  ✓   77 [chrome-mobile-dark] › testing/tests/hero-safety.spec.ts:7:0 › Hero Layout Safety Check (2.4s)
+  -   80 [chrome-mobile-dark] › testing/tests/hover.spec.ts:46:4 › Visual Hover States › Features: Available vs Unavailable Cards
+  ✓   78 [chrome-mobile-dark] › testing/tests/home.spec.ts:7:0 › Home Visual Regression (3.5s)
+  ✓   81 [chrome-mobile-dark] › testing/tests/hover.spec.ts:74:4 › Visual Hover States › Navigation: Side/Top Nav Pills (2.0s)
+  ✓   82 [chrome-mobile-dark] › testing/tests/hover.spec.ts:95:4 › Visual Hover States › Blog: Recent Post Card (Home) (2.0s)
+  -   83 [chrome-mobile-dark] › testing/tests/hover.spec.ts:108:4 › Visual Hover States › Footer: Socials & Legal
+  -   86 [chrome-mobile-dark] › testing/tests/hover.spec.ts:232:4 › Blog Category Card Hovers › Category Cards variants
+  -   84 [chrome-mobile-dark] › testing/tests/hover.spec.ts:130:4 › Visual Hover States › Contact: Inputs & Button
+  ✓   79 [chrome-mobile-dark] › testing/tests/hover.spec.ts:21:4 › Visual Hover States › Hero Section: Social Links (5.7s)
+Found 34 icons to test.
+  ✓   88 [chrome-mobile-dark] › testing/tests/interactions.spec.ts:9:4 › Interactions & Responsiveness › Scrollspy Updates Active Nav Link (2.4s)
+  ✓   90 [chrome-mobile-dark] › testing/tests/interactions.spec.ts:76:4 › Interactions & Responsiveness › Layout Stability on Resize (1.7s)
+  ✓   85 [chrome-mobile-dark] › testing/tests/hover.spec.ts:150:4 › Visual Hover States › Theme Menu: Dropdown Hovers (6.6s)
+  ✓   89 [chrome-mobile-dark] › testing/tests/interactions.spec.ts:30:4 › Interactions & Responsiveness › Mobile Menu Interaction (4.7s)
+  ✓   91 [chrome-mobile-dark] › testing/tests/interactions.spec.ts:89:4 › Interactions & Responsiveness › Contact Form Input Focus (3.4s)
+  ✓   87 [chrome-mobile-dark] › testing/tests/icons.spec.ts:8:4 › Global Icon Fixes › Icons should not be selectable as text (8.3s)
+  ✓   92 [chrome-mobile-dark] › testing/tests/legal.spec.ts:10:4 › Legal Page › Footer Link Navigates to Legal (3.2s)
+  -   94 [chrome-mobile-dark] › testing/tests/navigation.spec.ts:13:4 › Navigation › Header Links work
+  ✓   96 [chrome-mobile-dark] › testing/tests/noscript.spec.ts:39:4 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (816ms)
+  ✓   97 [chrome-mobile-dark] › testing/tests/routing.spec.ts:9:4 › Flat Blog Routing › Access nested post at root URL (Archive) (733ms)
+  ✓   93 [chrome-mobile-dark] › testing/tests/legal.spec.ts:31:4 › Legal Page › Legal Page Visual Regression (4.5s)
+  ✓   98 [chrome-mobile-dark] › testing/tests/routing.spec.ts:15:4 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) (597ms)
+  ✓   99 [chrome-mobile-dark] › testing/tests/routing.spec.ts:21:4 › Flat Blog Routing › Nested URL should NOT exist (604ms)
+  ✓  100 [chrome-mobile-dark] › testing/tests/routing.spec.ts:33:4 › Flat Blog Routing › Category page links use flat URLs (Regression) (772ms)
+  ✓  102 [chrome-mobile-dark] › testing/tests/seo.spec.ts:21:4 › SEO Checks › Blog Post Meta Tags (537ms)
+  ✓  101 [chrome-mobile-dark] › testing/tests/seo.spec.ts:8:4 › SEO Checks › Homepage Meta Tags (1.0s)
+  ✓  103 [chrome-mobile-dark] › testing/tests/status-pages.spec.ts:10:4 › New Pages Verification › 404 Page should load with Lancy mascot (721ms)
+  ✓  104 [chrome-mobile-dark] › testing/tests/status-pages.spec.ts:28:4 › New Pages Verification › 403 Page should load with "You Shall Not Pass" theme (737ms)
+  ✓  105 [chrome-mobile-dark] › testing/tests/status-pages.spec.ts:45:4 › New Pages Verification › Coming Soon Page should load with "Watch This Space" (884ms)
+  ✓  106 [chrome-mobile-dark] › testing/tests/theme.spec.ts:15:4 › Theme Toggle & Dark Mode › Default matches system preference (Dark) (1.2s)
+  ✓  107 [chrome-mobile-dark] › testing/tests/theme.spec.ts:33:4 › Theme Toggle & Dark Mode › Default matches system preference (Light) (1.1s)
+  ✓   95 [chrome-mobile-dark] › testing/tests/noscript.spec.ts:12:4 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (6.3s)
+  ✓  108 [chrome-mobile-dark] › testing/tests/theme.spec.ts:48:4 › Theme Toggle & Dark Mode › Toggle Button Switches Theme (2.5s)
+  ✓  109 [chrome-mobile-dark] › testing/tests/theme.spec.ts:99:4 › Theme Toggle & Dark Mode › Preference Persists on Reload (2.8s)
+  ✓  110 [chrome-mobile-dark] › testing/tests/theme.spec.ts:137:4 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Home Page) (3.0s)
+  ✓  111 [chrome-mobile-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Development) (2.2s)
+  ✓  112 [chrome-mobile-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Design System) (2.2s)
+  ✓  113 [chrome-mobile-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: First Post) (2.0s)
+  ✓  114 [chrome-mobile-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: Lore Ipsum 10) (2.4s)
+  ✓  115 [chrome-mobile-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Legal Notice) (2.5s)
+  ✓  116 [chrome-mobile-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (404 Error Page) (2.3s)
+  ✓  117 [chrome-mobile-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (403 Error Page) (2.1s)
+  ✓  118 [chrome-mobile-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Coming Soon Page) (1.8s)
+  ✓  119 [firefox-dark] › testing/tests/attribution.spec.ts:29:4 › Attribution Logic & Interactions › Hero Section: Standard Credit (6.3s)
+  ✓  123 [firefox-dark] › testing/tests/blog.spec.ts:13:8 › Blog Visuals & Functionality › Category Views › List View Layout (Default) (3.9s)
+  ✓  120 [firefox-dark] › testing/tests/attribution.spec.ts:62:4 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright (9.9s)
+  ✓  121 [firefox-dark] › testing/tests/attribution.spec.ts:104:4 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction (12.2s)
+  ✓  124 [firefox-dark] › testing/tests/blog.spec.ts:25:8 › Blog Visuals & Functionality › Category Views › Grid View Layout (configured) (4.1s)
+  -  127 [firefox-dark] › testing/tests/config-matrix.spec.ts:99:7 › Config matrix not active (set CONFIG_NAME env var)
+  ✓  122 [firefox-dark] › testing/tests/attribution.spec.ts:138:4 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic (9.7s)
+  ✓  126 [firefox-dark] › testing/tests/blog.spec.ts:88:4 › Blog Visuals & Functionality › Post View: Text Only (3.8s)
+  ✓  128 [firefox-dark] › testing/tests/config.spec.ts:13:4 › Configuration Integrity › Page Title matches Config (3.3s)
+  ✓  129 [firefox-dark] › testing/tests/config.spec.ts:19:4 › Configuration Integrity › Social Links are rendered correctly (3.7s)
+  ✓  125 [firefox-dark] › testing/tests/blog.spec.ts:60:4 › Blog Visuals & Functionality › Post View: With Image (6.6s)
+  ✓  130 [firefox-dark] › testing/tests/config.spec.ts:29:4 › Configuration Integrity › Contact Form Provider is applied (2.7s)
+  ✓  132 [firefox-dark] › testing/tests/error.spec.ts:7:0 › 404 Page Visual Regression (3.3s)
+Configured: "bottom right", Computed: "100% 100%"
+  ✓  134 [firefox-dark] › testing/tests/hero-config.spec.ts:12:4 › Hero Configuration › Desktop Background Anchor matches config (2.9s)
+  ✓  133 [firefox-dark] › testing/tests/features.spec.ts:14:4 › Features/Services Section Links › Services section should have variable link types (4.2s)
+  ✓  131 [firefox-dark] › testing/tests/contact.spec.ts:8:0 › Contact Form Submission (6.3s)
+  ✓  135 [firefox-dark] › testing/tests/hero-config.spec.ts:55:4 › Hero Configuration › Mobile Text Alignment matches config (2.8s)
+  ✓  136 [firefox-dark] › testing/tests/hero-safety.spec.ts:7:0 › Hero Layout Safety Check (5.8s)
+  ✓  137 [firefox-dark] › testing/tests/home.spec.ts:7:0 › Home Visual Regression (6.5s)
+  ✓  139 [firefox-dark] › testing/tests/hover.spec.ts:46:4 › Visual Hover States › Features: Available vs Unavailable Cards (5.9s)
+  ✓  140 [firefox-dark] › testing/tests/hover.spec.ts:74:4 › Visual Hover States › Navigation: Side/Top Nav Pills (3.9s)
+  ✓  138 [firefox-dark] › testing/tests/hover.spec.ts:21:4 › Visual Hover States › Hero Section: Social Links (10.0s)
+  ✓  141 [firefox-dark] › testing/tests/hover.spec.ts:95:4 › Visual Hover States › Blog: Recent Post Card (Home) (4.5s)
+  ✓  142 [firefox-dark] › testing/tests/hover.spec.ts:108:4 › Visual Hover States › Footer: Socials & Legal (5.8s)
+  ✓  143 [firefox-dark] › testing/tests/hover.spec.ts:130:4 › Visual Hover States › Contact: Inputs & Button (5.5s)
+Found 34 icons to test.
+  ✓  145 [firefox-dark] › testing/tests/hover.spec.ts:232:4 › Blog Category Card Hovers › Category Cards variants (5.5s)
+  ✓  144 [firefox-dark] › testing/tests/hover.spec.ts:150:4 › Visual Hover States › Theme Menu: Dropdown Hovers (8.4s)
+  -  148 [firefox-dark] › testing/tests/interactions.spec.ts:30:4 › Interactions & Responsiveness › Mobile Menu Interaction
+  ✓  147 [firefox-dark] › testing/tests/interactions.spec.ts:9:4 › Interactions & Responsiveness › Scrollspy Updates Active Nav Link (4.2s)
+  ✓  150 [firefox-dark] › testing/tests/interactions.spec.ts:76:4 › Interactions & Responsiveness › Layout Stability on Resize (3.6s)
+  ✓  146 [firefox-dark] › testing/tests/icons.spec.ts:8:4 › Global Icon Fixes › Icons should not be selectable as text (10.9s)
+  ✓  149 [firefox-dark] › testing/tests/interactions.spec.ts:89:4 › Interactions & Responsiveness › Contact Form Input Focus (5.6s)
+  ✓  151 [firefox-dark] › testing/tests/legal.spec.ts:10:4 › Legal Page › Footer Link Navigates to Legal (6.5s)
+  ✓  152 [firefox-dark] › testing/tests/legal.spec.ts:31:4 › Legal Page › Legal Page Visual Regression (6.3s)
+  ✓  153 [firefox-dark] › testing/tests/navigation.spec.ts:13:4 › Navigation › Header Links work (6.2s)
+  ✓  155 [firefox-dark] › testing/tests/noscript.spec.ts:39:4 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (6.5s)
+  ✓  157 [firefox-dark] › testing/tests/routing.spec.ts:15:4 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) (2.1s)
+  ✓  154 [firefox-dark] › testing/tests/noscript.spec.ts:12:4 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (9.9s)
+  ✓  156 [firefox-dark] › testing/tests/routing.spec.ts:9:4 › Flat Blog Routing › Access nested post at root URL (Archive) (5.5s)
+  ✓  158 [firefox-dark] › testing/tests/routing.spec.ts:21:4 › Flat Blog Routing › Nested URL should NOT exist (2.8s)
+  ✓  161 [firefox-dark] › testing/tests/seo.spec.ts:21:4 › SEO Checks › Blog Post Meta Tags (4.1s)
+  ✓  162 [firefox-dark] › testing/tests/status-pages.spec.ts:10:4 › New Pages Verification › 404 Page should load with Lancy mascot (3.9s)
+  ✓  159 [firefox-dark] › testing/tests/routing.spec.ts:33:4 › Flat Blog Routing › Category page links use flat URLs (Regression) (6.9s)
+  ✓  164 [firefox-dark] › testing/tests/status-pages.spec.ts:45:4 › New Pages Verification › Coming Soon Page should load with "Watch This Space" (3.3s)
+  ✓  163 [firefox-dark] › testing/tests/status-pages.spec.ts:28:4 › New Pages Verification › 403 Page should load with "You Shall Not Pass" theme (3.4s)
+  ✓  160 [firefox-dark] › testing/tests/seo.spec.ts:8:4 › SEO Checks › Homepage Meta Tags (8.3s)
+  ✓  165 [firefox-dark] › testing/tests/theme.spec.ts:15:4 › Theme Toggle & Dark Mode › Default matches system preference (Dark) (4.1s)
+  ✓  166 [firefox-dark] › testing/tests/theme.spec.ts:33:4 › Theme Toggle & Dark Mode › Default matches system preference (Light) (3.5s)
+  ✓  167 [firefox-dark] › testing/tests/theme.spec.ts:48:4 › Theme Toggle & Dark Mode › Toggle Button Switches Theme (5.8s)
+  ✓  169 [firefox-dark] › testing/tests/theme.spec.ts:137:4 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Home Page) (6.7s)
+  ✓  168 [firefox-dark] › testing/tests/theme.spec.ts:99:4 › Theme Toggle & Dark Mode › Preference Persists on Reload (8.0s)
+  ✓  170 [firefox-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Development) (4.7s)
+  ✓  171 [firefox-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Design System) (5.2s)
+  ✓  172 [firefox-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: First Post) (4.9s)
+  ✓  173 [firefox-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: Lore Ipsum 10) (5.1s)
+  ✓  174 [firefox-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Legal Notice) (5.3s)
+  ✓  175 [firefox-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (404 Error Page) (4.6s)
+  ✓  176 [firefox-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (403 Error Page) (4.5s)
+  ✓  177 [firefox-dark] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Coming Soon Page) (4.5s)
+  ✓  178 [chrome-light] › testing/tests/attribution.spec.ts:29:4 › Attribution Logic & Interactions › Hero Section: Standard Credit (2.5s)
+  ✓  179 [chrome-light] › testing/tests/attribution.spec.ts:62:4 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright (3.0s)
+  ✓  180 [chrome-light] › testing/tests/blog.spec.ts:13:8 › Blog Visuals & Functionality › Category Views › List View Layout (Default) (1.9s)
+  ✓  182 [chrome-light] › testing/tests/attribution.spec.ts:138:4 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic (2.7s)
+  ✓  183 [chrome-light] › testing/tests/blog.spec.ts:25:8 › Blog Visuals & Functionality › Category Views › Grid View Layout (configured) (2.7s)
+  -  186 [chrome-light] › testing/tests/config-matrix.spec.ts:99:7 › Config matrix not active (set CONFIG_NAME env var)
+  ✓  187 [chrome-light] › testing/tests/config.spec.ts:13:4 › Configuration Integrity › Page Title matches Config (1.1s)
+  ✓  185 [chrome-light] › testing/tests/blog.spec.ts:88:4 › Blog Visuals & Functionality › Post View: Text Only (1.7s)
+  ✓  184 [chrome-light] › testing/tests/blog.spec.ts:60:4 › Blog Visuals & Functionality › Post View: With Image (4.7s)
+  ✓  181 [chrome-light] › testing/tests/attribution.spec.ts:104:4 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction (6.6s)
+  ✓  189 [chrome-light] › testing/tests/config.spec.ts:29:4 › Configuration Integrity › Contact Form Provider is applied (1.6s)
+  ✓  188 [chrome-light] › testing/tests/config.spec.ts:19:4 › Configuration Integrity › Social Links are rendered correctly (1.9s)
+Configured: "bottom right", Computed: "100% 100%"
+  ✓  191 [chrome-light] › testing/tests/error.spec.ts:7:0 › 404 Page Visual Regression (2.7s)
+  ✓  193 [chrome-light] › testing/tests/hero-config.spec.ts:12:4 › Hero Configuration › Desktop Background Anchor matches config (2.1s)
+  ✓  192 [chrome-light] › testing/tests/features.spec.ts:14:4 › Features/Services Section Links › Services section should have variable link types (3.0s)
+  ✓  190 [chrome-light] › testing/tests/contact.spec.ts:8:0 › Contact Form Submission (5.2s)
+  ✓  194 [chrome-light] › testing/tests/hero-config.spec.ts:55:4 › Hero Configuration › Mobile Text Alignment matches config (2.0s)
+  ✓  195 [chrome-light] › testing/tests/hero-safety.spec.ts:7:0 › Hero Layout Safety Check (3.8s)
+  ✓  199 [chrome-light] › testing/tests/hover.spec.ts:74:4 › Visual Hover States › Navigation: Side/Top Nav Pills (1.9s)
+  ✓  198 [chrome-light] › testing/tests/hover.spec.ts:46:4 › Visual Hover States › Features: Available vs Unavailable Cards (4.1s)
+  ✓  196 [chrome-light] › testing/tests/home.spec.ts:7:0 › Home Visual Regression (5.7s)
+  ✓  200 [chrome-light] › testing/tests/hover.spec.ts:95:4 › Visual Hover States › Blog: Recent Post Card (Home) (2.5s)
+  ✓  201 [chrome-light] › testing/tests/hover.spec.ts:108:4 › Visual Hover States › Footer: Socials & Legal (3.3s)
+  ✓  197 [chrome-light] › testing/tests/hover.spec.ts:21:4 › Visual Hover States › Hero Section: Social Links (7.6s)
+  ✓  202 [chrome-light] › testing/tests/hover.spec.ts:130:4 › Visual Hover States › Contact: Inputs & Button (3.6s)
+Found 34 icons to test.
+  ✓  206 [chrome-light] › testing/tests/interactions.spec.ts:9:4 › Interactions & Responsiveness › Scrollspy Updates Active Nav Link (2.0s)
+  -  207 [chrome-light] › testing/tests/interactions.spec.ts:30:4 › Interactions & Responsiveness › Mobile Menu Interaction
+  ✓  204 [chrome-light] › testing/tests/hover.spec.ts:232:4 › Blog Category Card Hovers › Category Cards variants (3.8s)
+  ✓  203 [chrome-light] › testing/tests/hover.spec.ts:150:4 › Visual Hover States › Theme Menu: Dropdown Hovers (5.3s)
+  ✓  208 [chrome-light] › testing/tests/interactions.spec.ts:76:4 › Interactions & Responsiveness › Layout Stability on Resize (1.4s)
+  ✓  205 [chrome-light] › testing/tests/icons.spec.ts:8:4 › Global Icon Fixes › Icons should not be selectable as text (6.8s)
+  ✓  210 [chrome-light] › testing/tests/legal.spec.ts:10:4 › Legal Page › Footer Link Navigates to Legal (3.4s)
+  ✓  209 [chrome-light] › testing/tests/interactions.spec.ts:89:4 › Interactions & Responsiveness › Contact Form Input Focus (3.6s)
+  ✓  214 [chrome-light] › testing/tests/noscript.spec.ts:39:4 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (1.2s)
+  ✓  215 [chrome-light] › testing/tests/routing.spec.ts:9:4 › Flat Blog Routing › Access nested post at root URL (Archive) (912ms)
+  ✓  212 [chrome-light] › testing/tests/navigation.spec.ts:13:4 › Navigation › Header Links work (3.2s)
+  ✓  216 [chrome-light] › testing/tests/routing.spec.ts:15:4 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) (668ms)
+  ✓  211 [chrome-light] › testing/tests/legal.spec.ts:31:4 › Legal Page › Legal Page Visual Regression (6.4s)
+  ✓  217 [chrome-light] › testing/tests/routing.spec.ts:21:4 › Flat Blog Routing › Nested URL should NOT exist (796ms)
+  ✓  218 [chrome-light] › testing/tests/routing.spec.ts:33:4 › Flat Blog Routing › Category page links use flat URLs (Regression) (1.3s)
+  ✓  220 [chrome-light] › testing/tests/seo.spec.ts:21:4 › SEO Checks › Blog Post Meta Tags (901ms)
+  ✓  219 [chrome-light] › testing/tests/seo.spec.ts:8:4 › SEO Checks › Homepage Meta Tags (1.8s)
+  ✓  221 [chrome-light] › testing/tests/status-pages.spec.ts:10:4 › New Pages Verification › 404 Page should load with Lancy mascot (1.1s)
+  ✓  222 [chrome-light] › testing/tests/status-pages.spec.ts:28:4 › New Pages Verification › 403 Page should load with "You Shall Not Pass" theme (987ms)
+  ✓  223 [chrome-light] › testing/tests/status-pages.spec.ts:45:4 › New Pages Verification › Coming Soon Page should load with "Watch This Space" (1.1s)
+  ✓  224 [chrome-light] › testing/tests/theme.spec.ts:15:4 › Theme Toggle & Dark Mode › Default matches system preference (Dark) (1.5s)
+  ✓  225 [chrome-light] › testing/tests/theme.spec.ts:33:4 › Theme Toggle & Dark Mode › Default matches system preference (Light) (1.5s)
+  ✓  213 [chrome-light] › testing/tests/noscript.spec.ts:12:4 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (8.8s)
+  ✓  226 [chrome-light] › testing/tests/theme.spec.ts:48:4 › Theme Toggle & Dark Mode › Toggle Button Switches Theme (2.7s)
+  ✓  227 [chrome-light] › testing/tests/theme.spec.ts:99:4 › Theme Toggle & Dark Mode › Preference Persists on Reload (3.3s)
+  ✓  228 [chrome-light] › testing/tests/theme.spec.ts:137:4 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Home Page) (3.9s)
+  ✓  229 [chrome-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Development) (3.0s)
+  ✓  230 [chrome-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Design System) (2.8s)
+  ✓  231 [chrome-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: First Post) (2.4s)
+  ✓  232 [chrome-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: Lore Ipsum 10) (2.7s)
+  ✓  234 [chrome-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (404 Error Page) (3.1s)
+  ✓  233 [chrome-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Legal Notice) (3.4s)
+  ✓  235 [chrome-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (403 Error Page) (2.8s)
+  ✓  236 [chrome-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Coming Soon Page) (2.2s)
+  ✓  237 [firefox-mobile-light] › testing/tests/attribution.spec.ts:29:4 › Attribution Logic & Interactions › Hero Section: Standard Credit (5.8s)
+  ✓  238 [firefox-mobile-light] › testing/tests/attribution.spec.ts:62:4 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright (6.9s)
+  -  239 [firefox-mobile-light] › testing/tests/attribution.spec.ts:104:4 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction
+  ✓  241 [firefox-mobile-light] › testing/tests/blog.spec.ts:13:8 › Blog Visuals & Functionality › Category Views › List View Layout (Default) (3.0s)
+  ✓  242 [firefox-mobile-light] › testing/tests/blog.spec.ts:25:8 › Blog Visuals & Functionality › Category Views › Grid View Layout (configured) (4.0s)
+  -  245 [firefox-mobile-light] › testing/tests/config-matrix.spec.ts:99:7 › Config matrix not active (set CONFIG_NAME env var)
+  ✓  244 [firefox-mobile-light] › testing/tests/blog.spec.ts:88:4 › Blog Visuals & Functionality › Post View: Text Only (3.5s)
+  ✓  240 [firefox-mobile-light] › testing/tests/attribution.spec.ts:138:4 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic (8.7s)
+  ✓  243 [firefox-mobile-light] › testing/tests/blog.spec.ts:60:4 › Blog Visuals & Functionality › Post View: With Image (5.9s)
+  ✓  246 [firefox-mobile-light] › testing/tests/config.spec.ts:13:4 › Configuration Integrity › Page Title matches Config (3.1s)
+  ✓  247 [firefox-mobile-light] › testing/tests/config.spec.ts:19:4 › Configuration Integrity › Social Links are rendered correctly (3.3s)
+  ✓  248 [firefox-mobile-light] › testing/tests/config.spec.ts:29:4 › Configuration Integrity › Contact Form Provider is applied (3.4s)
+  ✓  250 [firefox-mobile-light] › testing/tests/error.spec.ts:7:0 › 404 Page Visual Regression (2.9s)
+  -  253 [firefox-mobile-light] › testing/tests/hero-config.spec.ts:55:4 › Hero Configuration › Mobile Text Alignment matches config
+Configured: "bottom right", Computed: "100% 100%"
+  ✓  252 [firefox-mobile-light] › testing/tests/hero-config.spec.ts:12:4 › Hero Configuration › Desktop Background Anchor matches config (3.2s)
+  ✓  251 [firefox-mobile-light] › testing/tests/features.spec.ts:14:4 › Features/Services Section Links › Services section should have variable link types (4.5s)
+  -  254 [firefox-mobile-light] › testing/tests/hero-safety.spec.ts:7:0 › Hero Layout Safety Check
+  ✓  249 [firefox-mobile-light] › testing/tests/contact.spec.ts:8:0 › Contact Form Submission (6.5s)
+  -  257 [firefox-mobile-light] › testing/tests/hover.spec.ts:46:4 › Visual Hover States › Features: Available vs Unavailable Cards
+  ✓  255 [firefox-mobile-light] › testing/tests/home.spec.ts:7:0 › Home Visual Regression (5.0s)
+  ✓  258 [firefox-mobile-light] › testing/tests/hover.spec.ts:74:4 › Visual Hover States › Navigation: Side/Top Nav Pills (4.1s)
+  ✓  259 [firefox-mobile-light] › testing/tests/hover.spec.ts:95:4 › Visual Hover States › Blog: Recent Post Card (Home) (4.0s)
+  -  260 [firefox-mobile-light] › testing/tests/hover.spec.ts:108:4 › Visual Hover States › Footer: Socials & Legal
+  -  261 [firefox-mobile-light] › testing/tests/hover.spec.ts:130:4 › Visual Hover States › Contact: Inputs & Button
+  ✓  256 [firefox-mobile-light] › testing/tests/hover.spec.ts:21:4 › Visual Hover States › Hero Section: Social Links (7.6s)
+  -  263 [firefox-mobile-light] › testing/tests/hover.spec.ts:232:4 › Blog Category Card Hovers › Category Cards variants
+Found 34 icons to test.
+  ✓  265 [firefox-mobile-light] › testing/tests/interactions.spec.ts:9:4 › Interactions & Responsiveness › Scrollspy Updates Active Nav Link (4.2s)
+  ✓  267 [firefox-mobile-light] › testing/tests/interactions.spec.ts:76:4 › Interactions & Responsiveness › Layout Stability on Resize (2.5s)
+  ✓  266 [firefox-mobile-light] › testing/tests/interactions.spec.ts:30:4 › Interactions & Responsiveness › Mobile Menu Interaction (6.0s)
+  ✓  262 [firefox-mobile-light] › testing/tests/hover.spec.ts:150:4 › Visual Hover States › Theme Menu: Dropdown Hovers (7.5s)
+  ✓  264 [firefox-mobile-light] › testing/tests/icons.spec.ts:8:4 › Global Icon Fixes › Icons should not be selectable as text (8.1s)
+  -  271 [firefox-mobile-light] › testing/tests/navigation.spec.ts:13:4 › Navigation › Header Links work
+  ✓  268 [firefox-mobile-light] › testing/tests/interactions.spec.ts:89:4 › Interactions & Responsiveness › Contact Form Input Focus (4.4s)
+  ✓  269 [firefox-mobile-light] › testing/tests/legal.spec.ts:10:4 › Legal Page › Footer Link Navigates to Legal (4.8s)
+  ✓  270 [firefox-mobile-light] › testing/tests/legal.spec.ts:31:4 › Legal Page › Legal Page Visual Regression (6.6s)
+  ✓  274 [firefox-mobile-light] › testing/tests/routing.spec.ts:9:4 › Flat Blog Routing › Access nested post at root URL (Archive) (1.9s)
+  ✓  275 [firefox-mobile-light] › testing/tests/routing.spec.ts:15:4 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) (1.8s)
+  ✓  273 [firefox-mobile-light] › testing/tests/noscript.spec.ts:39:4 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (5.0s)
+  ✓  272 [firefox-mobile-light] › testing/tests/noscript.spec.ts:12:4 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (6.4s)
+  ✓  277 [firefox-mobile-light] › testing/tests/routing.spec.ts:33:4 › Flat Blog Routing › Category page links use flat URLs (Regression) (1.9s)
+  ✓  276 [firefox-mobile-light] › testing/tests/routing.spec.ts:21:4 › Flat Blog Routing › Nested URL should NOT exist (4.5s)
+  ✓  278 [firefox-mobile-light] › testing/tests/seo.spec.ts:8:4 › SEO Checks › Homepage Meta Tags (2.8s)
+  ✓  279 [firefox-mobile-light] › testing/tests/seo.spec.ts:21:4 › SEO Checks › Blog Post Meta Tags (2.3s)
+  ✓  280 [firefox-mobile-light] › testing/tests/status-pages.spec.ts:10:4 › New Pages Verification › 404 Page should load with Lancy mascot (2.5s)
+  ✓  281 [firefox-mobile-light] › testing/tests/status-pages.spec.ts:28:4 › New Pages Verification › 403 Page should load with "You Shall Not Pass" theme (2.9s)
+  ✓  282 [firefox-mobile-light] › testing/tests/status-pages.spec.ts:45:4 › New Pages Verification › Coming Soon Page should load with "Watch This Space" (2.5s)
+  ✓  284 [firefox-mobile-light] › testing/tests/theme.spec.ts:33:4 › Theme Toggle & Dark Mode › Default matches system preference (Light) (2.8s)
+  ✓  283 [firefox-mobile-light] › testing/tests/theme.spec.ts:15:4 › Theme Toggle & Dark Mode › Default matches system preference (Dark) (6.4s)
+  ✓  285 [firefox-mobile-light] › testing/tests/theme.spec.ts:48:4 › Theme Toggle & Dark Mode › Toggle Button Switches Theme (4.6s)
+  ✓  286 [firefox-mobile-light] › testing/tests/theme.spec.ts:99:4 › Theme Toggle & Dark Mode › Preference Persists on Reload (6.2s)
+  ✓  287 [firefox-mobile-light] › testing/tests/theme.spec.ts:137:4 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Home Page) (5.9s)
+  ✓  288 [firefox-mobile-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Development) (4.6s)
+  ✓  289 [firefox-mobile-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Design System) (4.5s)
+  ✓  290 [firefox-mobile-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: First Post) (4.1s)
+  ✓  291 [firefox-mobile-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: Lore Ipsum 10) (4.1s)
+  ✓  293 [firefox-mobile-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (404 Error Page) (4.1s)
+  ✓  292 [firefox-mobile-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Legal Notice) (4.4s)
+  ✓  294 [firefox-mobile-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (403 Error Page) (3.8s)
+  ✓  295 [firefox-mobile-light] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Coming Soon Page) (3.3s)
+  ✓  296 [noscript] › testing/tests/attribution.spec.ts:62:4 › Attribution Logic & Interactions › About Section: Hidden Credit / Promoted Copyright (1.9s)
+  ✓  297 [noscript] › testing/tests/attribution.spec.ts:29:4 › Attribution Logic & Interactions › Hero Section: Standard Credit (1.8s)
+  ✓  300 [noscript] › testing/tests/blog.spec.ts:13:8 › Blog Visuals & Functionality › Category Views › List View Layout (Default) (1.4s)
+  ✓  299 [noscript] › testing/tests/attribution.spec.ts:138:4 › Attribution Logic & Interactions › Blog Post: Hidden Credit Logic (1.9s)
+  ✓  301 [noscript] › testing/tests/blog.spec.ts:25:8 › Blog Visuals & Functionality › Category Views › Grid View Layout (configured) (2.4s)
+  -  304 [noscript] › testing/tests/config-matrix.spec.ts:99:7 › Config matrix not active (set CONFIG_NAME env var)
+  ✓  303 [noscript] › testing/tests/blog.spec.ts:88:4 › Blog Visuals & Functionality › Post View: Text Only (1.4s)
+  ✓  305 [noscript] › testing/tests/config.spec.ts:13:4 › Configuration Integrity › Page Title matches Config (1.0s)
+  ✓  307 [noscript] › testing/tests/config.spec.ts:29:4 › Configuration Integrity › Contact Form Provider is applied (898ms)
+  -  308 [noscript] › testing/tests/contact.spec.ts:8:0 › Contact Form Submission
+  ✓  306 [noscript] › testing/tests/config.spec.ts:19:4 › Configuration Integrity › Social Links are rendered correctly (1.2s)
+  ✓  298 [noscript] › testing/tests/attribution.spec.ts:104:4 › Attribution Logic & Interactions › About Section: Certificate Hover Interaction (5.6s)
+  ✓  302 [noscript] › testing/tests/blog.spec.ts:60:4 › Blog Visuals & Functionality › Post View: With Image (3.8s)
+  ✓  309 [noscript] › testing/tests/error.spec.ts:7:0 › 404 Page Visual Regression (1.5s)
+Configured: "bottom right", Computed: "100% 100%"
+  ✓  311 [noscript] › testing/tests/hero-config.spec.ts:12:4 › Hero Configuration › Desktop Background Anchor matches config (1.3s)
+  ✓  312 [noscript] › testing/tests/hero-config.spec.ts:55:4 › Hero Configuration › Mobile Text Alignment matches config (1.4s)
+  ✓  310 [noscript] › testing/tests/features.spec.ts:14:4 › Features/Services Section Links › Services section should have variable link types (2.1s)
+  ✓  313 [noscript] › testing/tests/hero-safety.spec.ts:7:0 › Hero Layout Safety Check (2.1s)
+  ✓  317 [noscript] › testing/tests/hover.spec.ts:74:4 › Visual Hover States › Navigation: Side/Top Nav Pills (1.5s)
+  ✓  316 [noscript] › testing/tests/hover.spec.ts:46:4 › Visual Hover States › Features: Available vs Unavailable Cards (3.1s)
+  ✓  314 [noscript] › testing/tests/home.spec.ts:7:0 › Home Visual Regression (4.0s)
+  -  320 [noscript] › testing/tests/hover.spec.ts:130:4 › Visual Hover States › Contact: Inputs & Button
+  ✓  318 [noscript] › testing/tests/hover.spec.ts:95:4 › Visual Hover States › Blog: Recent Post Card (Home) (1.8s)
+  ✓  315 [noscript] › testing/tests/hover.spec.ts:21:4 › Visual Hover States › Hero Section: Social Links (5.4s)
+  ✓  319 [noscript] › testing/tests/hover.spec.ts:108:4 › Visual Hover States › Footer: Socials & Legal (2.6s)
+  -  324 [noscript] › testing/tests/interactions.spec.ts:9:4 › Interactions & Responsiveness › Scrollspy Updates Active Nav Link
+  -  325 [noscript] › testing/tests/interactions.spec.ts:30:4 › Interactions & Responsiveness › Mobile Menu Interaction
+Found 34 icons to test.
+  ✓  326 [noscript] › testing/tests/interactions.spec.ts:76:4 › Interactions & Responsiveness › Layout Stability on Resize (882ms)
+  ✓  322 [noscript] › testing/tests/hover.spec.ts:232:4 › Blog Category Card Hovers › Category Cards variants (2.5s)
+  -  327 [noscript] › testing/tests/interactions.spec.ts:89:4 › Interactions & Responsiveness › Contact Form Input Focus
+  ✓  321 [noscript] › testing/tests/hover.spec.ts:150:4 › Visual Hover States › Theme Menu: Dropdown Hovers (4.1s)
+  ✓  328 [noscript] › testing/tests/legal.spec.ts:10:4 › Legal Page › Footer Link Navigates to Legal (1.7s)
+  ✓  323 [noscript] › testing/tests/icons.spec.ts:8:4 › Global Icon Fixes › Icons should not be selectable as text (4.1s)
+  ✓  332 [noscript] › testing/tests/noscript.spec.ts:39:4 › NoScript / JS Disabled Fallback › Blog Post loads correctly without JS (726ms)
+  ✓  330 [noscript] › testing/tests/navigation.spec.ts:13:4 › Navigation › Header Links work (2.0s)
+  ✓  333 [noscript] › testing/tests/routing.spec.ts:9:4 › Flat Blog Routing › Access nested post at root URL (Archive) (423ms)
+  ✓  334 [noscript] › testing/tests/routing.spec.ts:15:4 › Flat Blog Routing › Access nested post at root URL (Lore Ipsum) (535ms)
+  ✓  335 [noscript] › testing/tests/routing.spec.ts:21:4 › Flat Blog Routing › Nested URL should NOT exist (495ms)
+  ✓  329 [noscript] › testing/tests/legal.spec.ts:31:4 › Legal Page › Legal Page Visual Regression (4.0s)
+  ✓  336 [noscript] › testing/tests/routing.spec.ts:33:4 › Flat Blog Routing › Category page links use flat URLs (Regression) (821ms)
+  ✓  338 [noscript] › testing/tests/seo.spec.ts:21:4 › SEO Checks › Blog Post Meta Tags (487ms)
+  ✓  337 [noscript] › testing/tests/seo.spec.ts:8:4 › SEO Checks › Homepage Meta Tags (1.0s)
+  ✓  339 [noscript] › testing/tests/status-pages.spec.ts:10:4 › New Pages Verification › 404 Page should load with Lancy mascot (802ms)
+  ✓  340 [noscript] › testing/tests/status-pages.spec.ts:28:4 › New Pages Verification › 403 Page should load with "You Shall Not Pass" theme (956ms)
+  ✓  341 [noscript] › testing/tests/status-pages.spec.ts:45:4 › New Pages Verification › Coming Soon Page should load with "Watch This Space" (946ms)
+  ✓  342 [noscript] › testing/tests/theme.spec.ts:15:4 › Theme Toggle & Dark Mode › Default matches system preference (Dark) (1.2s)
+  ✓  343 [noscript] › testing/tests/theme.spec.ts:33:4 › Theme Toggle & Dark Mode › Default matches system preference (Light) (1.0s)
+  -  345 [noscript] › testing/tests/theme.spec.ts:99:4 › Theme Toggle & Dark Mode › Preference Persists on Reload
+  -  346 [noscript] › testing/tests/theme.spec.ts:137:4 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Home Page)
+  -  347 [noscript] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Development)
+  -  348 [noscript] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Blog: Design System)
+  -  349 [noscript] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: First Post)
+  -  350 [noscript] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Post: Lore Ipsum 10)
+  -  351 [noscript] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Legal Notice)
+  -  352 [noscript] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (404 Error Page)
+  -  354 [noscript] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (Coming Soon Page)
+  -  353 [noscript] › testing/tests/theme.spec.ts:195:8 › Theme Toggle & Dark Mode › Layout Stability on Theme Switch (403 Error Page)
+  ✓  344 [noscript] › testing/tests/theme.spec.ts:48:4 › Theme Toggle & Dark Mode › Toggle Button Switches Theme (2.3s)
+  ✓  331 [noscript] › testing/tests/noscript.spec.ts:12:4 › NoScript / JS Disabled Fallback › Homepage loads correctly without JS (6.9s)
+
+  38 skipped
+  316 passed (5.8m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report testing/playwright-report[39m
+[36m[39m
+Config Matrix Test Runner
+
+Found 5 config files:
+  - config-colors.ts
+  - config-contact.ts
+  - config-fonts.ts
+  - config-layout.ts
+  - config-noanim.ts
+
+
+============================================================
+Testing config: config-colors
+============================================================
+
+Building with config-colors...
+19:22:24 [content] Syncing content
+19:22:24 [content] Synced content
+19:22:24 [types] Generated 2.15s
+19:22:24 [build] output: "static"
+19:22:24 [build] mode: "static"
+19:22:24 [build] directory: /home/fabio/Projects/Programming/Website/Astro/astro_freelance-persona_theme/playground/dist/
+19:22:24 [build] Collecting build info...
+19:22:24 [build] ✓ Completed in 2.44s.
+19:22:24 [build] Building static entrypoints...
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:22:29 [vite] ✓ built in 5.16s
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:22:29 [vite] ✓ built in 109ms
+19:22:29 [build] Rearranging server assets...
+
+ generating static routes 
+19:22:29   ├─ /403/index.html (+76ms) 
+19:22:30   ├─ /404.html (+29ms) 
+19:22:30   ├─ /blogs/development/index.html (+46ms) 
+19:22:30   ├─ /blogs/design-system/index.html (+31ms) 
+19:22:30   ├─ /blogs/community/index.html (+13ms) 
+19:22:30   ├─ /blogs/deprecated/index.html (+34ms) 
+19:22:30   ├─ /blogs/experimental/index.html (+21ms) 
+19:22:30   ├─ /blogs/changelog/index.html (+22ms) 
+19:22:30   ├─ /coming-soon/index.html (+14ms) 
+19:22:30   ├─ /legal/legal-notice/index.html (+35ms) 
+19:22:30   ├─ /legal/privacy-policy/index.html (+16ms) 
+19:22:30   ├─ /posts/astro-tips/index.html (+36ms) 
+19:22:30   ├─ /posts/bun-future/index.html (+51ms) 
+19:22:30   ├─ /posts/design-choices/index.html (+28ms) 
+19:22:30   ├─ /posts/design-trends/index.html (+36ms) 
+19:22:30   ├─ /posts/first-post/index.html (+33ms) 
+19:22:30   ├─ /posts/hello-world/index.html (+29ms) 
+19:22:30   ├─ /posts/lancy-intro/index.html (+108ms) 
+19:22:30   ├─ /posts/lore-ipsum-1/index.html (+36ms) 
+19:22:30   ├─ /posts/lore-ipsum-10/index.html (+28ms) 
+19:22:30   ├─ /posts/lore-ipsum-2/index.html (+31ms) 
+19:22:30   ├─ /posts/lore-ipsum-3/index.html (+33ms) 
+19:22:30   ├─ /posts/lore-ipsum-4/index.html (+33ms) 
+19:22:30   ├─ /posts/lore-ipsum-5/index.html (+29ms) 
+19:22:30   ├─ /posts/lore-ipsum-6/index.html (+29ms) 
+19:22:30   ├─ /posts/lore-ipsum-7/index.html (+40ms) 
+19:22:30   ├─ /posts/lore-ipsum-8/index.html (+19ms) 
+19:22:30   ├─ /posts/lore-ipsum-9/index.html (+31ms) 
+19:22:30   ├─ /robots.txt (+24ms) 
+19:22:30   ├─ /index.html (+64ms) 
+19:22:31 ✓ Completed in 1.24s.
+
+ generating optimized images 
+19:22:31   ▶ /_astro/lancy_blog.CryMEbw__ZDHVEs.svg (reused cache entry) (+2ms) (1/10)
+19:22:31   ▶ /_astro/lancy.DpeF5j26_Z1FSbiW.svg (reused cache entry) (+4ms) (2/10)
+19:22:31   ▶ /_astro/background.Ba5lL3_h_Z27Ozy4.svg (reused cache entry) (+3ms) (3/10)
+19:22:31   ▶ /_astro/avatar.BTMAtcyO_Z1W3NW6.svg (reused cache entry) (+3ms) (4/10)
+19:22:31   ▶ /_astro/background_empty.CN3GLSZJ_ZzQfwl.svg (reused cache entry) (+3ms) (5/10)
+19:22:31   ▶ /_astro/theme_certificate.6rcYFo39_Zq2RuI.svg (reused cache entry) (+3ms) (6/10)
+19:22:31   ▶ /_astro/lancy.DpeF5j26_ZjCnVc.svg (reused cache entry) (+1ms) (7/10)
+19:22:31   ▶ /_astro/lancy_blog.CryMEbw__ZzQfwl.svg (reused cache entry) (+1ms) (8/10)
+19:22:31   ▶ /_astro/background.Ba5lL3_h_ZaopeM.svg (reused cache entry) (+1ms) (9/10)
+19:22:31   ▶ /_astro/background_empty.CN3GLSZJ_ZDHVEs.svg (reused cache entry) (+1ms) (10/10)
+19:22:31 ✓ Completed in 7ms.
+
+19:22:31 [build] ✓ Completed in 6.68s.
+19:22:31 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+19:22:31 [build] 29 page(s) built in 9.22s
+19:22:31 [build] Complete!
+Starting preview server on port 4321...
+Running config matrix tests...
+
+Running 6 tests using 2 workers
+
+  ✓  2 [chromium] › testing/tests/config-matrix.spec.ts:25:4 › Config Matrix: config-colors › Config settings propagate correctly (programmatic) (1.1s)
+  ✓  1 [firefox-dark] › testing/tests/config-matrix.spec.ts:25:4 › Config Matrix: config-colors › Config settings propagate correctly (programmatic) (4.0s)
+  ✓  3 [chromium] › testing/tests/config-matrix.spec.ts:31:4 › Config Matrix: config-colors › Homepage renders with config (visual) (6.6s)
+  ✓  5 [chromium] › testing/tests/config-matrix.spec.ts:69:4 › Config Matrix: config-colors › Blog post renders with config (visual) (2.2s)
+  ✓  4 [firefox-dark] › testing/tests/config-matrix.spec.ts:31:4 › Config Matrix: config-colors › Homepage renders with config (visual) (6.3s)
+  ✓  6 [firefox-dark] › testing/tests/config-matrix.spec.ts:69:4 › Config Matrix: config-colors › Blog post renders with config (visual) (2.1s)
+
+  6 passed (15.4s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report testing/playwright-report-matrix[39m
+[36m[39m
+✓ config-colors passed
+
+
+============================================================
+Testing config: config-contact
+============================================================
+
+Building with config-contact...
+19:22:55 [content] Syncing content
+19:22:55 [content] Synced content
+19:22:55 [types] Generated 1.30s
+19:22:55 [build] output: "static"
+19:22:55 [build] mode: "static"
+19:22:55 [build] directory: /home/fabio/Projects/Programming/Website/Astro/astro_freelance-persona_theme/playground/dist/
+19:22:55 [build] Collecting build info...
+19:22:55 [build] ✓ Completed in 1.52s.
+19:22:55 [build] Building static entrypoints...
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:22:59 [vite] ✓ built in 3.64s
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:22:59 [vite] ✓ built in 111ms
+19:22:59 [build] Rearranging server assets...
+
+ generating static routes 
+19:22:59   ├─ /403/index.html (+63ms) 
+19:22:59   ├─ /404.html (+23ms) 
+19:22:59   ├─ /blogs/development/index.html (+30ms) 
+19:22:59   ├─ /blogs/design-system/index.html (+24ms) 
+19:22:59   ├─ /blogs/community/index.html (+16ms) 
+19:22:59   ├─ /blogs/deprecated/index.html (+9ms) 
+19:22:59   ├─ /blogs/experimental/index.html (+13ms) 
+19:22:59   ├─ /blogs/changelog/index.html (+8ms) 
+19:22:59   ├─ /coming-soon/index.html (+15ms) 
+19:22:59   ├─ /legal/legal-notice/index.html (+16ms) 
+19:22:59   ├─ /legal/privacy-policy/index.html (+18ms) 
+19:22:59   ├─ /posts/astro-tips/index.html (+32ms) 
+19:22:59   ├─ /posts/bun-future/index.html (+30ms) 
+19:23:00   ├─ /posts/design-choices/index.html (+27ms) 
+19:23:00   ├─ /posts/design-trends/index.html (+23ms) 
+19:23:00   ├─ /posts/first-post/index.html (+18ms) 
+19:23:00   ├─ /posts/hello-world/index.html (+14ms) 
+19:23:00   ├─ /posts/lancy-intro/index.html (+71ms) 
+19:23:00   ├─ /posts/lore-ipsum-1/index.html (+24ms) 
+19:23:00   ├─ /posts/lore-ipsum-10/index.html (+21ms) 
+19:23:00   ├─ /posts/lore-ipsum-2/index.html (+18ms) 
+19:23:00   ├─ /posts/lore-ipsum-3/index.html (+24ms) 
+19:23:00   ├─ /posts/lore-ipsum-4/index.html (+17ms) 
+19:23:00   ├─ /posts/lore-ipsum-5/index.html (+13ms) 
+19:23:00   ├─ /posts/lore-ipsum-6/index.html (+25ms) 
+19:23:00   ├─ /posts/lore-ipsum-7/index.html (+17ms) 
+19:23:00   ├─ /posts/lore-ipsum-8/index.html (+19ms) 
+19:23:00   ├─ /posts/lore-ipsum-9/index.html (+13ms) 
+19:23:00   ├─ /robots.txt (+10ms) 
+19:23:00   ├─ /index.html (+41ms) 
+19:23:00 ✓ Completed in 832ms.
+
+ generating optimized images 
+19:23:00   ▶ /_astro/lancy.DpeF5j26_Z1FSbiW.svg (reused cache entry) (+2ms) (1/10)
+19:23:00   ▶ /_astro/background.Ba5lL3_h_Z27Ozy4.svg (reused cache entry) (+1ms) (2/10)
+19:23:00   ▶ /_astro/avatar.BTMAtcyO_Z1W3NW6.svg (reused cache entry) (+1ms) (3/10)
+19:23:00   ▶ /_astro/theme_certificate.6rcYFo39_Zq2RuI.svg (reused cache entry) (+1ms) (4/10)
+19:23:00   ▶ /_astro/lancy_blog.CryMEbw__ZDHVEs.svg (reused cache entry) (+2ms) (5/10)
+19:23:00   ▶ /_astro/background_empty.CN3GLSZJ_ZzQfwl.svg (reused cache entry) (+2ms) (6/10)
+19:23:00   ▶ /_astro/lancy.DpeF5j26_ZjCnVc.svg (reused cache entry) (+1ms) (7/10)
+19:23:00   ▶ /_astro/background.Ba5lL3_h_ZaopeM.svg (reused cache entry) (+1ms) (8/10)
+19:23:00   ▶ /_astro/lancy_blog.CryMEbw__ZzQfwl.svg (reused cache entry) (+1ms) (9/10)
+19:23:00   ▶ /_astro/background_empty.CN3GLSZJ_ZDHVEs.svg (reused cache entry) (+0ms) (10/10)
+19:23:00 ✓ Completed in 4ms.
+
+19:23:00 [build] ✓ Completed in 4.70s.
+19:23:00 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+19:23:00 [build] 29 page(s) built in 6.28s
+19:23:00 [build] Complete!
+Starting preview server on port 4321...
+Running config matrix tests...
+
+Running 6 tests using 2 workers
+
+  ✓  1 [chromium] › testing/tests/config-matrix.spec.ts:25:4 › Config Matrix: config-contact › Config settings propagate correctly (programmatic) (742ms)
+  ✓  2 [firefox-dark] › testing/tests/config-matrix.spec.ts:25:4 › Config Matrix: config-contact › Config settings propagate correctly (programmatic) (2.6s)
+  ✓  3 [chromium] › testing/tests/config-matrix.spec.ts:31:4 › Config Matrix: config-contact › Homepage renders with config (visual) (5.8s)
+  ✓  5 [chromium] › testing/tests/config-matrix.spec.ts:69:4 › Config Matrix: config-contact › Blog post renders with config (visual) (2.5s)
+  ✓  4 [firefox-dark] › testing/tests/config-matrix.spec.ts:31:4 › Config Matrix: config-contact › Homepage renders with config (visual) (6.4s)
+  ✓  6 [firefox-dark] › testing/tests/config-matrix.spec.ts:69:4 › Config Matrix: config-contact › Blog post renders with config (visual) (3.0s)
+
+  6 passed (15.1s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report testing/playwright-report-matrix[39m
+[36m[39m
+✓ config-contact passed
+
+
+============================================================
+Testing config: config-fonts
+============================================================
+
+Building with config-fonts...
+19:23:27 [content] Syncing content
+19:23:27 [content] Synced content
+19:23:27 [types] Generated 2.68s
+19:23:27 [build] output: "static"
+19:23:27 [build] mode: "static"
+19:23:27 [build] directory: /home/fabio/Projects/Programming/Website/Astro/astro_freelance-persona_theme/playground/dist/
+19:23:27 [build] Collecting build info...
+19:23:27 [build] ✓ Completed in 3.07s.
+19:23:27 [build] Building static entrypoints...
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:23:33 [vite] ✓ built in 6.16s
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:23:34 [vite] ✓ built in 170ms
+19:23:34 [build] Rearranging server assets...
+
+ generating static routes 
+19:23:34   ├─ /403/index.html (+93ms) 
+19:23:34   ├─ /404.html (+17ms) 
+19:23:34   ├─ /blogs/development/index.html (+53ms) 
+19:23:34   ├─ /blogs/design-system/index.html (+33ms) 
+19:23:34   ├─ /blogs/community/index.html (+27ms) 
+19:23:34   ├─ /blogs/deprecated/index.html (+21ms) 
+19:23:34   ├─ /blogs/experimental/index.html (+20ms) 
+19:23:34   ├─ /blogs/changelog/index.html (+14ms) 
+19:23:34   ├─ /coming-soon/index.html (+37ms) 
+19:23:34   ├─ /legal/legal-notice/index.html (+25ms) 
+19:23:34   ├─ /legal/privacy-policy/index.html (+15ms) 
+19:23:34   ├─ /posts/astro-tips/index.html (+28ms) 
+19:23:34   ├─ /posts/bun-future/index.html (+49ms) 
+19:23:34   ├─ /posts/design-choices/index.html (+38ms) 
+19:23:34   ├─ /posts/design-trends/index.html (+32ms) 
+19:23:34   ├─ /posts/first-post/index.html (+45ms) 
+19:23:34   ├─ /posts/hello-world/index.html (+17ms) 
+19:23:34   ├─ /posts/lancy-intro/index.html (+94ms) 
+19:23:34   ├─ /posts/lore-ipsum-1/index.html (+46ms) 
+19:23:35   ├─ /posts/lore-ipsum-10/index.html (+17ms) 
+19:23:35   ├─ /posts/lore-ipsum-2/index.html (+27ms) 
+19:23:35   ├─ /posts/lore-ipsum-3/index.html (+31ms) 
+19:23:35   ├─ /posts/lore-ipsum-4/index.html (+33ms) 
+19:23:35   ├─ /posts/lore-ipsum-5/index.html (+27ms) 
+19:23:35   ├─ /posts/lore-ipsum-6/index.html (+27ms) 
+19:23:35   ├─ /posts/lore-ipsum-7/index.html (+33ms) 
+19:23:35   ├─ /posts/lore-ipsum-8/index.html (+27ms) 
+19:23:35   ├─ /posts/lore-ipsum-9/index.html (+29ms) 
+19:23:35   ├─ /robots.txt (+15ms) 
+19:23:35   ├─ /index.html (+60ms) 
+19:23:35 ✓ Completed in 1.21s.
+
+ generating optimized images 
+19:23:35   ▶ /_astro/lancy.DpeF5j26_Z1FSbiW.svg (reused cache entry) (+2ms) (1/10)
+19:23:35   ▶ /_astro/avatar.BTMAtcyO_Z1W3NW6.svg (reused cache entry) (+2ms) (2/10)
+19:23:35   ▶ /_astro/background.Ba5lL3_h_Z27Ozy4.svg (reused cache entry) (+2ms) (3/10)
+19:23:35   ▶ /_astro/theme_certificate.6rcYFo39_Zq2RuI.svg (reused cache entry) (+2ms) (4/10)
+19:23:35   ▶ /_astro/lancy_blog.CryMEbw__ZDHVEs.svg (reused cache entry) (+2ms) (5/10)
+19:23:35   ▶ /_astro/background_empty.CN3GLSZJ_ZzQfwl.svg (reused cache entry) (+2ms) (6/10)
+19:23:35   ▶ /_astro/lancy.DpeF5j26_ZjCnVc.svg (reused cache entry) (+1ms) (7/10)
+19:23:35   ▶ /_astro/lancy_blog.CryMEbw__ZzQfwl.svg (reused cache entry) (+0ms) (8/10)
+19:23:35   ▶ /_astro/background_empty.CN3GLSZJ_ZDHVEs.svg (reused cache entry) (+0ms) (9/10)
+19:23:35   ▶ /_astro/background.Ba5lL3_h_ZaopeM.svg (reused cache entry) (+1ms) (10/10)
+19:23:35 ✓ Completed in 6ms.
+
+19:23:35 [build] ✓ Completed in 7.76s.
+19:23:35 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+19:23:35 [build] 29 page(s) built in 10.92s
+19:23:35 [build] Complete!
+Starting preview server on port 4321...
+Running config matrix tests...
+
+Running 6 tests using 2 workers
+
+  ✓  2 [chromium] › testing/tests/config-matrix.spec.ts:25:4 › Config Matrix: config-fonts › Config settings propagate correctly (programmatic) (1.3s)
+  ✓  1 [firefox-dark] › testing/tests/config-matrix.spec.ts:25:4 › Config Matrix: config-fonts › Config settings propagate correctly (programmatic) (4.2s)
+  ✓  3 [chromium] › testing/tests/config-matrix.spec.ts:31:4 › Config Matrix: config-fonts › Homepage renders with config (visual) (7.1s)
+  ✓  5 [chromium] › testing/tests/config-matrix.spec.ts:69:4 › Config Matrix: config-fonts › Blog post renders with config (visual) (2.7s)
+  ✓  4 [firefox-dark] › testing/tests/config-matrix.spec.ts:31:4 › Config Matrix: config-fonts › Homepage renders with config (visual) (7.2s)
+  ✓  6 [firefox-dark] › testing/tests/config-matrix.spec.ts:69:4 › Config Matrix: config-fonts › Blog post renders with config (visual) (2.5s)
+
+  6 passed (17.6s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report testing/playwright-report-matrix[39m
+[36m[39m
+✓ config-fonts passed
+
+
+============================================================
+Testing config: config-layout
+============================================================
+
+Building with config-layout...
+19:24:03 [content] Syncing content
+19:24:03 [content] Synced content
+19:24:03 [types] Generated 1.61s
+19:24:03 [build] output: "static"
+19:24:03 [build] mode: "static"
+19:24:03 [build] directory: /home/fabio/Projects/Programming/Website/Astro/astro_freelance-persona_theme/playground/dist/
+19:24:03 [build] Collecting build info...
+19:24:03 [build] ✓ Completed in 1.87s.
+19:24:03 [build] Building static entrypoints...
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:24:08 [vite] ✓ built in 4.89s
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:24:08 [vite] ✓ built in 159ms
+19:24:08 [build] Rearranging server assets...
+
+ generating static routes 
+19:24:08   ├─ /403/index.html (+69ms) 
+19:24:08   ├─ /404.html (+22ms) 
+19:24:08   ├─ /blogs/development/index.html (+63ms) 
+19:24:08   ├─ /blogs/design-system/index.html (+13ms) 
+19:24:09   ├─ /blogs/community/index.html (+18ms) 
+19:24:09   ├─ /blogs/deprecated/index.html (+32ms) 
+19:24:09   ├─ /blogs/experimental/index.html (+20ms) 
+19:24:09   ├─ /blogs/changelog/index.html (+14ms) 
+19:24:09   ├─ /coming-soon/index.html (+29ms) 
+19:24:09   ├─ /legal/legal-notice/index.html (+27ms) 
+19:24:09   ├─ /legal/privacy-policy/index.html (+14ms) 
+19:24:09   ├─ /posts/astro-tips/index.html (+53ms) 
+19:24:09   ├─ /posts/bun-future/index.html (+42ms) 
+19:24:09   ├─ /posts/design-choices/index.html (+41ms) 
+19:24:09   ├─ /posts/design-trends/index.html (+35ms) 
+19:24:09   ├─ /posts/first-post/index.html (+34ms) 
+19:24:09   ├─ /posts/hello-world/index.html (+30ms) 
+19:24:09   ├─ /posts/lancy-intro/index.html (+126ms) 
+19:24:09   ├─ /posts/lore-ipsum-1/index.html (+51ms) 
+19:24:09   ├─ /posts/lore-ipsum-10/index.html (+24ms) 
+19:24:09   ├─ /posts/lore-ipsum-2/index.html (+45ms) 
+19:24:09   ├─ /posts/lore-ipsum-3/index.html (+31ms) 
+19:24:09   ├─ /posts/lore-ipsum-4/index.html (+30ms) 
+19:24:09   ├─ /posts/lore-ipsum-5/index.html (+20ms) 
+19:24:09   ├─ /posts/lore-ipsum-6/index.html (+43ms) 
+19:24:09   ├─ /posts/lore-ipsum-7/index.html (+32ms) 
+19:24:09   ├─ /posts/lore-ipsum-8/index.html (+33ms) 
+19:24:09   ├─ /posts/lore-ipsum-9/index.html (+56ms) 
+19:24:09   ├─ /robots.txt (+5ms) 
+19:24:09   ├─ /index.html (+55ms) 
+19:24:09 ✓ Completed in 1.29s.
+
+ generating optimized images 
+19:24:09   ▶ /_astro/lancy.DpeF5j26_Z1FSbiW.svg (reused cache entry) (+3ms) (1/10)
+19:24:09   ▶ /_astro/avatar.BTMAtcyO_Z1W3NW6.svg (reused cache entry) (+2ms) (2/10)
+19:24:09   ▶ /_astro/background.Ba5lL3_h_Z27Ozy4.svg (reused cache entry) (+3ms) (3/10)
+19:24:09   ▶ /_astro/lancy_blog.CryMEbw__ZDHVEs.svg (reused cache entry) (+3ms) (4/10)
+19:24:09   ▶ /_astro/background_empty.CN3GLSZJ_ZzQfwl.svg (reused cache entry) (+3ms) (5/10)
+19:24:09   ▶ /_astro/theme_certificate.6rcYFo39_Zq2RuI.svg (reused cache entry) (+3ms) (6/10)
+19:24:09   ▶ /_astro/lancy.DpeF5j26_ZjCnVc.svg (reused cache entry) (+1ms) (7/10)
+19:24:09   ▶ /_astro/background.Ba5lL3_h_ZaopeM.svg (reused cache entry) (+1ms) (8/10)
+19:24:09   ▶ /_astro/lancy_blog.CryMEbw__ZzQfwl.svg (reused cache entry) (+2ms) (9/10)
+19:24:09   ▶ /_astro/background_empty.CN3GLSZJ_ZDHVEs.svg (reused cache entry) (+2ms) (10/10)
+19:24:10 ✓ Completed in 8ms.
+
+19:24:10 [build] ✓ Completed in 6.54s.
+19:24:10 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+19:24:10 [build] 29 page(s) built in 8.51s
+19:24:10 [build] Complete!
+Starting preview server on port 4321...
+Running config matrix tests...
+
+Running 6 tests using 2 workers
+
+  ✓  1 [chromium] › testing/tests/config-matrix.spec.ts:25:4 › Config Matrix: config-layout › Config settings propagate correctly (programmatic) (1.3s)
+  ✓  2 [firefox-dark] › testing/tests/config-matrix.spec.ts:25:4 › Config Matrix: config-layout › Config settings propagate correctly (programmatic) (4.9s)
+  ✓  3 [chromium] › testing/tests/config-matrix.spec.ts:31:4 › Config Matrix: config-layout › Homepage renders with config (visual) (5.2s)
+  ✓  5 [chromium] › testing/tests/config-matrix.spec.ts:69:4 › Config Matrix: config-layout › Blog post renders with config (visual) (2.8s)
+  ✓  4 [firefox-dark] › testing/tests/config-matrix.spec.ts:31:4 › Config Matrix: config-layout › Homepage renders with config (visual) (7.0s)
+  ✓  6 [firefox-dark] › testing/tests/config-matrix.spec.ts:69:4 › Config Matrix: config-layout › Blog post renders with config (visual) (2.2s)
+
+  6 passed (18.0s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report testing/playwright-report-matrix[39m
+[36m[39m
+✓ config-layout passed
+
+
+============================================================
+Testing config: config-noanim
+============================================================
+
+Building with config-noanim...
+19:24:39 [content] Syncing content
+19:24:40 [content] Synced content
+19:24:40 [types] Generated 1.83s
+19:24:40 [build] output: "static"
+19:24:40 [build] mode: "static"
+19:24:40 [build] directory: /home/fabio/Projects/Programming/Website/Astro/astro_freelance-persona_theme/playground/dist/
+19:24:40 [build] Collecting build info...
+19:24:40 [build] ✓ Completed in 2.07s.
+19:24:40 [build] Building static entrypoints...
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:24:45 [vite] ✓ built in 4.89s
+[36m[FreelancePersona][0m [32m✔ Copied 23 MathJax fonts to build output[0m
+19:24:45 [vite] ✓ built in 227ms
+19:24:45 [build] Rearranging server assets...
+
+ generating static routes 
+19:24:45   ├─ /403/index.html (+97ms) 
+19:24:45   ├─ /404.html (+37ms) 
+19:24:45   ├─ /blogs/development/index.html (+73ms) 
+19:24:45   ├─ /blogs/design-system/index.html (+40ms) 
+19:24:45   ├─ /blogs/community/index.html (+27ms) 
+19:24:45   ├─ /blogs/deprecated/index.html (+25ms) 
+19:24:45   ├─ /blogs/experimental/index.html (+24ms) 
+19:24:45   ├─ /blogs/changelog/index.html (+26ms) 
+19:24:45   ├─ /coming-soon/index.html (+26ms) 
+19:24:45   ├─ /legal/legal-notice/index.html (+25ms) 
+19:24:45   ├─ /legal/privacy-policy/index.html (+11ms) 
+19:24:46   ├─ /posts/astro-tips/index.html (+40ms) 
+19:24:46   ├─ /posts/bun-future/index.html (+48ms) 
+19:24:46   ├─ /posts/design-choices/index.html (+38ms) 
+19:24:46   ├─ /posts/design-trends/index.html (+55ms) 
+19:24:46   ├─ /posts/first-post/index.html (+21ms) 
+19:24:46   ├─ /posts/hello-world/index.html (+36ms) 
+19:24:46   ├─ /posts/lancy-intro/index.html (+105ms) 
+19:24:46   ├─ /posts/lore-ipsum-1/index.html (+37ms) 
+19:24:46   ├─ /posts/lore-ipsum-10/index.html (+34ms) 
+19:24:46   ├─ /posts/lore-ipsum-2/index.html (+52ms) 
+19:24:46   ├─ /posts/lore-ipsum-3/index.html (+23ms) 
+19:24:46   ├─ /posts/lore-ipsum-4/index.html (+35ms) 
+19:24:46   ├─ /posts/lore-ipsum-5/index.html (+48ms) 
+19:24:46   ├─ /posts/lore-ipsum-6/index.html (+23ms) 
+19:24:46   ├─ /posts/lore-ipsum-7/index.html (+28ms) 
+19:24:46   ├─ /posts/lore-ipsum-8/index.html (+31ms) 
+19:24:46   ├─ /posts/lore-ipsum-9/index.html (+23ms) 
+19:24:46   ├─ /robots.txt (+16ms) 
+19:24:46   ├─ /index.html (+89ms) 
+19:24:46 ✓ Completed in 1.43s.
+
+ generating optimized images 
+19:24:46   ▶ /_astro/lancy.DpeF5j26_Z1FSbiW.svg (reused cache entry) (+15ms) (1/10)
+19:24:46   ▶ /_astro/background_empty.CN3GLSZJ_ZzQfwl.svg (reused cache entry) (+13ms) (2/10)
+19:24:46   ▶ /_astro/lancy_blog.CryMEbw__ZDHVEs.svg (reused cache entry) (+13ms) (3/10)
+19:24:46   ▶ /_astro/background.Ba5lL3_h_Z27Ozy4.svg (reused cache entry) (+13ms) (4/10)
+19:24:46   ▶ /_astro/theme_certificate.6rcYFo39_Zq2RuI.svg (reused cache entry) (+13ms) (5/10)
+19:24:46   ▶ /_astro/avatar.BTMAtcyO_Z1W3NW6.svg (reused cache entry) (+13ms) (6/10)
+19:24:46   ▶ /_astro/lancy.DpeF5j26_ZjCnVc.svg (reused cache entry) (+1ms) (7/10)
+19:24:46   ▶ /_astro/lancy_blog.CryMEbw__ZzQfwl.svg (reused cache entry) (+1ms) (8/10)
+19:24:46   ▶ /_astro/background.Ba5lL3_h_ZaopeM.svg (reused cache entry) (+1ms) (9/10)
+19:24:46   ▶ /_astro/background_empty.CN3GLSZJ_ZDHVEs.svg (reused cache entry) (+1ms) (10/10)
+19:24:46 ✓ Completed in 19ms.
+
+19:24:46 [build] ✓ Completed in 6.72s.
+19:24:46 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+19:24:46 [build] 29 page(s) built in 8.91s
+19:24:46 [build] Complete!
+Starting preview server on port 4321...

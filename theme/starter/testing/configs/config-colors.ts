@@ -39,7 +39,7 @@ export const themeConfig: PersonaConfig = {
       text: "#272829",
       muted: "#6c757d",
       heading: "#45505b",
-      accent: "#0563bb",
+      accent: "#e63946",
       contrast: "#ffffff",
       card_background: "#ffffff",
       card_border: "rgba(0, 0, 0, 0.125)",
@@ -113,7 +113,7 @@ export const themeConfig: PersonaConfig = {
     legal_email: "colors-test@example.com",
     privacy_email: "privacy@colors-test.com",
     legal_phone: "+1555000001",
-    business_license: "Test: "Sole Proprietor",
+    business_license: "Test: Sole Proprietor",
     vat_id: "TEST123",
     jurisdiction: "Testland",
     disclaimer: "legal-guide",
@@ -121,7 +121,7 @@ export const themeConfig: PersonaConfig = {
   },
 
   mathjax: {
-    packages: ['base', 'ams', 'nocomplain'],
+    packages: ['base', 'ams'],
   },
 
   codeBlocks: {

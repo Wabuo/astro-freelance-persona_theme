@@ -56,3 +56,6 @@ theme/scratch/
 *.png.license
 *.webp
 *.webp.license
+
+.opencode/
+test_results*.txt

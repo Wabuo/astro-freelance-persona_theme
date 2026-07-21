@@ -71,9 +71,6 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Update npm to Latest Version
-        run: npm install -g npm@latest
-
       - name: Dry Run Manifest Audit
         run: npm pack --dry-run
         working-directory: theme

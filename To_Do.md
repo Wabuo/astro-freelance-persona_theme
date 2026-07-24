@@ -5,6 +5,8 @@ SPDX-License-Identifier: MIT
 -->
 
 # To Do
+start using popover=hint for all tooltips and put them everywhere sensible, shit needs to explain what it does #88
+
 
 ## Deferred from Audit (May 2026)
 

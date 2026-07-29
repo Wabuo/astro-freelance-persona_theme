@@ -71,7 +71,7 @@ export async function verifyConfigApplied(page: Page, expected: ConfigExpectatio
     monospace: 'code',
   };
   for (const [role, font] of Object.entries(expected.fonts ?? {})) {
-    const selector = fontTargets[role];
+    const selector = fontTargets[role as keyof typeof fontTargets];
     const actual = await page.locator(selector).first().evaluate(
       el => getComputedStyle(el).fontFamily);
     expect(actual).toContain(font);

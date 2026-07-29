@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 import { test, expect } from '@playwright/test';
-import { themeConfig } from '@/freelance-persona.config';
 
 test('Contact Form Submission', async ({ page }, testInfo) => {
     if (testInfo.project.name === 'noscript') test.skip(true, 'Contact form intercept requires JS');

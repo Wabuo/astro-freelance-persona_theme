@@ -6,6 +6,7 @@ SPDX-License-Identifier: MIT
 
 # To Do
 start using popover=hint for all tooltips and put them everywhere sensible, shit needs to explain what it does #88
+basically check if there is a decent modern to do it and then use it.
 
 
 ## Deferred from Audit (May 2026)
@@ -15,4 +16,3 @@ start using popover=hint for all tooltips and put them everywhere sensible, shit
 - [ ] **`tsconfig.json` starter alias**: Currently points to `../src/freelance-persona/*` (monorepo-only). Update to point to npm package once published, with local dev fallback
 - [ ] **Icon migration (astro-icon)**: Infrastructure is ready (`astro-icon`, `@iconify-json/*`, `transformIcon()`, `<Icon>` imports in 10 files) but never activated. Replace all `<i class="bi bi-...">` with `<Icon name="bi:..." />`, remove Bootstrap Icons font import from `main.scss`. Estimated ~30 locations.
 - [ ] **Unsplash license**: Consider adding `"Unsplash"` to `LICENSE_URLS` in `licenseUtils.ts` if user demand warrants it
- 

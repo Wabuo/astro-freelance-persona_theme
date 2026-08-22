@@ -14,92 +14,85 @@ import { defineConfig, presetWind4 } from 'unocss';
  * dark mode and user config without any `dark:` variant duplication.
  */
 export default defineConfig({
-  // BISECTION EXPERIMENT: no presets at all — emit absolutely nothing.
-  // If the 6 failing tests pass with this, the cause is in Wind4's emission;
-  // if they still fail, the cause is elsewhere (integration wiring, etc.).
-  presets: [],
-});
+  presets: [
+    presetWind4({
+      preflights: {
+        // Phase 1 (coexistence): Bootstrap's reboot is still active, so the
+        // built-in reset MUST stay off to avoid double-reset conflicts.
+        // NOTE: this is NESTED under `preflights` — a top-level `reset` key is
+        // silently ignored and the full Tailwind-4 preflight ships anyway.
+        // Flip to true in Phase 3 (atomic cutover).
+        reset: false,
+      },
+    }),
+  ],
 
-// ─── PARKED (restore after bisection) ────────────────────────────────────────
-//
-// export default defineConfig({
-//   presets: [
-//     presetWind4({
-//       preflights: {
-//         // Phase 1 (coexistence): Bootstrap's reboot is still active, so the
-//         // built-in reset MUST stay off to avoid double-reset conflicts.
-//         // NOTE: this is NESTED under `preflights` — a top-level `reset` key
-//         // is silently ignored and the full Tailwind-4 preflight ships anyway.
-//         // Flip to true in Phase 3 (atomic cutover).
-//         reset: false,
-//       },
-//     }),
-//   ],
-//
-//   /**
-//    * COEXISTENCE BLOCKLIST (Phase 1–2 only).
-//    *
-//    * Templates still carry Bootstrap-era class names. Without this blocklist
-//    * UnoCSS reinterprets them as its own utilities and emits competing rules
-//    * with DIFFERENT values (e.g. Bootstrap `mt-4` = 1.5rem vs Uno = 1rem),
-//    * breaking unmigrated components.
-//    *
-//    * Rule: when a component migrates in Phase 2, remove its legacy names from
-//    * this list in the same changeset. By Phase 3 this list must be empty.
-//    */
-//   blocklist: [
-//     'container',
-//     'row',
-//     'list-unstyled',
-//     'img-fluid',
-//     'visible',
-//     'hidden',
-//     /^d-(flex|block|none|inline|inline-block|grid)$/,
-//     /^col(-(sm|md|lg|xl|xxl))?-\d+$/,
-//     /^[gx]*y?-\d+$/,
-//     /^g-\d+$/,
-//     /^[mp][tblrxy]?-\d+$/,
-//     'flex-row',
-//     'flex-column',
-//     'flex-wrap',
-//     'flex-grow',
-//     'flex-shrink',
-//     'justify-content-center',
-//     'justify-content-between',
-//     'justify-content-end',
-//     'justify-content-start',
-//     'align-items-center',
-//     'align-items-start',
-//     'align-items-end',
-//     /^text-(center|start|end|mute[d]?)$/,
-//     /^(w|h)-(100|auto|25|50|75)$/,
-//     /^gap-[2345]$/,
-//   ],
-//
-//   theme: {
-//     colors: {
-//       accent: 'var(--accent-color)',
-//       background: 'var(--background-color)',
-//       surface: 'var(--surface-color)',
-//       default: 'var(--default-color)',
-//       heading: 'var(--heading-color)',
-//       contrast: 'var(--contrast-color)',
-//       muted: 'var(--text-muted)',
-//       card: { bg: 'var(--card-background)', border: 'var(--card-border)' },
-//       input: {
-//         bg: 'var(--input-background)',
-//         border: 'var(--input-border)',
-//         text: 'var(--input-text)',
-//       },
-//     },
-//     font: {
-//       body: 'var(--default-font)',
-//       heading: 'var(--heading-font)',
-//       nav: 'var(--nav-font)',
-//       mono: 'var(--monospace-font)',
-//     },
-//     // Breakpoints mirror Bootstrap's current values so Phase-2 conversions
-//     // behave identically until semantic layouts replace them.
-//     breakpoint: { sm: '576px', md: '768px', lg: '992px', xl: '1200px', '2xl': '1400px' },
-//   },
-// });
+  /**
+   * COEXISTENCE BLOCKLIST (Phase 1–2 only).
+   *
+   * Blocks ONLY names that are valid in BOTH systems but resolve differently:
+   * Bootstrap's spacing scale is 1:.25 / 2:.5 / 3:1 / 4:1.5 / 5:3rem while
+   * UnoCSS uses n×.25rem — so steps -3/-4/-5 collide with different values
+   * (-0/-1/-2 are identical and stay allowed). Structural Bootstrap classes
+   * have no legitimate Uno meaning and are blocked outright.
+   *
+   * Rule: when a component migrates in Phase 2, remove its legacy names from
+   * this list in the same changeset. By Phase 3 this list must be empty.
+   */
+  blocklist: [
+    // Structural Bootstrap layout system
+    'container',
+    'row',
+    'list-unstyled',
+    'img-fluid',
+    'visible',
+    // Grid columns & gutters
+    /^col(-([\w]+))?-?\d*$/,
+    /^g[xy]-\d+$/,
+    // Spacing steps where the two scales diverge (3/4/5)
+    /^[mp][tblrxy]?-[345]$/,
+    // Sizing helpers (Bootstrap = %, Uno = rem!)
+    /^(w|h)-(100|25|50|75)$/,
+    // Bootstrap-only color helper colliding with our theme token
+    'text-muted',
+  ],
+
+  theme: {
+    colors: {
+      accent: 'var(--accent-color)',
+      background: 'var(--background-color)',
+      surface: 'var(--surface-color)',
+      default: 'var(--default-color)',
+      heading: 'var(--heading-color)',
+      contrast: 'var(--contrast-color)',
+      muted: 'var(--text-muted)',
+      card: {
+        bg: 'var(--card-background)',
+        border: 'var(--card-border)',
+      },
+      input: {
+        bg: 'var(--input-background)',
+        border: 'var(--input-border)',
+        text: 'var(--input-text)',
+      },
+    },
+
+    font: {
+      body: 'var(--default-font)',
+      heading: 'var(--heading-font)',
+      nav: 'var(--nav-font)',
+      mono: 'var(--monospace-font)',
+    },
+
+    // Breakpoints mirror Bootstrap's current values so Phase-2 component
+    // conversions behave identically until semantic layouts replace them.
+    // (Bootstrap: sm 576 / md 768 / lg 992 / xl 1200 / xxl 1400)
+    breakpoint: {
+      sm: '576px',
+      md: '768px',
+      lg: '992px',
+      xl: '1200px',
+      '2xl': '1400px',
+    },
+  },
+});

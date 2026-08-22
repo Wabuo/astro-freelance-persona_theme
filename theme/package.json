@@ -54,6 +54,8 @@
     "@fontsource/roboto": "^5.2.9",
     "@iconify-json/academicons": "^1.2.4",
     "@iconify-json/bi": "^1.2.7",
+    "unocss": "~66.7.5",
+    "@unocss/preset-wind4": "~66.7.5",
     "astro-expressive-code": "^0.44.0",
     "astro-icon": "^1.1.5",
     "bootstrap": "^5.3.8",

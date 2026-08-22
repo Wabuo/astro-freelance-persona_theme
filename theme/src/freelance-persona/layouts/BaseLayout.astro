@@ -38,6 +38,9 @@ const FONT_PRELOAD_MAP: Record<string, string> = {
 };
 
 // Import Global Styles
+// NOTE: UnoCSS utilities are injected automatically by the integration
+// (unocss/astro adds "virtual:uno.css" to page entries). Do not manually
+// import it here — that produces a duplicate-import build warning.
 import "@freelance-persona/styles/main.scss";
 
 // --- SMART ASSET DISCOVERY ---

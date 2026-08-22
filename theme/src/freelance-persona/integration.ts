@@ -18,15 +18,17 @@ import path from 'path';
 import fs from 'fs';
 import { mathjaxFontsPlugin } from './plugins/mathjaxFontsPlugin';
 import { virtualConfigPlugin } from './plugins/virtualConfig';
+import UnoCSS from 'unocss/astro';
 
 export default function freelancePersona(): AstroIntegration {
   return {
     name: 'astro-freelance-persona',
     hooks: {
-      'astro:config:setup': async ({ updateConfig, config }) => {
+      'astro:config:setup': async ({ updateConfig, config, injectScript }) => {
         const currentDir = path.dirname(fileURLToPath(import.meta.url));
         const projectRoot = fileURLToPath(config.root);
         const utilsPath = path.resolve(currentDir, 'utils');
+        const unoConfigPath = path.resolve(currentDir, 'uno.config.ts');
 
         const remarkPluginsList = [
           remarkExtractImageParams,
@@ -61,6 +63,9 @@ export default function freelancePersona(): AstroIntegration {
             })
           },
           integrations: [
+            UnoCSS({
+              configFile: unoConfigPath,
+            }),
             astroExpressiveCode({
               themes: ['github-light', 'github-dark'],
               // CSS-native theme switching strategy:

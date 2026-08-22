@@ -84,7 +84,7 @@ const { Content } = entry ? await render(entry) : { Content: null };
             {
               legal.legal_note && (
                 <span
-                  class="legal-note d-block mt-3"
+                  class="legal-note block mt-[1rem]"
                   set:html={legal.legal_note}
                 />
               )
@@ -95,7 +95,7 @@ const { Content } = entry ? await render(entry) : { Content: null };
         {/* Privacy Policy Content */}
         {
           Content && (
-            <div class="legal-text mt-5">
+            <div class="legal-text mt-[3rem]">
               <Content />
             </div>
           )

@@ -24,10 +24,10 @@ const description = "We are working hard to bring you this page.";
 
 <BaseLayout title={title} description={description} navType="page">
   <section
-    class="section coming-soon d-flex flex-column align-items-center justify-content-center"
+    class="section coming-soon flex flex-col items-center justify-center"
   >
     <div class="container text-center" data-reveal="fade-up">
-      <div class="mascot-container mb-4">
+      <div class="mascot-container mb-6">
         {
           lancyImage ? (
             <Image
@@ -35,7 +35,7 @@ const description = "We are working hard to bring you this page.";
               alt="Mascot working on something new"
               width={350}
               height={350}
-              class="img-fluid lancy-working"
+              class="max-w-full h-auto lancy-working"
             />
           ) : (
             <div
@@ -50,7 +50,7 @@ const description = "We are working hard to bring you this page.";
 
       <h1>Watch This Space!</h1>
       <h2>Something Awesome is Brewing</h2>
-      <p class="mb-4">
+      <p class="mb-6">
         Lancy is currently coding this feature.<br />
         Check back soon for updates!
       </p>

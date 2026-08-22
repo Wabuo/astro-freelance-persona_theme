@@ -13,7 +13,7 @@ const { isHome = false } = Astro.props;
 
 <!-- Desktop Navigation (always visible on desktop, hidden on mobile via CSS) -->
 <header
-  class={`header desktop-nav d-flex flex-column justify-content-center ${
+  class={`header desktop-nav flex flex-col justify-center ${
     isHome ? "is-home" : "is-inner"
   }`}
 >
@@ -24,7 +24,7 @@ const { isHome = false } = Astro.props;
 <header
   id="mobile-nav"
   popover="auto"
-  class={`header mobile-nav flex-column ${isHome ? "is-home" : "is-inner"}`}
+  class={`header mobile-nav flex-col ${isHome ? "is-home" : "is-inner"}`}
 >
   <!-- Ghost Backdrop: Invisible to AT, handles click-to-close -->
   <button
@@ -47,7 +47,7 @@ const { isHome = false } = Astro.props;
   </button>
 
   <!-- Visual Drawer: The actual menu content (Scroll Container) -->
-  <div class="mobile-nav-drawer d-flex flex-column" id="mobile-nav-drawer">
+  <div class="mobile-nav-drawer flex flex-col" id="mobile-nav-drawer">
     <NavLinks isHome={isHome} isMobile={true} />
   </div>
 </header>

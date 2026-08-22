@@ -337,6 +337,14 @@ const heroSectionStyle = {
 
     (lockEl as HTMLElement).style.minWidth = `${Math.ceil(maxWidth) + 15}px`;
 
+    // TEST MODE: deterministic rendering — skip the animation loop entirely.
+    // The typing loop mutates textContent forever, which defeats Playwright's
+    // two-consecutive-stable-screenshots check regardless of CSS overrides.
+    if (document.documentElement.getAttribute("data-test-mode") === "true") {
+      typedEl.textContent = words[0] || "";
+      return;
+    }
+
     // 3. TYPING LOGIC
     let wordIndex = 0;
     let charIndex = 0;

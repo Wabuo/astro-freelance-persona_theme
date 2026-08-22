@@ -230,7 +230,10 @@
 }
 
 .hero .social-links {
-  margin-top: 1.5625rem; // 25px
+  // Consumed from the hero content element's inline style (hero.md frontmatter:
+  // gap_typing_to_socials). Owns desktop spacing; the mobile block below overrides.
+  margin-top: var(--gap-typing-to-socials, 1.5625rem); // default 25px
+  gap: 1.5rem;
 }
 
 .hero .social-links a {

@@ -142,15 +142,15 @@ const sectionStyle = `
   <SectionTitle title={title} subtitle={subtitle} delay={headingDelay} />
 
   <div class="container" data-reveal data-reveal-delay={delay || contentDelay}>
-    <div class="row gy-4">
-      <div class={showForm ? "col-lg-4" : "col-lg-8 offset-lg-4"}>
-        <div class="info-list d-flex flex-column gap-4">
+    <div class="contact-grid grid mx-[-0.75rem] -mt-6 lg:grid-cols-3">
+      <div class={`mt-6 px-[0.75rem] ${showForm ? "lg:col-span-1" : "lg:col-span-2 lg:col-start-2"}`}>
+        <div class="info-list flex flex-col gap-4">
           {
             resolvedItems.map((info, index) => (
               <>
                 {info.type === "email" ? (
                   <div
-                    class="info-item d-flex email-wrapper obfuscated-email-wrapper"
+                    class="info-item flex email-wrapper obfuscated-email-wrapper"
                     data-reveal="fade-up"
                     data-reveal-delay={
                       (delay || contentDelay) + index * staggerDelay
@@ -167,7 +167,7 @@ const sectionStyle = `
                   </div>
                 ) : (
                   <div
-                    class="info-item d-flex"
+                    class="info-item flex"
                     data-reveal="fade-up"
                     data-reveal-delay={
                       (delay || contentDelay) + index * staggerDelay
@@ -190,7 +190,7 @@ const sectionStyle = `
 
       {
         showForm && (
-          <div class="col-lg-8">
+          <div class="mt-6 px-[0.75rem] lg:col-span-2">
             <form
               action={actionUrl}
               method={formMethod}
@@ -225,8 +225,8 @@ const sectionStyle = `
                    We rely on JS adapter for advanced Title/Priority.
                */}
 
-              <div class="row gy-4">
-                <div class="col-md-6">
+              <div class="contact-grid grid mx-[-0.75rem] -mt-6 md:grid-cols-2">
+                <div class="mt-6 px-[0.75rem]">
                   <div class="input-box">
                     <input
                       type="text"
@@ -241,7 +241,7 @@ const sectionStyle = `
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="mt-6 px-[0.75rem]">
                   <div class="input-box">
                     <input
                       type="email"
@@ -256,7 +256,7 @@ const sectionStyle = `
                   </div>
                 </div>
 
-                <div class="col-md-12">
+                <div class="mt-6 px-[0.75rem] md:col-span-2">
                   <div class="input-box">
                     <input
                       type="text"
@@ -271,7 +271,7 @@ const sectionStyle = `
                   </div>
                 </div>
 
-                <div class="col-md-12">
+                <div class="mt-6 px-[0.75rem] md:col-span-2">
                   <div class="input-box">
                     <textarea
                       name="message"
@@ -287,8 +287,8 @@ const sectionStyle = `
                 </div>
 
                 {themeConfig.contact_form?.checkboxes?.map((checkbox) => (
-                  <div class="col-md-12">
-                    <div class="form-check text-start d-flex gap-2">
+                  <div class="mt-6 px-[0.75rem] md:col-span-2">
+                    <div class="form-check text-start flex! gap-2">
                       <input 
                         class="form-check-input mt-1" 
                         type="checkbox" 
@@ -306,7 +306,7 @@ const sectionStyle = `
                   </div>
                 ))}
 
-                <div class="col-md-12 text-center">
+                <div class="mt-6 px-[0.75rem] md:col-span-2 text-center">
                   <div class="loading">Loading</div>
                   <div class="error-message" />
                   <div class="sent-message">

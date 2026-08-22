@@ -171,7 +171,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
               }
               style={cardStyle}
             >
-              <Card class="category-card h-100">
+              <Card class="category-card h-full">
                 <a
                   href={linkUrl}
                   class="card-link-overlay"
@@ -307,7 +307,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                     (categories.length + index) * staggerDelay
                 }
               >
-                <Card class="mini-category-card h-100" style={combinedStyle}>
+                <Card class="mini-category-card h-full" style={combinedStyle}>
                   <a
                     href={linkUrl}
                     class="card-link-overlay"

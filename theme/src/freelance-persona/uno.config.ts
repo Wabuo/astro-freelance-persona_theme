@@ -46,8 +46,9 @@ export default defineConfig({
     'list-unstyled',
     'img-fluid',
     'visible',
-    // Grid columns & gutters
-    /^col(-([\w]+))?-?\d*$/,
+    // Grid columns & gutters (Bootstrap col-md-6 etc. — must NOT catch Uno's
+    // col-span-*, hence the negative lookahead)
+    /^col(?!-span)(?:-(?:sm|md|lg|xl|xxl))?-\d+$/,
     /^g[xy]-\d+$/,
     // Spacing steps where the two scales diverge (3/4/5)
     /^[mp][tblrxy]?-[345]$/,

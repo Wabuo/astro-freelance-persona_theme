@@ -99,7 +99,7 @@ const optimizedThumbnail = post.data.thumbnail
                   <Image
                     src={post.data.thumbnail}
                     alt={post.data.title}
-                    class="img-fluid"
+                    class="max-w-full h-auto"
                     width={1100}
                     quality="high"
                     format={post.data.thumbnail.format === 'svg' ? 'svg' : 'webp'}
@@ -134,9 +134,9 @@ const optimizedThumbnail = post.data.thumbnail
               <div class="meta-top-divider"></div>
 
               <div class="meta-top">
-                <div class="d-flex justify-content-between">
-                  <ul id="info" class="d-flex list-unstyled m-0">
-                    <li class="d-flex align-items-center me-4">
+                <div class="flex justify-between">
+                  <ul id="info" class="flex list-none m-0">
+                    <li class="flex items-center me-6">
                       <Icon name="bi:calendar-event" class="me-2" />
                       <time
                         >{
@@ -148,14 +148,14 @@ const optimizedThumbnail = post.data.thumbnail
                         }
                       </time>
                     </li>
-                    <li class="d-flex align-items-center">
+                    <li class="flex items-center">
                       <Icon name="bi:hourglass-split" class="me-2" />
                       <time>{readingTime} min read</time>
                     </li>
                   </ul>
 
-                  <ul id="action" class="d-flex list-unstyled m-0">
-                    <li class="d-flex align-items-center">
+                  <ul id="action" class="flex list-none m-0">
+                    <li class="flex items-center">
                       <ShareMenu
                         url={Astro.site
                           ? new URL(Astro.url.pathname, Astro.site).toString()

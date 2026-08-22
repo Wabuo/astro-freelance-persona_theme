@@ -469,9 +469,11 @@ const heroSectionStyle = {
 
   /* SOCIALS LOGIC */
   .social-links {
-    margin-top: var(--gap-typing-to-socials, 1.5625rem);
+    /* NOTE: margin-top & gap are owned by hero.scss (which also applies the
+       --gap-typing-to-socials config var and the mobile overrides). Declaring
+       them here as well creates a specificity tie whose winner depends on
+       stylesheet chunk ORDER — which build tooling may reorder. */
     display: flex;
-    gap: 1.5rem;
   }
 
   .social-links a {

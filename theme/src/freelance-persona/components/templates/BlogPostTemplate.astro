@@ -181,3 +181,11 @@ const optimizedThumbnail = post.data.thumbnail
     </div>
   </div>
 </BaseLayout>
+
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/blog-post.css";
+  /* .post-figure markup is injected into post content by plugins/rehypeFigures,
+     so its styles belong to the blog-post rendering path. */
+  @import "@freelance-persona/styles/_blog-figures.css";
+</style>

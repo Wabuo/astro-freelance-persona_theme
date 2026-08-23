@@ -189,7 +189,19 @@ const formatDate = (date: Date) => {
   }
 </BaseLayout>
 
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/blog.css";
+</style>
+
+<style is:global>
+  /* Card-facing post primitives (.post-header/.post-title/.meta-top) render here too,
+     so this partial ships wherever those cards appear. */
+  @import "@freelance-persona/styles/blog-post.css";
+</style>
+
 <style>
+
   /* Layout Refinements matching Zola Reference */
   /* Layout Refinements matching Zola Reference */
   /* Replaced .category-page-container with standard .container */
@@ -328,3 +340,5 @@ const formatDate = (date: Date) => {
     }
   }
 </style>
+
+

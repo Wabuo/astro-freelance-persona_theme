@@ -26,3 +26,8 @@ const { crumbs, showTitle = true } = Astro.props;
     {showTitle && <h1>{crumbs[crumbs.length - 1].label}</h1>}
   </div>
 </section>
+
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/breadcrumbs.css";
+</style>

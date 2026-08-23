@@ -243,3 +243,25 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 **Symptom:** Clicking `.nav-toggle` to close the mobile popover does nothing (popover stays open).
 **Cause:** The `.nav-toggle` button has `command="show-popover"` only. It cannot close the popover.
 **Fix:** Use `button.nav-close[aria-label="Close navigation menu"]` to close, and `page.keyboard.press('Escape')` for light-dismiss testing.
+
+### 🎨 Astro `<style>` + `@import` Scoping (UnoCSS Migration Gotchas)
+
+- **Astro scopes `@import`ed CSS.** A partial imported inside a plain `<style>` block
+  gets `[data-astro-cid-*]` appended to every selector. This silently breaks any rule
+  targeting markup rendered by OTHER components/templates/plugins (scoped selectors only
+  match the owning component's own elements). ShareMenu "worked" only because its markup
+  is internal to itself.
+  - **Fix:** use `<style is:global>` blocks for component-owned partial imports.
+- **Import order inside a component matters.** Legacy cascade had shared partials load
+  BEFORE a component's local literal styles. Put `<style is:global>` import blocks ABOVE
+  existing `<style>` blocks; appending them after flips same-specificity ties.
+- **`:is()` takes the max specificity of its arguments.** Grouping selector lists of
+  different complexity in one nested parent (e.g. `.hero, .blog-post .post-img { & .x }`)
+  boosts simple contexts to the most complex member's specificity and breaks per-context
+  overrides. Split groups so every member yields identical rule specificity.
+- **Cross-component class usage:** if a partial's classes render in multiple components
+  (e.g. blog-post.css `.post-header` used by FilteredPostsSection cards), each renderer
+  must import it — Vite dedupes per page.
+- **A/B build rigs must pin dependency versions.** A fresh `bun install` in a comparison
+  workspace pulled astro-icon 1.2.x vs the repo's 1.1.x, changing SVG sprite emission
+  (`viewBox` moved to `<symbol>`) and producing fake Firefox-only diffs.

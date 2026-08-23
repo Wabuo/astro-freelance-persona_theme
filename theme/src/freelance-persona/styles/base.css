@@ -406,6 +406,16 @@ html:has(.header[popover]:popover-open) {
       }
     }
   }
+/* Ported verbatim from Bootstrap .badge (dies in step 3.5).
+   NOTE: scoped to .badge only — bare `.tag` spans never had these. */
+.badge {
+  white-space: nowrap;
+  line-height: 1;
+  vertical-align: baseline;
+}
+.badge:empty {
+  display: none;
+}
 }
 /*--------------------------------------------------------------
 # Code Blocks (Legacy - Removed in favor of astro-expressive-code)

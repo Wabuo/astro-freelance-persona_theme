@@ -31,13 +31,6 @@ const {
   gutter = "default",
 } = Astro.props;
 
-// Gutter styles
-const rowClass = gutter === "wide" ? "row" : "row gy-4";
-const gutterStyle =
-  gutter === "wide"
-    ? "--bs-gutter-x: 2rem; --bs-gutter-y: 2rem;"
-    : "--bs-gutter-x: 1.5rem;";
-
 // 1. Fetch ALL posts (only if posts not provided)
 const allPosts = posts ? [] : await getCollection("blog_posts");
 
@@ -61,9 +54,18 @@ const displayedPosts = filteredPosts
     return b.id.localeCompare(a.id);
   })
   .slice(0, limit === -1 ? undefined : limit);
-// 4. Determine Column Class
-const colClass =
-  columns === 4 ? "col-xl-3 col-lg-4 col-md-6 mb-4" : "col-lg-4 col-md-6 mb-4";
+// 4. Layout Classes (semantic grid replacing Bootstrap row/cols)
+// Replicates Bootstrap's gutter model exactly: negative margins on the
+// container, matching padding + gutter-top margin on every cell.
+const isWide = gutter === "wide";
+const gridWrap = isWide ? "-mx-[1rem] -mt-[2rem]" : "-mx-[0.75rem] -mt-[1.5rem]";
+const cellPad  = isWide ? "px-[1rem]"        : "px-[0.75rem]";
+const cellMt   = isWide ? "mt-[2rem]"        : "mt-[1.5rem]";
+const gridCols = columns === 4
+  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+const cellClass = `mb-6 ${cellMt} ${cellPad}`;
+const colClass = `${gridWrap} ${gridCols}`;
 
 // 5. Excerpt Helper
 const getExcerpt = (body: string) => {
@@ -100,9 +102,9 @@ const getExcerpt = (body: string) => {
       <SectionTitle title={title} subtitle={subtitle} />
 
       <div class="container" data-reveal="fade-up">
-        <div class={rowClass} style={gutterStyle}>
+        <div class={colClass}>
           {displayedPosts.map((post) => (
-            <div class={colClass}>
+            <div class={cellClass}>
               <Card href={`${import.meta.env.BASE_URL}posts/${post.id.split("/").pop()}`} class="h-full">
                 {/* Image Slot */}
                 <div slot="image" class="post-image-container">

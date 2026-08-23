@@ -27,137 +27,69 @@
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
 /*
-  DARK MODE STRATEGY
-  1. Default: System Preference (Media Query)
-  2. Override: Native Checkbox (CSS :has selector)
+  DARK MODE STRATEGY (flat light-dark() table)
+  1. Default: System Preference (via `color-scheme: light dark` — the UA picks)
+  2. Override: Native Checkbox (CSS :has selector flips color-scheme)
   3. Persistence: JS syncs checkbox with localStorage
+
+  Every scheme-dependent variable is declared exactly once using
+  light-dark(<light>, <dark>). Variables whose value is identical in both
+  schemes are declared once without light-dark(); formulas referencing
+  other variables (e.g. --heading-color) resolve per-scheme automatically.
 */
 
-/* Light Theme Variables */
+/* Manual scheme override (checkbox wins over OS preference) */
+:root:has(.theme-state-light:checked) {
+  color-scheme: light;
+}
+
+:root:has(.theme-state-dark:checked) {
+  color-scheme: dark;
+}
+
+/* Theme Variable Table (Libadwaita palette for the dark sides) */
 :root {
-  --background-color: #ffffff;
-  --default-color: #272829;
+  color-scheme: light dark;
+
+  /* Core */
+  --background-color: light-dark(#ffffff, #1e1e1e);
+  --default-color: light-dark(#272829, #e0e0e0);
   --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
   --accent-color: #0563bb;
-  --surface-color: #ffffff;
+  --surface-color: light-dark(#ffffff, #303030);
   --contrast-color: #ffffff;
   --transparency: 25%;
-  --text-muted: #6c757d;
+  --text-muted: light-dark(#6c757d, color-mix(in srgb, var(--default-color), transparent 50%));
 
-  /* Component Specifics - Light */
-  --card-background: #ffffff;
-  --card-border: rgba(0, 0, 0, 0.125);
+  /* Component Specifics */
+  --card-background: light-dark(#ffffff, color-mix(in srgb, var(--default-color), transparent 98%));
+  --card-border: light-dark(rgba(0, 0, 0, 0.125), color-mix(in srgb, var(--default-color), transparent 85%));
   --tag-background: color-mix(in srgb, var(--default-color), transparent 94%);
   --tag-text: color-mix(in srgb, var(--default-color), transparent 55%);
   --tag-border: transparent;
-  --input-background: #ffffff;
-  --input-border: #ced4da;
-  --input-text: #212529;
+  --input-background: light-dark(#ffffff, color-mix(in srgb, var(--default-color), transparent 95%));
+  --input-border: light-dark(#ced4da, color-mix(in srgb, var(--default-color), transparent 85%));
+  --input-text: light-dark(#212529, var(--default-color));
 
-  /* Bootstrap - Light */
-  --bs-body-bg: #ffffff;
-  --bs-body-color: #212529;
-  --underline-color: var(--accent-color);
-  --code-background: #f6f6f6;
-}
+  /* Bootstrap bridge (removed with Bootstrap in step 3.5/3.7) */
+  --bs-body-bg: light-dark(#ffffff, #1e1e1e);
+  --bs-body-color: light-dark(#212529, #e0e0e0);
+  /* Light side intentionally equals Bootstrap's own :root default,
+     which previously won because the theme left this unset in light mode. */
+  --bs-border-color: light-dark(#dee2e6, color-mix(in srgb, var(--default-color), transparent 85%));
+  --underline-color: light-dark(var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 45%));
+  --code-background: light-dark(#f6f6f6, var(--surface-color));
 
-/* 2. Logic Matrix */
+  /* Nav Menu Colors */
+  --nav-color: light-dark(#45505b, #e0e0e0);
+  --nav-hover-color: var(--accent-color);
+  --nav-dropdown-background-color: light-dark(#ffffff, var(--surface-color));
+  --nav-dropdown-color: light-dark(#212529, #e0e0e0);
+  --nav-dropdown-hover-color: var(--accent-color);
 
-/* Dark Theme Variables (Libadwaita Palette) */
-
-/* CASE A: OS Dark + Unchecked = Dark */
-@media (prefers-color-scheme: dark) {
-  :root:not(:has(.theme-state-light:checked)) {
-    --background-color: #1e1e1e;
-    --surface-color: #303030;
-    --default-color: #e0e0e0;
-    --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
-    --contrast-color: #ffffff;
-    --text-muted: color-mix(in srgb, var(--default-color), transparent 50%);
-
-    /* Component Specifics */
-    --card-background: color-mix(in srgb, var(--default-color), transparent 98%);
-    --card-border: color-mix(in srgb, var(--default-color), transparent 85%);
-
-    --tag-background: color-mix(in srgb, var(--default-color), transparent 94%);
-    --tag-text: color-mix(in srgb, var(--default-color), transparent 55%);
-    --tag-border: transparent;
-
-    --input-background: color-mix(in srgb, var(--default-color), transparent 95%);
-    --input-border: color-mix(in srgb, var(--default-color), transparent 85%);
-    --input-text: var(--default-color);
-
-    /* Bootstrap Overrides */
-    --bs-body-bg: #1e1e1e;
-    --bs-body-color: #e0e0e0;
-    --bs-border-color: color-mix(in srgb, var(--default-color), transparent 85%);
-    --underline-color: color-mix(in srgb, var(--accent-color), transparent 45%);
-    --code-background: var(--surface-color);
-  }
-}
-
-/* CASE B: OS Light + Checked = Dark */
-@media (prefers-color-scheme: light) {
-  :root:has(.theme-state-dark:checked) {
-    --background-color: #1e1e1e;
-    --surface-color: #303030;
-    --default-color: #e0e0e0;
-    --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
-    --contrast-color: #ffffff;
-    --text-muted: color-mix(in srgb, var(--default-color), transparent 50%);
-
-    /* Component Specifics */
-    --card-background: color-mix(in srgb, var(--default-color), transparent 98%);
-    --card-border: color-mix(in srgb, var(--default-color), transparent 85%);
-
-    --tag-background: color-mix(in srgb, var(--default-color), transparent 94%);
-    --tag-text: color-mix(in srgb, var(--default-color), transparent 55%);
-    --tag-border: transparent;
-
-    --input-background: color-mix(in srgb, var(--default-color), transparent 95%);
-    --input-border: color-mix(in srgb, var(--default-color), transparent 85%);
-    --input-text: var(--default-color);
-
-    /* Bootstrap Overrides */
-    --bs-body-bg: #1e1e1e;
-    --bs-body-color: #e0e0e0;
-    --bs-border-color: color-mix(in srgb, var(--default-color), transparent 85%);
-    --underline-color: color-mix(in srgb, var(--accent-color), transparent 45%);
-    --code-background: var(--surface-color);
-  }
-}
-
-/* Nav Menu Colors */
-:root {
-  --nav-color: #45505b; /* Main nav link color */
-  --nav-hover-color: var(--accent-color); /* Hover/Active nav link color */
-  --nav-dropdown-background-color: #ffffff; /* Dropdown background */
-  --nav-dropdown-color: #212529; /* Dropdown link color */
-  --nav-dropdown-hover-color: var(--accent-color); /* Dropdown hover color */
-}
-
-/* --var survace collor has the right dark i think */
-
-/* Auto-Dark Nav */
-@media (prefers-color-scheme: dark) {
-  :root:not(:has(.theme-state-light:checked)) {
-    --nav-color: #e0e0e0;
-    --nav-hover-color: var(--accent-color);
-    --nav-dropdown-background-color: var(--surface-color, #1e1e1e);
-    --nav-dropdown-color: #e0e0e0;
-    --nav-dropdown-hover-color: var(--accent-color);
-  }
-}
-
-/* Manual Dark Nav */
-@media (prefers-color-scheme: light) {
-  :root:has(.theme-state-dark:checked) {
-    --nav-color: #e0e0e0;
-    --nav-hover-color: var(--accent-color);
-    --nav-dropdown-background-color: var(--surface-color, #1e1e1e);
-    --nav-dropdown-color: #e0e0e0;
-    --nav-dropdown-hover-color: var(--accent-color);
-  }
+  /* Nav Menu Colors (Header) — Matte Polished glassmorphism base */
+  --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
+  --header-color: light-dark(var(--default-color), #ffffff);
 }
 
 /* Font Sizes */
@@ -178,34 +110,6 @@
   --nav-menu-border-padding: 0.9375rem; /* 15px */
   --nav-menu-mobile-border-width: 1px; /* 1px */
   --nav-border-color: color-mix(in srgb, var(--accent-color), transparent 85%); /* Standard border color */
-}
-
-/* Nav Menu Colors (Header) */
-:root {
-  /* Glassmorphism Base: Lower opacity white (0.6) to allow the blur to be clearly visible */
-  /* Matte Polished: Use background color with very slight transparency (5%) to keep it solid but allow subtle context */
-  --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
-  --header-color: var(--default-color); /* Use default text color for better integration */
-}
-
-/* Dark Matte */
-
-@media (prefers-color-scheme: dark) {
-
-  /* OS Dark + Unchecked = Dark */
-  :root:not(:has(.theme-state-light:checked)) {
-    --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
-    --header-color: #ffffff;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-
-  /* OS Light + Checked = Dark */
-  :root:has(.theme-state-dark:checked) {
-    --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
-    --header-color: #ffffff;
-  }
 }
 
 /* Spacing Variables */

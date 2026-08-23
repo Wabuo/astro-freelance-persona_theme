@@ -82,7 +82,10 @@ const optimizedThumbnail = post.data.thumbnail
 
   <div class="container">
     <div class="-mx-[0.75rem] [display:flow-root] lg:grid lg:grid-cols-3">
-      <section id="blog-post" class="blog-post section px-[0.75rem] lg:col-span-2">
+      <!-- NOTE: no px-* utility here on purpose — .section's `padding: 3rem 0`
+           intentionally zeroed the x-axis in the reference design; horizontal
+           gutters come from the grid child's -mx + cell padding. -->
+      <section id="blog-post" class="blog-post section lg:col-span-2">
         <div class="container" data-reveal="fade-up">
           <article
             class="article"
@@ -184,8 +187,8 @@ const optimizedThumbnail = post.data.thumbnail
 
 <style is:global>
   /* Component-owned styles (shipped only when this component is used) */
-  @import "@freelance-persona/styles/blog-post.css";
+  @import "@freelance-persona/styles/blog-post.css" layer(components);
   /* .post-figure markup is injected into post content by plugins/rehypeFigures,
      so its styles belong to the blog-post rendering path. */
-  @import "@freelance-persona/styles/_blog-figures.css";
+  @import "@freelance-persona/styles/_blog-figures.css" layer(components);
 </style>

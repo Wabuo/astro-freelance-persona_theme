@@ -357,11 +357,11 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
 
 <style is:global>
   /* Component-owned styles (shipped only when this component is used) */
-  @import "@freelance-persona/styles/_blog-categories.css";
+  @import "@freelance-persona/styles/_blog-categories.css" layer(components);
 </style>
 
 <style is:global>
   /* Card-facing post primitives (.post-header/.post-title/.meta-top) render here too,
      so this partial ships wherever those cards appear. */
-  @import "@freelance-persona/styles/blog-post.css";
+  @import "@freelance-persona/styles/blog-post.css" layer(components);
 </style>

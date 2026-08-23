@@ -414,10 +414,12 @@ const sectionStyle = `
 
 <style is:global>
   /* Component-owned styles (shipped only when this component is used) */
-  @import "@freelance-persona/styles/contact.css";
+  @import "@freelance-persona/styles/contact.css" layer(components);
 </style>
 
 <style>
+@layer components {
+
   .contact.section {
     transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
       scale(var(--content-scale, 1));
@@ -474,5 +476,6 @@ const sectionStyle = `
     border-color: var(--accent-color);
     box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--accent-color), transparent 75%);
   }
+}
 </style>
 

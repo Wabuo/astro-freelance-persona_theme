@@ -269,10 +269,12 @@ const getExcerpt = (body: string) => {
 
 <style is:global>
   /* Component-owned styles (shipped only when this component is used) */
-  @import "@freelance-persona/styles/_filtered-posts.css";
+  @import "@freelance-persona/styles/_filtered-posts.css" layer(components);
 </style>
 
 <style>
+@layer components {
+
   /* Component styles moved to _recent-posts.scss */
 
   /* Local Fix for Attribution Positioning */
@@ -280,11 +282,12 @@ const getExcerpt = (body: string) => {
     position: relative;
     overflow: hidden; /* Ensure attribution stays within image bounds */
   }
+}
 </style>
 
 
 <style is:global>
   /* Card-facing post primitives (.post-header/.post-title/.meta-top) render here too,
      so this partial ships wherever those cards appear. */
-  @import "@freelance-persona/styles/blog-post.css";
+  @import "@freelance-persona/styles/blog-post.css" layer(components);
 </style>

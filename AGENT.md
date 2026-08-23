@@ -265,3 +265,17 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 - **A/B build rigs must pin dependency versions.** A fresh `bun install` in a comparison
   workspace pulled astro-icon 1.2.x vs the repo's 1.1.x, changing SVG sprite emission
   (`viewBox` moved to `<symbol>`) and producing fake Firefox-only diffs.
+
+### 🧱 Cascade Layers (Phase 3+)
+
+- Theme CSS lives in `@layer components`; legacy Bootstrap in `@layer bootstrap`
+  (declared earlier). UnoCSS utilities are unlayered → always above both.
+- **`!important` inverts layer priority**: for important declarations the
+  EARLIER-declared layer wins. Bootstrap's `!important` utilities therefore
+  beat layered theme `!important` rules (e.g. hero mobile alignment). Never
+  fight a Bootstrap utility's property from a layered rule while Bootstrap
+  survives — remove the dead utility instead (see Hero position_y refactor).
+- The `@layer bootstrap, components` order statement is injected as
+  `<style is:inline>` in BaseLayout's <head>: the bundler may emit @layer
+  blocks across chunks in arbitrary physical order, so block-position-based
+  ordering is not trustworthy.

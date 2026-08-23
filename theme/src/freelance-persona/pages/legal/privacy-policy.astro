@@ -106,6 +106,8 @@ const { Content } = entry ? await render(entry) : { Content: null };
 </BaseLayout>
 
 <style>
+@layer components {
+
   .legal-content {
     background: var(--bs-body-bg);
     color: var(--bs-body-color);
@@ -168,4 +170,5 @@ const { Content } = entry ? await render(entry) : { Content: null };
   .legal-text :global(code) {
     font-family: var(--font-mono, monospace);
   }
+}
 </style>

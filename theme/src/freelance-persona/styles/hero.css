@@ -12,11 +12,12 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
-  /* Padding removed to ensure full-bleed background without box-model conflicts */
-  padding: 0;
+  /* Padding removed to ensure full-bleed background without box-model conflicts.
+     Config-driven extra padding (old pt-5/pb-5) is injected per-axis. */
+  padding: var(--hero-align-pad-top, 0rem) 0 var(--hero-align-pad-bottom, 0rem);
   display: flex;
-  /* Default alignment (overridden on mobile) */
-  align-items: center;
+  /* Default alignment (overridden on mobile); config-driven */
+  align-items: var(--hero-align-items, center);
   justify-content: center;
   background-color: var(--background-color); /* Match theme color to hide sub-pixel gaps */
   overflow: hidden;

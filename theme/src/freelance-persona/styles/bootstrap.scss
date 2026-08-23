@@ -1,0 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* Transitional Bootstrap entry (Phase 3).
+   Loaded BEFORE main.css so legacy Bootstrap rules keep their cascade order.
+   Deleted in step 3.5 together with _bootstrap-core/_bootstrap-custom/_theme-context. */
+
+@use "bootstrap-custom";

@@ -1,4 +1,3 @@
-@use 'attribution';
 
 /*
  * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
@@ -46,11 +45,10 @@
   position: relative;
   /* Context for overlay */
 
-  // Attribution: smaller size for cards
+  /* Attribution: smaller size for cards */
   --attribution-font-size: 0.6rem;
-  @include attribution.styles();
 
-  // Mobile specific overrides
+  /* Mobile specific overrides */
   @media (max-width: 768px) {
     .img-attribution {
       --attribution-font-size: 0.45rem;
@@ -146,7 +144,7 @@
   font-size: 0.9rem;
   margin-bottom: 1rem;
   color: var(--heading-color);
-  //color: var(--accent-color);
+  /* color: var(--accent-color); */
 
   &.prominent {
     font-size: 1rem;
@@ -208,17 +206,17 @@
   padding-top: 1.6rem;
   border-top: 1px solid var(--border-color, color-mix(in srgb, var(--default-color), transparent 90%));
 
-  // /* Second line for double-border effect with custom gap */
-  // &::before {
-  //   content: "";
-  //   position: absolute;
-  //   top: 4px;
-  //   /* 1px border + 3px gap */
-  //   left: 0;
-  //   width: 100%;
-  //   height: 1px;
-  //   background-color: var(--border-color, rgba(0, 0, 0, 0.1));
-  // }
+  /* Second line for double-border effect with custom gap */
+  /* &::before {
+     content: "";
+     position: absolute;
+     top: 4px;
+     (1px border + 3px gap)
+     left: 0;
+     width: 100%;
+     height: 1px;
+     background-color: var(--border-color, rgba(0, 0, 0, 0.1));
+   } */
 
   display: flex;
   flex-direction: column;
@@ -250,7 +248,7 @@
   a.recent-post-link {
     color: var(--accent-color);
     text-decoration: none !important;
-    // TARGET SPECIFIC PROPERTIES to avoid animating 'transform' or 'all' which causes re-rasterization
+    /* TARGET SPECIFIC PROPERTIES to avoid animating 'transform' or 'all' which causes re-rasterization */
     transition: color 0.2s ease-out;
 
     &:hover, &:focus {

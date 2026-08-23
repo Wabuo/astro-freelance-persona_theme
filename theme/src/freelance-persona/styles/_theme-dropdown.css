@@ -11,7 +11,7 @@
 
 /* Baseline Styling applies natively across breakpoints where relevant */
 .navmenu .theme-toggle-container .theme-dropdown-menu {
-    display: block; // Flex is not needed here if inner pages logic handles dropdown items
+    display: block; /* Flex is not needed here if inner pages logic handles dropdown items*/
     position: absolute;
     visibility: hidden;
     opacity: 0;

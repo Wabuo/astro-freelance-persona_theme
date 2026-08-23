@@ -115,10 +115,10 @@
   */
 
     &:hover {
-        // Revert background to neutral grey (Reference style)
+        /* Revert background to neutral grey (Reference style) */
         background-color: color-mix(in srgb, var(--default-color), transparent 94%);
 
-        // Only change ICON color to accent (as requested), text remains default
+        /* Only change ICON color to accent (as requested), text remains default */
         [data-icon] {
             color: var(--accent-color);
         }

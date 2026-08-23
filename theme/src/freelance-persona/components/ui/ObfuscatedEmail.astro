@@ -33,6 +33,8 @@ const encodedEmail = Buffer.from(email).toString('base64');
 </div>
 
 <style>
+@layer components {
+
   .obfuscated-email-wrapper {
     display: inline-block;
     cursor: pointer;
@@ -79,6 +81,7 @@ const encodedEmail = Buffer.from(email).toString('base64');
     font-size: 0.9em;
     color: var(--accent-color);
   }
+}
 </style>
 
 <script>

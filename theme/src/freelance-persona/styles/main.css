@@ -16,21 +16,17 @@
    during Phase 3 coexistence; that import disappears with the Bootstrap cutover. */
 
 /* 1. Theme Core Styles */
-@import "./base.css";
-@import "./_attribution.css";
-@import "./preloader.css";
-@import "./_code-blocks.css";
+@import "./base.css" layer(components);
+@import "./_attribution.css" layer(components);
+@import "./preloader.css" layer(components);
+@import "./_code-blocks.css" layer(components);
 
 /* 2. Cross-cutting Section Styles */
-@import "./section.css";
-@import "./plain.css";
+@import "./section.css" layer(components);
+@import "./plain.css" layer(components);
 
 /* 3. Conditional Navigation Styles (body-class scoped layouts) */
-@import "./_theme-dropdown.css";
-@import "./_mobile-nav.css";
-@import "./nav-home.css";
-@import "./nav-page.css";
-
-/* NOTE: styles/category.css is currently orphaned (no `.category` root
-   consumer in theme or starter). Kept until the 3.7 zero-traces sweep
-   decides its fate; NOT imported — add here if a consumer reappears. */
+@import "./_theme-dropdown.css" layer(components);
+@import "./_mobile-nav.css" layer(components);
+@import "./nav-home.css" layer(components);
+@import "./nav-page.css" layer(components);

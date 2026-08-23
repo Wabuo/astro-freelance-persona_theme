@@ -191,16 +191,18 @@ const formatDate = (date: Date) => {
 
 <style is:global>
   /* Component-owned styles (shipped only when this component is used) */
-  @import "@freelance-persona/styles/blog.css";
+  @import "@freelance-persona/styles/blog.css" layer(components);
 </style>
 
 <style is:global>
   /* Card-facing post primitives (.post-header/.post-title/.meta-top) render here too,
      so this partial ships wherever those cards appear. */
-  @import "@freelance-persona/styles/blog-post.css";
+  @import "@freelance-persona/styles/blog-post.css" layer(components);
 </style>
 
 <style>
+@layer components {
+
 
   /* Layout Refinements matching Zola Reference */
   /* Layout Refinements matching Zola Reference */
@@ -339,6 +341,7 @@ const formatDate = (date: Date) => {
       font-size: 0.9rem;
     }
   }
+}
 </style>
 
 

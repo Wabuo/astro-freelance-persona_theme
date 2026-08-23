@@ -188,6 +188,13 @@ for (const role of fontRoles) {
   <head>
     <meta charset="utf-8" />
 
+    <!-- CSS cascade layer order (must precede every stylesheet link).
+         Declared here because the bundler may emit @layer blocks across
+         chunks in arbitrary physical order; this statement fixes
+         bootstrap < components regardless. UnoCSS utilities stay
+         unlayered, so they always sit above both. -->
+    <style is:inline>@layer bootstrap, components;</style>
+
     <!-- Preload critical fonts for immediate rendering -->
     {
       preloadUrls.map((url) => (

@@ -134,11 +134,16 @@ const xMap = {
 const alignSettings = xMap[position_x] || xMap["center"];
 
 const yMap = {
-  top: "align-items-start pt-5",
-  middle: "align-items-center",
-  bottom: "align-items-end pb-5",
+  top: "flex-start",
+  middle: "center",
+  bottom: "flex-end",
 };
-const heroAlignClass = yMap[position_y] || "align-items-center";
+/* Vertical alignment is config-driven and owned by hero.css via custom
+   properties (the old Bootstrap align-items-* utilities carried !important,
+   which inverts under cascade layers). pt-5/pb-5 equivalents below. */
+const heroAlignValue = yMap[position_y] || "center";
+const heroAlignPadTop = position_y === "top" ? "3rem" : "0rem";
+const heroAlignPadBottom = position_y === "bottom" ? "3rem" : "0rem";
 
 const sizeMap = {
   small: "col-lg-6 col-md-8",
@@ -194,12 +199,17 @@ const heroSectionStyle = {
 
   // Desktop Anchor
   "--desktop-image-anchor": background_image_anchor || "right bottom",
+
+  // Config-driven vertical alignment (replaces Bootstrap align-items-* utils)
+  "--hero-align-items": heroAlignValue,
+  "--hero-align-pad-top": heroAlignPadTop,
+  "--hero-align-pad-bottom": heroAlignPadBottom,
 };
 ---
 
 <section
   id="hero"
-  class={`hero section ${heroAlignClass}`}
+  class="hero section"
   style={heroSectionStyle}
 >
   {
@@ -395,10 +405,12 @@ const heroSectionStyle = {
 
 <style is:global>
   /* Component-owned styles (shipped only when this component is used) */
-  @import "@freelance-persona/styles/hero.css";
+  @import "@freelance-persona/styles/hero.css" layer(components);
 </style>
 
 <style>
+@layer components {
+
   .typing-wrapper {
     display: flex;
     width: 100%;
@@ -493,5 +505,6 @@ const heroSectionStyle = {
   .social-links a:hover {
     color: var(--accent-color);
   }
+}
 </style>
 

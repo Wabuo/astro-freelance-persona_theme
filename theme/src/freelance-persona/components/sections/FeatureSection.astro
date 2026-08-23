@@ -131,6 +131,11 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
   </div>
 </section>
 
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/features.css";
+</style>
+
 <style>
   .features-section-wrapper {
     transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
@@ -179,3 +184,4 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
 
   /* Removed Hover Triggers - No animation */
 </style>
+

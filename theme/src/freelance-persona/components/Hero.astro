@@ -393,6 +393,11 @@ const heroSectionStyle = {
   }
 </script>
 
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/hero.css";
+</style>
+
 <style>
   .typing-wrapper {
     display: flex;
@@ -489,3 +494,4 @@ const heroSectionStyle = {
     color: var(--accent-color);
   }
 </style>
+

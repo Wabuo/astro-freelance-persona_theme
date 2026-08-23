@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* src/freelance-persona/styles/main.css */
+/* src/freelance-persona/styles/main.css
+   Global-only entry: layout-critical and cross-cutting styles.
+   Feature partials are imported by their owning components/pages
+   (with `layer(components)`) so unused features ship no CSS. */
 
 /* NOTE: Fonts are now imported in layouts/BaseLayout.astro via JS
    to ensure correct loading in Yarn PnP environments. */
@@ -16,30 +19,18 @@
 @import "./base.css";
 @import "./_attribution.css";
 @import "./preloader.css";
-@import "./plain.css";
 @import "./_code-blocks.css";
 
-/* 2. Global Component Styles */
+/* 2. Cross-cutting Section Styles */
 @import "./section.css";
-@import "./hero.css";
-@import "./_about.css";
-@import "./contact.css";
-@import "./footer.css";
-@import "./widgets.css";
-@import "./_cards.css";
-@import "./features.css";
-@import "./_filtered-posts.css";
-@import "./blog.css";
-/* NOTE: historically reached the bundle via `@use` from blog-post; kept
-   immediately before it to preserve cascade order. */
-@import "./_blog-figures.css";
-@import "./blog-post.css";
-@import "./_blog-categories.css";
-@import "./breadcrumbs.css";
+@import "./plain.css";
 
-/* 3. Conditional Navigation Styles */
+/* 3. Conditional Navigation Styles (body-class scoped layouts) */
 @import "./_theme-dropdown.css";
 @import "./_mobile-nav.css";
 @import "./nav-home.css";
 @import "./nav-page.css";
-@import "./_home.css";
+
+/* NOTE: styles/category.css is currently orphaned (no `.category` root
+   consumer in theme or starter). Kept until the 3.7 zero-traces sweep
+   decides its fate; NOT imported — add here if a consumer reappears. */

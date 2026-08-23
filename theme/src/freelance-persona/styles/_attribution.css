@@ -22,10 +22,13 @@
 # cascade semantics of the old Sass expansion.
 --------------------------------------------------------------*/
 
-/* Group 1: simple (0,1,0) contexts */
+/* Group 1: simple (0,1,0) contexts -> rules compute to (0,2,0),
+   matching the legacy per-context Sass expansion specificity. */
 .hero,
 .post-figure,
-.avatar-container {
+.avatar-container,
+.post-image-container,
+.category-image-container {
   .img-attribution {
     /* Position: bottom-right overlay */
     position: absolute;
@@ -127,10 +130,8 @@
   }
 }
 
-/* Group 2: descendant (0,2,0) contexts */
-.blog-post .post-img,
-.post-image-container,
-.category-image-container {
+/* Group 2: descendant (0,3,0) context */
+.blog-post .post-img {
   .img-attribution {
     /* Position: bottom-right overlay */
     position: absolute;

@@ -38,6 +38,8 @@ const props = href
   </Component>
 </div>
 
-<style>
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/_cards.css";
   /* Styles moved to styles/_cards.scss */
 </style>

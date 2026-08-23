@@ -1,0 +1,45 @@
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* src/freelance-persona/styles/main.css */
+
+/* NOTE: Fonts are now imported in layouts/BaseLayout.astro via JS
+   to ensure correct loading in Yarn PnP environments. */
+
+/* Bootstrap is loaded separately (styles/bootstrap.scss) ahead of this file
+   during Phase 3 coexistence; that import disappears with the Bootstrap cutover. */
+
+/* 1. Theme Core Styles */
+@import "./base.css";
+@import "./_attribution.css";
+@import "./preloader.css";
+@import "./plain.css";
+@import "./_code-blocks.css";
+
+/* 2. Global Component Styles */
+@import "./section.css";
+@import "./hero.css";
+@import "./_about.css";
+@import "./contact.css";
+@import "./footer.css";
+@import "./widgets.css";
+@import "./_cards.css";
+@import "./features.css";
+@import "./_filtered-posts.css";
+@import "./blog.css";
+/* NOTE: historically reached the bundle via `@use` from blog-post; kept
+   immediately before it to preserve cascade order. */
+@import "./_blog-figures.css";
+@import "./blog-post.css";
+@import "./_blog-categories.css";
+@import "./breadcrumbs.css";
+
+/* 3. Conditional Navigation Styles */
+@import "./_theme-dropdown.css";
+@import "./_mobile-nav.css";
+@import "./nav-home.css";
+@import "./nav-page.css";
+@import "./_home.css";

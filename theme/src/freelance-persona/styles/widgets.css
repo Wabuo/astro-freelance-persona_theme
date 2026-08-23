@@ -1,4 +1,3 @@
-@use 'theme-context' as *;
 
 /*
  * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
@@ -203,7 +202,7 @@
   text-decoration: none !important;
   transition: color 0.3s ease, background-color 0.3s ease;
 
-  // Dark Mode
+  /* Dark Mode */
   @media (prefers-color-scheme: dark) {
     :root:not(:has(.theme-state-light:checked)) & {
       background-color: color-mix(in srgb, var(--accent-color), rgba(255, 255, 255, 0.05) 85%);

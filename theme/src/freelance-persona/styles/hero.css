@@ -1,5 +1,3 @@
-@use 'theme-context' as *;
-@use 'attribution';
 
 /*
  * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
@@ -14,19 +12,18 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
-  // Padding removed to ensure full-bleed background without box-model conflicts
+  /* Padding removed to ensure full-bleed background without box-model conflicts */
   padding: 0;
   display: flex;
-  // Default alignment (overridden on mobile)
+  /* Default alignment (overridden on mobile) */
   align-items: center;
   justify-content: center;
-  background-color: var(--background-color); // Match theme color to hide sub-pixel gaps
+  background-color: var(--background-color); /* Match theme color to hide sub-pixel gaps */
   overflow: hidden;
 
-  // Hero attribution: positioned bottom-right, above overlay
+  /* Hero attribution: positioned bottom-right, above overlay */
   --attribution-font-size: 0.65rem;
 
-  @include attribution.styles();
 
   .img-attribution {
     z-index: 5;
@@ -37,11 +34,11 @@
     align-items: flex-end;
     gap: 0;
 
-    // Mobile specific adjustments
+    /* Mobile specific adjustments */
     @media (max-width: 768px) {
-      right: 0.8rem; // Nudge closer to edge (was 2.5rem)
+      right: 0.8rem; /* Nudge closer to edge (was 2.5rem) */
       bottom: 0.8rem;
-      --attribution-font-size: 0.45rem; // Smaller text
+      --attribution-font-size: 0.45rem; /* Smaller text */
     }
   }
 }
@@ -49,12 +46,12 @@
 .hero img {
   position: absolute;
 
-  // Aggressive fix: Oversize by 2px on all sides to cover any sub-pixel left/bottom gaps
+  /* Aggressive fix: Oversize by 2px on all sides to cover any sub-pixel left/bottom gaps */
   top: -2px;
   left: -2px;
   width: calc(100% + 4px);
   height: calc(100% + 4px);
-  // Ensure no rounding leaks background
+  /* Ensure no rounding leaks background */
   border-radius: 0 !important;
   object-fit: cover;
   object-position: var(--desktop-image-anchor, right bottom);
@@ -73,12 +70,12 @@
   left: -2px;
   width: calc(100% + 4px);
   height: calc(100% + 4px);
-  // Ensure overlay also matches
+  /* Ensure overlay also matches */
   border-radius: 0 !important;
   z-index: 2;
 
-  // Dark Mode: "Hazy" Multi-layer overlay
-  // Stacks a dark layer over a white layer to lift blacks while keeping it dark.
+  /* Dark Mode: "Hazy" Multi-layer overlay */
+  /* Stacks a dark layer over a white layer to lift blacks while keeping it dark. */
   @media (prefers-color-scheme: dark) {
     :root:not(:has(.theme-state-light:checked)) & {
       background:
@@ -119,20 +116,20 @@
 }
 
 .hero p {
-  margin: 0.3125rem 0 0 0; // 5px
-  font-size: 1.625rem; // 26px
+  margin: 0.3125rem 0 0 0; /* 5px */
+  font-size: 1.625rem; /* 26px */
   font-family: var(--monospace-font);
 }
 
 .hero p span {
-  letter-spacing: 0.0625rem; // 1px
+  letter-spacing: 0.0625rem; /* 1px */
   color: var(--accent-color);
 }
 
-// Dark Mode: Highlighted Style (User Request)
-// Mimics "selected text" look: White Text on Brand Blue Background.
-// - Targeting .typed and .typed-cursor specifically to avoid highlighting the
-//   layout-locking container (which has a fixed min-width).
+/* Dark Mode: Highlighted Style (User Request) */
+/* Mimics "selected text" look: White Text on Brand Blue Background. */
+/* - Targeting .typed and .typed-cursor specifically to avoid highlighting the */
+/*   layout-locking container (which has a fixed min-width). */
 @media (prefers-color-scheme: dark) {
 
   :root:not(:has(.theme-state-light:checked)) .hero p span.typed,
@@ -160,11 +157,11 @@
   }
 }
 
-// 1. Default (Light Mode): Standard Line Cursor
-//    The HTML uses '|', so it renders correctly by default.
-// 1. Default (Light Mode): Standard Line Cursor
-//    The HTML uses '|', so it renders correctly by default.
-// Both explicit OS Light vs Explicit Light Override logic
+/* 1. Default (Light Mode): Standard Line Cursor */
+/*    The HTML uses '|', so it renders correctly by default. */
+/* 1. Default (Light Mode): Standard Line Cursor */
+/*    The HTML uses '|', so it renders correctly by default. */
+/* Both explicit OS Light vs Explicit Light Override logic */
 @media (prefers-color-scheme: light) {
   :root:not(:has(.theme-state-dark:checked)) {
     .hero p span.typed,
@@ -180,7 +177,7 @@
       background-color: transparent !important;
       width: auto;
       font-weight: 300;
-      margin-left: 0; // Reset dark margin
+      margin-left: 0; /* Reset dark margin */
     }
   }
 }
@@ -200,49 +197,49 @@
       background-color: transparent !important;
       width: auto;
       font-weight: 300;
-      margin-left: 0; // Reset dark margin
+      margin-left: 0; /* Reset dark margin */
     }
   }
 }
 
-// 2. Dark Mode: Block Cursor
-//    We transform the '|' into a block using background color and transparency.
+/* 2. Dark Mode: Block Cursor */
+/*    We transform the '|' into a block using background color and transparency. */
 @media (prefers-color-scheme: dark) {
   :root:not(:has(.theme-state-light:checked)) .typed-cursor {
-    color: transparent !important; // Hide the pipe character
-    background-color: var(--accent-color); // Show the block (Accent Color)
-    width: 0.6em; // Block width
+    color: transparent !important; /* Hide the pipe character */
+    background-color: var(--accent-color); /* Show the block (Accent Color) */
+    width: 0.6em; /* Block width */
     display: inline-block;
-    vertical-align: text-bottom; // Align with text base
+    vertical-align: text-bottom; /* Align with text base */
     margin-left: 2px;
   }
 }
 
 @media (prefers-color-scheme: light) {
   :root:has(.theme-state-dark:checked) .typed-cursor {
-    color: transparent !important; // Hide the pipe character
-    background-color: var(--accent-color); // Show the block (Accent Color)
-    width: 0.6em; // Block width
+    color: transparent !important; /* Hide the pipe character */
+    background-color: var(--accent-color); /* Show the block (Accent Color) */
+    width: 0.6em; /* Block width */
     display: inline-block;
-    vertical-align: text-bottom; // Align with text base
+    vertical-align: text-bottom; /* Align with text base */
     margin-left: 2px;
   }
 }
 
 .hero .social-links {
-  // Consumed from the hero content element's inline style (hero.md frontmatter:
-  // gap_typing_to_socials). Owns desktop spacing; the mobile block below overrides.
-  margin-top: var(--gap-typing-to-socials, 1.5625rem); // default 25px
+  /* Consumed from the hero content element's inline style (hero.md frontmatter: */
+  /* gap_typing_to_socials). Owns desktop spacing; the mobile block below overrides. */
+  margin-top: var(--gap-typing-to-socials, 1.5625rem); /* default 25px */
   gap: 1.5rem;
 }
 
 .hero .social-links a {
-  font-size: 1.25rem; // 20px
+  font-size: 1.25rem; /* 20px */
   display: inline-block;
   color: color-mix(in srgb, var(--default-color), transparent 30%);
   line-height: 1;
-  margin-right: 0rem; // 20px
-  margin-left: 0rem; // 20px
+  margin-right: 0rem; /* 20px */
+  margin-left: 0rem; /* 20px */
   transition: 0.3s;
 }
 

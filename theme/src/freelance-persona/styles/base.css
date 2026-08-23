@@ -6,7 +6,6 @@
 
 /*--------------------------------------------------------------
 # Font & Color Variables
-# Help: https://bootstrapmade.com/color-system/
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
@@ -34,7 +33,8 @@
   3. Persistence: JS syncs checkbox with localStorage
 */
 
-@mixin light-theme {
+/* Light Theme Variables */
+:root {
   --background-color: #ffffff;
   --default-color: #272829;
   --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
@@ -61,106 +61,123 @@
   --code-background: #f6f6f6;
 }
 
-@mixin dark-theme {
-  /* Libadwaita Palette */
-  --background-color: #1e1e1e;
-  --surface-color: #303030;
-  --default-color: #e0e0e0;
-  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
-  --contrast-color: #ffffff;
-  --text-muted: color-mix(in srgb, var(--default-color), transparent 50%);
-
-  /* Component Specifics */
-  --card-background: color-mix(in srgb, var(--default-color), transparent 98%);
-  --card-border: color-mix(in srgb, var(--default-color), transparent 85%);
-
-  --tag-background: color-mix(in srgb, var(--default-color), transparent 94%);
-  --tag-text: color-mix(in srgb, var(--default-color), transparent 55%);
-  --tag-border: transparent;
-
-  --input-background: color-mix(in srgb, var(--default-color), transparent 95%);
-  --input-border: color-mix(in srgb, var(--default-color), transparent 85%);
-  --input-text: var(--default-color);
-
-  /* Bootstrap Overrides */
-  --bs-body-bg: #1e1e1e;
-  --bs-body-color: #e0e0e0;
-  --bs-border-color: color-mix(in srgb, var(--default-color), transparent 85%);
-  --underline-color: color-mix(in srgb, var(--accent-color), transparent 45%);
-  --code-background: var(--surface-color);
-}
-
-/* 1. Base: Light (Default) */
-:root {
-  @include light-theme;
-}
-
 /* 2. Logic Matrix */
+
+/* Dark Theme Variables (Libadwaita Palette) */
 
 /* CASE A: OS Dark + Unchecked = Dark */
 @media (prefers-color-scheme: dark) {
   :root:not(:has(.theme-state-light:checked)) {
-    @include dark-theme;
+    --background-color: #1e1e1e;
+    --surface-color: #303030;
+    --default-color: #e0e0e0;
+    --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
+    --contrast-color: #ffffff;
+    --text-muted: color-mix(in srgb, var(--default-color), transparent 50%);
+
+    /* Component Specifics */
+    --card-background: color-mix(in srgb, var(--default-color), transparent 98%);
+    --card-border: color-mix(in srgb, var(--default-color), transparent 85%);
+
+    --tag-background: color-mix(in srgb, var(--default-color), transparent 94%);
+    --tag-text: color-mix(in srgb, var(--default-color), transparent 55%);
+    --tag-border: transparent;
+
+    --input-background: color-mix(in srgb, var(--default-color), transparent 95%);
+    --input-border: color-mix(in srgb, var(--default-color), transparent 85%);
+    --input-text: var(--default-color);
+
+    /* Bootstrap Overrides */
+    --bs-body-bg: #1e1e1e;
+    --bs-body-color: #e0e0e0;
+    --bs-border-color: color-mix(in srgb, var(--default-color), transparent 85%);
+    --underline-color: color-mix(in srgb, var(--accent-color), transparent 45%);
+    --code-background: var(--surface-color);
   }
 }
 
 /* CASE B: OS Light + Checked = Dark */
 @media (prefers-color-scheme: light) {
   :root:has(.theme-state-dark:checked) {
-    @include dark-theme;
+    --background-color: #1e1e1e;
+    --surface-color: #303030;
+    --default-color: #e0e0e0;
+    --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
+    --contrast-color: #ffffff;
+    --text-muted: color-mix(in srgb, var(--default-color), transparent 50%);
+
+    /* Component Specifics */
+    --card-background: color-mix(in srgb, var(--default-color), transparent 98%);
+    --card-border: color-mix(in srgb, var(--default-color), transparent 85%);
+
+    --tag-background: color-mix(in srgb, var(--default-color), transparent 94%);
+    --tag-text: color-mix(in srgb, var(--default-color), transparent 55%);
+    --tag-border: transparent;
+
+    --input-background: color-mix(in srgb, var(--default-color), transparent 95%);
+    --input-border: color-mix(in srgb, var(--default-color), transparent 85%);
+    --input-text: var(--default-color);
+
+    /* Bootstrap Overrides */
+    --bs-body-bg: #1e1e1e;
+    --bs-body-color: #e0e0e0;
+    --bs-border-color: color-mix(in srgb, var(--default-color), transparent 85%);
+    --underline-color: color-mix(in srgb, var(--accent-color), transparent 45%);
+    --code-background: var(--surface-color);
   }
 }
 
 /* Nav Menu Colors */
 :root {
-  --nav-color: #45505b; // Main nav link color
-  --nav-hover-color: var(--accent-color); // Hover/Active nav link color
-  --nav-dropdown-background-color: #ffffff; // Dropdown background
-  --nav-dropdown-color: #212529; // Dropdown link color
-  --nav-dropdown-hover-color: var(--accent-color); // Dropdown hover color
+  --nav-color: #45505b; /* Main nav link color */
+  --nav-hover-color: var(--accent-color); /* Hover/Active nav link color */
+  --nav-dropdown-background-color: #ffffff; /* Dropdown background */
+  --nav-dropdown-color: #212529; /* Dropdown link color */
+  --nav-dropdown-hover-color: var(--accent-color); /* Dropdown hover color */
 }
 
-// --var survace collor has the right dark i think
-@mixin dark-nav-variables {
-  --nav-color: #e0e0e0;
-  --nav-hover-color: var(--accent-color);
-  --nav-dropdown-background-color: var(--surface-color, #1e1e1e);
-  --nav-dropdown-color: #e0e0e0;
-  --nav-dropdown-hover-color: var(--accent-color);
-}
+/* --var survace collor has the right dark i think */
 
 /* Auto-Dark Nav */
 @media (prefers-color-scheme: dark) {
   :root:not(:has(.theme-state-light:checked)) {
-    @include dark-nav-variables;
+    --nav-color: #e0e0e0;
+    --nav-hover-color: var(--accent-color);
+    --nav-dropdown-background-color: var(--surface-color, #1e1e1e);
+    --nav-dropdown-color: #e0e0e0;
+    --nav-dropdown-hover-color: var(--accent-color);
   }
 }
 
 /* Manual Dark Nav */
 @media (prefers-color-scheme: light) {
   :root:has(.theme-state-dark:checked) {
-    @include dark-nav-variables;
+    --nav-color: #e0e0e0;
+    --nav-hover-color: var(--accent-color);
+    --nav-dropdown-background-color: var(--surface-color, #1e1e1e);
+    --nav-dropdown-color: #e0e0e0;
+    --nav-dropdown-hover-color: var(--accent-color);
   }
 }
 
 /* Font Sizes */
 :root {
-  --normal-font-size: 1rem; // 16px
-  --footer-font-size: 0.875rem; // 14px
-  --heading-font-size: 2rem; // 32px
-  --subtitle-font-size: 1.5rem; // 24px
-  --title-font-size: 4rem; // 64px
+  --normal-font-size: 1rem; /* 16px */
+  --footer-font-size: 0.875rem; /* 14px */
+  --heading-font-size: 2rem; /* 32px */
+  --subtitle-font-size: 1.5rem; /* 24px */
+  --title-font-size: 4rem; /* 64px */
 }
 
 /* Nav Menu Dimensions */
 :root {
-  --nav-icon-size: 3.5rem; // 56px
-  --nav-menu-width: 8.75rem; // 140px
-  --nav-pill-expanded-width: 11.25rem; // 180px
-  --nav-menu-mobile-width: 18.75rem; // 300px
-  --nav-menu-border-padding: 0.9375rem; // 15px
-  --nav-menu-mobile-border-width: 1px; // 1px
-  --nav-border-color: color-mix(in srgb, var(--accent-color), transparent 85%); // Standard border color
+  --nav-icon-size: 3.5rem; /* 56px */
+  --nav-menu-width: 8.75rem; /* 140px */
+  --nav-pill-expanded-width: 11.25rem; /* 180px */
+  --nav-menu-mobile-width: 18.75rem; /* 300px */
+  --nav-menu-border-padding: 0.9375rem; /* 15px */
+  --nav-menu-mobile-border-width: 1px; /* 1px */
+  --nav-border-color: color-mix(in srgb, var(--accent-color), transparent 85%); /* Standard border color */
 }
 
 /* Nav Menu Colors (Header) */
@@ -168,20 +185,17 @@
   /* Glassmorphism Base: Lower opacity white (0.6) to allow the blur to be clearly visible */
   /* Matte Polished: Use background color with very slight transparency (5%) to keep it solid but allow subtle context */
   --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
-  --header-color: var(--default-color); // Use default text color for better integration
+  --header-color: var(--default-color); /* Use default text color for better integration */
 }
 
-@mixin dark-header-variables {
-  /* Dark Matte */
-  --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
-  --header-color: #ffffff;
-}
+/* Dark Matte */
 
 @media (prefers-color-scheme: dark) {
 
   /* OS Dark + Unchecked = Dark */
   :root:not(:has(.theme-state-light:checked)) {
-    @include dark-header-variables;
+    --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
+    --header-color: #ffffff;
   }
 }
 
@@ -189,32 +203,33 @@
 
   /* OS Light + Checked = Dark */
   :root:has(.theme-state-dark:checked) {
-    @include dark-header-variables;
+    --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
+    --header-color: #ffffff;
   }
 }
 
 /* Spacing Variables */
 :root {
-  --spacing-xxs: 0.25rem; // 4px
-  --spacing-xs: 0.5rem; // 8px
-  --spacing-sm: 1rem; // 16px
-  --spacing-md: 1.5rem; // 24px
-  --spacing-lg: 2rem; // 32px
-  --spacing-xl: 3rem; // 48px
-  --spacing-xxl: 4rem; // 64px
+  --spacing-xxs: 0.25rem; /* 4px */
+  --spacing-xs: 0.5rem; /* 8px */
+  --spacing-sm: 1rem; /* 16px */
+  --spacing-md: 1.5rem; /* 24px */
+  --spacing-lg: 2rem; /* 32px */
+  --spacing-xl: 3rem; /* 48px */
+  --spacing-xxl: 4rem; /* 64px */
 }
 
 :root {
-  --transition-hover-time: 0.3s; // Hover transition duration
+  --transition-hover-time: 0.3s; /* Hover transition duration */
   --transition-hover-transparency: var(--transparency);
 }
 
 :root {
-  --img-border-radius: 0.625rem; // 10px
-  --button-size: 2.5rem; // 40px
-  --button-position-away-from-corner-distance: 0.9375rem; // 15px
+  --img-border-radius: 0.625rem; /* 10px */
+  --button-size: 2.5rem; /* 40px */
+  --button-position-away-from-corner-distance: 0.9375rem; /* 15px */
   --button-position-away-from-corner-horizontal-distance: var(--button-position-away-from-corner-distance);
-  --button-position-away-from-corner-vertical-distance: 1.875rem; // 30px
+  --button-position-away-from-corner-vertical-distance: 1.875rem; /* 30px */
 }
 
 /* Smooth scroll */
@@ -272,7 +287,7 @@ code {
 # Native Scroll Animations
 --------------------------------------------------------------*/
 
-// 1. Base State: Default to VISIBLE (Safety First)
+/* 1. Base State: Default to VISIBLE (Safety First) */
 [data-reveal] {
   opacity: 1;
   transform: none;
@@ -281,8 +296,8 @@ code {
   transition-timing-function: ease-out;
 }
 
-// 2. Loading State: Explicitly Hidden via JS
-// 'js-ready' ensures elements stay hidden until the observation logic runs.
+/* 2. Loading State: Explicitly Hidden via JS */
+/* 'js-ready' ensures elements stay hidden until the observation logic runs. */
 html.js-loading [data-reveal],
 html.js-ready [data-reveal]:not(.revealed) {
   opacity: 0;
@@ -291,7 +306,7 @@ html.js-ready [data-reveal]:not(.revealed) {
 
 html.js-loading [data-reveal="fade-up"],
 html.js-ready [data-reveal="fade-up"]:not(.revealed) {
-  transform: translateY(1.875rem); // 30px
+  transform: translateY(1.875rem); /* 30px */
 }
 
 html.js-loading [data-reveal="zoom-out"],
@@ -299,7 +314,7 @@ html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
   transform: scale(1.05);
 }
 
-// 3. Active State (Visible)
+/* 3. Active State (Visible) */
 [data-reveal].revealed {
   opacity: 1;
   transform: translate(0, 0) scale(1);
@@ -374,7 +389,7 @@ html:has(.header[popover]:popover-open) {
   text-decoration: none;
   transition: color 0.3s ease, background-color 0.3s ease;
 
-  // Active State
+  /* Active State */
   &.active {
     background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
     color: var(--accent-color);
@@ -401,39 +416,41 @@ html:has(.header[popover]:popover-open) {
 # Test Mode: Deterministic Rendering for Visual Regression
 --------------------------------------------------------------*/
 [data-test-mode="true"] {
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-    animation: none !important;
-    scroll-behavior: auto !important;
-  }
-
-  [data-reveal] {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  .typed-cursor {
-    display: none !important;
-  }
-
-  .typing-lock,
-  .typed {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
-  .mascot-container {
-    animation: none !important;
-  }
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
-
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+/* NOTE: the universal selectors are kept flat (not nested) because bare `*`
+   inside a nested rule trips lightningcss' minifier. Output is identical. */
+[data-test-mode="true"] *,
+[data-test-mode="true"] *::before,
+[data-test-mode="true"] *::after {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
+}
+
+[data-test-mode="true"] [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+[data-test-mode="true"] .typed-cursor {
+  display: none !important;
+}
+
+[data-test-mode="true"] .typing-lock,
+[data-test-mode="true"] .typed {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+[data-test-mode="true"] .mascot-container {
+  animation: none !important;
+}
+
+[data-test-mode="true"] ::-webkit-scrollbar {
+  display: none;
 }
 

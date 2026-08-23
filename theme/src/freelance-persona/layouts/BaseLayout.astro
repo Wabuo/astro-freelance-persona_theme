@@ -41,7 +41,9 @@ const FONT_PRELOAD_MAP: Record<string, string> = {
 // NOTE: UnoCSS utilities are injected automatically by the integration
 // (unocss/astro adds "virtual:uno.css" to page entries). Do not manually
 // import it here — that produces a duplicate-import build warning.
-import "@freelance-persona/styles/main.scss";
+// Bootstrap coexistence (Phase 3): legacy entry loads BEFORE main.css.
+import "@freelance-persona/styles/bootstrap.scss";
+import "@freelance-persona/styles/main.css";
 
 // --- SMART ASSET DISCOVERY ---
 async function findAsset(glob: Record<string, () => Promise<any>>) {

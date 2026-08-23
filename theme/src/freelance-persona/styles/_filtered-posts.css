@@ -1,6 +1,4 @@
-@use 'attribution';
 
-@use 'theme-context' as *;
 
 /*
  * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
@@ -22,13 +20,12 @@
     background-color: var(--card-background, var(--bs-body-bg));
     position: relative;
 
-    // Attribution: smaller size for cards
+    /* Attribution: smaller size for cards */
     --attribution-font-size: 0.6rem;
 
-    // Import attribution styles FIRST
-    @include attribution.styles();
+    /* Import attribution styles FIRST */
 
-    // Override for 2-line layout on cards
+    /* Override for 2-line layout on cards */
     .img-attribution {
         bottom: 0.25rem;
         right: 0.5rem;
@@ -36,7 +33,7 @@
         align-items: flex-end;
         gap: 0;
 
-        // Mobile specific adjustments
+        /* Mobile specific adjustments */
         @media (max-width: 768px) {
             right: 0.4rem;
             bottom: 0.2rem;
@@ -77,10 +74,10 @@
     color: var(--accent-color);
 }
 
-// /* OVERRIDE: Prevent text-only preview cards from lighting up on hover */
-// .card-wrapper:hover .mock-page-content,
-// .card-wrapper:hover .mock-page-content * {
-//     color: var(--text-muted) !important;
-// }
+/* OVERRIDE: Prevent text-only preview cards from lighting up on hover */
+/* .card-wrapper:hover .mock-page-content, */
+/* .card-wrapper:hover .mock-page-content * { */
+/*     color: var(--text-muted) !important; */
+/* } */
 
 /* TAG STYLES (Refactored from inline) */

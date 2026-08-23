@@ -1,4 +1,3 @@
-@use 'theme-context' as *;
 
 /*
  * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
@@ -111,13 +110,13 @@
     font-size: 1.5rem; /* Bootstrap Icon <i> elements size from font-size, not width/height */
     color: inherit;
 
-    // Sizing for Lance Icon specifically (SVG needs explicit dimensions)
+    /* Sizing for Lance Icon specifically (SVG needs explicit dimensions) */
     &.lance-icon-svg {
         width: 2.2rem;
         height: 2.2rem;
         fill: currentColor;
 
-        // Invert the colored part to white when inside the primary background
+        /* Invert the colored part to white when inside the primary background */
         .colored-part {
             fill: var(--contrast-color, #ffffff) !important;
         }

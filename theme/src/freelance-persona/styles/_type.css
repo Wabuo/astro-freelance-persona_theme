@@ -1,0 +1,162 @@
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* src/freelance-persona/styles/_type.css
+ *
+ * Typographic defaults (step 3.5 cutover).
+ *
+ * Strictly hole-plugging: the structural reset is upstream's (presetWind4
+ * preflights.reset, emitted into the `base` layer, ordered below all theme
+ * CSS by the layer statement in BaseLayout.head). This file only defines
+ * what the UA/vendor reset leaves undefined and the theme's design relies
+ * on: the heading scale and prose rhythm. Values that users can theme live
+ * in the config (colors, fonts, single sizes); a full heading scale is a
+ * CSS-front default, not a token.
+ *
+ * Imported FIRST inside layer(components): component partials below win
+ * same-specificity ties; utilities sit unlayered above everything.
+ */
+
+/* ---------------------------------------------------------------
+   Heading scale (bootstrap-era rhythm, kept as the design voice)
+   --------------------------------------------------------------- */
+h6,
+h5,
+h4,
+h3,
+h2,
+h1 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Fluid sizes below 1200px, capped above (RFS output, ported verbatim) */
+h1 { font-size: calc(1.375rem + 1.5vw); }
+h2 { font-size: calc(1.325rem + 0.9vw); }
+h3 { font-size: calc(1.3rem + 0.8vw); }
+h4 { font-size: calc(1.275rem + 0.3vw); }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+@media (min-width: 1200px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.75rem; }
+  h4 { font-size: 1.5rem; }
+}
+
+/* ---------------------------------------------------------------
+   Prose rhythm
+   --------------------------------------------------------------- */
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+figure {
+  margin: 0 0 1rem;
+}
+
+blockquote {
+  margin: 0 0 1rem;
+}
+
+small {
+  /* bootstrap .875em, not wind4's 80% */
+  font-size: 0.875em;
+}
+
+hr {
+  /* vendor reset provides height/color/border-top-width */
+  margin: 1rem 0;
+  opacity: 0.25;
+}
+
+code {
+  font-size: 0.875em;
+  word-wrap: break-word;
+}
+
+pre {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.875em;
+}
+
+/* UA default is an arrow on <button>; the design always had pointer hands */
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Mono IDENTITY is config-driven, not hardcoded: wind4's reset resolves its
+   mono stack via theme.font.mono → var(--monospace-font) (user config,
+   BaseLayout injection) — the same token EC code blocks already use. */
+
+/* UA default cell padding (1px) — the vendor reset's universal padding:0
+   strips it, collapsing markdown tables by 2px per row. */
+th,
+td {
+  padding: 1px;
+}
+
+/* ---------------------------------------------------------------
+   Prose lists (wind4 unstyles lists globally; long-form content
+   opts back in — UI lists style themselves in their own partials)
+   --------------------------------------------------------------- */
+.post-content ol,
+.legal-text ol {
+  list-style-type: decimal;
+  padding-left: 2rem;
+}
+
+.post-content ul,
+.legal-text ul {
+  list-style-type: disc;
+  padding-left: 2rem;
+}
+
+.post-content ol,
+.post-content ul,
+.legal-text ol,
+.legal-text ul {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.post-content ol ol,
+.post-content ul ul,
+.post-content ol ul,
+.post-content ul ol,
+.legal-text ol ol,
+.legal-text ul ul,
+.legal-text ol ul,
+.legal-text ul ol {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------
+   Container (design infrastructure)
+   wind4's `container` utility uses Tailwind max-width semantics
+   (max = breakpoint); this design's column is narrower — kept as a
+   semantic rule so the utility stays blocked (see uno.config.ts).
+   --------------------------------------------------------------- */
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+@media (min-width: 576px)  { .container { max-width: 540px; } }
+@media (min-width: 768px)  { .container { max-width: 720px; } }
+@media (min-width: 992px)  { .container { max-width: 960px; } }
+@media (min-width: 1200px) { .container { max-width: 1140px; } }
+@media (min-width: 1400px) { .container { max-width: 1320px; } }
+

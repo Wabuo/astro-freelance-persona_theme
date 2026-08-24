@@ -12,10 +12,14 @@
 /* NOTE: Fonts are now imported in layouts/BaseLayout.astro via JS
    to ensure correct loading in Yarn PnP environments. */
 
-/* Bootstrap is loaded separately (styles/bootstrap.scss) ahead of this file
-   during Phase 3 coexistence; that import disappears with the Bootstrap cutover. */
+/* Bootstrap left the building (step 3.5). Base typography that reboot used
+   to provide now lives in _type.css, imported below. */
 
 /* 1. Theme Core Styles */
+/* _type.css overlays the upstream reset (uno `base` layer) with bootstrap-era
+   typography + the legacy grid subset. First in layer(components): partials
+   below win same-specificity ties, utilities above unlayered. */
+@import "./_type.css" layer(components);
 @import "./base.css" layer(components);
 @import "./_attribution.css" layer(components);
 @import "./preloader.css" layer(components);

@@ -41,8 +41,6 @@ const FONT_PRELOAD_MAP: Record<string, string> = {
 // NOTE: UnoCSS utilities are injected automatically by the integration
 // (unocss/astro adds "virtual:uno.css" to page entries). Do not manually
 // import it here — that produces a duplicate-import build warning.
-// Bootstrap coexistence (Phase 3): legacy entry loads BEFORE main.css.
-import "@freelance-persona/styles/bootstrap.scss";
 import "@freelance-persona/styles/main.css";
 
 // --- SMART ASSET DISCOVERY ---
@@ -189,11 +187,13 @@ for (const role of fontRoles) {
     <meta charset="utf-8" />
 
     <!-- CSS cascade layer order (must precede every stylesheet link).
-         Declared here because the bundler may emit @layer blocks across
-         chunks in arbitrary physical order; this statement fixes
-         bootstrap < components regardless. UnoCSS utilities stay
-         unlayered, so they always sit above both. -->
-    <style is:inline>@layer bootstrap, components;</style>
+         uno.config.ts sets outputToCssLayers, so UnoCSS emits real @layer
+         blocks: theme vars → `theme`, preflight reset → `base`, utilities
+         → `utilities`. Declaring them here keeps vendor layers below the
+         theme's `components` while utilities stay on top.
+         First declaration wins: omitting a name would let it silently
+         land after `components`. -->
+    <style is:inline>@layer theme, base, components, utilities;</style>
 
     <!-- Preload critical fonts for immediate rendering -->
     {
@@ -816,7 +816,7 @@ for (const role of fontRoles) {
                // Staggering: If this is a container with columns (e.g. .row), 
                // we might want its children to animate? 
                // For now, minimal approach: If this element ITSELF is part of a list/grid
-               // (identified by being a child of a .row or .d-flex), maybe add index-based delay?
+               // (identified by being a child of a .row or .flex), maybe add index-based delay?
                // But 'el' is the one with [data-reveal].
                // If the user wants staggering, they should put [data-reveal] on the CHILDREN.
                // Assuming the user's current structure, likely the container has [data-reveal].

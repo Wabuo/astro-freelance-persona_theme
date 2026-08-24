@@ -14,15 +14,24 @@ import { defineConfig, presetWind4 } from 'unocss';
  * dark mode and user config without any `dark:` variant duplication.
  */
 export default defineConfig({
+  // Emit UnoCSS' internal layers (theme/base from preflights, utilities) as
+  // REAL CSS @layer blocks. Without this, uno sorts internally but ships
+  // everything unlayered — and an unlayered vendor reset would beat every
+  // layered component style regardless of specificity. The layer-order
+  // statement in BaseLayout.head (`@layer theme, base, components, utilities;`)
+  // keeps vendor layers below the theme.
+  outputToCssLayers: true,
+
   presets: [
     presetWind4({
       preflights: {
-        // Phase 1 (coexistence): Bootstrap's reboot is still active, so the
-        // built-in reset MUST stay off to avoid double-reset conflicts.
-        // NOTE: this is NESTED under `preflights` — a top-level `reset` key is
-        // silently ignored and the full Tailwind-4 preflight ships anyway.
-        // Flip to true in Phase 3 (atomic cutover).
-        reset: false,
+        // Upstream-maintained reset (step 3.5 cutover), emitted into UnoCSS'
+        // named `base` layer. Our layer-order statement in BaseLayout.head
+        // (`@layer theme, base, components`) keeps it BELOW all theme CSS;
+        // typography/grid deltas live in styles/_type.css.
+        // NOTE: NESTED key — a top-level `reset` is silently ignored and
+        // the reset ships anyway.
+        reset: true,
       },
     }),
   ],
@@ -40,7 +49,11 @@ export default defineConfig({
    * this list in the same changeset. By Phase 3 this list must be empty.
    */
   blocklist: [
-    // Structural Bootstrap layout system
+    // Structural Bootstrap layout system remnants
+    // NOTE: 'container' stays blocked — wind4's container utility uses
+    // Tailwind max-width semantics (max = breakpoint); the design's
+    // container is narrower (540/720/960/1140/1320) and lives as a
+    // semantic rule in styles/_type.css.
     'container',
     'row',
     'list-unstyled',

@@ -23,10 +23,10 @@ const description = "The page you are looking for does not exist.";
 
 <BaseLayout title={title} description={description} navType="page">
   <section
-    class="section error-404 d-flex flex-column align-items-center justify-content-center"
+    class="section error-404 flex flex-col items-center justify-center"
   >
     <div class="container text-center" data-reveal="fade-up">
-      <div class="mascot-container mb-4">
+      <div class="mascot-container mb-6">
         {
           lancyImage ? (
             <Image
@@ -49,7 +49,7 @@ const description = "The page you are looking for does not exist.";
 
       <h1>404</h1>
       <h2>Oops! Page Not Found</h2>
-      <p class="mb-4">
+      <p class="mb-6">
         It seems Lancy couldn't find the page you're looking for.<br />
         Maybe it was moved, deleted, or never existed in the first place?
       </p>

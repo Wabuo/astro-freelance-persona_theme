@@ -207,10 +207,10 @@ const getExcerpt = (body: string) => {
                 </div>
 
                 <div class="post-details">
-                  <div class="meta mb-4">
+                  <div class="meta mb-6">
                     {/* Tags Display */}
                     {post.data.tags && post.data.tags.length > 0 && (
-                      <div class="d-inline-block">
+                      <div class="inline-block">
                         {post.data.tags.map((tag: string) => {
                           const isFiltered =
                             tags_to_filter_posts_by?.includes(tag);

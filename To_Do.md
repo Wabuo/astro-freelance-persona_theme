@@ -29,3 +29,12 @@ basically check if there is a decent modern to do it and then use it.
   to the live release in both schemes (verified) — pre-existing, not a migration
   regression. Polish idea: raise the action above the overlay or clip it inside
   the border radius.
+- [ ] **Icon strategy unification (post-migration)**: Decision (Aug 2026): keep
+  `astro-icon` + `@iconify-json/bi` + `@iconify-json/academicons` for now;
+  `src/icons/.gitkeep` reserves the dir. Evaluate after the UnoCSS migration:
+  switch to `@unocss/preset-icons` to unify pipelines and drop astro-icon +
+  iconify deps. Caveats to solve first: icon names arrive from content/config
+  (`icon: "bi bi-search"`) so dynamic class names need a safelist or content-dir
+  scan; custom SVGs (lance mascot, etc.) could then ship via `src/icons`
+  custom collection. Bootstrap Icons font is already fully gone — this is only
+  about the remaining astro-icon layer.

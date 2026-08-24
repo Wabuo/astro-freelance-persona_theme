@@ -30,6 +30,12 @@
     /* Ensure dead zones like padding do not show a pointer */
 }
 
+.navmenu .theme-toggle-container {
+    /* Anchoring context for the absolute dropdown menu (was bootstrap
+       `.dropdown { position: relative }` — died with the 3.5 cutover) */
+    position: relative;
+}
+
 .navmenu .theme-toggle {
     position: relative;
     z-index: 100; /* Ensure pill is clickable above the light-dismiss backdrop */

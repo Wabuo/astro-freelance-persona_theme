@@ -229,6 +229,7 @@ html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
 --------------------------------------------------------------*/
 /* Global Icon Styling for astro-icon SVGs */
 [data-icon] {
+  display: inline; /* wind4 blockifies svg; icons flow inline with text (pre-3.5 UA default) */
   width: 1em;
   height: 1em;
   vertical-align: -0.125em; /* Standard vertical alignment for font icons */
@@ -310,8 +311,12 @@ html:has(.header[popover]:popover-open) {
       }
     }
   }
-/* Ported verbatim from Bootstrap .badge (dies in step 3.5).
-   NOTE: scoped to .badge only — bare `.tag` spans never had these. */
+}
+
+/* Ported verbatim from Bootstrap .badge (bootstrap gone since 3.5).
+   NOTE: sibling rule, NOT nested — nesting inside `.badge,.tag` compiles
+   to a descendant selector that never matches. Scoped to .badge only —
+   bare `.tag` spans never had these. */
 .badge {
   white-space: nowrap;
   line-height: 1;
@@ -319,7 +324,6 @@ html:has(.header[popover]:popover-open) {
 }
 .badge:empty {
   display: none;
-}
 }
 /*--------------------------------------------------------------
 # Code Blocks (Legacy - Removed in favor of astro-expressive-code)

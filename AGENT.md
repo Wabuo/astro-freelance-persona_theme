@@ -279,3 +279,32 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
   `<style is:inline>` in BaseLayout's <head>: the bundler may emit @layer
   blocks across chunks in arbitrary physical order, so block-position-based
   ordering is not trustworthy.
+
+### 🧱 Step 3.5 cutover gotchas (wind4 reset native)
+
+- **`outputToCssLayers: true` is mandatory** in uno.config.ts: without it uno
+  sorts layers internally but ships ALL css unlayered, and the vendor reset
+  then beats every `@layer components` rule regardless of specificity.
+- **The layer statement must name vendor layers first**: `@layer theme, base,
+  components, utilities;` in BaseLayout head. First declaration wins —
+  declaring only `components` silently places uno's `base`/`theme` AFTER it
+  and the reset nukes component styles.
+- **wind4 blockifies replaced elements** (`img,svg,video{display:block}` +
+  `max-width:100%;height:auto`): text-align centering stops working (use
+  `mx-auto` in markup), baseline descender gaps vanish (flow heights shrink),
+  and oversize hacks like `.hero img`'s `width:calc(100%+4px)` get clamped
+  (re-declare `max-width` alongside `width`).
+- **Universal `padding:0` strips UA table cell padding** (1px/row) — restored
+  in `_type.css`.
+- **Mono identity is config-driven**: wind4 resolves its mono stack via
+  `theme.font.mono` → `var(--monospace-font)` (user config). Inline `<code>`
+  now renders in the configured font — NOT bootstrap's old hardcoded SFMono
+  stack. The metric difference shifts line boxes by ~0.5px downstream of
+  inline code; visual baselines recorded before 3.5 will flag ±1px clips.
+- **Hidden bootstrap dependencies surface at deletion**: `.dropdown` carried
+  `position:relative` for the theme dropdown (now owned by
+  `_theme-dropdown.css`); `h-100`/`d-flex`/`flex-column` etc. were layout —
+  all swapped to uno utilities (`h-full`, `flex`, `flex-col`, …).
+- Visual-test budget is `maxDiffPixels: 200` (global) — sub-pixel AA from any
+  font change exceeds it by orders of magnitude; re-record baselines only
+  after manual review of the diffs.

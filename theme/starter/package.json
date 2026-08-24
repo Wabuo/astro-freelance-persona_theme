@@ -8,8 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "playwright test",
-    "test:full": "playwright test",
+    "test": "playwright install && playwright test",
+    "test:full": "playwright install && playwright test",
     "test:matrix": "bun run scripts/test-config-matrix.ts",
     "test:release": "bun run test:full && bun run test:matrix",
     "astro": "astro"

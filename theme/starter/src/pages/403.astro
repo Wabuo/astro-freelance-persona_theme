@@ -23,10 +23,10 @@ const description = "You do not have permission to view this page.";
 
 <BaseLayout title={title} description={description} navType="page">
   <section
-    class="section error-403 d-flex flex-column align-items-center justify-content-center"
+    class="section error-403 flex flex-col items-center justify-center"
   >
     <div class="container text-center" data-reveal="fade-up">
-      <div class="mascot-container mb-4">
+      <div class="mascot-container mb-6">
         {
           lancyImage ? (
             <Image
@@ -49,7 +49,7 @@ const description = "You do not have permission to view this page.";
 
       <h1>403</h1>
       <h2>YOU SHALL NOT PASS!</h2>
-      <p class="mb-4">
+      <p class="mb-6">
         Lancy says this area is forbidden.<br />
         Please turn back before things get awkward.
       </p>

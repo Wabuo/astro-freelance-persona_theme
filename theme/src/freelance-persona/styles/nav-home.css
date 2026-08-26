@@ -217,6 +217,27 @@ body.home-page {
   .navmenu .toggle-dropdown {
     display: none;
   }
+
+  /* Short viewports (heavy browser zoom, small windows): the sidebar toggle
+     sits low, so the dropdown would open mostly off-screen — roll it up
+     instead and show the chevron pointing at it. Inner-page topnavs are
+     excluded: they open downward with the whole page below them. */
+  @media (max-height: 640px) {
+    /* Opaque panel: the roll-up floats over page content — the translucent
+       pill background (90% transparent) would be unreadable there. Matches
+       the inner-page dropdown treatment. ul. bumps specificity over the
+       #navmenu-scoped translucent override below. */
+    .header:not(.is-inner) #navmenu .theme-toggle-container ul.theme-dropdown-menu {
+      top: auto !important;
+      bottom: 100% !important;
+      background: var(--nav-dropdown-background-color) !important;
+    }
+
+    .header:not(.is-inner) #navmenu .theme-toggle .toggle-dropdown {
+      display: block;
+      rotate: 180deg;
+    }
+  }
 }
 
 .navmenu a:hover,

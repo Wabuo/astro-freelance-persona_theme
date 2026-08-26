@@ -91,8 +91,10 @@ async function testConfig(configFile: string): Promise<TestResult> {
     });
 
     // Start preview server
+    // --host is REQUIRED: without it astro binds [::1] only and the
+    // localhost readiness poll (IPv4) never connects (AGENT.md gotcha).
     console.log(`Starting preview server on port ${PORT}...`);
-    const previewProcess = spawn('bun', ['run', 'preview'], {
+    const previewProcess = spawn('bun', ['run', 'preview', '--host'], {
       stdio: 'ignore',
       detached: true,
       env: {

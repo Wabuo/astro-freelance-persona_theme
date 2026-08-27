@@ -86,7 +86,9 @@
   }
 }
 
-/* Copy button: theme-aware muted foreground (matches the date/meta grey).
+/* Copy button: theme-aware foreground. EC dims the button to 0.75 opacity
+   when idle, so light-mode colors wash out — default-color survives that,
+   text-muted does not (tried, too invisible in light).
    !FixMe! One rule SHOULD be enough long-term: either EC ships modern
    :has()/color-scheme-aware dual themes, or these declarations move to the
    CSS if() function (Chrome 137+, Firefox/Safari pending) querying our
@@ -95,7 +97,7 @@
    case and is why the compensation blocks above exist.
    See To_Do.md → "EC theming modernization" (file a GitHub issue there). */
 :root:root .expressive-code .copy button {
-  color: var(--text-muted);
+  color: var(--default-color);
 }
 
 

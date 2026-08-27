@@ -27,8 +27,10 @@
 
   /* Copy icon follows the theme: the icon is drawn via mask-image +
      background-color: var(--ec-frm-inlBtnFg) — feeding it our token makes
-     it theme-aware in all four input combinations. */
-  --ec-frm-inlBtnFg: var(--default-color);
+     it theme-aware in all four input combinations.
+     Transparency dial: raise "transparent X%" for a subtler icon
+     (0% = full muted, 100% = invisible). */
+  --ec-frm-inlBtnFg: color-mix(in srgb, var(--text-muted), transparent 25%);
 
   /* Style the "Copied!" tooltip message */
   --ec-frm-tooltipSuccessBg: var(--accent-color);

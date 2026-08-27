@@ -218,26 +218,6 @@ body.home-page {
     display: none;
   }
 
-  /* Short viewports (heavy browser zoom, small windows): the sidebar toggle
-     sits low, so the dropdown would open mostly off-screen — roll it up
-     instead and show the chevron pointing at it. Inner-page topnavs are
-     excluded: they open downward with the whole page below them. */
-  @media (max-height: 640px) {
-    /* Opaque panel: the roll-up floats over page content — the translucent
-       pill background (90% transparent) would be unreadable there. Matches
-       the inner-page dropdown treatment. ul. bumps specificity over the
-       #navmenu-scoped translucent override below. */
-    .header:not(.is-inner) #navmenu .theme-toggle-container ul.theme-dropdown-menu {
-      top: auto !important;
-      bottom: 100% !important;
-      background: var(--nav-dropdown-background-color) !important;
-    }
-
-    .header:not(.is-inner) #navmenu .theme-toggle .toggle-dropdown {
-      display: block;
-      rotate: 180deg;
-    }
-  }
 }
 
 .navmenu a:hover,
@@ -335,26 +315,16 @@ body.home-page {
     justify-self: start;
     margin-inline-start: 0.875rem;
     background: var(--nav-pill-menu-bg) !important;
+    container-type: anchored;
     position-try-fallbacks: flip-block;
   }
 
-  .header:not(.is-inner) #navmenu .theme-toggle-container ul.theme-dropdown-menu.is-flipped {
-    background: var(--nav-dropdown-background-color) !important;
-  }
-}
-
-/* Fallback for short viewports where anchor flip may not trigger — ensures
-   the menu is fully above and opaque, and the chevron points at it. */
-@media (min-width: 992px) and (max-height: 640px) {
-  .header:not(.is-inner) #navmenu .theme-toggle-container ul.theme-dropdown-menu {
-    position: absolute !important;
-    top: auto !important;
-    bottom: 100% !important;
-    background: var(--nav-dropdown-background-color) !important;
-  }
-
-  .header:not(.is-inner) #navmenu .theme-toggle .toggle-dropdown {
-    display: block;
-    rotate: 180deg;
+  @container anchored(fallback: flip-block) {
+    .header:not(.is-inner) #navmenu .theme-toggle-container ul.theme-dropdown-menu {
+      background: var(--nav-dropdown-background-color) !important;
+    }
+    .header:not(.is-inner) .navmenu .theme-toggle .toggle-dropdown {
+      rotate: 180deg;
+    }
   }
 }

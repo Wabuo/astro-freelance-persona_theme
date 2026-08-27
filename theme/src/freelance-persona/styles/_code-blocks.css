@@ -69,6 +69,9 @@
    EDGE CASE: OS prefers dark BUT user has forced light.
    EC's @media (prefers-color-scheme: dark) activates dark tokens
    and frame vars. We counteract by resetting to light values.
+   !FixMe! EC quirk compensation — EC reads the OS directly instead of
+   following the page chooser. See the copy-button !FixMe! below and
+   To_Do.md → "EC theming modernization".
    ============================================================= */
 @media (prefers-color-scheme: dark) {
   :root:has(.theme-state-light:checked) {
@@ -83,16 +86,16 @@
   }
 }
 
-/* Copy button: ensure theme-aware contrast (EC's default is too faint in
-   light theme; the forced-light edge case also needs its icon reset) */
-.expressive-code .copy button {
-  color: var(--default-color);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:has(.theme-state-light:checked) .expressive-code .copy button {
-    color: var(--default-color);
-  }
+/* Copy button: theme-aware muted foreground (matches the date/meta grey).
+   !FixMe! One rule SHOULD be enough long-term: either EC ships modern
+   :has()/color-scheme-aware dual themes, or these declarations move to the
+   CSS if() function (Chrome 137+, Firefox/Safari pending) querying our
+   global --theme state — EC emits its own @media (prefers-color-scheme)
+   switch, which bypasses the page chooser in the OS-dark + forced-light
+   case and is why the compensation blocks above exist.
+   See To_Do.md → "EC theming modernization" (file a GitHub issue there). */
+:root:root .expressive-code .copy button {
+  color: var(--text-muted);
 }
 
 

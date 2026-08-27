@@ -111,7 +111,7 @@ async function testConfig(configFile: string): Promise<TestResult> {
 
     // Run playwright tests
     console.log(`Running config matrix tests...`);
-    execSync('bunx playwright test --config=playwright.matrix.config.ts', {
+    execSync('bun run playwright test --config=playwright.matrix.config.ts', {
       stdio: 'inherit',
       env: {
         ...process.env,

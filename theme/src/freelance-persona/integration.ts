@@ -122,6 +122,10 @@ export default function freelancePersona(): AstroIntegration {
             define: {
               __TEST_MODE__: isTestMode,
             },
+            build: {
+              // TODO: picks up lightningcss 1.32 which doesn't know `container-type: anchored` (1.33+); disable minify until vite bump brings it
+              cssMinify: false,
+            },
             server: {
               fs: {
                 allow: ['/']
@@ -144,6 +148,7 @@ export default function freelancePersona(): AstroIntegration {
               ]
             },
             css: {
+              transformer: 'postcss',
               preprocessorOptions: {
                 scss: {
                   silenceDeprecations: ['legacy-js-api', 'color-functions', 'import', 'global-builtin', 'if-function'],

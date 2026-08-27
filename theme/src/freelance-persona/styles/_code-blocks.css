@@ -25,6 +25,11 @@
   --ec-brdRad: 0.5rem;
   --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
 
+  /* Copy icon follows the theme: the icon is drawn via mask-image +
+     background-color: var(--ec-frm-inlBtnFg) — feeding it our token makes
+     it theme-aware in all four input combinations. */
+  --ec-frm-inlBtnFg: var(--default-color);
+
   /* Style the "Copied!" tooltip message */
   --ec-frm-tooltipSuccessBg: var(--accent-color);
   --ec-frm-tooltipSuccessFg: var(--contrast-color);
@@ -86,18 +91,12 @@
   }
 }
 
-/* Copy button: theme-aware foreground. EC dims the button to 0.75 opacity
-   when idle, so light-mode colors wash out — default-color survives that,
-   text-muted does not (tried, too invisible in light).
-   !FixMe! One rule SHOULD be enough long-term: either EC ships modern
-   :has()/color-scheme-aware dual themes, or these declarations move to the
-   CSS if() function (Chrome 137+, Firefox/Safari pending) querying our
-   global --theme state — EC emits its own @media (prefers-color-scheme)
-   switch, which bypasses the page chooser in the OS-dark + forced-light
-   case and is why the compensation blocks above exist.
+/* Copy button icon: theme-aware via --ec-frm-inlBtnFg (mapped above).
+   !FixMe! Long-term: either EC ships modern :has()/color-scheme-aware dual
+   themes, or the compensation blocks above move to the CSS if() function
+   (Chrome 137+, Firefox/Safari pending) querying our global --theme state —
+   EC emits its own @media (prefers-color-scheme) switch, which bypasses the
+   page chooser in the OS-dark + forced-light case.
    See To_Do.md → "EC theming modernization" (file a GitHub issue there). */
-:root:root .expressive-code .copy button {
-  color: var(--default-color);
-}
 
 

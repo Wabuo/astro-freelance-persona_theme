@@ -27,6 +27,9 @@
     "@playwright/test": "^1.60.0",
     "mathjax-full": "^3.2.2"
   },
+  "overrides": {
+    "lightningcss": "1.33.0"
+  },
   "dependencies": {
     "@iconify-json/academicons": "^1.2.4",
     "@iconify-json/bi": "^1.2.7",

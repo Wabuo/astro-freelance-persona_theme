@@ -83,4 +83,16 @@
   }
 }
 
+/* Copy button: ensure theme-aware contrast (EC's default is too faint in
+   light theme; the forced-light edge case also needs its icon reset) */
+.expressive-code .copy button {
+  color: var(--default-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:has(.theme-state-light:checked) .expressive-code .copy button {
+    color: var(--default-color);
+  }
+}
+
 

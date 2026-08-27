@@ -38,3 +38,11 @@ basically check if there is a decent modern to do it and then use it.
   scan; custom SVGs (lance mascot, etc.) could then ship via `src/icons`
   custom collection. Bootstrap Icons font is already fully gone — this is only
   about the remaining astro-icon layer.
+- [ ] **EC (Expressive Code) theming modernization**: `_code-blocks.css` carries
+  compensation blocks because EC emits its own `@media (prefers-color-scheme)`
+  switch (bypasses the page chooser; breaks only in the `OS dark + forced
+  light` case — see the `!FixMe!` in that file). Follow-ups: (a) file an EC
+  feature request — color-scheme-aware dual themes or selector-scoped media
+  emission; (b) once CSS `if()` ships in Firefox/Safari (Chrome 137+ has it),
+  replace the copy-button/compensation rules with `if(style(--theme: …))`
+  querying the global theme state (see `!FixMe!` in `_code-blocks.css`).

@@ -46,3 +46,11 @@ basically check if there is a decent modern to do it and then use it.
   emission; (b) once CSS `if()` ships in Firefox/Safari (Chrome 137+ has it),
   replace the copy-button/compensation rules with `if(style(--theme: …))`
   querying the global theme state (see `!FixMe!` in `_code-blocks.css`).
+- [ ] **lightningcss: bump when anchored() support releases**: `container-type:
+  anchored` / `@container anchored(fallback: …)` (anchor positioning L2 —
+  used by the theme dropdown roll-up) fails to parse in lightningcss
+  ≤1.33.0 ("Unexpected token Function(\"anchored\")"). Support is MERGED
+  upstream (parcel-bundler/lightningcss#1218, fixes #1176) but unreleased
+  as of 1.33.0. Until it ships: `build.cssMinify: false` in
+  integration.ts + root package.json override pinning ^1.33.0. When
+  released: `bun update lightningcss`, remove both, done.

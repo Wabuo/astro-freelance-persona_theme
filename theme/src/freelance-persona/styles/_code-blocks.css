@@ -30,7 +30,7 @@
      it theme-aware in all four input combinations.
      Transparency dial: raise "transparent X%" for a subtler icon
      (0% = full muted, 100% = invisible). */
-  --ec-frm-inlBtnFg: color-mix(in srgb, var(--text-muted), transparent 25%);
+  --ec-frm-inlBtnFg: color-mix(in srgb, var(--text-muted), transparent 55%);
 
   /* Style the "Copied!" tooltip message */
   --ec-frm-tooltipSuccessBg: var(--accent-color);
@@ -60,6 +60,10 @@
     --ec-frm-shdCol: transparent;
     --ec-frm-frameBoxShdCssVal: none;
     --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
+    /* Re-assert the icon dial at (0,5,0): EC's dark rules re-declare
+       --ec-frm-inlBtnFg on .expressive-code and would otherwise win in
+       this combo (OS dark, chooser not forced light). */
+    --ec-frm-inlBtnFg: color-mix(in srgb, var(--text-muted), transparent 55%);
   }
 }
 
@@ -70,6 +74,9 @@
   --ec-frm-shdCol: transparent;
   --ec-frm-frameBoxShdCssVal: none;
   --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
+  /* Same re-assertion for the forced-dark combo (OS light, chooser dark) —
+     EC's themeCssSelector rule (0,4,0) beats the base (0,1,0) mapping. */
+  --ec-frm-inlBtnFg: color-mix(in srgb, var(--text-muted), transparent 55%);
 }
 
 /* =============================================================
@@ -100,5 +107,3 @@
    EC emits its own @media (prefers-color-scheme) switch, which bypasses the
    page chooser in the OS-dark + forced-light case.
    See To_Do.md → "EC theming modernization" (file a GitHub issue there). */
-
-

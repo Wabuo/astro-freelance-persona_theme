@@ -315,22 +315,27 @@ body.home-page {
     justify-self: start;
     margin-inline-start: 0.875rem;
     background: var(--nav-pill-menu-bg) !important;
+    container-type: anchored;
     position-try-fallbacks: flip-block;
   }
 
   /* Modern anchored container query (Chromium 143+): when the flip-block
-     fallback is active (menu rolled above the toggle), make the panel
-     opaque and point the chevron up at it. Other engines keep the
-     translucent below-state and the chevron down — graceful degradation
-     until they ship anchor positioning L2 container queries. */
+     fallback is active (menu rolled above the toggle), give the panel an
+     opaque fill so it stays readable over the busy header. The fill must
+     go on a ::before overlay — @container styles only reach DESCENDANTS
+     of the anchored container, never the positioned element itself.
+     Other engines keep the translucent below-state (graceful degradation
+     until they ship anchor positioning L2 container queries). The toggle
+     chevron stays static: the flip state is unreachable outside the
+     menu's subtree (css-anchor-position-2 §2.1) — revisit with optional
+     JS only if this edge case proves common (see To_Do.md). */
   @container anchored(fallback: flip-block) {
-    .header:not(.is-inner) #navmenu .theme-toggle-container ul.theme-dropdown-menu {
-      background: var(--nav-dropdown-background-color) !important;
-    }
-
-    .header:not(.is-inner) .navmenu .theme-toggle .toggle-dropdown {
-      display: block;
-      rotate: 180deg;
+    .header:not(.is-inner) #navmenu .theme-toggle-container ul.theme-dropdown-menu::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: var(--nav-dropdown-background-color);
     }
   }
 }

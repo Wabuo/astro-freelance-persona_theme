@@ -58,20 +58,17 @@
     "@unocss/preset-wind4": "~66.7.5",
     "astro-expressive-code": "^0.44.0",
     "astro-icon": "^1.1.5",
-    "bootstrap": "^5.3.8",
     "expressive-code": "^0.43.0",
     "marked": "^18.0.0",
     "mathjax-full": "^3.2.2",
     "rehype-mathjax": "^7.0.0",
     "remark-directive": "^4.0.0",
     "remark-math": "^6.0.0",
-    "sass-embedded": "^1.97.0",
     "sharp": "^0.35.0",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
-    "@types/bootstrap": "^5.2.10",
     "@types/node": "^26.0.0",
     "astro": "^7.0.0",
     "typescript": "^6.0.0"

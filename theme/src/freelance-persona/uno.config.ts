@@ -37,38 +37,18 @@ export default defineConfig({
   ],
 
   /**
-   * COEXISTENCE BLOCKLIST (Phase 1–2 only).
+   * BLOCKLIST (post-migration).
    *
-   * Blocks ONLY names that are valid in BOTH systems but resolve differently:
-   * Bootstrap's spacing scale is 1:.25 / 2:.5 / 3:1 / 4:1.5 / 5:3rem while
-   * UnoCSS uses n×.25rem — so steps -3/-4/-5 collide with different values
-   * (-0/-1/-2 are identical and stay allowed). Structural Bootstrap classes
-   * have no legitimate Uno meaning and are blocked outright.
-   *
-   * Rule: when a component migrates in Phase 2, remove its legacy names from
-   * this list in the same changeset. By Phase 3 this list must be empty.
+   * The Bootstrap coexistence blocklist was emptied in Phase 3.6 — all
+   * legacy names are gone from templates, so no collisions remain. What
+   * stays is a single design-owned exception (see below), not archaeology.
    */
   blocklist: [
-    // Structural Bootstrap layout system remnants
-    // NOTE: 'container' stays blocked — wind4's container utility uses
-    // Tailwind max-width semantics (max = breakpoint); the design's
-    // container is narrower (540/720/960/1140/1320) and lives as a
-    // semantic rule in styles/_type.css.
+    // Design-owned exception: wind4's container utility uses Tailwind
+    // max-width semantics (max = breakpoint); the design's container is
+    // narrower (540/720/960/1140/1320) and lives as a semantic rule in
+    // styles/_type.css. Everything Bootstrap-related was unblocked in 3.6.
     'container',
-    'row',
-    'list-unstyled',
-    'img-fluid',
-    'visible',
-    // Grid columns & gutters (Bootstrap col-md-6 etc. — must NOT catch Uno's
-    // col-span-*, hence the negative lookahead)
-    /^col(?!-span)(?:-(?:sm|md|lg|xl|xxl))?-\d+$/,
-    /^g[xy]-\d+$/,
-    // Spacing steps where the two scales diverge (3/4/5)
-    /^[mp][tblrxy]?-[345]$/,
-    // Sizing helpers (Bootstrap = %, Uno = rem!)
-    /^(w|h)-(100|25|50|75)$/,
-    // Bootstrap-only color helper colliding with our theme token
-    'text-muted',
   ],
 
   theme: {

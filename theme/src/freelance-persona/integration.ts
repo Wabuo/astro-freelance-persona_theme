@@ -143,13 +143,6 @@ export default function freelancePersona(): AstroIntegration {
                 }
               ]
             },
-            css: {
-              preprocessorOptions: {
-                scss: {
-                  silenceDeprecations: ['legacy-js-api', 'color-functions', 'import', 'global-builtin', 'if-function'],
-                },
-              },
-            },
             build: {
               // lightningcss (<1.34) cannot parse the anchor-positioning L2
               // container query (@container anchored(fallback: …)) used by

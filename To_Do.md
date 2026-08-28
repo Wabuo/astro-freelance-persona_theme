@@ -54,3 +54,11 @@ basically check if there is a decent modern to do it and then use it.
   as of 1.33.0. Until it ships: `build.cssMinify: false` in
   integration.ts + root package.json override pinning ^1.33.0. When
   released: `bun update lightningcss`, remove both, done.
+- [ ] **Theme dropdown chevron flip (optional JS)**: when the home sidebar
+  dropdown auto-flips above the toggle (anchor positioning), the toggle's
+  chevron stays pointing down. Pure CSS cannot fix this — the flip state is
+  only exposed to descendants of the positioned element via
+  `@container anchored()` (css-anchor-position-2 §2.1), and the chevron is a
+  sibling. If the zoom/small-window edge case proves common in practice, add
+  a small optional JS enhancement that mirrors the engine's decision onto
+  the chevron.

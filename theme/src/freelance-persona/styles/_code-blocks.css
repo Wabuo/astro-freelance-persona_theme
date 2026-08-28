@@ -28,9 +28,19 @@
   /* Copy icon follows the theme: the icon is drawn via mask-image +
      background-color: var(--ec-frm-inlBtnFg) — feeding it our token makes
      it theme-aware in all four input combinations.
-     Transparency dial: raise "transparent X%" for a subtler icon
-     (0% = full muted, 100% = invisible). */
-  --ec-frm-inlBtnFg: color-mix(in srgb, var(--text-muted), transparent 55%);
+     Per-theme dials (0% = full base color, 100% = invisible):
+     - light: near-solid default text color (muted gray reads as invisible
+       on the light code background)
+     - dark: muted tone, heavily faded (full strength is too bright)
+     The dark combos are re-asserted in the :root:root blocks below (EC's
+     (0,4,0) dark rules would otherwise win) — tune the dials HERE only. */
+  --copy-icon-fade-light: 5%;
+  --copy-icon-fade-dark: 55%;
+  --ec-frm-inlBtnFg: color-mix(
+    in srgb,
+    var(--default-color),
+    transparent var(--copy-icon-fade-light)
+  );
 
   /* Style the "Copied!" tooltip message */
   --ec-frm-tooltipSuccessBg: var(--accent-color);
@@ -60,10 +70,14 @@
     --ec-frm-shdCol: transparent;
     --ec-frm-frameBoxShdCssVal: none;
     --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
-    /* Re-assert the icon dial at (0,5,0): EC's dark rules re-declare
+    /* Re-assert the dark dial at (0,5,0): EC's dark rules re-declare
        --ec-frm-inlBtnFg on .expressive-code and would otherwise win in
        this combo (OS dark, chooser not forced light). */
-    --ec-frm-inlBtnFg: color-mix(in srgb, var(--text-muted), transparent 55%);
+    --ec-frm-inlBtnFg: color-mix(
+      in srgb,
+      var(--text-muted),
+      transparent var(--copy-icon-fade-dark)
+    );
   }
 }
 
@@ -76,7 +90,11 @@
   --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
   /* Same re-assertion for the forced-dark combo (OS light, chooser dark) —
      EC's themeCssSelector rule (0,4,0) beats the base (0,1,0) mapping. */
-  --ec-frm-inlBtnFg: color-mix(in srgb, var(--text-muted), transparent 55%);
+  --ec-frm-inlBtnFg: color-mix(
+    in srgb,
+    var(--text-muted),
+    transparent var(--copy-icon-fade-dark)
+  );
 }
 
 /* =============================================================

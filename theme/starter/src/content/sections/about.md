@@ -41,7 +41,7 @@ qualifications_sidebar:
   - text: "Tech Stack"
     subtitle: 
       - "Astro {{astro_minor}}"
-      - "Bootstrap {{bootstrap_minor}}"
+      - "UnoCSS {{unocss_minor}}"
       - "TypeScript"
     icon: "bi bi-stack"
   

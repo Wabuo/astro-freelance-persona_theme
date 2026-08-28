@@ -229,14 +229,11 @@ const formatDate = (date: Date) => {
         --border-color,
         color-mix(in srgb, var(--default-color), transparent 90%)
       );
-    transition: border-color var(--transition-hover-time, 0.2s),
-      transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
   }
 
-  .post-entry-link:hover .post-entry {
-    border-color: var(--accent-color);
-    /* transform: translateX(5px); // Optional: slide effect */
-  }
+  /* Hover feedback lives on the title/link color only — the separator
+     line keeps its neutral color on hover (regression fix). */
 
   /* Flexbox Layout for Title + Date */
   .post-meta {

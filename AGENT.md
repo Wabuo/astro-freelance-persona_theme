@@ -55,6 +55,10 @@ SPDX-License-Identifier: MIT
   - To update or generate baseline screenshots locally: run `bun run test --update-snapshots` inside `theme/starter/`.
   - To preserve new/updated snapshots across `bun run playground:setup` resets, copy them back from playground to the starter template:
     `cp -r playground/testing/tests/*-snapshots/ theme/starter/testing/tests/`
+- **Always `fuser -k 4321/tcp 4322/tcp` before test runs**: Playwright's
+  webServer uses `reuseExistingServer: !CI` — any server already on 4321
+  (e.g. a manual `preview`) gets REUSED, silently testing a stale build and
+  poisoning re-recorded baselines.
 - **Path Aliases:** Tests use `@/*` (e.g., `import { themeConfig } from '@/freelance-persona.config'`) which maps to `src/*` in the starter context.
 
 #### Two-Tier Test Structure
@@ -138,7 +142,11 @@ Each config is built separately and tested with `testing/tests/config-matrix.spe
 ### 2. 🎨 Styling & NoScript
 
 - **prefer native** if there  is a way to do something in a sensible modern or even bleeding edge way without javascript then drop the javascript!
-- **SCSS:** Prefer `_partial.scss` over inline `<style>`.
+- **Styling stack (post-3.5):** UnoCSS (presetWind4, unlayered utilities) +
+  component-owned plain-CSS partials in `@layer components` + the flat
+  `light-dark()` token table in `styles/base.css`. No Sass, no Bootstrap —
+  new styles are plain CSS partials or utilities, never inline `<style>`
+  for anything reusable.
 - **NoScript Fallback:**
   - `BaseLayout.astro` contains a `<noscript>` block.
   - It forces `[data-reveal] { opacity: 1 !important }` so content is visible without JS animations.
@@ -266,19 +274,21 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
   workspace pulled astro-icon 1.2.x vs the repo's 1.1.x, changing SVG sprite emission
   (`viewBox` moved to `<symbol>`) and producing fake Firefox-only diffs.
 
-### 🧱 Cascade Layers (Phase 3+)
+### 🧱 Cascade Layers (post-3.5 architecture)
 
-- Theme CSS lives in `@layer components`; legacy Bootstrap in `@layer bootstrap`
-  (declared earlier). UnoCSS utilities are unlayered → always above both.
+- Theme CSS lives in `@layer components`; uno (presetWind4) ships its own
+  `theme`/`base` layers + reset, and utilities are UNLAYERED → utilities
+  always beat layered rules regardless of specificity. To beat a utility,
+  change the markup's utility, not a layered rule.
 - **`!important` inverts layer priority**: for important declarations the
-  EARLIER-declared layer wins. Bootstrap's `!important` utilities therefore
-  beat layered theme `!important` rules (e.g. hero mobile alignment). Never
-  fight a Bootstrap utility's property from a layered rule while Bootstrap
-  survives — remove the dead utility instead (see Hero position_y refactor).
-- The `@layer bootstrap, components` order statement is injected as
-  `<style is:inline>` in BaseLayout's <head>: the bundler may emit @layer
-  blocks across chunks in arbitrary physical order, so block-position-based
-  ordering is not trustworthy.
+  EARLIER-declared layer wins. This bit us when `!important` Bootstrap
+  utilities fought layered theme rules (hero mobile alignment) — the fix
+  was deleting the dead utility, not fighting it.
+- The `@layer theme, base, components, utilities;` order statement is
+  injected as `<style is:inline>` in BaseLayout's <head>: the bundler may
+  emit @layer blocks across chunks in arbitrary physical order, so
+  block-position-based ordering is not trustworthy, and first declaration
+  wins.
 
 ### 🧱 Step 3.5 cutover gotchas (wind4 reset native)
 
@@ -298,13 +308,13 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
   in `_type.css`.
 - **Mono identity is config-driven**: wind4 resolves its mono stack via
   `theme.font.mono` → `var(--monospace-font)` (user config). Inline `<code>`
-  now renders in the configured font — NOT bootstrap's old hardcoded SFMono
-  stack. The metric difference shifts line boxes by ~0.5px downstream of
+  now renders in the configured font — not the old hardcoded SFMono stack. The metric difference shifts line boxes by ~0.5px downstream of
   inline code; visual baselines recorded before 3.5 will flag ±1px clips.
-- **Hidden bootstrap dependencies surface at deletion**: `.dropdown` carried
-  `position:relative` for the theme dropdown (now owned by
-  `_theme-dropdown.css`); `h-100`/`d-flex`/`flex-column` etc. were layout —
-  all swapped to uno utilities (`h-full`, `flex`, `flex-col`, …).
+- **Cutover lesson — hidden carrier dependencies surface at deletion**: the
+  old `.dropdown` class carried `position:relative` for the theme dropdown
+  (now owned by `_theme-dropdown.css`); `h-100`/`d-flex`/`flex-column` etc.
+  were load-bearing layout — all swapped to uno utilities (`h-full`, `flex`,
+  `flex-col`, …). Expect the same when deleting any "unused-looking" class.
 - Visual-test budget is `maxDiffPixels: 200` (global) — sub-pixel AA from any
   font change exceeds it by orders of magnitude; re-record baselines only
   after manual review of the diffs.

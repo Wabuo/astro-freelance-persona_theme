@@ -414,72 +414,11 @@ const { isHome = false } = Astro.props;
     });
   };
 
-  // 4. Theme dropdown chevron — points at the menu when it flips above
-  const initDropdownChevron = () => {
-    const container = document.querySelector(
-      ".header:not(.is-inner) #navmenu .theme-toggle-container",
-    ) as HTMLElement | null;
-    if (!container) return;
-    const menu = container.querySelector(
-      ".theme-dropdown-menu",
-    ) as HTMLElement | null;
-    const chevron = container.querySelector(
-      ".toggle-dropdown",
-    ) as HTMLElement | null;
-    if (!menu || !chevron) return;
-
-    const update = () => {
-      const mr = menu.getBoundingClientRect();
-      const cr = container.getBoundingClientRect();
-      const isAbove = mr.bottom <= cr.top + 1;
-      chevron.style.transform = isAbove ? "rotate(180deg)" : "";
-      menu.classList.toggle("is-flipped", isAbove);
-    };
-
-    const cb = container.querySelector(
-      ".theme-menu-toggle-checkbox",
-    ) as HTMLInputElement | null;
-
-    let raf = 0;
-    const startPolling = () => {
-      const loop = () => {
-        update();
-        raf = requestAnimationFrame(loop);
-      };
-      loop();
-    };
-    const stopPolling = () => cancelAnimationFrame(raf);
-
-    if (cb) {
-      cb.addEventListener("change", () => {
-        if (cb.checked) {
-          requestAnimationFrame(() => {
-            update();
-            startPolling();
-          });
-        } else {
-          stopPolling();
-          chevron.style.transform = "";
-          menu.classList.remove("is-flipped");
-        }
-      });
-    }
-    container.addEventListener("mouseenter", () => {
-      requestAnimationFrame(update);
-      startPolling();
-    });
-    container.addEventListener("mouseleave", () => {
-      stopPolling();
-    });
-    window.addEventListener("resize", update);
-  };
-
   // Centralized Initialization
   const initAll = () => {
     initMobileNav();
     initScrollSpy();
     initThemeToggle();
-    initDropdownChevron();
   };
 
   // Run on page load

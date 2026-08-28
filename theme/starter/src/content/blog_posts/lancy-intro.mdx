@@ -96,7 +96,7 @@ To prove that my mathematical coprocessor is fully operational, I've compiled so
 The time-dependent Schrödinger equation, styled dynamically using our CSS variable palette to adapt cleanly between light and dark modes:
 
 ```math
-i\hbar\frac{\partial}{\partial t}\ket{\psi(t)} = \color{var(--accent-color)}{\hat{H}}\ket{\psi(t)}
+i\hbar\frac{\partial}{\partial t}\ket{\psi(t)} = \textcolor{var(--accent-color)}{\hat{H}}\ket{\psi(t)}
 ```
 
 Using the `physics` extension, we can write complex differentials and Dirac brackets cleanly:
@@ -109,20 +109,26 @@ Using the `physics` extension, we can write complex differentials and Dirac brac
 Here is a complex chemical redox reaction showing intermediate cancellations:
 
 ```chem
-2I^{-} + \cancel{S2O8^{2-}} -> I2 + \cancel{S2O8^{2-}} + 2e^{-}
+2\textcolor{red}{I^{-}} + \textcolor{blue}{S2O8^{2-}} -> \textcolor{red}{I2} + \textcolor{blue}{\cancel{S2O8^{2-}}} + 2\textcolor{gray}{e^{-}}
 ```
 
-And a standard equilibrium synthesis reaction showing states of matter:
+And a standard equilibrium synthesis reaction showing states of matter — with the atoms tinted so you can follow each one through the reaction (carbon red, hydrogen blue):
 
 ```chem
-CO2(g) + H2O(l) <=> H2CO3(aq)
+\textcolor{red}{C}O2(g) + \textcolor{blue}{H2}O(l) <=> \textcolor{blue}{H2}\textcolor{red}{C}O3(aq)
 ```
 
 ### 3. Delimiters & Extensible Arrows ( `mathtools` & `cancel` )
 Cancelling terms in algebraic ratios and utilizing extensible mapping arrows:
 
 ```math
-\frac{a(x + y)}{\cancel{a}} \xrightarrow[\text{simplify}]{\text{algebra}} x + y
+\frac{\textcolor{red}{a(x + y)}}{\cancel{a}} \xrightarrow[\textcolor{gray}{\text{simplify}}]{\textcolor{blue}{\text{algebra}}} \textcolor{red}{x + y}
+```
+
+MathJax-set colors also work as visual grouping — here the distributed factor keeps its color as it escapes the brackets, and the matching terms are easy to track:
+
+```math
+\textcolor{red}{a}(x + y) = \textcolor{red}{a}x + \textcolor{red}{a}y \qquad (x + y)\textcolor{blue}{b} = x\textcolor{blue}{b} + y\textcolor{blue}{b}
 ```
 
 

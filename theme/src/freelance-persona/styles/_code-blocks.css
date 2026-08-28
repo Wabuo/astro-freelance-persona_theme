@@ -28,19 +28,22 @@
   /* Copy icon follows the theme: the icon is drawn via mask-image +
      background-color: var(--ec-frm-inlBtnFg) — feeding it our token makes
      it theme-aware in all four input combinations.
-     Per-theme dials (0% = full base color, 100% = invisible):
-     - light: near-solid default text color (muted gray reads as invisible
-       on the light code background)
+     Per-theme dials (0% = full muted, 100% = invisible):
+     - light: near-solid muted
      - dark: muted tone, heavily faded (full strength is too bright)
+     The button outline (border) follows the same muted tone; EC's default
+     border opacity (0.4) reads as invisible on the light code background.
      The dark combos are re-asserted in the :root:root blocks below (EC's
      (0,4,0) dark rules would otherwise win) — tune the dials HERE only. */
   --copy-icon-fade-light: 5%;
   --copy-icon-fade-dark: 55%;
   --ec-frm-inlBtnFg: color-mix(
     in srgb,
-    var(--default-color),
+    var(--text-muted),
     transparent var(--copy-icon-fade-light)
   );
+  --ec-frm-inlBtnBrd: var(--text-muted);
+  --ec-frm-inlBtnBrdOpa: 0.6;
 
   /* Style the "Copied!" tooltip message */
   --ec-frm-tooltipSuccessBg: var(--accent-color);
@@ -71,13 +74,15 @@
     --ec-frm-frameBoxShdCssVal: none;
     --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
     /* Re-assert the dark dial at (0,5,0): EC's dark rules re-declare
-       --ec-frm-inlBtnFg on .expressive-code and would otherwise win in
-       this combo (OS dark, chooser not forced light). */
+       --ec-frm-inlBtnFg and --ec-frm-inlBtnBrd on .expressive-code and
+       would otherwise win in this combo (OS dark, chooser not forced
+       light). */
     --ec-frm-inlBtnFg: color-mix(
       in srgb,
       var(--text-muted),
       transparent var(--copy-icon-fade-dark)
     );
+    --ec-frm-inlBtnBrd: var(--text-muted);
   }
 }
 
@@ -95,6 +100,7 @@
     var(--text-muted),
     transparent var(--copy-icon-fade-dark)
   );
+  --ec-frm-inlBtnBrd: var(--text-muted);
 }
 
 /* =============================================================

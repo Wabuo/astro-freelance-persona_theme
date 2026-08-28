@@ -12,11 +12,11 @@
 /* NOTE: Fonts are now imported in layouts/BaseLayout.astro via JS
    to ensure correct loading in Yarn PnP environments. */
 
-/* Bootstrap left the building (step 3.5). Base typography that reboot used
-   to provide now lives in _type.css, imported below. */
+/* Base typography (design-owned since 3.5; what the old reset used to
+   provide now lives in _type.css, imported below. */
 
 /* 1. Theme Core Styles */
-/* _type.css overlays the upstream reset (uno `base` layer) with bootstrap-era
+/* _type.css overlays the upstream reset (uno `base` layer) with the design's
    typography + the legacy grid subset. First in layer(components): partials
    below win same-specificity ties, utilities above unlayered. */
 @import "./_type.css" layer(components);

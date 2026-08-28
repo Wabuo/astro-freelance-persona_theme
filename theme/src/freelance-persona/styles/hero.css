@@ -112,7 +112,7 @@
 }
 
 /* --------------------------------------------------------------
-   Semantic content column (replaces bootstrap row/col, step 3.5).
+   Semantic content column (design-owned since 3.5).
    Widths reproduce the old col-* geometry exactly: the old row's
    -0.75rem margins cancelled the container's +0.75rem padding and
    the col re-added 0.75rem gutters, netting `container_box * pct`

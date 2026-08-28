@@ -54,8 +54,8 @@ const displayedPosts = filteredPosts
     return b.id.localeCompare(a.id);
   })
   .slice(0, limit === -1 ? undefined : limit);
-// 4. Layout Classes (semantic grid replacing Bootstrap row/cols)
-// Replicates Bootstrap's gutter model exactly: negative margins on the
+// 4. Layout Classes (semantic grid)
+// Gutter model: negative margins on the
 // container, matching padding + gutter-top margin on every cell.
 const isWide = gutter === "wide";
 const gridWrap = isWide ? "-mx-[1rem] -mt-[2rem]" : "-mx-[0.75rem] -mt-[1.5rem]";

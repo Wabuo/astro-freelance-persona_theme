@@ -21,7 +21,7 @@
  */
 
 /* ---------------------------------------------------------------
-   Heading scale (bootstrap-era rhythm, kept as the design voice)
+   Heading scale (historical rhythm, kept as the design voice)
    --------------------------------------------------------------- */
 h6,
 h5,
@@ -67,7 +67,7 @@ blockquote {
 }
 
 small {
-  /* bootstrap .875em, not wind4's 80% */
+  /* .875em, not wind4's 80% */
   font-size: 0.875em;
 }
 

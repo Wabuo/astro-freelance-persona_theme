@@ -102,12 +102,11 @@
     height: 4rem;
     border-radius: 0.5rem;
     background-color: var(--accent-color);
-    /* Adapted to Bootstrap Primary */
-    color: var(--bs-white, #fff);
+    color: var(--contrast-color);
 }
 
 .feature-icon {
-    font-size: 1.5rem; /* Bootstrap Icon <i> elements size from font-size, not width/height */
+    font-size: 1.5rem; /* Icon <i> elements size from font-size, not width/height */
     color: inherit;
 
     /* Sizing for Lance Icon specifically (SVG needs explicit dimensions) */
@@ -173,7 +172,7 @@
 
 /* Custom style for the unavailable badge */
 .feature-card.unavailable .feature-hover-action {
-    background-color: var(--bs-gray-600, #6c757d);
+    background-color: var(--text-muted);
     color: white;
     cursor: not-allowed;
 }

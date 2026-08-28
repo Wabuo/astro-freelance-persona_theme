@@ -21,7 +21,7 @@
 }
 
 .card-base {
-    background: var(--card-background, var(--bs-body-bg, #ffffff));
+    background: var(--card-background, #ffffff);
     border-radius: 0.75rem;
     /* Border moved to ::after for strict overlay */
     border: none;
@@ -52,7 +52,7 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    border: 1px solid var(--card-border, var(--bs-border-color, #f0f0f0));
+    border: 1px solid var(--card-border, #f0f0f0);
     pointer-events: none;
     z-index: 10;
 }

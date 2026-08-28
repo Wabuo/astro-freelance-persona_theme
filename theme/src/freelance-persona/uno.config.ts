@@ -39,7 +39,7 @@ export default defineConfig({
   /**
    * BLOCKLIST (post-migration).
    *
-   * The Bootstrap coexistence blocklist was emptied in Phase 3.6 — all
+   * The coexistence blocklist was emptied in Phase 3.6 — all
    * legacy names are gone from templates, so no collisions remain. What
    * stays is a single design-owned exception (see below), not archaeology.
    */
@@ -47,7 +47,7 @@ export default defineConfig({
     // Design-owned exception: wind4's container utility uses Tailwind
     // max-width semantics (max = breakpoint); the design's container is
     // narrower (540/720/960/1140/1320) and lives as a semantic rule in
-    // styles/_type.css. Everything Bootstrap-related was unblocked in 3.6.
+    // styles/_type.css. Everything else was unblocked in 3.6.
     'container',
   ],
 
@@ -78,9 +78,7 @@ export default defineConfig({
       mono: 'var(--monospace-font)',
     },
 
-    // Breakpoints mirror Bootstrap's current values so Phase-2 component
-    // conversions behave identically until semantic layouts replace them.
-    // (Bootstrap: sm 576 / md 768 / lg 992 / xl 1200 / xxl 1400)
+    // Breakpoints: sm 576 / md 768 / lg 992 / xl 1200 / xxl 1400.
     breakpoint: {
       sm: '576px',
       md: '768px',

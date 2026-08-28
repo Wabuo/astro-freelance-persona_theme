@@ -71,12 +71,6 @@
   --input-border: light-dark(#ced4da, color-mix(in srgb, var(--default-color), transparent 85%));
   --input-text: light-dark(#212529, var(--default-color));
 
-  /* Bootstrap bridge (removed with Bootstrap in step 3.5/3.7) */
-  --bs-body-bg: light-dark(#ffffff, #1e1e1e);
-  --bs-body-color: light-dark(#212529, #e0e0e0);
-  /* Light side intentionally equals Bootstrap's own :root default,
-     which previously won because the theme left this unset in light mode. */
-  --bs-border-color: light-dark(#dee2e6, color-mix(in srgb, var(--default-color), transparent 85%));
   --underline-color: light-dark(var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 45%));
   --code-background: light-dark(#f6f6f6, var(--surface-color));
 
@@ -242,7 +236,7 @@ html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
   - .bi (Bootstrap Icons)
   - .ai (Academicons)
   - [class*="icon-"] (Common pattern)
-  - [class*=" bi-"] (Bootstrap mixin safety)
+  - [class*=" bi-"] (icon-prefix safety)
   - [data-icon] (astro-icon)
 */
 .bi,
@@ -313,7 +307,7 @@ html:has(.header[popover]:popover-open) {
   }
 }
 
-/* Ported verbatim from Bootstrap .badge (bootstrap gone since 3.5).
+/* Badge styling (design-owned since 3.5).
    NOTE: sibling rule, NOT nested — nesting inside `.badge,.tag` compiles
    to a descendant selector that never matches. Scoped to .badge only —
    bare `.tag` spans never had these. */

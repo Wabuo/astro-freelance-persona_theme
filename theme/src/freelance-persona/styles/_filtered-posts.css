@@ -17,7 +17,7 @@
     width: 100%;
     aspect-ratio: 16/9;
     overflow: hidden;
-    background-color: var(--card-background, var(--bs-body-bg));
+    background-color: var(--card-background, #ffffff);
     position: relative;
 
     /* Attribution: smaller size for cards */

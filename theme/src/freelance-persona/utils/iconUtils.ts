@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * Utility to transform legacy icon-font classes (Bootstrap, Academicons)
+ * Utility to transform legacy icon-font classes (Bootstrap Icons, Academicons)
  * to the astro-icon format (provider:name).
  * 
  * Example:

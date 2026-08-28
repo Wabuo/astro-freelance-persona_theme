@@ -109,15 +109,15 @@ const { Content } = entry ? await render(entry) : { Content: null };
 @layer components {
 
   .legal-content {
-    background: var(--bs-body-bg);
-    color: var(--bs-body-color);
+    background: var(--background-color);
+    color: var(--default-color);
     padding: var(--spacing-lg) 0;
     font-family: var(--font-body);
   }
 
   .legal-block {
     margin-bottom: var(--spacing-xl);
-    border-bottom: 1px solid var(--bs-border-color);
+    border-bottom: 1px solid var(--card-border);
     padding-bottom: var(--spacing-md);
   }
 
@@ -129,7 +129,6 @@ const { Content } = entry ? await render(entry) : { Content: null };
     font-family: var(--font-heading);
     font-size: 1.2rem;
     margin-bottom: var(--spacing-sm);
-    color: var(--bs-heading-color);
     color: color-mix(in srgb, var(--default-color), transparent 20%);
   }
 

@@ -114,7 +114,7 @@ const finalImage = explicitImage;
 // Fallback removed as per user request (controlled via hero.md)
 
 // --- CSS CLASS MAPPING ---
-// UnoCSS utility names (bootstrap names died with the 3.5 cutover).
+// UnoCSS utility names (legacy names died with the 3.5 cutover).
 // `block` replaces the old flex-row alignment: the content column is a plain
 // block now, so horizontal alignment = auto margins.
 const xMap = {
@@ -142,13 +142,13 @@ const yMap = {
   bottom: "flex-end",
 };
 /* Vertical alignment is config-driven and owned by hero.css via custom
-   properties (the old Bootstrap align-items-* utilities carried !important,
+   properties (the old align-items-* utilities carried !important,
    which inverts under cascade layers). pt-5/pb-5 equivalents below. */
 const heroAlignValue = yMap[position_y] || "center";
 const heroAlignPadTop = position_y === "top" ? "3rem" : "0rem";
 const heroAlignPadBottom = position_y === "bottom" ? "3rem" : "0rem";
 
-// Semantic width steps (replace bootstrap col-*): percentages of the
+// Semantic width steps: percentages of the
 // container box, expressed against the padded container inner width.
 // Values derived from the old col-* widths incl. gutter math — see
 // .hero-content rules in styles/hero.css.
@@ -207,7 +207,7 @@ const heroSectionStyle = {
   // Desktop Anchor
   "--desktop-image-anchor": background_image_anchor || "right bottom",
 
-  // Config-driven vertical alignment (replaces Bootstrap align-items-* utils)
+  // Config-driven vertical alignment
   "--hero-align-items": heroAlignValue,
   "--hero-align-pad-top": heroAlignPadTop,
   "--hero-align-pad-bottom": heroAlignPadBottom,

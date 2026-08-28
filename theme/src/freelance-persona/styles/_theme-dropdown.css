@@ -31,8 +31,8 @@
 }
 
 .navmenu .theme-toggle-container {
-    /* Anchoring context for the absolute dropdown menu (was bootstrap
-       `.dropdown { position: relative }` — died with the 3.5 cutover) */
+    /* Anchoring context for the absolute dropdown menu (design-owned
+       since 3.5) */
     position: relative;
 }
 

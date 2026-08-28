@@ -254,7 +254,7 @@ export const themeConfig: PersonaConfig = {
     "Theme: [Freelance Persona](https://github.com/freelance-persona/astro-freelance-persona_theme)",
     "Contact form via [Formspark](https://formspark.io)",
     "With code and inspiration from [Zola Persona](https://github.com/hanson-hschang/Persona-Zola-Theme) & [Zola Goyo](https://github.com/hahwul/goyo)",
-    `Powered by [Astro ${astroMajorVersion}](https://www.astro.build/), [Bootstrap](https://getbootstrap.com/), [Fontsource](https://fontsource.org/), [Academicons](https://jpswalsh.github.io/academicons/), [MathJax](https://www.mathjax.org/) & [Marked](https://github.com/markedjs/marked)`,
+    `Powered by [Astro ${astroMajorVersion}](https://www.astro.build/), [UnoCSS](https://unocss.dev/), [Fontsource](https://fontsource.org/), [Academicons](https://jpswalsh.github.io/academicons/), [MathJax](https://www.mathjax.org/) & [Marked](https://github.com/markedjs/marked)`,
   ],
 };
 

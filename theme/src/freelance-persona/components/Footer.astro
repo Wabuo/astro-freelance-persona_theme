@@ -27,6 +27,7 @@ const creditsHtml = await parse(replaceBuildTokens(finalCreditsString));
         social_links.map((link: any) => (
           <a
             href={link.url}
+            class="btn btn-icon"
             aria-label={`Link to my ${link.name} profile`}
             target="_blank"
             rel="noopener noreferrer"

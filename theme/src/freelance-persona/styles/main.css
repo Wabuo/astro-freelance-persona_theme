@@ -31,6 +31,7 @@
 /* 2. Cross-cutting Section Styles */
 @import "./section.css" layer(components);
 @import "./plain.css" layer(components);
+@import "./_buttons.css" layer(components);
 
 /* 3. Conditional Navigation Styles (body-class scoped layouts) */
 @import "./_theme-dropdown.css" layer(components);

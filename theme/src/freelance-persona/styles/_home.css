@@ -19,7 +19,7 @@
 
         &.inner-page,
         .inner-page {
-            --background-color: var(--bs-body-bg, #1e1e1e) !important;
+            --background-color: var(--background-color, #1e1e1e) !important;
         }
     }
 }
@@ -34,7 +34,7 @@
 
         &.inner-page,
         .inner-page {
-            --background-color: var(--bs-body-bg, #1e1e1e) !important;
+            --background-color: var(--background-color, #1e1e1e) !important;
         }
     }
 }

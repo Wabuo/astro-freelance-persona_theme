@@ -107,6 +107,11 @@ in your config, which verifies the `Origin` header on POSTs.
 
 ### Build-time rendering notes
 
+- The custom content parsers (figure params, attributions) operate on HAST
+  **node properties**, not raw HTML strings — attribute escaping is by
+  construction in that layer. The one raw-string path (inlined SVGs) reads
+  repo files (author-trusted) and is additionally fenced by the CSP's
+  script-src.
 - MathJax renders **at build time** (rehype) — there is no client-side TeX
   evaluation. Baked output (including `\href` targets) is author-trusted like
   all repo content.

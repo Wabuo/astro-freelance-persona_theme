@@ -20,6 +20,11 @@ export default defineConfig({
   // layered component style regardless of specificity. The layer-order
   // statement in BaseLayout.head (`@layer theme, base, components, utilities;`)
   // keeps vendor layers below the theme.
+  // NOTE: wind4 emits its utilities into a layer literally named `default`
+  // (plus its own `@layer properties, theme, base, default;` statement). The
+  // `utilities` name in our statement matches nothing — `default` is unlisted
+  // and therefore sorts by document order, i.e. above components. Same
+  // outcome, but don't be confused when inspecting the built CSS.
   outputToCssLayers: true,
 
   presets: [

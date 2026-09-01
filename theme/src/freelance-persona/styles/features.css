@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* src/freelance-persona/styles/features.scss */
+/* Pre-migration origin: features.scss (converted in phase 3.1) */
 
 /* ====================================================
    === FREELANCE FEATURE GRID ===
@@ -75,7 +75,7 @@
 .feature-card {
     /* Override defaults if necessary */
     padding: 2rem;
-    /* The base structure is handled by _cards.scss */
+    /* The base structure is handled by _cards.css */
 }
 
 /* Hover effect for the card container */

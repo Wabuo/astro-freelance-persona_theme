@@ -14,7 +14,7 @@ body.home-page {
  * SPDX-License-Identifier: MIT
  */
 
-/* src/styles/_navigation-index.scss */
+/* Pre-migration origin: _navigation-index.scss (converted in phase 3.1) */
 
 /*--------------------------------------------------------------
 # Global Header
@@ -96,7 +96,7 @@ body.home-page {
   list-style: none;
   padding: 0;
   margin: 0;
-  /* Fixed sass calculation spacing */
+  /* Hand-tuned spacing (converted from a preprocessor calculation) */
   width: calc(var(--nav-menu-mobile-width) - 2 * var(--nav-menu-border-padding));
 }
 
@@ -269,7 +269,7 @@ body.home-page {
   display: inline-block;
 }
 
-/* See _theme-dropdown.scss for shared theme menu display/visibility logic */
+/* See _theme-dropdown.css for shared theme menu display/visibility logic */
 
 
 @media (min-width: 992px) {

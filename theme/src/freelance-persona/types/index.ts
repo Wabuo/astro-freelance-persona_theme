@@ -111,6 +111,14 @@ export interface PersonaConfig {
    */
   contact_infos?: ContactInfo[];
 
+  /** Security hardening (see SECURITY.md).
+   *  csp: set to false ONLY to disable the auto Content-Security-Policy
+   *  (not recommended). Extend via cspExtra directive strings. */
+  security?: {
+    csp?: boolean;
+    cspExtra?: string[];
+  };
+
 
   quote: string;
   copyright: string;

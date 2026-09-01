@@ -179,6 +179,195 @@ for (const role of fontRoles) {
     preloadUrls.push(preloadUrl);
   }
 }
+
+// ---------------------------------------------------------------------
+// Inline scripts — declared as constants so their content can be hashed
+// and registered with Astro's CSP (see Astro.csp registration below).
+// Deliberately is:inline + set:html: they must run before first paint
+// (see To_Do.md — a bundled deferred module would cause reveal flash).
+// ---------------------------------------------------------------------
+import { createHash } from "node:crypto";
+
+const safetyTimeoutScript = `
+// SAFETY TIMEOUT PATTERN
+// 1. We start by assuming JS might be loading.
+document.documentElement.classList.add("js-loading");
+document.documentElement.classList.remove("no-js");
+
+// 2. Safety Net: If the notification script doesn't run within 2 seconds
+// (due to blocking, network error, crash), we force show everything.
+setTimeout(function () {
+  document.documentElement.classList.remove("js-loading");
+}, 2000);
+`;
+
+const themeSyncScript = `
+// Restore persisted theme preference by checking the matching radio input.
+// No data-theme attribute needed — Expressive Code and all other styles use
+// the same CSS-native :has() + @media selectors as the rest of the site.
+const t = localStorage.getItem("theme");
+if (t === "light" || t === "dark") {
+  const el = document.getElementById("theme-" + t);
+  if (el) el.checked = true;
+}
+`;
+
+const removePreloaderScript = `
+function removePreloader() {
+  const preloader = document.getElementById("preloader");
+  if (preloader) {
+    preloader.style.opacity = "0";
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 250);
+  }
+}
+// Run on DOMContentLoaded or load (whichever fires first)
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", removePreloader);
+} else {
+  removePreloader();
+}
+window.addEventListener("load", removePreloader);
+
+// Safety timeout
+setTimeout(removePreloader, 500);
+`;
+
+// Animation engine — interpolates the user's scroll/delay config, so its
+// hash is computed per render (identical across pages of one build).
+const animationEngineScript = `
+const userAnimConfig = ${JSON.stringify(themeConfig.visuals?.scroll_animations || {})};
+const animConfig = Object.assign({
+  enabled: true,
+  duration: 500,
+  delay: 0,
+  threshold: 0.1,
+  root_margin: "0px 0px -50px 0px"
+}, userAnimConfig);
+const delaysConfig = ${JSON.stringify(themeConfig.visuals?.delays || {})};
+
+const initScrollAnimations = () => {
+  // Transition from 'loading' to 'ready' state
+  document.documentElement.classList.add("js-ready");
+  document.documentElement.classList.remove("js-loading");
+
+  if (!animConfig.enabled) {
+    document.querySelectorAll("[data-reveal]").forEach((el) => {
+      el.classList.add("revealed");
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    });
+    return;
+  }
+
+  const elements = document.querySelectorAll("[data-reveal]");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: animConfig.threshold,
+      rootMargin: animConfig.root_margin,
+    },
+  );
+
+  elements.forEach((el) => {
+    // Skip elements already revealed during VT swap (instant-reveal)
+    if (el.classList.contains("revealed")) {
+      el.style.transition = "";
+      return;
+    }
+
+    // Apply duration from config if not overridden inline
+    if (!el.style.transitionDuration) {
+      el.style.transitionDuration = animConfig.duration + "ms";
+    }
+
+    // --- DELAY LOGIC ---
+    let delay = 0;
+    const inlineDelay = el.getAttribute("data-reveal-delay");
+
+    if (inlineDelay) {
+      delay = parseInt(inlineDelay, 10);
+    } else {
+      // Check if element is a MAIN heading.
+      // Be stricter: Only H1, H2, or explicit .section-title.
+      // Do NOT count H3-H6 as layout headings (allows 'pills' to be content).
+      const isHeading =
+        /^(H[1-2])$/i.test(el.tagName) ||
+        el.classList.contains("section-title");
+
+      if (isHeading) {
+         delay = delaysConfig.heading || 0;
+      } else {
+         delay = delaysConfig.content || 0;
+      }
+
+      // Fallback to animConfig generic delay if specific ones aren't set
+      if (delay === 0 && animConfig.delay) {
+         delay = animConfig.delay;
+      }
+    }
+
+    if (delay) {
+      el.style.transitionDelay = delay + "ms";
+    }
+
+    // --- STAGGERING SUPPORT (Minimal) ---
+    // Automatically stagger children if this element is a grid container.
+    // We look for common item patterns: .info-item (Contact), .post-entry (Blog).
+    const gridItems = el.querySelectorAll('.info-item, .post-entry');
+    if (gridItems.length > 1) {
+       const staggerTime = delaysConfig.stagger || 150;
+       gridItems.forEach((item, index) => {
+          if (!item.style.transition) {
+             item.style.transition = "opacity " + animConfig.duration + "ms ease-out, transform " + animConfig.duration + "ms ease-out";
+             item.style.transitionDelay = (delay + (index * staggerTime)) + "ms";
+          } else {
+             item.style.transitionDelay = (delay + (index * staggerTime)) + "ms";
+          }
+       });
+    }
+
+    observer.observe(el);
+  });
+};
+
+// Navigation Event Listener
+const runInit = () => {
+  if (!document.documentElement.classList.contains("anim-init")) {
+      initScrollAnimations();
+      document.documentElement.classList.add("anim-init");
+  }
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", runInit);
+} else {
+  runInit();
+}
+`;
+
+// Register script hashes with Astro's CSP (no-op when security.csp is off).
+if (Astro.csp) {
+  for (const script of [
+    safetyTimeoutScript,
+    themeSyncScript,
+    removePreloaderScript,
+    animationEngineScript,
+  ]) {
+    Astro.csp.insertScriptHash(
+      `sha256-${createHash("sha256").update(script).digest("base64")}`,
+    );
+  }
+}
 ---
 
 <!DOCTYPE html>
@@ -622,19 +811,9 @@ for (const role of fontRoles) {
   {appleSrc && <link rel="apple-touch-icon" href={getAssetUrl(appleSrc)} />}
 
   <meta name="generator" content={Astro.generator} />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-  <script is:inline>
-    // SAFETY TIMEOUT PATTERN
-    // 1. We start by assuming JS might be loading.
-    document.documentElement.classList.add("js-loading");
-    document.documentElement.classList.remove("no-js");
-
-    // 2. Safety Net: If the notification script doesn't run within 2 seconds
-    // (due to blocking, network error, crash), we force show everything.
-    setTimeout(function () {
-      document.documentElement.classList.remove("js-loading");
-    }, 2000);
-  </script>
+  <script is:inline set:html={safetyTimeoutScript} />
 
   {
     /* CRITICAL: Fallback for users without JavaScript.
@@ -689,16 +868,7 @@ for (const role of fontRoles) {
       style="position: fixed;"
     />
 
-    <script is:inline>
-      // Restore persisted theme preference by checking the matching radio input.
-      // No data-theme attribute needed — Expressive Code and all other styles use
-      // the same CSS-native :has() + @media selectors as the rest of the site.
-      const t = localStorage.getItem("theme");
-      if (t === "light" || t === "dark") {
-        const el = document.getElementById("theme-" + t);
-        if (el) el.checked = true;
-      }
-    </script>
+    <script is:inline set:html={themeSyncScript} />
 
     <Navigation isHome={navType === "home"} />
 
@@ -710,27 +880,7 @@ for (const role of fontRoles) {
 
     <div id="preloader" data-astro-transition-persist="preloader"></div>
 
-    <script is:inline>
-      function removePreloader() {
-        const preloader = document.getElementById("preloader");
-        if (preloader) {
-          preloader.style.opacity = "0";
-          setTimeout(() => {
-            preloader.style.display = "none";
-          }, 250);
-        }
-      }
-      // Run on DOMContentLoaded or load (whichever fires first)
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", removePreloader);
-      } else {
-        removePreloader();
-      }
-      window.addEventListener("load", removePreloader);
-
-      // Safety timeout
-      setTimeout(removePreloader, 500);
-    </script>
+    <script is:inline set:html={removePreloaderScript} />
 
     {
       /* 
@@ -739,137 +889,6 @@ for (const role of fontRoles) {
         Uses manual JSON injection to avoid Astro bundling issues.
     */
     }
-    <script
-      is:inline
-      set:html={`
-      const userAnimConfig = ${JSON.stringify(themeConfig.visuals?.scroll_animations || {})};
-      const animConfig = Object.assign({
-        enabled: true,
-        duration: 500,
-        delay: 0,
-        threshold: 0.1,
-        root_margin: "0px 0px -50px 0px"
-      }, userAnimConfig);
-      const delaysConfig = ${JSON.stringify(themeConfig.visuals?.delays || {})};
-      
-      const initScrollAnimations = () => {
-        // Transition from 'loading' to 'ready' state
-        document.documentElement.classList.add("js-ready");
-        document.documentElement.classList.remove("js-loading");
-
-        if (!animConfig.enabled) {
-          document.querySelectorAll("[data-reveal]").forEach((el) => {
-            el.classList.add("revealed");
-            el.style.opacity = "1";
-            el.style.transform = "none";
-          });
-          return;
-        }
-
-        const elements = document.querySelectorAll("[data-reveal]");
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("revealed");
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          {
-            threshold: animConfig.threshold,
-            rootMargin: animConfig.root_margin,
-          },
-        );
-
-        elements.forEach((el) => {
-          // Skip elements already revealed during VT swap (instant-reveal)
-          if (el.classList.contains("revealed")) {
-            el.style.transition = "";
-            return;
-          }
-
-          // Apply duration from config if not overridden inline
-          if (!el.style.transitionDuration) {
-            el.style.transitionDuration = animConfig.duration + "ms";
-          }
-
-          // --- DELAY LOGIC ---
-          let delay = 0;
-          const inlineDelay = el.getAttribute("data-reveal-delay");
-          
-          if (inlineDelay) {
-            delay = parseInt(inlineDelay, 10);
-          } else {
-            // Check if element is a MAIN heading.
-            // Be stricter: Only H1, H2, or explicit .section-title.
-            // Do NOT count H3-H6 as layout headings (allows 'pills' to be content).
-            const isHeading = 
-              /^(H[1-2])$/i.test(el.tagName) || 
-              el.classList.contains("section-title");
-              
-            if (isHeading) {
-               delay = delaysConfig.heading || 0;
-            } else {
-               delay = delaysConfig.content || 0;
-               // Staggering: If this is a container with columns (e.g. .row), 
-               // we might want its children to animate? 
-               // For now, minimal approach: If this element ITSELF is part of a list/grid
-               // (identified by being a child of a .row or .flex), maybe add index-based delay?
-               // But 'el' is the one with [data-reveal].
-               // If the user wants staggering, they should put [data-reveal] on the CHILDREN.
-               // Assuming the user's current structure, likely the container has [data-reveal].
-            }
-            
-            // Fallback to animConfig generic delay if specific ones aren't set
-            if (delay === 0 && animConfig.delay) {
-               delay = animConfig.delay;
-            }
-          }
-
-          if (delay) {
-            el.style.transitionDelay = delay + "ms";
-          }
-          
-          // --- STAGGERING SUPPORT (Minimal) ---
-          // Automatically stagger children if this element is a grid container.
-          // We look for common item patterns: .info-item (Contact), .post-entry (Blog).
-          // For direct flex containers (like Contact pills), we check for .info-item directly.
-          const gridItems = el.querySelectorAll('.info-item, .post-entry');
-          if (gridItems.length > 1) {
-             const staggerTime = delaysConfig.stagger || 150;
-             gridItems.forEach((item, index) => {
-                // Base delay + (Index * staggerTime)
-                // We ensure item inherits transition properties if not set
-                if (!item.style.transition) {
-                   item.style.transition = "opacity " + animConfig.duration + "ms ease-out, transform " + animConfig.duration + "ms ease-out";
-                   item.style.transitionDelay = (delay + (index * staggerTime)) + "ms";
-                } else {
-                   // Append delay if existing
-                   item.style.transitionDelay = (delay + (index * staggerTime)) + "ms";
-                }
-             });
-          }
-
-          observer.observe(el);
-        });
-      };
-
-      // C. Navigation Event Listener
-      const runInit = () => {
-        if (!document.documentElement.classList.contains("anim-init")) {
-            initScrollAnimations();
-            document.documentElement.classList.add("anim-init");
-        }
-      };
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", runInit);
-      } else {
-        runInit();
-      }
-    `}
-    ></script>
+    <script is:inline set:html={animationEngineScript}></script>
   </body>
 </html>

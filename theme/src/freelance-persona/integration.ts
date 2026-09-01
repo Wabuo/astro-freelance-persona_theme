@@ -55,6 +55,47 @@ export default function freelancePersona(): AstroIntegration {
 
         const isTestMode = process.env.PLAYWRIGHT_TEST === 'true';
 
+        // --- Content-Security-Policy (default ON) ---
+        // Astro hashes every script it processes; the theme's is:inline
+        // scripts register themselves at render (BaseLayout, Astro.csp).
+        // Opt-out in the theme config: security: { csp: false }.
+        const themeConfigPath = process.env.THEME_CONFIG_PATH
+          ? path.resolve(process.env.THEME_CONFIG_PATH)
+          : path.join(projectRoot, 'src', 'freelance-persona.config.ts');
+        let themeConfigText = '';
+        try {
+          themeConfigText = fs.readFileSync(themeConfigPath, 'utf-8');
+        } catch {
+          /* config file optional for CSP defaults */
+        }
+        const cspDisabled = /security\s*:\s*\{[^}]*csp\s*:\s*false/.test(
+          themeConfigText,
+        );
+        const cspExtraMatch = themeConfigText.match(
+          /cspExtra\s*:\s*\[([^\]]*)\]/,
+        );
+        const cspExtra = cspExtraMatch
+          ? cspExtraMatch[1]
+              .split(',')
+              .map((s) => s.trim().replace(/^['"`]|['"`]$/g, ''))
+              .filter(Boolean)
+          : [];
+
+        const cspDirectives = [
+          "default-src 'self'",
+          "img-src 'self' data:",
+          "font-src 'self'",
+          "connect-src 'self'",
+          'object-src \'none\'',
+          "base-uri 'self'",
+          // Contact-form providers are all https; blocks injected-form exfiltration
+          "form-action 'self' https:",
+          // Content embeds (e.g. pasted video iframes) stay https-only
+          "frame-src https:",
+          'upgrade-insecure-requests',
+          ...cspExtra,
+        ];
+
         updateConfig({
           markdown: {
             processor: unified({
@@ -153,6 +194,18 @@ export default function freelancePersona(): AstroIntegration {
               noExternal: ['astro-freelance-persona_theme', '@iconify-json/bi', '@iconify-json/academicons', 'astro-icon']
             }
           },
+          security: cspDisabled
+            ? undefined
+            : {
+                csp: {
+                  algorithm: 'SHA-256' as const,
+                  directives: cspDirectives,
+                  // Styles: Astro auto-hashes its processed inline styles;
+                  // 'unsafe-inline' covers the remaining is:inline style blocks
+                  // and inline style attributes (low-severity, pervasive).
+                  styleDirective: { resources: ["'self'", "'unsafe-inline'"] },
+                },
+              },
         });
       },
     },

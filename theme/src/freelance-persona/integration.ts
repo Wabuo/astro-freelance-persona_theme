@@ -85,7 +85,9 @@ export default function freelancePersona(): AstroIntegration {
           "default-src 'self'",
           "img-src 'self' data:",
           "font-src 'self'",
-          "connect-src 'self'",
+          // The contact handler submits via fetch to the configured
+          // provider (user-configurable https endpoint)
+          "connect-src 'self' https:",
           'object-src \'none\'',
           "base-uri 'self'",
           // Contact-form providers are all https; blocks injected-form exfiltration

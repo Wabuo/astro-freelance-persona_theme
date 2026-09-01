@@ -14,7 +14,13 @@ basically check if there is a decent modern to do it and then use it.
 - [ ] **README "YourGitHubName" placeholder**: Replace with actual org name once GitHub organisation is created
 - [ ] **`index.js` vs `package.json` exports reconciliation**: The root `index.js` re-exports components but `package.json` `exports` field takes precedence — reconcile or remove `index.js`
 - [ ] **`tsconfig.json` starter alias**: Currently points to `../src/freelance-persona/*` (monorepo-only). Update to point to npm package once published, with local dev fallback
-- [ ] **Icon migration (astro-icon)**: Infrastructure is ready (`astro-icon`, `@iconify-json/*`, `transformIcon()`, `<Icon>` imports in 10 files) but never activated. Replace all `<i class="bi bi-...">` with `<Icon name="bi:..." />`, remove Bootstrap Icons font import from the theme styles. Estimated ~30 locations.
+- [x] **Icon migration (astro-icon)**: DONE (post-migration audit found zero
+  `<i class="bi">` remaining — everything renders via `transformIcon()` +
+  `<Icon>`, tree-shaken into per-page SVG sprites; the Bootstrap Icons font
+  is gone). Custom icons: drop SVGs into `src/icons/` and use
+  `<Icon name="myicon">` (astro-icon local collection). Revisit
+  `@unocss/preset-icons` only if icons-in-markdown becomes a real need
+  (mono-color mask trade-off + safelist design).
 - [ ] **Unsplash license**: Consider adding `"Unsplash"` to `LICENSE_URLS` in `licenseUtils.ts` if user demand warrants it
 
 ## Deferred from UnoCSS Migration 3.4-fallout review (Aug 2026)

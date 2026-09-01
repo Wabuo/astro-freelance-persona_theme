@@ -444,3 +444,10 @@
   overflow-y: hidden;
   max-width: 100%;
 }
+
+/* Figure-wrapper alignment: paragraphs inside .text-center/.text-end
+   wrappers (used by post content for figure grouping) follow the
+   wrapper's alignment instead of the post-wide justified text. */
+.text-center p, .text-end p, .text-start p {
+  text-align: inherit !important;
+}

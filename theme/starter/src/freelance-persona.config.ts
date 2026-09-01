@@ -198,6 +198,12 @@ export const themeConfig: PersonaConfig = {
    * Contact Form Provider Configuration
    * Options: "formspark", "web3forms", "ntfy", "netlify", "mailto", "custom"
    */
+  // Content-Security-Policy is enabled by default (see SECURITY.md).
+  // security: {
+  //   csp: true,          // set false to disable (not recommended)
+  //   cspExtra: [],       // extra CSP directives if you add your own scripts
+  // },
+
   contact_form: {
     provider: "formspark",
     access_key: "your-access-key-here",

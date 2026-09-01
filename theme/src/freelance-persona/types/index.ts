@@ -116,7 +116,7 @@ export interface PersonaConfig {
   copyright: string;
   credits: string | string[];
 
-  // Color Configuration (Overrides base.scss)
+  // Color Configuration (overrides the base.css token table)
   colors?: {
     transparency?: string; // --transparency (e.g. "25%")
 
@@ -138,7 +138,7 @@ export interface PersonaConfig {
     navigation?: string;
     monospace?: string;
 
-    // Font Sizes (Overrides base.scss)
+    // Font Sizes (overrides the base.css token table)
     sizes?: {
       normal?: string; // --normal-font-size
       footer?: string; // --footer-font-size

@@ -72,7 +72,7 @@ export default function freelancePersona(): AstroIntegration {
               // 1. useDarkModeMediaQuery handles OS preference (prefers-color-scheme)
               // 2. themeCssSelector adds a manual override for :has(.theme-state-dark)
               // 3. The edge case "OS dark + user forces light" is handled in
-              //    _code-blocks.scss (resets EC tokens/vars back to light).
+              //    _code-blocks.css (resets EC tokens/vars back to light).
               //
               // NOTE: EC's themeCssSelector does NOT support @media at-rules —
               // it only accepts plain CSS selectors.

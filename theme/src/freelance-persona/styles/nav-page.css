@@ -255,7 +255,7 @@ body.inner-page {
     list-style: none;
     padding: 0;
     margin: 0;
-    /* Fixed sass calculation spacing */
+    /* Hand-tuned spacing (converted from a preprocessor calculation) */
     width: calc(var(--nav-menu-mobile-width) - 2 * var(--nav-menu-border-padding));
   }
 
@@ -330,7 +330,7 @@ body.inner-page {
     display: block;
   }
 
-  /* Handled by _theme-dropdown.scss now */
+  /* Handled by _theme-dropdown.css */
 
 
 }

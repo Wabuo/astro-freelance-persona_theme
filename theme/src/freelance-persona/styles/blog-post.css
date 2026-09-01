@@ -32,14 +32,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  /* Import attribution styles */
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 
     /* Mute brightness in dark mode to avoid glare */
     @media (prefers-color-scheme: dark) {

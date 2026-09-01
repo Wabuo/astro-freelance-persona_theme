@@ -277,9 +277,13 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 ### 🧱 Cascade Layers (post-3.5 architecture)
 
 - Theme CSS lives in `@layer components`; uno (presetWind4) ships its own
-  `theme`/`base` layers + reset, and utilities are UNLAYERED → utilities
-  always beat layered rules regardless of specificity. To beat a utility,
-  change the markup's utility, not a layered rule.
+  `theme`/`base` layers + reset, and utilities are UNLAYERED-OR-EQUIVALENT →
+  utilities always beat layered rules regardless of specificity. To beat a
+  utility, change the markup's utility, not a layered rule.
+  Naming gotcha: wind4 emits utilities into a layer named `default` (not
+  `utilities`); `default` is unlisted in the order statement and sorts by
+  document order, i.e. above components — correct outcome, surprising name
+  when inspecting built CSS.
 - **`!important` inverts layer priority**: for important declarations the
   EARLIER-declared layer wins. This bit us when `!important` Bootstrap
   utilities fought layered theme rules (hero mobile alignment) — the fix

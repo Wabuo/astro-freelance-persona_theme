@@ -834,10 +834,9 @@ for (const role of fontRoles) {
           
           // --- STAGGERING SUPPORT (Minimal) ---
           // Automatically stagger children if this element is a grid container.
-          // We look for common item patterns: .info-item (Contact), .post-entry (Blog), or columns.
-          // Note: .row > col handles standard grids where valid columns are nested.
+          // We look for common item patterns: .info-item (Contact), .post-entry (Blog).
           // For direct flex containers (like Contact pills), we check for .info-item directly.
-          const gridItems = el.querySelectorAll('.info-item, .post-entry, .row > [class*="col-"]');
+          const gridItems = el.querySelectorAll('.info-item, .post-entry');
           if (gridItems.length > 1) {
              const staggerTime = delaysConfig.stagger || 150;
              gridItems.forEach((item, index) => {

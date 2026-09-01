@@ -46,6 +46,18 @@ basically check if there is a decent modern to do it and then use it.
   emission; (b) once CSS `if()` ships in Firefox/Safari (Chrome 137+ has it),
   replace the copy-button/compensation rules with `if(style(--theme: …))`
   querying the global theme state (see `!FixMe!` in `_code-blocks.css`).
+- [ ] **Author widget (optional feature)**: the old Zola-era `.blog-author-widget`
+  CSS was deleted in the post-migration audit (nothing rendered it; the About
+  section already covers author identity). If a sidebar author card is ever
+  wanted, build it as a proper `AuthorWidget.astro` component (config-driven,
+  utilities + component CSS) — do not resurrect the orphaned stylesheet.
+- [ ] **BaseLayout scroll-animation engine is an inline string (deliberate)**:
+  the reveal/stagger engine is injected via `set:html` so it runs BEFORE first
+  paint. A "modern" `<script>` module would be deferred and cause a
+  flash-of-visible-then-hidden reveal (CLS/Lighthouse regression). The dead
+  `utils/animations.ts` copy was deleted in the post-migration audit. Do not
+  "modernize" this into a regression without solving the pre-paint timing
+  problem first.
 - [ ] **lightningcss: bump when anchored() support releases**: `container-type:
   anchored` / `@container anchored(fallback: …)` (anchor positioning L2 —
   used by the theme dropdown roll-up) fails to parse in lightningcss

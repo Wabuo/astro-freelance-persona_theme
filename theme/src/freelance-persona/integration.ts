@@ -145,18 +145,12 @@ export default function freelancePersona(): AstroIntegration {
             },
             build: {
               // lightningcss (<1.34) cannot parse the anchor-positioning L2
-              // container query (@container anchored(fallback: …)) used by
-              // _code-blocks/nav-home — skip CSS minification until it ships.
+              // container query in nav-home.css (@container anchored(...)) —
+              // skip CSS minification until it ships. Tracked in To_Do.md.
               cssMinify: false,
             },
             ssr: {
               noExternal: ['astro-freelance-persona_theme', '@iconify-json/bi', '@iconify-json/academicons', 'astro-icon']
-            },
-            build: {
-              // lightningcss (<1.34) cannot parse the anchor-positioning L2
-              // container query in nav-home.css (@container anchored(...)) —
-              // skip CSS minification until it ships. Tracked in To_Do.md.
-              cssMinify: false,
             }
           },
         });

@@ -1,0 +1,71 @@
+/* SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors */
+/* SPDX-License-Identifier: MIT */
+
+/* ============================================================
+   Shared button skin — one pill, modifiers for variation.
+
+   Consumers: contact send button, footer social pills, 403/404
+   (+ coming-soon) CTA links. Sizing/layout stays with the
+   consumer (utilities or local css); this file owns only the
+   skin so the visuals exist exactly once.
+
+   Transition NOTE: specific properties only, never `all` —
+   `all` animates text-decoration (the "blinking underline")
+   and whatever else the cascade throws at the element.
+   ============================================================ */
+
+.btn {
+  display: inline-block;
+  font-family: var(--heading-font);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: var(--contrast-color);
+  background: var(--accent-color);
+  border: 0;
+  border-radius: 3.125rem; /* 50px pill */
+  padding: 0.625rem 1.875rem; /* 10px 30px */
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-hover-time),
+    color var(--transition-hover-time),
+    transform var(--transition-hover-time),
+    box-shadow var(--transition-hover-time);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  color: var(--contrast-color);
+  background: color-mix(
+    in srgb,
+    var(--accent-color),
+    transparent var(--transition-hover-transparency)
+  );
+  text-decoration: none;
+}
+
+/* Serious/danger variant (403 "Retreat to Safety") — theme-aware via
+   light-dark(): stately in light mode, muted surface in dark, accent hover */
+.btn-dark {
+  background: light-dark(var(--heading-color), var(--surface-color));
+  color: light-dark(var(--contrast-color), var(--default-color));
+}
+
+.btn-dark:hover,
+.btn-dark:focus-visible {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+/* Circular icon variant (footer social pills) */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem; /* 36px */
+  height: 2.25rem;
+  padding: 0;
+  border-radius: 50%;
+  line-height: 1;
+}

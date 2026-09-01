@@ -34,7 +34,7 @@ const description = "You do not have permission to view this page.";
               alt="Mascot stopping you with a sword"
               width={350}
               height={350}
-              class="img-fluid lancy-403"
+              class="lancy-403 max-w-full h-auto mx-auto"
             />
           ) : (
             <div
@@ -54,7 +54,7 @@ const description = "You do not have permission to view this page.";
         Please turn back before things get awkward.
       </p>
 
-      <a href="/" class="btn-get-started"> Retreat to Safety </a>
+      <a href="/" class="btn btn-dark mt-2 md:mt-4"> Retreat to Safety </a>
     </div>
   </section>
 </BaseLayout>
@@ -90,50 +90,6 @@ const description = "You do not have permission to view this page.";
       filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
     }
 
-    .btn-get-started {
-      margin-top: 1rem;
-      font-family: var(--heading-font);
-      font-weight: 600;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      display: inline-block;
-      padding: 0.75rem 2rem;
-      border-radius: 50px;
-      transition: 0.5s;
-      color: #fff;
-      background: var(--heading-color); /*/ Dark/Serious button */
-
-      &:hover {
-        background: var(--accent-color);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      }
-
-      /* Dark Mode: Muted button preserving the serious aesthetic */
-      @media (prefers-color-scheme: dark) {
-        :root:not(:has(.theme-state-light:checked)) & {
-          background: var(--surface-color);
-          color: var(--default-color);
-
-          &:hover {
-            background: var(--accent-color);
-            color: #fff;
-          }
-        }
-      }
-      @media (prefers-color-scheme: light) {
-        :root:has(.theme-state-dark:checked) & {
-          background: var(--surface-color);
-          color: var(--default-color);
-
-          &:hover {
-            background: var(--accent-color);
-            color: #fff;
-          }
-        }
-      }
-    }
-
     /* Mobile Compact Layout */
     @media (max-width: 768px) {
       min-height: 85vh;
@@ -155,10 +111,6 @@ const description = "You do not have permission to view this page.";
       .lancy-403 {
         width: 180px;
         margin-bottom: 1rem;
-      }
-
-      .btn-get-started {
-        margin-top: 0.5rem;
       }
     }
   }

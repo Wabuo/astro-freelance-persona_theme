@@ -55,7 +55,7 @@ const description = "We are working hard to bring you this page.";
         Check back soon for updates!
       </p>
 
-      <a href={resolveLink("/")} class="btn-get-started"> Back to Home </a>
+      <a href={resolveLink("/")} class="btn mt-2 md:mt-4"> Back to Home </a>
     </div>
   </section>
 </BaseLayout>
@@ -94,25 +94,6 @@ const description = "We are working hard to bring you this page.";
       animation: pulse 3s infinite ease-in-out;
     }
 
-    .btn-get-started {
-      margin-top: 2rem;
-      font-family: var(--heading-font);
-      font-weight: 600;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      display: inline-block;
-      padding: 0.75rem 2rem;
-      border-radius: 50px;
-      transition: 0.5s;
-      color: #fff;
-      background: var(--accent-color);
-
-      &:hover {
-        background: color-mix(in srgb, var(--accent-color), black 10%);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      }
-    }
 
     /* Mobile Compact Layout */
     @media (max-width: 768px) {
@@ -135,10 +116,6 @@ const description = "We are working hard to bring you this page.";
       .lancy-working {
         width: 180px;
         margin-bottom: 1rem;
-      }
-
-      .btn-get-started {
-        margin-top: 0.5rem;
       }
     }
   }

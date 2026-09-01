@@ -41,25 +41,9 @@
   margin: 0 0 var(--spacing-lg) 0;
 }
 
+/* Skin comes from .btn/.btn-icon (styles/_buttons.css) */
 .footer .social-links a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--accent-color);
-  color: var(--contrast-color);
-  line-height: 1;
   margin: 0 var(--spacing-xxs);
-  border-radius: 50%;
-  text-align: center;
-  width: 2.25rem;
-  /* 36px */
-  height: 2.25rem;
-  /* 36px */
-  transition: 0.3s;
-}
-
-.footer .social-links a:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent var(--transition-hover-transparency));
 }
 
 .footer .copyright {

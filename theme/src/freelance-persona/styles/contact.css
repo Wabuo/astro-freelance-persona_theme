@@ -17,6 +17,9 @@
 
 .contact .info-item .contact-icon-pill {
   color: var(--accent-color);
+  transition:
+    background-color var(--transition-hover-time),
+    color var(--transition-hover-time);
   background: color-mix(in srgb, var(--accent-color), transparent 92%);
   width: 2.75rem;
   /* 44px */

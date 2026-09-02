@@ -870,9 +870,11 @@ if (Astro.csp) {
 
     <script is:inline set:html={themeSyncScript} />
 
+    <a class="skip-link" href="#main">Skip to content</a>
+
     <Navigation isHome={navType === "home"} />
 
-    <main class="main">
+    <main class="main" id="main">
       <slot />
     </main>
 

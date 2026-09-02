@@ -265,37 +265,18 @@ const { isHome = false } = Astro.props;
     color: var(--nav-dropdown-hover-color);
   }
 
-  /* Universal hover/focus state for dropdown items */
+  /* Universal hover/focus state for dropdown items.
+     Wash must be NEUTRAL (default-color), never accent-tinted: the hover
+     text is accent-colored, and an accent wash behind accent text reduces
+     its contrast (the share menu's neutral wash is the reference). */
   :global(.theme-dropdown-menu .dropdown-item:hover),
   :global(.theme-dropdown-menu .dropdown-item:focus-within) {
     color: var(--nav-dropdown-hover-color) !important;
     background-color: color-mix(
       in srgb,
-      var(--nav-dropdown-hover-color),
-      transparent 92%
+      var(--default-color),
+      transparent 90%
     );
-  }
-
-  /* Checked item hover = DARKEN, not accent-highlight: the checked item's
-     text is already accent-colored, so an accent wash on top kills its
-     contrast. A neutral black-based darken makes the accent text pop more
-     (black-based = no-op on dark menus, where nothing needs fixing). */
-  :global(
-    :root:has(.theme-state-os:checked)
-      .theme-dropdown-menu
-      .theme-label-os:hover
-  ),
-  :global(
-    :root:has(.theme-state-light:checked)
-      .theme-dropdown-menu
-      .theme-label-light:hover
-  ),
-  :global(
-    :root:has(.theme-state-dark:checked)
-      .theme-dropdown-menu
-      .theme-label-dark:hover
-  ) {
-    background-color: color-mix(in srgb, black 8%, transparent) !important;
   }
 }
 </style>

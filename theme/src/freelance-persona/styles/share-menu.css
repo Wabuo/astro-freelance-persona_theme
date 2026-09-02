@@ -82,24 +82,20 @@
     flex-direction: column;
 }
 
-/* Trailing copy affordance on the Get-link row — anchored right,
-   mirrors the email copy button's icon-swap-on-success pattern */
-.share-menu-item .icon-copy-affordance {
-    margin-left: auto;
-    font-size: 1rem;
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
-}
-
-.share-menu-item:hover .icon-copy-affordance,
-.share-menu-item:focus-visible .icon-copy-affordance {
-    opacity: 1;
-}
-
 .share-menu-item {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    /* Trailing copy affordance anchors to the row's right edge */
+    .icon-trailing-copy {
+        margin-left: auto;
+        font-size: 1rem;
+        opacity: 0.6;
+        transition: opacity 0.15s ease;
+    }
+    &:hover .icon-trailing-copy {
+        opacity: 1;
+    }
     padding: 0.6rem 1rem;
     color: var(--default-color);
     /* Match reference text color */

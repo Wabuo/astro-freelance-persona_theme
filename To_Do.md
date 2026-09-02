@@ -72,6 +72,17 @@ basically check if there is a decent modern to do it and then use it.
   as of 1.33.0. Until it ships: `build.cssMinify: false` in
   integration.ts + root package.json override pinning ^1.33.0. When
   released: `bun update lightningcss`, remove both, done.
+- [ ] **Interest invokers standardization watch**: the hint tooltips
+  (ui/Tooltip.astro) use popover="hint" (WHATWG-standardized, Chromium 151+
+  / Firefox 153+) triggered via interest invokers (`interestfor`) — still
+  Chromium-only (experimental, not standard-track). When Firefox/Safari
+  ship it, hover/long-press tooltips work everywhere with zero changes.
+  Optional meanwhile: a tiny delegated focus/hover → showPopover() script
+  for non-Chromium (needs the usual inline-script hash registration).
+- [ ] **Vendored axe-core CI run**: the meta CSP correctly blocks CDN
+  script injection, so axe scans must vendor axe.min.js into the testing
+  setup to run in CI (manual audit done 2026-09-02 — see
+  docs/screen-reader-checklist.md).
 - [ ] **Theme dropdown chevron flip (optional JS)**: when the home sidebar
   dropdown auto-flips above the toggle (anchor positioning), the toggle's
   chevron stays pointing down. Pure CSS cannot fix this — the flip state is

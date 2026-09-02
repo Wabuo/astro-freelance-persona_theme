@@ -15,6 +15,11 @@
     position: absolute;
     visibility: hidden;
     opacity: 0;
+    /* Frosted panel: the menu floats over the busy hero image — blur the
+       background behind the whole panel so rows stay readable (the
+       per-row blur variant read as a glitchy patch). */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     left: 0.875rem;
     top: 130%;
     transition: 0.3s;
@@ -121,13 +126,8 @@
 
     :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu .dropdown-item:hover,
     :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
-        /* The dropdown floats glassy over the busy hero image — light or
-           dark washes both fail there. Blur the background behind the
-           hovered row (same glass DNA as the header/breadcrumbs) + a dark
-           tint, so the accent text pops regardless of what's behind. */
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        background-color: color-mix(in srgb, black, transparent 75%);
+        /* Subtle darken on top of the frosted panel */
+        background-color: color-mix(in srgb, black, transparent 88%);
     }
 }
 
@@ -138,9 +138,7 @@
 
     :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:hover,
     :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
-        /* Same blur + tint for the forced-dark branch */
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        background-color: color-mix(in srgb, black, transparent 75%);
+        /* Subtle darken on top of the frosted panel */
+        background-color: color-mix(in srgb, black, transparent 88%);
     }
 }

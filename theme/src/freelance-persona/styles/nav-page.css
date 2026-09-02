@@ -187,7 +187,6 @@ body.inner-page {
     border-radius: 0.25rem;
     /* 4px */
     z-index: 99;
-    box-shadow: 0 0 1.875rem color-mix(in srgb, var(--default-color), transparent 85%);
     /* 30px */
   }
 

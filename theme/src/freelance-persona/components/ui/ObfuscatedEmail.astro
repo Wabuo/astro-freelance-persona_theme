@@ -52,11 +52,16 @@ const encodedEmail = Buffer.from(email).toString('base64');
     font-family: var(--font-mono, monospace);
     font-size: 0.9em;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition:
+      color 0.2s ease,
+      opacity 0.2s ease;
   }
-  
-  .obfuscated-email-wrapper:hover .email-copy-btn {
-    color: color-mix(in srgb, var(--accent-color), transparent 25%);
+
+  /* Hover pop: full-strength default color — the alpha wash read as
+     "nothing happens". Focus-visible gets the same treatment. */
+  .obfuscated-email-wrapper:hover .email-copy-btn,
+  .email-copy-btn:focus-visible {
+    color: var(--default-color);
   }
   
   .email-copy-btn.copied {

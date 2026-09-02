@@ -193,6 +193,17 @@ body.inner-page {
     /* 30px */
   }
 
+  /* Inner topnav dropdown: more opaque than the shared baseline — at 65%
+     opacity the strong heading colors of the page content bled through
+     the frost. Same 5%-tint at ~90% opacity. */
+  .header.is-inner .navmenu .dropdown ul {
+    background: color-mix(
+      in srgb,
+      color-mix(in srgb, var(--background-color), var(--default-color) 5%),
+      transparent 10%
+    );
+  }
+
   .navmenu .dropdown ul li {
     min-width: 12.5rem;
     /* 200px */

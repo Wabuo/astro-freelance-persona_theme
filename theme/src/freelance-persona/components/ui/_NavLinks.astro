@@ -116,8 +116,9 @@ const getLink = (id: string) => {
         <li>
           <label
             for="theme-os"
+            interestfor={`fp-tip-${isMobile ? "m" : "d"}-theme-os`}
+            style={`anchor-name: --fp-tip-${isMobile ? "m" : "d"}-theme-os;`}
             class="theme-toggle-label dropdown-item theme-label-os"
-            interestfor={!isMobile ? "fp-tip-theme-os" : undefined}
           >
             <Icon name="bi:circle-half" class="navicon" /><span class="theme-name"
               >Auto</span
@@ -131,8 +132,9 @@ const getLink = (id: string) => {
         <li>
           <label
             for="theme-light"
+            interestfor={`fp-tip-${isMobile ? "m" : "d"}-theme-light`}
+            style={`anchor-name: --fp-tip-${isMobile ? "m" : "d"}-theme-light;`}
             class="theme-toggle-label dropdown-item theme-label-light"
-            interestfor={!isMobile ? "fp-tip-theme-light" : undefined}
           >
             <Icon name="bi:sun" class="navicon" /><span class="theme-name"
               >Light</span
@@ -146,8 +148,9 @@ const getLink = (id: string) => {
         <li>
           <label
             for="theme-dark"
+            interestfor={`fp-tip-${isMobile ? "m" : "d"}-theme-dark`}
+            style={`anchor-name: --fp-tip-${isMobile ? "m" : "d"}-theme-dark;`}
             class="theme-toggle-label dropdown-item theme-label-dark"
-            interestfor={!isMobile ? "fp-tip-theme-dark" : undefined}
           >
             <Icon name="bi:moon" class="navicon" /><span class="theme-name"
               >Dark</span
@@ -159,14 +162,9 @@ const getLink = (id: string) => {
           </label>
         </li>
       </ul>
+      <Tooltip id={`${isMobile ? "m" : "d"}-theme-os`} text="Matches your device's light or dark setting" />
+      <Tooltip id={`${isMobile ? "m" : "d"}-theme-light`} text="Always uses the light theme" />
+      <Tooltip id={`${isMobile ? "m" : "d"}-theme-dark`} text="Always uses the dark theme" />
     </li>
   </ul>
-  {!isMobile && (
-    <Tooltip
-      targetId="fp-tip-theme-os"
-      tip="Matches your device's light or dark setting"
-    />
-    <Tooltip targetId="fp-tip-theme-light" tip="Always uses the light theme" />
-    <Tooltip targetId="fp-tip-theme-dark" tip="Always uses the dark theme" />
-  )}
 </nav>

@@ -299,13 +299,13 @@ const sectionStyle = `
                       />
                       <label 
                         class="checkbox-label" 
-                        style="font-size: 0.9em; line-height: 1.4;"
-                        for={checkbox.id}
-                        interestfor={checkbox.tip ? `fp-tip-${checkbox.id}` : undefined}
+                        style={`font-size: 0.9em; line-height: 1.4;${checkbox.tooltip ? ` anchor-name: --fp-tip-cb-${checkbox.id};` : ''}`}
+                        for={checkbox.id} 
+                        interestfor={checkbox.tooltip ? `fp-tip-cb-${checkbox.id}` : undefined}
                         set:html={parseInline(checkbox.label)} 
                       />
-                      {checkbox.tip && (
-                        <Tooltip targetId={`fp-tip-${checkbox.id}`} tip={checkbox.tip} />
+                      {checkbox.tooltip && (
+                        <Tooltip id={`cb-${checkbox.id}`} text={checkbox.tooltip} />
                       )}
                     </div>
                   </div>

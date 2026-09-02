@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Icon } from "astro-icon/components";
+import Tooltip from "@freelance-persona/components/ui/Tooltip.astro";
 
 interface Props {
   email: string;
@@ -19,7 +20,12 @@ const obfuscatedStr = email.replace(/@/g, '[at]').replace(/\./g, '[dot]');
 const encodedEmail = Buffer.from(email).toString('base64');
 ---
 
-<div class="obfuscated-email-wrapper" data-e={encodedEmail}>
+<div
+  class="obfuscated-email-wrapper"
+  data-e={encodedEmail}
+  interestfor="fp-tip-email"
+  style="anchor-name: --fp-tip-email;"
+>
   <noscript>
     <span class="email-text">{obfuscatedStr}</span>
   </noscript>
@@ -31,6 +37,7 @@ const encodedEmail = Buffer.from(email).toString('base64');
     </span>
   </button>
 </div>
+<Tooltip id="email" text="Copy email address" />
 
 <style>
 @layer components {

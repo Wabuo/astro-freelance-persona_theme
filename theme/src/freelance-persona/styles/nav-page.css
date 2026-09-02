@@ -52,10 +52,9 @@ body.inner-page {
     left: 0;
     right: 0;
     width: 100%;
-    backdrop-filter: blur(12px);
-    /* Glass effect */
-    /* -webkit-backdrop-filter: blur(12px); */
-    /* Safari support */
+    /* Glass frost moved to ::before below — keeping backdrop-filter on the
+       element itself would isolate the dropdown's backdrop root (its blur
+       went inert over the page). */
     border-bottom: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
     /* Subtle separation */
   }
@@ -65,6 +64,11 @@ body.inner-page {
     position: absolute;
     inset: 0;
     background: var(--header-background-color);
+    /* The frost lives here (not on .desktop-nav) so the header element
+       never becomes a backdrop root — descendants (the theme dropdown)
+       keep working backdrop-filters. */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     z-index: -1;
   }
 
@@ -175,8 +179,6 @@ body.inner-page {
     margin: 0;
     padding: 0.625rem 0;
     /* 10px 0 */
-    /* Glass unified with the sidebar dropdown (defined in
-       _theme-dropdown.css — tinted --background-color + hairline) */
     display: block;
     position: absolute;
     visibility: hidden;

@@ -121,7 +121,9 @@
 
     :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu .dropdown-item:hover,
     :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
-        background-color: color-mix(in srgb, var(--default-color), transparent 90%);
+        /* Darken the row — a light wash here would REDUCE the contrast of
+           the accent-colored checked item (user-verified dark-mode issue) */
+        background-color: color-mix(in srgb, black, transparent 88%);
     }
 }
 
@@ -132,6 +134,7 @@
 
     :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:hover,
     :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
-        background-color: color-mix(in srgb, var(--default-color), transparent 90%);
+        /* Same darken treatment for the forced-dark branch */
+        background-color: color-mix(in srgb, black, transparent 88%);
     }
 }

@@ -266,16 +266,17 @@ const { isHome = false } = Astro.props;
   }
 
   /* Universal hover/focus state for dropdown items.
-     Wash must be NEUTRAL (default-color), never accent-tinted: the hover
-     text is accent-colored, and an accent wash behind accent text reduces
-     its contrast (the share menu's neutral wash is the reference). */
+     Light mode: subtle accent wash reads fine on the white dropdown
+     (user-verified). DARK mode is compensated in _theme-dropdown.css —
+     it darkens the row instead (a light wash here would reduce the
+     contrast of the accent-colored item). */
   :global(.theme-dropdown-menu .dropdown-item:hover),
   :global(.theme-dropdown-menu .dropdown-item:focus-within) {
     color: var(--nav-dropdown-hover-color) !important;
     background-color: color-mix(
       in srgb,
-      var(--default-color),
-      transparent 90%
+      var(--nav-dropdown-hover-color),
+      transparent 92%
     );
   }
 }

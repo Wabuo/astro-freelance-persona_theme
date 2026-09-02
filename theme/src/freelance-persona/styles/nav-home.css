@@ -290,7 +290,9 @@ body.home-page {
   /* Slightly tweaked to compensate for optical illusions 92% -> 90% */
   .header:not(.is-inner) #navmenu {
     /* --nav-pill-menu-bg: var(--nav-pill-bg); */
-    --nav-pill-menu-bg: color-mix(in srgb, var(--default-color), transparent 90%);
+    /* Topnav glassmorphism color — same look as the header itself.
+       (The translucent 10% film was unreadable over the hero image.) */
+    --nav-pill-menu-bg: var(--header-background-color);
   }
 
   .header:not(.is-inner) #navmenu .theme-toggle-container .theme-dropdown-menu {

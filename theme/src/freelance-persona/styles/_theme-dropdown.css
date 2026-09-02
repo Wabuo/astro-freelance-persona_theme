@@ -121,14 +121,6 @@
 @media (prefers-color-scheme: dark) {
     :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu {
         box-shadow: none !important;
-        /* Darker panel: the translucent pill bg over the busy hero image
-           hurt readability — a near-opaque dark surface + the panel blur
-           fixes it (eye-test round 3) */
-        background-color: color-mix(
-          in srgb,
-          var(--surface-color),
-          transparent 30%
-        ) !important;
     }
 
     :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu .dropdown-item:hover,
@@ -141,12 +133,6 @@
 @media (prefers-color-scheme: light) {
     :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu {
         box-shadow: none !important;
-        /* Same darker panel for the forced-dark branch */
-        background-color: color-mix(
-          in srgb,
-          var(--surface-color),
-          transparent 30%
-        ) !important;
     }
 
     :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:hover,

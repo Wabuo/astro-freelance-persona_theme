@@ -17,7 +17,11 @@
     opacity: 0;
     /* Frosted panel: the menu floats over the busy hero image — blur the
        background behind the whole panel so rows stay readable (the
-       per-row blur variant read as a glitchy patch). */
+       per-row blur variant read as a glitchy patch).
+       Edge: the glass sits on the page color, so define where it starts
+       and stops — the same accent hairline the topnav uses as its bottom
+       border (user-requested experiment). */
+    border: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     left: 0.875rem;

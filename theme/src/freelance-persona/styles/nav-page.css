@@ -175,7 +175,8 @@ body.inner-page {
     margin: 0;
     padding: 0.625rem 0;
     /* 10px 0 */
-    background: var(--nav-dropdown-background-color);
+    /* Glass unified with the sidebar dropdown (defined in
+       _theme-dropdown.css — tinted --background-color + hairline) */
     display: block;
     position: absolute;
     visibility: hidden;

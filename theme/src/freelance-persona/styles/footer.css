@@ -49,7 +49,24 @@
 .footer .copyright {
   font-size: var(--footer-font-size);
   padding-top: var(--spacing-md);
-  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  position: relative;
+}
+
+/* Divider line painted as a gradient so the outer 10% fades to nothing */
+.footer .copyright::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--default-color), transparent 90%) 10%,
+    color-mix(in srgb, var(--default-color), transparent 90%) 90%,
+    transparent
+  );
 }
 
 .footer .copyright p {

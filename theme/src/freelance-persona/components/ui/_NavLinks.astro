@@ -11,6 +11,7 @@ import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import { resolveLink } from "@freelance-persona/utils/linkUtils";
 import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
+import Tooltip from "@freelance-persona/components/ui/Tooltip.astro";
 
 interface Props {
   isHome?: boolean;
@@ -116,6 +117,7 @@ const getLink = (id: string) => {
           <label
             for="theme-os"
             class="theme-toggle-label dropdown-item theme-label-os"
+            interestfor={!isMobile ? "fp-tip-theme-os" : undefined}
           >
             <Icon name="bi:circle-half" class="navicon" /><span class="theme-name"
               >Auto</span
@@ -130,6 +132,7 @@ const getLink = (id: string) => {
           <label
             for="theme-light"
             class="theme-toggle-label dropdown-item theme-label-light"
+            interestfor={!isMobile ? "fp-tip-theme-light" : undefined}
           >
             <Icon name="bi:sun" class="navicon" /><span class="theme-name"
               >Light</span
@@ -144,6 +147,7 @@ const getLink = (id: string) => {
           <label
             for="theme-dark"
             class="theme-toggle-label dropdown-item theme-label-dark"
+            interestfor={!isMobile ? "fp-tip-theme-dark" : undefined}
           >
             <Icon name="bi:moon" class="navicon" /><span class="theme-name"
               >Dark</span
@@ -157,4 +161,12 @@ const getLink = (id: string) => {
       </ul>
     </li>
   </ul>
+  {!isMobile && (
+    <Tooltip
+      targetId="fp-tip-theme-os"
+      tip="Matches your device's light or dark setting"
+    />
+    <Tooltip targetId="fp-tip-theme-light" tip="Always uses the light theme" />
+    <Tooltip targetId="fp-tip-theme-dark" tip="Always uses the dark theme" />
+  )}
 </nav>

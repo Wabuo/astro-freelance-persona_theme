@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Icon } from "astro-icon/components";
+import Tooltip from "@freelance-persona/components/ui/Tooltip.astro";
 
 interface Props {
   email: string;
@@ -23,7 +24,8 @@ const encodedEmail = Buffer.from(email).toString('base64');
   <noscript>
     <span class="email-text">{obfuscatedStr}</span>
   </noscript>
-  <button class="email-copy-btn" aria-label="Copy email address" style="display: none;">
+  <Tooltip targetId="fp-tip-email" tip="Copy email address" />
+  <button class="email-copy-btn" aria-label="Copy email address" interestfor="fp-tip-email" style="display: none;">
     <span class="email-text obfuscated-display">{obfuscatedStr}</span>
     <span class="copy-icon-wrapper">
       <Icon name="bi:copy" class="icon-copy-default" />

@@ -249,6 +249,8 @@ const sectionStyle = `
                       name="email"
                       id="email-field"
                       autocomplete="email"
+                      pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                      title="Please enter a valid email address (e.g. name@example.com)"
                       required
                     />
                     <label for="email-field" class="label">

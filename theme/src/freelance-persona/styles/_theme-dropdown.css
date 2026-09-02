@@ -121,9 +121,13 @@
 
     :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu .dropdown-item:hover,
     :root:not(:has(.theme-state-light:checked)) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
-        /* Darken the row — a light wash here would REDUCE the contrast of
-           the accent-colored checked item (user-verified dark-mode issue) */
-        background-color: color-mix(in srgb, black, transparent 88%);
+        /* The dropdown floats glassy over the busy hero image — light or
+           dark washes both fail there. Blur the background behind the
+           hovered row (same glass DNA as the header/breadcrumbs) + a dark
+           tint, so the accent text pops regardless of what's behind. */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background-color: color-mix(in srgb, black, transparent 75%);
     }
 }
 
@@ -134,7 +138,9 @@
 
     :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:hover,
     :root:has(.theme-state-dark:checked) .navmenu .theme-dropdown-menu .dropdown-item:focus-within {
-        /* Same darken treatment for the forced-dark branch */
-        background-color: color-mix(in srgb, black, transparent 88%);
+        /* Same blur + tint for the forced-dark branch */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background-color: color-mix(in srgb, black, transparent 75%);
     }
 }

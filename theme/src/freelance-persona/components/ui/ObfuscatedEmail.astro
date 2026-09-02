@@ -62,11 +62,18 @@ const encodedEmail = Buffer.from(email).toString('base64');
     transition: all 0.2s ease;
   }
   
-  /* Hover pops to full-strength default text color — an alpha wash on
-     accent read as "nothing happens". Border matches for the icon. */
+  /* Persistent accent underline — same treatment as the blog card titles
+     (user-requested). Hover strengthens the underline to full accent. */
+  .email-copy-btn {
+    text-decoration: underline;
+    text-decoration-color: var(--underline-color);
+    text-underline-offset: 3px;
+  }
+
   .obfuscated-email-wrapper:hover .email-copy-btn,
   .email-copy-btn:focus-visible {
-    color: var(--default-color);
+    color: var(--accent-color);
+    text-decoration-color: var(--accent-color);
   }
   
   .email-copy-btn.copied {

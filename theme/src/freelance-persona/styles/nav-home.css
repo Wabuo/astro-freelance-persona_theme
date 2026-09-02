@@ -69,7 +69,7 @@ body.home-page {
   }
 
   /* Hero Section Compensation:
-     The Hero often wants to be full width. 
+     The Hero often wants to be full width.
      If we want it to ignore the margin and touch the edge, we use negative margin.
      If we want it contained like the rest, we remove this.
      Currently, maintaining "full width hero" illusion:
@@ -192,7 +192,7 @@ body.home-page {
 
   /* Container-based expansion: When hovering the menu area, the container expands */
   /* This allows pills (width: 100%) to grow into the newly available space */
-  /* 
+  /*
     :focus-within is scoped to exclude the case where only the toggle checkbox has
     focus. That happens transiently when the backdrop label is clicked (the browser
     moves focus to the associated input). Excluding it lets the pill collapse in a
@@ -292,13 +292,13 @@ body.home-page {
     /* --nav-pill-menu-bg: var(--nav-pill-bg); */
     /* Header glass, but notably more transparent — the header sits on a
        calm strip, this menu floats over the busy hero image.
-       Tint: shifted 12% toward default-color so the glass is never
+       Tint: shifted 5% toward default-color so the glass is never
        literally the page color (it was pixel-identical over quiet hero
-       areas — invisible start/stop). Dials: the 12% tint, the 35%
+       areas — invisible start/stop). Dials: the 5% tint, the 35%
        opacity, and the hairline border in _theme-dropdown.css. */
     --nav-pill-menu-bg: color-mix(
       in srgb,
-      color-mix(in srgb, var(--background-color), var(--default-color) 12%),
+      color-mix(in srgb, var(--background-color), var(--default-color) 5%),
       transparent 35%
     );
   }

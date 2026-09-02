@@ -200,7 +200,7 @@ body.inner-page {
     background: color-mix(
       in srgb,
       color-mix(in srgb, var(--background-color), var(--default-color) 5%),
-      transparent 10%
+      transparent 15%
     );
   }
 

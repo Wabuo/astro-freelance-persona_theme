@@ -103,8 +103,8 @@ export interface PersonaConfig {
       id: string;
       label: string;
       required: boolean;
-      /** Optional tooltip elaborating the label (popover=hint, hover/long-press) */
-      tip?: string;
+      /** Optional hint tooltip (popover="hint") elaborating the label */
+      tooltip?: string;
     }[];
   };
 

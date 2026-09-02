@@ -82,6 +82,20 @@
     flex-direction: column;
 }
 
+/* Trailing copy affordance on the Get-link row — anchored right,
+   mirrors the email copy button's icon-swap-on-success pattern */
+.share-menu-item .icon-copy-affordance {
+    margin-left: auto;
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.share-menu-item:hover .icon-copy-affordance,
+.share-menu-item:focus-visible .icon-copy-affordance {
+    opacity: 1;
+}
+
 .share-menu-item {
     display: flex;
     align-items: center;

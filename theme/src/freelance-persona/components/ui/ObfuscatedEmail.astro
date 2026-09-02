@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: MIT
 
 import { Icon } from "astro-icon/components";
-import Tooltip from "@freelance-persona/components/ui/Tooltip.astro";
 
 interface Props {
   email: string;
@@ -24,8 +23,7 @@ const encodedEmail = Buffer.from(email).toString('base64');
   <noscript>
     <span class="email-text">{obfuscatedStr}</span>
   </noscript>
-  <Tooltip targetId="fp-tip-email" tip="Copy email address" />
-  <button class="email-copy-btn" aria-label="Copy email address" interestfor="fp-tip-email" style="display: none;">
+  <button class="email-copy-btn" aria-label="Copy email address" style="display: none;">
     <span class="email-text obfuscated-display">{obfuscatedStr}</span>
     <span class="copy-icon-wrapper">
       <Icon name="bi:copy" class="icon-copy-default" />
@@ -54,13 +52,11 @@ const encodedEmail = Buffer.from(email).toString('base64');
     font-family: var(--font-mono, monospace);
     font-size: 0.9em;
     cursor: pointer;
-    transition:
-      color 0.2s ease,
-      opacity 0.2s ease;
+    transition: all 0.2s ease;
   }
-
-  /* Hover pop: full-strength default color — the alpha wash read as
-     "nothing happens". Focus-visible gets the same treatment. */
+  
+  /* Hover pops to full-strength default text color — an alpha wash on
+     accent read as "nothing happens". Border matches for the icon. */
   .obfuscated-email-wrapper:hover .email-copy-btn,
   .email-copy-btn:focus-visible {
     color: var(--default-color);

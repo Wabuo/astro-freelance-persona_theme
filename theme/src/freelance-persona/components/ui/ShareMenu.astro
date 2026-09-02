@@ -37,8 +37,7 @@ const encodedDesc = encodeURIComponent(description);
         <Icon name="bi:link-45deg" class="icon-link-default" />
         <Icon name="bi:check2" class="icon-link-success" style="display: none;" />
         <span class="label">Get link</span>
-        <Icon name="bi:copy" class="icon-copy-affordance" />
-        <Icon name="bi:check2" class="icon-copy-success-trailing" style="display: none;" />
+        <Icon name="bi:copy" class="icon-trailing-copy" />
       </button>
 
       <!-- Separator -->
@@ -130,22 +129,12 @@ const encodedDesc = encodeURIComponent(description);
               defaultIcon.style.display = "none";
               successIcon.style.display = "inline-block";
             }
-            const trailingCopy = copyBtn.querySelector(".icon-copy-affordance") as HTMLElement;
-            const trailingSuccess = copyBtn.querySelector(".icon-copy-success-trailing") as HTMLElement;
-            if (trailingCopy && trailingSuccess) {
-              trailingCopy.style.display = "none";
-              trailingSuccess.style.display = "inline-block";
-            }
 
             setTimeout(() => {
               if (label) label.textContent = "Get link";
               if (defaultIcon && successIcon) {
                 defaultIcon.style.display = "inline-block";
                 successIcon.style.display = "none";
-              }
-              if (trailingCopy && trailingSuccess) {
-                trailingCopy.style.display = "inline-block";
-                trailingSuccess.style.display = "none";
               }
             }, 2000);
           } catch (err) {

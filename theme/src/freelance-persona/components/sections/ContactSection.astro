@@ -6,6 +6,7 @@ import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import ObfuscatedEmail from "@freelance-persona/components/ui/ObfuscatedEmail.astro";
 import { parseInline } from "marked";
+import Tooltip from "@freelance-persona/components/ui/Tooltip.astro";
 
 interface Props {
   entry: {
@@ -299,9 +300,13 @@ const sectionStyle = `
                       <label 
                         class="checkbox-label" 
                         style="font-size: 0.9em; line-height: 1.4;"
-                        for={checkbox.id} 
+                        for={checkbox.id}
+                        interestfor={checkbox.tip ? `fp-tip-${checkbox.id}` : undefined}
                         set:html={parseInline(checkbox.label)} 
                       />
+                      {checkbox.tip && (
+                        <Tooltip targetId={`fp-tip-${checkbox.id}`} tip={checkbox.tip} />
+                      )}
                     </div>
                   </div>
                 ))}

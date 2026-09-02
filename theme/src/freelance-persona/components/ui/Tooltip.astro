@@ -1,0 +1,89 @@
+---
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
+/**
+ * Declarative tooltip — the standardized popover=hint pattern.
+ *
+ * Zero JavaScript: the invoker carries `interestfor` (hover/long-press
+ * auto-show; Chromium-only trigger garnish — see To_Do.md) and the bubble
+ * is a `popover="hint"` element. Other engines simply show no tooltip; the
+ * invoker's aria-label carries the information.
+ *
+ * Anchoring: hint popovers get an IMPLICIT anchor relationship to their
+ * invoker — no anchor-name plumbing, no collisions between instances.
+ * position-area places the bubble below-center; flip-block turns it above
+ * near the viewport bottom (caret swap is Chromium garnish via the same
+ * anchored() container query the theme dropdown uses).
+ *
+ * Usage:
+ *   <Tooltip targetId="email-copy-tip" tip="Copy email address" />
+ *   <button interestfor="email-copy-tip" aria-label="Copy email address">…</button>
+ */
+interface Props {
+  targetId: string;
+  tip: string;
+}
+
+const { targetId, tip } = Astro.props;
+---
+
+<div id={targetId} class="fp-tooltip" popover="hint" role="tooltip">{tip}</div>
+
+<style>
+  /* Global: the bubble is promoted to the top layer when shown — scoped
+     styles would never match it. Implicit anchoring: the invoker is the
+     default anchor, so anchor()/position-area need no names. */
+  :global(.fp-tooltip) {
+    position: fixed;
+    position-area: block-end;
+    position-try-fallbacks: flip-block;
+    container-type: anchored;
+    margin: 0.5rem;
+    max-width: 18rem;
+    width: max-content;
+    padding: 0.375rem 0.625rem;
+    border-radius: 0.375rem;
+    background: var(--surface-color);
+    color: var(--default-color);
+    border: 1px solid
+      color-mix(in srgb, var(--default-color), transparent 85%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-size: 0.8125rem;
+    line-height: 1.35;
+
+    /* Caret nose — diamond straddling the bubble's top edge, centered on
+       the invoker. background: inherit keeps it in sync with the bubble. */
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: inherit;
+      border-top: 1px solid
+        color-mix(in srgb, var(--default-color), transparent 85%);
+      border-left: 1px solid
+        color-mix(in srgb, var(--default-color), transparent 85%);
+      left: anchor(center);
+      top: anchor(bottom);
+      translate: -50% -50% rotate(45deg);
+    }
+  }
+
+  /* Chromium garnish (anchor L2, same pattern as the dropdown roll-up):
+     when the bubble flips ABOVE the invoker, move the caret to the bottom
+     edge and point it down. */
+  @container anchored(fallback: flip-block) {
+    :global(.fp-tooltip)::after {
+      top: auto;
+      bottom: anchor(top);
+      border-top: none;
+      border-left: none;
+      border-bottom: 1px solid
+        color-mix(in srgb, var(--default-color), transparent 85%);
+      border-right: 1px solid
+        color-mix(in srgb, var(--default-color), transparent 85%);
+    }
+  }
+</style>

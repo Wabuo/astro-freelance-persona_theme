@@ -290,9 +290,17 @@ body.home-page {
   /* Slightly tweaked to compensate for optical illusions 92% -> 90% */
   .header:not(.is-inner) #navmenu {
     /* --nav-pill-menu-bg: var(--nav-pill-bg); */
-    /* Topnav glassmorphism color — same look as the header itself.
-       (The translucent 10% film was unreadable over the hero image.) */
-    --nav-pill-menu-bg: var(--header-background-color);
+    /* Header glass, but notably more transparent — the header sits on a
+       calm strip, this menu floats over the busy hero image.
+       Tint: shifted 12% toward default-color so the glass is never
+       literally the page color (it was pixel-identical over quiet hero
+       areas — invisible start/stop). Dials: the 12% tint, the 35%
+       opacity, and the hairline border in _theme-dropdown.css. */
+    --nav-pill-menu-bg: color-mix(
+      in srgb,
+      color-mix(in srgb, var(--background-color), var(--default-color) 12%),
+      transparent 35%
+    );
   }
 
   .header:not(.is-inner) #navmenu .theme-toggle-container .theme-dropdown-menu {

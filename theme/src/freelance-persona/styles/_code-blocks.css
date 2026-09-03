@@ -104,6 +104,24 @@
 }
 
 /* =============================================================
+   LIGHT MODE: Same treatment — EC's github-light frame shadow is
+   a soft drop shadow; Adwaita uses borders, not shadows, for
+   visual separation. The --ec-brdCol border is sufficient.
+
+   Matches every combo where dark is NOT forced: OS light,
+   OS no-preference, OS dark + forced light (this also fixes the
+   forced-light case, which previously kept EC's dark shadow), and
+   OS dark + chooser untouched (redundant with Case A, harmless).
+   Forced dark is Case B. Union with Case B = shadow gone
+   everywhere. Same :root:root:not(:has(...)) specificity math as
+   Case A: (0,5,0) beats EC's themeCssSelector (0,4,0).
+   ============================================================= */
+:root:root:not(:has(.theme-state-dark:checked)) .expressive-code {
+  --ec-frm-shdCol: transparent;
+  --ec-frm-frameBoxShdCssVal: none;
+}
+
+/* =============================================================
    EDGE CASE: OS prefers dark BUT user has forced light.
    EC's @media (prefers-color-scheme: dark) activates dark tokens
    and frame vars. We counteract by resetting to light values.

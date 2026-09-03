@@ -101,6 +101,15 @@
     &:hover .icon-trailing-copy {
         opacity: 1;
     }
+
+    /* Optical centering: trim the label's box to the cap-height so the
+       flex-centered icons align with the TEXT's visual middle instead of
+       the line-box middle (which carries descender space — the reason
+       the trailing icon sat low). text-box: 3/3 engines. */
+    & .label {
+        display: inline-block;
+        text-box: trim-both cap alphabetic;
+    }
     padding: 0.6rem 1rem;
     color: var(--default-color);
     /* Match reference text color */

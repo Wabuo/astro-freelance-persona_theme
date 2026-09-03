@@ -10,6 +10,13 @@ import sitemap from '@astrojs/sitemap';
 import freelancePersona from 'astro-freelance-persona_theme';
 
 export default defineConfig({
+  // Rasterize SVG sources through sharp for social-preview (og:image)
+  // bitmaps — WhatsApp & friends can't draw SVG in link cards. Scope:
+  // first-party assets only (the flag enables sharp SVG processing
+  // site-wide, which is why it is opt-in upstream).
+  image: {
+    dangerouslyProcessSVG: true,
+  },
   site: process.env.SITE_URL || 'https://example.com',
   base: process.env.BASE_PATH ? (process.env.BASE_PATH.endsWith('/') ? process.env.BASE_PATH : process.env.BASE_PATH + '/') : undefined,
   integrations: [

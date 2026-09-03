@@ -59,7 +59,7 @@
     "@unocss/preset-wind4": "~66.7.5",
     "astro-expressive-code": "^0.44.0",
     "astro-icon": "^1.1.5",
-    "expressive-code": "^0.43.0",
+    "expressive-code": "^0.44.0",
     "marked": "^18.0.0",
     "mathjax-full": "^3.2.2",
     "rehype-mathjax": "^7.0.0",

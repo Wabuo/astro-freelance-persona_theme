@@ -20,10 +20,13 @@ export default defineConfig({
       }
     }),
     sitemap({
-      filter: (page) => true,
-      changefreq: 'weekly',
-      priority: 0.7,
-      lastmod: new Date(),
+      // Exclude utility pages from sitemap *recommendation*; they remain
+      // crawlable. Legal pages additionally carry robots meta
+      // "noindex, noarchive" (theme config: legal.noindex). Error pages
+      // are skipped by search engines via their status codes.
+      // changefreq/priority are ignored by Google; lastmod is only
+      // trusted when accurate, so none of them are emitted.
+      filter: (page) => !page.includes('/legal/') && !/\/(403|404)\/?$/.test(page),
     }),
     freelancePersona()
   ],

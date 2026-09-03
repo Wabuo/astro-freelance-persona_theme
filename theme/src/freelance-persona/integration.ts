@@ -41,7 +41,12 @@ export default function freelancePersona(): AstroIntegration {
           // Single-Pass: Process all formulas (Inline & Block) into CHTML
           [rehypeMathjaxChtml, {
             chtml: {
-              fontURL: '/fonts/mathjax/',
+              // Base-aware: the mathjaxFontsPlugin copies the woff2 files
+              // to <outDir>/fonts/mathjax/, but under subpath deploys
+              // (GitHub Pages project sites) an absolute /fonts/ URL
+              // 404s and the formulas fall back to system fonts with
+              // broken vertical metrics (clipped rendering).
+              fontURL: `${(config.base ?? '/').replace(/\/?$/, '/')}fonts/mathjax/`,
               adaptiveCSS: false
             },
             tex: {

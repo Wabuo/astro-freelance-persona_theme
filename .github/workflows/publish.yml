@@ -29,6 +29,12 @@ jobs:
       - name: Safe Sync Dependencies Without Lifecycle Scripts
         run: bun install --frozen-lockfile --ignore-scripts
 
+      # The root `check` script descends into the playground, which is
+      # gitignored and absent from a fresh checkout. Without this step the
+      # script used to recurse into itself until spawn(2) hit E2BIG.
+      - name: Setup Playground
+        run: bun run playground:setup
+
       - name: Validate Layout & Components Structural Health
         run: bun run check
 

@@ -43,6 +43,39 @@ const encodedDesc = encodeURIComponent(description);
       <!-- Separator -->
       <hr class="share-menu-divider" />
 
+      <!-- Mastodon (via mastodonshare.com — Mastodon has no central share endpoint) -->
+      <a
+        href={`https://mastodonshare.com/?text=${encodedTitle}%20${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-menu-item"
+      >
+        <Icon name="bi:mastodon" />
+        <span>Share on Mastodon</span>
+      </a>
+
+      <!-- Bluesky -->
+      <a
+        href={`https://bsky.app/intent/compose?text=${encodedTitle}%20${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-menu-item"
+      >
+        <Icon name="bi:bluesky" />
+        <span>Share on Bluesky</span>
+      </a>
+
+      <!-- Threads -->
+      <a
+        href={`https://www.threads.net/intent/post?text=${encodedTitle}%20${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-menu-item"
+      >
+        <Icon name="bi:threads" />
+        <span>Share on Threads</span>
+      </a>
+
       <!-- LinkedIn -->
       <a
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}

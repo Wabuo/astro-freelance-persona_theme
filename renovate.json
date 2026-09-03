@@ -18,7 +18,7 @@
       "dependencyDashboardApproval": false
     },
     {
-      "comment": "Fragile-set dependency bumps must pass the visual suite before merge",
+      "description": ["Fragile-set dependency bumps must pass the visual suite before merge"],
       "matchUpdateTypes": ["major", "minor", "patch"],
       "matchPackageNames": [
         "astro",

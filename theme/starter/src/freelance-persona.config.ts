@@ -8,10 +8,10 @@ import { astroMajorVersion } from 'astro-freelance-persona_theme/utils/buildInfo
 
 /**
  * FREELANCE PERSONA THEME CONFIGURATION
- * 
- * This file acts as the central control panel for your website. 
+ *
+ * This file acts as the central control panel for your website.
  * Settings defined here will override defaults from the theme.
- * 
+ *
  * Setting in page specific config files will take precedence over settings here.
  */
 
@@ -81,8 +81,8 @@ export const themeConfig: PersonaConfig = {
     },
     delays: {
       // heading: 100, // Defines how many ms after being triggered the animation will start
-      // content: 400, 
-      // stagger: 100 
+      // content: 400,
+      // stagger: 100
     }
   },
 
@@ -224,7 +224,7 @@ export const themeConfig: PersonaConfig = {
 
   // MathJax Options
   mathjax: {
-    // These defaults support advanced calculus, quantum mechanics, CSS-variable coloring, 
+    // These defaults support advanced calculus, quantum mechanics, CSS-variable coloring,
     // reaction cancellations, and extensible arrows/delimiters.
     packages: ['mhchem', 'physics', 'color', 'cancel', 'mathtools'],
   },
@@ -245,13 +245,13 @@ export const themeConfig: PersonaConfig = {
     legal_email: "theme_email",
     privacy_email: "privacy@example.com", // Used for privacy inquiries
     legal_phone: "theme_phone", //can be empty if unaplicable
-    legal_note: "I love remote places. If I'm unavailable, I'm likely off-grid: flying, spelunking, or exploring. <br> Please email or SMS, and I'll reply upon my return to civilization.", // optional
+    legal_note: "I love remote places. If I'm unavailable, I'm likely off-grid: flying, spelunking, or exploring. <br> Please write me an Email or SMS, and I'll reply upon my return to civilization.", // optional
     business_license: "Sole Proprietor / Put your business license here", //can be empty if unaplicable
     vat_id: "PUT YOUR VAT ID HERE", //can be empty if unaplicable
     jurisdiction: "PersonaCity, Country", // can be empty if unaplicable
     // DISCLAIMER / ADDITIONAL LEGAL TEXT
     // 1. Create a file in `src/content/legal/` (e.g. `disclaimer.md`)
-    // 2. Set the ID here (e.g. "disclaimer"). 
+    // 2. Set the ID here (e.g. "disclaimer").
     // If the file is missing, it will display the theme's help guide ("legal-guide").
     disclaimer: "legal-guide",
   },

@@ -28,7 +28,8 @@
     "mathjax-full": "^3.2.2"
   },
   "overrides": {
-    "lightningcss": "1.33.0"
+    "lightningcss": "1.33.0",
+    "typescript": "^6.0.0"
   },
   "dependencies": {
     "@iconify-json/academicons": "^1.2.4",

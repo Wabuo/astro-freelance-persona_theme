@@ -132,9 +132,6 @@ export interface PersonaConfig {
 
     light?: ColorPalette;
     dark?: ColorPalette;
-
-    // Backward compatibility / Shortcuts (optional, mapped to light/dark)
-    primary?: string;
   };
 
 

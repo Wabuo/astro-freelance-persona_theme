@@ -84,7 +84,11 @@
 
 .share-menu-item {
     display: flex;
-    align-items: center;
+    /* Baseline alignment: icons sit on the text's alphabetic baseline —
+       derives from the same font metrics as the glyphs, so icon and text
+       round consistently across zoom levels (box-centering rounded
+       independently and wobbled at certain zoom factors). */
+    align-items: baseline;
     gap: 0.75rem;
     /* Trailing copy affordance anchors to the row's right edge.
        (& = .share-menu-item — without it the nested selector would

@@ -88,11 +88,12 @@
     gap: 0.75rem;
     /* Trailing copy affordance anchors to the row's right edge.
        (& = .share-menu-item — without it the nested selector would
-       double the parent and never match.) */
-    & .icon-trailing-copy {
+       double the parent and never match.) Specificity above the
+       .share-menu-item [data-icon] rule below (later source). */
+    & .action-copy-link .icon-trailing-copy {
         margin-left: auto;
-        font-size: 0.95rem;
-        width: 1.05rem;
+        font-size: 0.85rem;
+        width: 0.95rem;
         text-align: center;
         opacity: 0.6;
         transition: opacity 0.15s ease;

@@ -74,6 +74,11 @@
   --underline-color: light-dark(var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 45%));
   --code-background: light-dark(#f6f6f6, var(--surface-color));
 
+  /* Scrollbars (css-side tokens, deliberately not config-exposed) */
+  --scrollbar-track: light-dark(#f1f1f1, color-mix(in srgb, var(--default-color), transparent 92%));
+  --scrollbar-thumb: light-dark(#cccccc, color-mix(in srgb, var(--default-color), transparent 75%));
+  --scrollbar-thumb-hover: light-dark(#999999, color-mix(in srgb, var(--default-color), transparent 60%));
+
   /* Nav Menu Colors */
   --nav-color: light-dark(#45505b, #e0e0e0);
   --nav-hover-color: var(--accent-color);

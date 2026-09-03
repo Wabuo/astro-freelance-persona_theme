@@ -95,7 +95,7 @@ button:not(:disabled) {
 }
 
 /* Mono IDENTITY is config-driven, not hardcoded: wind4's reset resolves its
-   mono stack via theme.font.mono → var(--monospace-font) (user config,
+   mono stack via theme.font.mono → var(--font-mono) (user config,
    BaseLayout injection) — the same token EC code blocks already use. */
 
 /* UA default cell padding (1px) — the vendor reset's universal padding:0

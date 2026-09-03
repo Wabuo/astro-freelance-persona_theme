@@ -128,7 +128,7 @@ body.inner-page {
     /* 18px 15px */
     font-size: 1rem;
     /* 16px */
-    font-family: var(--nav-font);
+    font-family: var(--font-nav);
     font-weight: 400;
     display: flex;
     align-items: center;
@@ -276,7 +276,7 @@ body.inner-page {
   .navmenu .theme-toggle,
   .navmenu a:focus {
     color: var(--nav-color);
-    font-family: var(--nav-font);
+    font-family: var(--font-nav);
     display: flex;
     align-items: center;
     padding: 0.625rem 1.125rem;

@@ -218,7 +218,7 @@
 .qualifications-text {
     font-size: 1.15rem;
     /* Slightly smaller to fit row */
-    font-family: var(--heading-font);
+    font-family: var(--font-heading);
     font-weight: 500;
     line-height: 1.2;
     flex: 1;

@@ -9,7 +9,7 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --monospace-font: monospace;
+  --font-mono: monospace;
 }
 
 /* Accessibility Utility */
@@ -149,7 +149,7 @@
 body {
   color: var(--default-color);
   background-color: var(--background-color);
-  font-family: var(--default-font);
+  font-family: var(--font-body);
   width: 100%;
   overflow-x: hidden;
 }
@@ -195,7 +195,7 @@ h4,
 h5,
 h6 {
   color: var(--heading-color);
-  font-family: var(--heading-font);
+  font-family: var(--font-heading);
 }
 
 code {

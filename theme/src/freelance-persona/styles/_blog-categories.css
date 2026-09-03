@@ -140,7 +140,7 @@
 }
 
 .category-description {
-  font-family: var(--monospace-font);
+  font-family: var(--font-mono);
   font-size: 0.9rem;
   margin-bottom: 1rem;
   color: var(--heading-color);

@@ -77,10 +77,10 @@ export default defineConfig({
     },
 
     font: {
-      body: 'var(--default-font)',
-      heading: 'var(--heading-font)',
-      nav: 'var(--nav-font)',
-      mono: 'var(--monospace-font)',
+      body: 'var(--font-body)',
+      heading: 'var(--font-heading)',
+      nav: 'var(--font-nav)',
+      mono: 'var(--font-mono)',
     },
 
     // Breakpoints: sm 576 / md 768 / lg 992 / xl 1200 / xxl 1400.

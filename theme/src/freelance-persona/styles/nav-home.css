@@ -104,7 +104,7 @@ body.home-page {
 .navmenu .theme-toggle,
 .navmenu a:focus {
   color: var(--nav-color);
-  font-family: var(--nav-font);
+  font-family: var(--font-nav);
   display: flex;
   align-items: center;
   padding: 0.625rem 1.125rem;

@@ -427,14 +427,14 @@ const heroSectionStyle = {
   .hero h1 {
     font-family: var(
       --title-font-family-override,
-      var(--heading-font, sans-serif)
+      var(--font-heading, sans-serif)
     );
     /* Font size is handled by inheritance from the wrapper's --title-font-size variable */
   }
 
   /* TYPING TEXT */
   .hero p {
-    font-family: var(--typing-font-family-override, var(--nav-font));
+    font-family: var(--typing-font-family-override, var(--font-nav));
     font-size: var(--hero-typing-font-size, 1.625rem);
     margin-top: var(--gap-title-to-typing, 0.3125rem);
 

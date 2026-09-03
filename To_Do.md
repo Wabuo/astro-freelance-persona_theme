@@ -72,6 +72,16 @@ basically check if there is a decent modern to do it and then use it.
   as of 1.33.0. Until it ships: `build.cssMinify: false` in
   integration.ts + root package.json override pinning ^1.33.0. When
   released: `bun update lightningcss`, remove both, done.
+- [ ] **typescript: unpin override when `astro check` supports ts7**: a
+  Volar package inside `@astrojs/language-server` declares
+  `peerDependencies: { "typescript": "*" }`, so any fresh install
+  resolves TypeScript 7.x (the native compiler took over the
+  `typescript` package at v7) — and ts7 does not yet ship the
+  programmatic API `astro check` relies on. Until upstream adapts:
+  `"typescript": "^6.0.0"` in root + starter package.json overrides.
+  When @astrojs/language-server gains a ts7-compatible API (track:
+  withastro/roadmap discussion 1321): remove the override from both
+  package.jsons, `bun install`, done.
 - [ ] **Interest invokers standardization watch**: the hint tooltips
   (ui/Tooltip.astro) use popover="hint" (WHATWG-standardized, Chromium 151+
   / Firefox 153+) triggered via interest invokers (`interestfor`) — still

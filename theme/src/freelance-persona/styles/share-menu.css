@@ -89,7 +89,9 @@
     /* Trailing copy affordance anchors to the row's right edge */
     .icon-trailing-copy {
         margin-left: auto;
-        font-size: 1rem;
+        font-size: 1.1rem;
+        width: 1.2rem;
+        text-align: center;
         opacity: 0.6;
         transition: opacity 0.15s ease;
     }

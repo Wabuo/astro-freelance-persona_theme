@@ -108,6 +108,9 @@ interface Props {
   nav_menu_width?: string;
   nav_pill_expanded_width?: string;
   preloadImageUrl?: string;
+  /** Optional robots meta directive, e.g. "noindex, noarchive".
+      Absent = no robots meta is emitted. */
+  robots?: string;
 }
 
 const {
@@ -116,6 +119,7 @@ const {
   tex = false,
   navType = "page",
   preloadImageUrl,
+  robots,
 } = Astro.props;
 
 const bodyClass = navType === "home" ? "home-page" : "inner-page";
@@ -798,6 +802,7 @@ if (Astro.csp) {
   <meta name="description" content={description} />
   <meta name="author" content={themeConfig.author} />
   <link rel="canonical" href={Astro.url.href} />
+  {robots && <meta name="robots" content={robots} />}
 
   {
     faviconSrc && (

@@ -159,6 +159,9 @@ export interface PersonaConfig {
   // Legal / Impressum Configuration
   legal?: {
     enabled?: boolean;
+    /** Exclude legal pages from search indexes and caches (default: true).
+        Pages stay link-accessible; robots meta "noindex, noarchive". */
+    noindex?: boolean;
     link_text?: string; // e.g., "Legal Notice" or "Impressum"
     privacy_enabled?: boolean;
     privacy_link_text?: string; // e.g., "Privacy Policy"
@@ -172,6 +175,14 @@ export interface PersonaConfig {
     jurisdiction?: string;
     disclaimer?: string; // Optional markdown for legal disclaimer
     legal_note?: string; // Optional unintrusive note
+  };
+
+  // Coming Soon placeholder page
+  coming_soon?: {
+    /** Keep the placeholder out of search-engine caches (default: true).
+        Page stays indexable so replaced content propagates instantly;
+        robots meta "noarchive". */
+    noarchive?: boolean;
   };
 
   // MathJax Configuration

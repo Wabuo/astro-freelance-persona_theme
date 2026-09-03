@@ -417,19 +417,19 @@
 
 .post-content .mjx-chtml.MJXc-display::-webkit-scrollbar-track,
 .post-content .MathJax_Display::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--scrollbar-track);
   border-radius: 4px;
 }
 
 .post-content .mjx-chtml.MJXc-display::-webkit-scrollbar-thumb,
 .post-content .MathJax_Display::-webkit-scrollbar-thumb {
-  background: #ccc;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 .post-content .mjx-chtml.MJXc-display::-webkit-scrollbar-thumb:hover,
 .post-content .MathJax_Display::-webkit-scrollbar-thumb:hover {
-  background: #999;
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Ensure equation container doesn't overflow */

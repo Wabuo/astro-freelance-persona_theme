@@ -151,9 +151,12 @@ if (ogImageSource) {
       );
     const mod = images[ogImageSource] ? await images[ogImageSource]() : null;
     if (mod) {
+      // Raster PNG at OG dimensions: WhatsApp & friends don't draw SVG
+      // (or reliably WebP) in link previews. Sharp rasterizes SVG sources
+      // at build time; the page itself keeps serving the SVG/WebP.
       const optimized = await getImage({
         src: mod.default,
-        format: mod.default.format === 'svg' ? 'svg' : 'webp',
+        format: 'png',
         width: 1200,
         quality: 'high',
       });

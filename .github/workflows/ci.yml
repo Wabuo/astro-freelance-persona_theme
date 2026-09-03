@@ -91,9 +91,6 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile --ignore-scripts
 
-      - name: Setup Playground
-        run: bun run playground:setup
-
       - name: Fetch Playwright Snapshots
         id: snapshot-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -101,17 +98,30 @@ jobs:
           path: |
             theme/starter/testing/tests/**/*-snapshots
           key: snapshots-${{ github.event.pull_request.base.sha }}
+          # Fallback to the most recently saved generate-baselines cache:
+          # a PR's base.sha is frozen at PR-open, so caches saved on main
+          # afterwards would otherwise be unreachable and PRs would run
+          # against stale or partial baseline sets.
+          restore-keys: snapshots-
+
+      # MUST run AFTER the snapshot restore: playground:setup copies
+      # theme/starter/. into the playground, carrying the restored
+      # baselines with it. Before the restore, the checkout contains no
+      # baseline PNGs (they are gitignored) and every screenshot test
+      # fails with "A snapshot doesn't exist".
+      - name: Setup Playground
+        run: bun run playground:setup
 
       - name: Install Playwright Browsers
-        if: steps.snapshot-cache.outputs.cache-hit == 'true'
+        if: steps.snapshot-cache.outputs.cache-matched-key != ''
         run: bunx playwright install chromium firefox --with-deps
 
       - name: Run Playwright Tests
-        if: steps.snapshot-cache.outputs.cache-hit == 'true'
+        if: steps.snapshot-cache.outputs.cache-matched-key != ''
         run: bun run test
 
       - name: Auto-trigger Baseline Generator
-        if: steps.snapshot-cache.outputs.cache-hit != 'true'
+        if: steps.snapshot-cache.outputs.cache-matched-key == ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

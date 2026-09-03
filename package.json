@@ -13,7 +13,7 @@
     "dev": "cd playground && bun run dev",
     "build": "cd playground && bun run build",
     "preview": "cd playground && bun run preview",
-    "check": "cd playground && bun run check",
+    "check": "test -f playground/package.json || echo 'playground/ missing — run bun run playground:setup'; test -f playground/package.json && cd playground && bun run check",
     "test": "cd playground && bun run test --project=firefox-light --project=chrome-mobile-dark",
     "test:full": "cd playground && bun run test:full",
     "test:matrix": "cd playground && bun run scripts/test-config-matrix.ts",

@@ -230,6 +230,18 @@ export const themeConfig: PersonaConfig = {
   },
 
   // ===================================================================================
+  // 5b. SEO / SOCIAL SHARING
+  // ===================================================================================
+  seo: {
+    // Site-wide og:image fallback — the preview card image used when a
+    // page has no more specific image (post thumbnail / per-post
+    // ogImage). Your hero image is the natural choice. Accepts a source
+    // asset path or an absolute URL. Left unset, shared links render as
+    // compact cards without an image.
+    // og_image: "/src/assets/img/hero.webp",
+  },
+
+  // ===================================================================================
   // 6. FOOTER & LEGAL
   // ===================================================================================
   quote: "Real stupidity beats artificial intelligence every time. --- From Hogfather",

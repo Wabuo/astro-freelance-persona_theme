@@ -185,6 +185,16 @@ export interface PersonaConfig {
     noarchive?: boolean;
   };
 
+  // SEO / social sharing
+  seo?: {
+    /** Site-wide og:image fallback for pages without a more specific
+        image. Accepts a source asset path ("/src/assets/img/hero.webp")
+        — resolved through the asset pipeline — or an absolute URL.
+        Per-page precedence: post frontmatter ogImage > post thumbnail >
+        this > compact card without image. */
+    og_image?: string;
+  };
+
   // MathJax Configuration
   mathjax?: {
     packages?: string[];

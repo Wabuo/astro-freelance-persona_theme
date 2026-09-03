@@ -86,9 +86,10 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    /* Trailing copy affordance anchors to the row's right edge */
-    /* Specificity bump: must out-rank the [data-icon] size rule below */
-    .share-menu-item .icon-trailing-copy {
+    /* Trailing copy affordance anchors to the row's right edge.
+       (& = .share-menu-item — without it the nested selector would
+       double the parent and never match.) */
+    & .icon-trailing-copy {
         margin-left: auto;
         font-size: 0.95rem;
         width: 1.05rem;

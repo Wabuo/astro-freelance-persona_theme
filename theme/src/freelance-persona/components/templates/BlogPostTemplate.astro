@@ -77,7 +77,7 @@ const optimizedThumbnail = post.data.thumbnail
   : null;
 ---
 
-<BaseLayout title={post.data.title} navType="page" tex={post.data.tex || false} preloadImageUrl={optimizedThumbnail?.src}>
+<BaseLayout title={post.data.title} navType="page" tex={post.data.tex || false} preloadImageUrl={optimizedThumbnail?.src} robots={post.data.robots}>
   <Breadcrumbs crumbs={crumbs} showTitle={false} />
 
   <div class="container">

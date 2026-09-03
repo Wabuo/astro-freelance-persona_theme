@@ -82,6 +82,23 @@ basically check if there is a decent modern to do it and then use it.
   When @astrojs/language-server gains a ts7-compatible API (track:
   withastro/roadmap discussion 1321): remove the override from both
   package.jsons, `bun install`, done.
+- [ ] **MathJax v4 migration watch + mathjax-full deprecation**: Renovate
+  flags `mathjax-full` as deprecated — it is the frozen v3 node umbrella
+  (MathJax v4 renamed the packages into the `@mathjax/` scope), so no
+  PRs will ever come for it; the warning is inert noise. Our direct dep
+  exists solely to source the v3 CHTML woff2 files
+  (`es5/output/chtml/fonts/woff-v2`) for self-hosting. The migration
+  trigger is upstream: when remarkjs/remark-math#118 ("Upgrade to
+  MathJax v4") merges and `rehype-mathjax` cuts a v4-based major,
+  Renovate will PR it (fragile-set label, visual tests armed).
+  Migration checklist: re-point the font plugin's source dir to the v4
+  font package, verify the `tex.packages` wiring (v4 dropped the
+  bundled `AllPackages` — mhchem/physics/color/cancel/mathtools exist
+  but the assembly changed), expect new-font glyph rendering →
+  re-record math-page baselines. CHTML stays the output (it is v4's
+  default too; v4's font bug is SVG-only). Long-term exit: when Astro's
+  Rust markdown pipeline grows complex-formula support, re-evaluate
+  dropping MathJax for Rust tooling entirely.
 - [ ] **Interest invokers standardization watch**: the hint tooltips
   (ui/Tooltip.astro) use popover="hint" (WHATWG-standardized, Chromium 151+
   / Firefox 153+) triggered via interest invokers (`interestfor`) — still

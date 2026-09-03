@@ -27,6 +27,17 @@ const optimizedHeroBg = heroData.background_image
     })
   : null;
 
+// Social preview card: raster PNG at OG dimensions — WhatsApp & friends
+// don't draw SVG (or reliably WebP). Separate from the page's own
+// optimized hero (which stays SVG/WebP for performance).
+const optimizedHeroOg = heroData.background_image
+  ? await getImage({
+      src: heroData.background_image,
+      format: 'png',
+      width: 1200,
+    })
+  : null;
+
 // 2. CONTENT SECTIONS
 const allSections = await getCollection("sections");
 const contentSections = allSections
@@ -34,7 +45,7 @@ const contentSections = allSections
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title={themeConfig.title} navType="home" preloadImageUrl={optimizedHeroBg?.src} ogImage={optimizedHeroBg?.src}>
+<BaseLayout title={themeConfig.title} navType="home" preloadImageUrl={optimizedHeroBg?.src} ogImage={optimizedHeroOg?.src}>
   <Hero
     title={heroData.title}
     hero_typing_text={heroData.hero_typing_text}

@@ -75,6 +75,20 @@ const optimizedThumbnail = post.data.thumbnail
       quality: "high",
     })
   : null;
+
+// Social preview card: raster PNG at OG dimensions — WhatsApp & friends
+// don't draw SVG (or reliably WebP). Built from the thumbnail source
+// separately (the preload URL is a built WebP/SVG and can't be
+// re-rasterized). A per-post ogImage frontmatter override passes
+// through untouched.
+const optimizedOgImage = post.data.thumbnail
+  ? await getImage({
+      src: post.data.thumbnail,
+      format: 'png',
+      width: 1200,
+      quality: 'high',
+    })
+  : null;
 ---
 
 <BaseLayout
@@ -86,7 +100,7 @@ const optimizedThumbnail = post.data.thumbnail
   robots={post.data.robots}
   ogType="article"
   publishedTime={post.data.date.toISOString()}
-  ogImage={post.data.ogImage ?? optimizedThumbnail?.src}
+  ogImage={post.data.ogImage ?? optimizedOgImage?.src}
 >
   <Breadcrumbs crumbs={crumbs} showTitle={false} />
 

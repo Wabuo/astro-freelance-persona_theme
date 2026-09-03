@@ -42,7 +42,7 @@
     background-color: var(--surface-color, #ffffff);
     border-radius: 0.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.05));
+    border: 1px solid var(--card-border);
     z-index: 1000;
 
     /* Animation */
@@ -138,7 +138,7 @@
 .share-menu-divider {
     margin: 0.25rem 0;
     border: 0;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--card-border);
     /* Use theme var */
     height: 1px;
     display: block;

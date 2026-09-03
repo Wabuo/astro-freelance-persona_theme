@@ -18,15 +18,17 @@ import path from 'path';
 import fs from 'fs';
 import { mathjaxFontsPlugin } from './plugins/mathjaxFontsPlugin';
 import { virtualConfigPlugin } from './plugins/virtualConfig';
+import UnoCSS from 'unocss/astro';
 
 export default function freelancePersona(): AstroIntegration {
   return {
     name: 'astro-freelance-persona',
     hooks: {
-      'astro:config:setup': async ({ updateConfig, config }) => {
+      'astro:config:setup': async ({ updateConfig, config, injectScript }) => {
         const currentDir = path.dirname(fileURLToPath(import.meta.url));
         const projectRoot = fileURLToPath(config.root);
         const utilsPath = path.resolve(currentDir, 'utils');
+        const unoConfigPath = path.resolve(currentDir, 'uno.config.ts');
 
         const remarkPluginsList = [
           remarkExtractImageParams,
@@ -53,6 +55,49 @@ export default function freelancePersona(): AstroIntegration {
 
         const isTestMode = process.env.PLAYWRIGHT_TEST === 'true';
 
+        // --- Content-Security-Policy (default ON) ---
+        // Astro hashes every script it processes; the theme's is:inline
+        // scripts register themselves at render (BaseLayout, Astro.csp).
+        // Opt-out in the theme config: security: { csp: false }.
+        const themeConfigPath = process.env.THEME_CONFIG_PATH
+          ? path.resolve(process.env.THEME_CONFIG_PATH)
+          : path.join(projectRoot, 'src', 'freelance-persona.config.ts');
+        let themeConfigText = '';
+        try {
+          themeConfigText = fs.readFileSync(themeConfigPath, 'utf-8');
+        } catch {
+          /* config file optional for CSP defaults */
+        }
+        const cspDisabled = /security\s*:\s*\{[^}]*csp\s*:\s*false/.test(
+          themeConfigText,
+        );
+        const cspExtraMatch = themeConfigText.match(
+          /cspExtra\s*:\s*\[([^\]]*)\]/,
+        );
+        const cspExtra = cspExtraMatch
+          ? cspExtraMatch[1]
+              .split(',')
+              .map((s) => s.trim().replace(/^['"`]|['"`]$/g, ''))
+              .filter(Boolean)
+          : [];
+
+        const cspDirectives = [
+          "default-src 'self'",
+          "img-src 'self' data:",
+          "font-src 'self'",
+          // The contact handler submits via fetch to the configured
+          // provider (user-configurable https endpoint)
+          "connect-src 'self' https:",
+          'object-src \'none\'',
+          "base-uri 'self'",
+          // Contact-form providers are all https; blocks injected-form exfiltration
+          "form-action 'self' https:",
+          // Content embeds (e.g. pasted video iframes) stay https-only
+          "frame-src https:",
+          'upgrade-insecure-requests',
+          ...cspExtra,
+        ];
+
         updateConfig({
           markdown: {
             processor: unified({
@@ -61,13 +106,16 @@ export default function freelancePersona(): AstroIntegration {
             })
           },
           integrations: [
+            UnoCSS({
+              configFile: unoConfigPath,
+            }),
             astroExpressiveCode({
               themes: ['github-light', 'github-dark'],
               // CSS-native theme switching strategy:
               // 1. useDarkModeMediaQuery handles OS preference (prefers-color-scheme)
               // 2. themeCssSelector adds a manual override for :has(.theme-state-dark)
               // 3. The edge case "OS dark + user forces light" is handled in
-              //    _code-blocks.scss (resets EC tokens/vars back to light).
+              //    _code-blocks.css (resets EC tokens/vars back to light).
               //
               // NOTE: EC's themeCssSelector does NOT support @media at-rules —
               // it only accepts plain CSS selectors.
@@ -101,8 +149,8 @@ export default function freelancePersona(): AstroIntegration {
                 codePaddingBlock: '1.25rem',
                 // Using our theme variables for a designed-in look
                 codeBackground: 'var(--code-background)',
-                uiFontFamily: 'var(--default-font)',
-                codeFontFamily: 'var(--monospace-font)',
+                uiFontFamily: 'var(--font-body)',
+                codeFontFamily: 'var(--font-mono)',
                 frames: {
                   terminalTitlebarDotsOpacity: '0',
                   editorBackground: 'var(--code-background)',
@@ -138,17 +186,28 @@ export default function freelancePersona(): AstroIntegration {
                 }
               ]
             },
-            css: {
-              preprocessorOptions: {
-                scss: {
-                  silenceDeprecations: ['legacy-js-api', 'color-functions', 'import', 'global-builtin', 'if-function'],
-                },
-              },
+            build: {
+              // lightningcss (<1.34) cannot parse the anchor-positioning L2
+              // container query in nav-home.css (@container anchored(...)) —
+              // skip CSS minification until it ships. Tracked in To_Do.md.
+              cssMinify: false,
             },
             ssr: {
               noExternal: ['astro-freelance-persona_theme', '@iconify-json/bi', '@iconify-json/academicons', 'astro-icon']
             }
           },
+          security: cspDisabled
+            ? undefined
+            : {
+                csp: {
+                  algorithm: 'SHA-256' as const,
+                  directives: cspDirectives,
+                  // Styles: Astro auto-hashes its processed inline styles;
+                  // 'unsafe-inline' covers the remaining is:inline style blocks
+                  // and inline style attributes (low-severity, pervasive).
+                  styleDirective: { resources: ["'self'", "'unsafe-inline'"] },
+                },
+              },
         });
       },
     },

@@ -37,10 +37,44 @@ const encodedDesc = encodeURIComponent(description);
         <Icon name="bi:link-45deg" class="icon-link-default" />
         <Icon name="bi:check2" class="icon-link-success" style="display: none;" />
         <span class="label">Get link</span>
+        <Icon name="bi:copy" class="icon-trailing-copy" />
       </button>
 
       <!-- Separator -->
       <hr class="share-menu-divider" />
+
+      <!-- Mastodon (via mastodonshare.com — Mastodon has no central share endpoint) -->
+      <a
+        href={`https://mastodonshare.com/?text=${encodedTitle}%20${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-menu-item"
+      >
+        <Icon name="bi:mastodon" />
+        <span>Share on Mastodon</span>
+      </a>
+
+      <!-- Bluesky -->
+      <a
+        href={`https://bsky.app/intent/compose?text=${encodedTitle}%20${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-menu-item"
+      >
+        <Icon name="bi:bluesky" />
+        <span>Share on Bluesky</span>
+      </a>
+
+      <!-- Threads -->
+      <a
+        href={`https://www.threads.net/intent/post?text=${encodedTitle}%20${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="share-menu-item"
+      >
+        <Icon name="bi:threads" />
+        <span>Share on Threads</span>
+      </a>
 
       <!-- LinkedIn -->
       <a
@@ -87,8 +121,8 @@ const encodedDesc = encodeURIComponent(description);
   </div>
 </div>
 
-<style>
-  @import "@freelance-persona/styles/share-menu.scss";
+<style is:global>
+  @import "@freelance-persona/styles/share-menu.css" layer(components);
 </style>
 
 <script>

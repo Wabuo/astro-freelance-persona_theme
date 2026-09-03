@@ -84,7 +84,7 @@ const { Content } = entry ? await render(entry) : { Content: null };
             {
               legal.legal_note && (
                 <span
-                  class="legal-note d-block mt-3"
+                  class="legal-note block mt-[1rem]"
                   set:html={legal.legal_note}
                 />
               )
@@ -95,7 +95,7 @@ const { Content } = entry ? await render(entry) : { Content: null };
         {/* Privacy Policy Content */}
         {
           Content && (
-            <div class="legal-text mt-5">
+            <div class="legal-text mt-[3rem]">
               <Content />
             </div>
           )
@@ -105,67 +105,6 @@ const { Content } = entry ? await render(entry) : { Content: null };
   </section>
 </BaseLayout>
 
-<style>
-  .legal-content {
-    background: var(--bs-body-bg);
-    color: var(--bs-body-color);
-    padding: var(--spacing-lg) 0;
-    font-family: var(--font-body);
-  }
-
-  .legal-block {
-    margin-bottom: var(--spacing-xl);
-    border-bottom: 1px solid var(--bs-border-color);
-    padding-bottom: var(--spacing-md);
-  }
-
-  .legal-block:last-child {
-    border-bottom: none;
-  }
-
-  h4 {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    margin-bottom: var(--spacing-sm);
-    color: var(--bs-heading-color);
-    color: color-mix(in srgb, var(--default-color), transparent 20%);
-  }
-
-  .legal-text {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: var(--default-color);
-  }
-
-  /* Match the "comfortable" muted headers from the top section */
-  .legal-text :global(h1),
-  .legal-text :global(h2),
-  .legal-text :global(h3),
-  .legal-text :global(h4),
-  .legal-text :global(h5),
-  .legal-text :global(h6) {
-    font-family: var(--font-heading);
-    color: color-mix(in srgb, var(--default-color), transparent 20%);
-    margin-top: var(--spacing-md);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .legal-note {
-    color: color-mix(in srgb, var(--default-color), transparent 40%);
-    font-size: 0.9em;
-  }
-
-  /* Shiki Code Block Styling (Match Blog Posts) */
-  .legal-text :global(.astro-code) {
-    padding: 1.25rem;
-    border-radius: 0.25rem;
-    margin: 1.5rem 0;
-    font-size: 0.9rem;
-    font-family: var(--font-mono, monospace);
-    overflow-x: auto;
-  }
-
-  .legal-text :global(code) {
-    font-family: var(--font-mono, monospace);
-  }
+<style is:global>
+  @import "@freelance-persona/styles/legal.css" layer(components);
 </style>

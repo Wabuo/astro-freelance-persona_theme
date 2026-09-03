@@ -6,6 +6,7 @@ import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import ObfuscatedEmail from "@freelance-persona/components/ui/ObfuscatedEmail.astro";
 import { parseInline } from "marked";
+import Tooltip from "@freelance-persona/components/ui/Tooltip.astro";
 
 interface Props {
   entry: {
@@ -142,15 +143,15 @@ const sectionStyle = `
   <SectionTitle title={title} subtitle={subtitle} delay={headingDelay} />
 
   <div class="container" data-reveal data-reveal-delay={delay || contentDelay}>
-    <div class="row gy-4">
-      <div class={showForm ? "col-lg-4" : "col-lg-8 offset-lg-4"}>
-        <div class="info-list d-flex flex-column gap-4">
+    <div class="contact-grid grid mx-[-0.75rem] -mt-6 lg:grid-cols-3">
+      <div class={`mt-6 px-[0.75rem] ${showForm ? "lg:col-span-1" : "lg:col-span-2 lg:col-start-2"}`}>
+        <div class="info-list flex flex-col gap-6">
           {
             resolvedItems.map((info, index) => (
               <>
                 {info.type === "email" ? (
                   <div
-                    class="info-item d-flex email-wrapper obfuscated-email-wrapper"
+                    class="info-item flex email-wrapper obfuscated-email-wrapper"
                     data-reveal="fade-up"
                     data-reveal-delay={
                       (delay || contentDelay) + index * staggerDelay
@@ -167,7 +168,7 @@ const sectionStyle = `
                   </div>
                 ) : (
                   <div
-                    class="info-item d-flex"
+                    class="info-item flex"
                     data-reveal="fade-up"
                     data-reveal-delay={
                       (delay || contentDelay) + index * staggerDelay
@@ -190,7 +191,7 @@ const sectionStyle = `
 
       {
         showForm && (
-          <div class="col-lg-8">
+          <div class="mt-6 px-[0.75rem] lg:col-span-2">
             <form
               action={actionUrl}
               method={formMethod}
@@ -225,8 +226,8 @@ const sectionStyle = `
                    We rely on JS adapter for advanced Title/Priority.
                */}
 
-              <div class="row gy-4">
-                <div class="col-md-6">
+              <div class="contact-grid grid mx-[-0.75rem] -mt-6 md:grid-cols-2">
+                <div class="mt-6 px-[0.75rem]">
                   <div class="input-box">
                     <input
                       type="text"
@@ -241,13 +242,15 @@ const sectionStyle = `
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="mt-6 px-[0.75rem]">
                   <div class="input-box">
                     <input
                       type="email"
                       name="email"
                       id="email-field"
                       autocomplete="email"
+                      pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                      title="Please enter a valid email address (e.g. name@example.com)"
                       required
                     />
                     <label for="email-field" class="label">
@@ -256,7 +259,7 @@ const sectionStyle = `
                   </div>
                 </div>
 
-                <div class="col-md-12">
+                <div class="mt-6 px-[0.75rem] md:col-span-2">
                   <div class="input-box">
                     <input
                       type="text"
@@ -271,7 +274,7 @@ const sectionStyle = `
                   </div>
                 </div>
 
-                <div class="col-md-12">
+                <div class="mt-6 px-[0.75rem] md:col-span-2">
                   <div class="input-box">
                     <textarea
                       name="message"
@@ -287,32 +290,36 @@ const sectionStyle = `
                 </div>
 
                 {themeConfig.contact_form?.checkboxes?.map((checkbox) => (
-                  <div class="col-md-12">
-                    <div class="form-check text-start d-flex gap-2">
+                  <div class="mt-6 px-[0.75rem] md:col-span-2">
+                    <div class="check-group text-left flex! gap-2">
                       <input 
-                        class="form-check-input mt-1" 
+                        class="check-input mt-1" 
                         type="checkbox" 
                         name={checkbox.id} 
                         id={checkbox.id} 
                         required={checkbox.required} 
                       />
                       <label 
-                        class="form-check-label checkbox-label" 
-                        style="font-size: 0.9em; line-height: 1.4;"
+                        class="checkbox-label" 
+                        style={`font-size: 0.9em; line-height: 1.4;${checkbox.tooltip ? ` anchor-name: --fp-tip-cb-${checkbox.id};` : ''}`}
                         for={checkbox.id} 
+                        interestfor={checkbox.tooltip ? `fp-tooltip-cb-${checkbox.id}` : undefined}
                         set:html={parseInline(checkbox.label)} 
                       />
+                      {checkbox.tooltip && (
+                        <Tooltip id={`cb-${checkbox.id}`} text={checkbox.tooltip} />
+                      )}
                     </div>
                   </div>
                 ))}
 
-                <div class="col-md-12 text-center">
+                <div class="mt-6 px-[0.75rem] md:col-span-2 text-center">
                   <div class="loading">Loading</div>
                   <div class="error-message" />
                   <div class="sent-message">
                     Your message has been sent. Thank you!
                   </div>
-                  <button type="submit">Send Message</button>
+                  <button type="submit" class="btn">Send Message</button>
                 </div>
               </div>
             </form>
@@ -412,7 +419,14 @@ const sectionStyle = `
   });
 </script>
 
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/contact.css" layer(components);
+</style>
+
 <style>
+@layer components {
+
   .contact.section {
     transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
       scale(var(--content-scale, 1));
@@ -449,24 +463,51 @@ const sectionStyle = `
     -moz-user-select: text;
   }
 
-  /* Make checkbox inputs theme-aware */
-  .form-check-input {
+  /* Theme-owned checkbox.
+     Structural values from the original compiled stylesheet; colors are
+     the theme overrides that previously won the cascade. */
+  .check-group {
+    min-height: 1.5rem;
+    margin-bottom: 0.125rem;
+    padding-left: 1.5em;
+  }
+
+  .check-input {
+    appearance: none;
+    float: left;
+    width: 1em;
+    height: 1em;
+    margin-left: -1.5em;
+    vertical-align: top;
+    /* flex parent: never let long labels shrink the box below 16px */
+    flex-shrink: 0;
     background-color: var(--surface-color);
-    border-color: color-mix(in srgb, var(--default-color), transparent 60%);
+    border: 1px solid color-mix(in srgb, var(--default-color), transparent 60%);
+    border-radius: 0.25em;
     cursor: pointer;
     caret-color: transparent !important;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out;
   }
 
-  .form-check-input:checked {
+  .check-input:checked {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
   }
 
-  .form-check-input:focus {
+  .check-input:active {
+    filter: brightness(90%);
+  }
+
+  .check-input:focus {
+    outline: 0;
     border-color: var(--accent-color);
     box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--accent-color), transparent 75%);
   }
+}
 </style>
+

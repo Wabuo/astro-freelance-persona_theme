@@ -14,10 +14,11 @@
     "build": "cd playground && bun run build",
     "preview": "cd playground && bun run preview",
     "check": "cd playground && bun run check",
-    "test": "cd playground && bun run playwright test --project=firefox-light --project=chrome-mobile-dark",
-    "test:full": "cd playground && bun run playwright test",
+    "test": "cd playground && bun run test --project=firefox-light --project=chrome-mobile-dark",
+    "test:full": "cd playground && bun run test:full",
     "test:matrix": "cd playground && bun run scripts/test-config-matrix.ts",
     "test:release": "bun run test:full && bun run test:matrix",
+    "playwright:install": "cd playground && bun x playwright install",
     "playground:setup": "fuser -k 4321/tcp || true; fuser -k 4322/tcp || true; cd theme && bun link && cd .. && rm -rf playground && mkdir -p playground && cp -a theme/starter/. playground && cd playground && bun link astro-freelance-persona_theme"
   },
   "devDependencies": {
@@ -25,6 +26,9 @@
     "@mathjax/mathjax-newcm-font": "4",
     "@playwright/test": "^1.60.0",
     "mathjax-full": "^3.2.2"
+  },
+  "overrides": {
+    "lightningcss": "1.33.0"
   },
   "dependencies": {
     "@iconify-json/academicons": "^1.2.4",

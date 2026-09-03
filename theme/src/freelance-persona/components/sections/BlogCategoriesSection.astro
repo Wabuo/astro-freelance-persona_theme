@@ -171,7 +171,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
               }
               style={cardStyle}
             >
-              <Card class="category-card h-100">
+              <Card class="category-card h-full">
                 <a
                   href={linkUrl}
                   class="card-link-overlay"
@@ -307,7 +307,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                     (categories.length + index) * staggerDelay
                 }
               >
-                <Card class="mini-category-card h-100" style={combinedStyle}>
+                <Card class="mini-category-card h-full" style={combinedStyle}>
                   <a
                     href={linkUrl}
                     class="card-link-overlay"
@@ -354,3 +354,14 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
     }
   </div>
 </section>
+
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/_blog-categories.css" layer(components);
+</style>
+
+<style is:global>
+  /* Card-facing post primitives (.post-header/.post-title/.meta-top) render here too,
+     so this partial ships wherever those cards appear. */
+  @import "@freelance-persona/styles/blog-post.css" layer(components);
+</style>

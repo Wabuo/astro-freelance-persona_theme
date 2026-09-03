@@ -23,10 +23,10 @@ const description = "The page you are looking for does not exist.";
 
 <BaseLayout title={title} description={description} navType="page">
   <section
-    class="section error-404 d-flex flex-column align-items-center justify-content-center"
+    class="section error-404 flex flex-col items-center justify-center"
   >
     <div class="container text-center" data-reveal="fade-up">
-      <div class="mascot-container mb-4">
+      <div class="mascot-container flow-root mb-6">
         {
           lancyImage ? (
             <Image
@@ -34,7 +34,7 @@ const description = "The page you are looking for does not exist.";
               alt="Mascot looking confused"
               width={300}
               height={300}
-              class="img-fluid lancy-404"
+              class="lancy-404 max-w-full h-auto mx-auto"
             />
           ) : (
             <div
@@ -49,17 +49,17 @@ const description = "The page you are looking for does not exist.";
 
       <h1>404</h1>
       <h2>Oops! Page Not Found</h2>
-      <p class="mb-4">
+      <p class="mb-6">
         It seems Lancy couldn't find the page you're looking for.<br />
         Maybe it was moved, deleted, or never existed in the first place?
       </p>
 
-      <a href="/" class="btn-get-started"> Return to Home </a>
+      <a href="/" class="btn mt-2 md:mt-4"> Return to Home </a>
     </div>
   </section>
 </BaseLayout>
 
-<style lang="scss">
+<style>
   .error-404 {
     min-height: 80vh;
     padding: 4rem 0;
@@ -88,29 +88,10 @@ const description = "The page you are looking for does not exist.";
       filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
     }
 
-    .btn-get-started {
-      margin-top: 1rem;
-      font-family: var(--heading-font);
-      font-weight: 500;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      display: inline-block;
-      padding: 0.75rem 2rem;
-      border-radius: 50px;
-      transition: 0.5s;
-      color: #fff;
-      background: var(--accent-color);
-
-      &:hover {
-        background: color-mix(in srgb, var(--accent-color), white 15%);
-        transform: translateY(-2px);
-      }
-    }
-
     /* Mobile Compact Layout */
 @media (max-width: 768px) {
-      min-height: 85vh; // Revert to stable vh
-      padding: 1rem 0 2rem 0; // Tighten padding
+      min-height: 85vh; /*/ Revert to stable vh */
+      padding: 1rem 0 2rem 0; /*/ Tighten padding */
 
       h1 {
         font-size: 3rem;
@@ -126,12 +107,8 @@ const description = "The page you are looking for does not exist.";
       }
 
       .lancy-404 {
-        width: 180px; // Enforce smaller size
+        width: 180px; /*/ Enforce smaller size */
         margin-bottom: 1rem;
-      }
-
-      .btn-get-started {
-        margin-top: 0.5rem;
       }
     }
   }

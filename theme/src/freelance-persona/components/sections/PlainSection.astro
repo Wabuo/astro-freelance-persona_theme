@@ -40,8 +40,11 @@ const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
 </section>
 
 <style>
+@layer components {
+
   .plain.section {
     transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
       scale(var(--content-scale, 1));
   }
+}
 </style>

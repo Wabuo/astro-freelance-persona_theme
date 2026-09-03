@@ -59,9 +59,21 @@ const isImageMetadata = typeof src === 'object' && src !== null;
 
 <figure class="post-figure" style={figureStyle}>
   {isImageMetadata ? (
-    <Image src={src} alt={alt || paramsObj.altText || ''} class="figure-img" style="width: 100%; height: auto; display: block;" />
+    <Image
+      src={src}
+      alt={alt || paramsObj.altText || ''}
+      aria-hidden={!alt && !paramsObj.altText ? 'true' : undefined}
+      class="figure-img"
+      style="width: 100%; height: auto; display: block;"
+    />
   ) : (
-    <img src={src} alt={alt || paramsObj.altText || ''} class="figure-img" style="width: 100%; height: auto; display: block;" />
+    <img
+      src={src}
+      alt={alt || paramsObj.altText || ''}
+      aria-hidden={!alt && !paramsObj.altText ? 'true' : undefined}
+      class="figure-img"
+      style="width: 100%; height: auto; display: block;"
+    />
   )}
 
   {isCaptionActive && (

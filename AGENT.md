@@ -55,6 +55,10 @@ SPDX-License-Identifier: MIT
   - To update or generate baseline screenshots locally: run `bun run test --update-snapshots` inside `theme/starter/`.
   - To preserve new/updated snapshots across `bun run playground:setup` resets, copy them back from playground to the starter template:
     `cp -r playground/testing/tests/*-snapshots/ theme/starter/testing/tests/`
+- **Always `fuser -k 4321/tcp 4322/tcp` before test runs**: Playwright's
+  webServer uses `reuseExistingServer: !CI` — any server already on 4321
+  (e.g. a manual `preview`) gets REUSED, silently testing a stale build and
+  poisoning re-recorded baselines.
 - **Path Aliases:** Tests use `@/*` (e.g., `import { themeConfig } from '@/freelance-persona.config'`) which maps to `src/*` in the starter context.
 
 #### Two-Tier Test Structure
@@ -138,7 +142,11 @@ Each config is built separately and tested with `testing/tests/config-matrix.spe
 ### 2. 🎨 Styling & NoScript
 
 - **prefer native** if there  is a way to do something in a sensible modern or even bleeding edge way without javascript then drop the javascript!
-- **SCSS:** Prefer `_partial.scss` over inline `<style>`.
+- **Styling stack (post-3.5):** UnoCSS (presetWind4, unlayered utilities) +
+  component-owned plain-CSS partials in `@layer components` + the flat
+  `light-dark()` token table in `styles/base.css`. No Sass, no Bootstrap —
+  new styles are plain CSS partials or utilities, never inline `<style>`
+  for anything reusable.
 - **NoScript Fallback:**
   - `BaseLayout.astro` contains a `<noscript>` block.
   - It forces `[data-reveal] { opacity: 1 !important }` so content is visible without JS animations.
@@ -243,3 +251,74 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 **Symptom:** Clicking `.nav-toggle` to close the mobile popover does nothing (popover stays open).
 **Cause:** The `.nav-toggle` button has `command="show-popover"` only. It cannot close the popover.
 **Fix:** Use `button.nav-close[aria-label="Close navigation menu"]` to close, and `page.keyboard.press('Escape')` for light-dismiss testing.
+
+### 🎨 Astro `<style>` + `@import` Scoping (UnoCSS Migration Gotchas)
+
+- **Astro scopes `@import`ed CSS.** A partial imported inside a plain `<style>` block
+  gets `[data-astro-cid-*]` appended to every selector. This silently breaks any rule
+  targeting markup rendered by OTHER components/templates/plugins (scoped selectors only
+  match the owning component's own elements). ShareMenu "worked" only because its markup
+  is internal to itself.
+  - **Fix:** use `<style is:global>` blocks for component-owned partial imports.
+- **Import order inside a component matters.** Legacy cascade had shared partials load
+  BEFORE a component's local literal styles. Put `<style is:global>` import blocks ABOVE
+  existing `<style>` blocks; appending them after flips same-specificity ties.
+- **`:is()` takes the max specificity of its arguments.** Grouping selector lists of
+  different complexity in one nested parent (e.g. `.hero, .blog-post .post-img { & .x }`)
+  boosts simple contexts to the most complex member's specificity and breaks per-context
+  overrides. Split groups so every member yields identical rule specificity.
+- **Cross-component class usage:** if a partial's classes render in multiple components
+  (e.g. blog-post.css `.post-header` used by FilteredPostsSection cards), each renderer
+  must import it — Vite dedupes per page.
+- **A/B build rigs must pin dependency versions.** A fresh `bun install` in a comparison
+  workspace pulled astro-icon 1.2.x vs the repo's 1.1.x, changing SVG sprite emission
+  (`viewBox` moved to `<symbol>`) and producing fake Firefox-only diffs.
+
+### 🧱 Cascade Layers (post-3.5 architecture)
+
+- Theme CSS lives in `@layer components`; uno (presetWind4) ships its own
+  `theme`/`base` layers + reset, and utilities are UNLAYERED-OR-EQUIVALENT →
+  utilities always beat layered rules regardless of specificity. To beat a
+  utility, change the markup's utility, not a layered rule.
+  Naming gotcha: wind4 emits utilities into a layer named `default` (not
+  `utilities`); `default` is unlisted in the order statement and sorts by
+  document order, i.e. above components — correct outcome, surprising name
+  when inspecting built CSS.
+- **`!important` inverts layer priority**: for important declarations the
+  EARLIER-declared layer wins. This bit us when `!important` Bootstrap
+  utilities fought layered theme rules (hero mobile alignment) — the fix
+  was deleting the dead utility, not fighting it.
+- The `@layer theme, base, components, utilities;` order statement is
+  injected as `<style is:inline>` in BaseLayout's <head>: the bundler may
+  emit @layer blocks across chunks in arbitrary physical order, so
+  block-position-based ordering is not trustworthy, and first declaration
+  wins.
+
+### 🧱 Step 3.5 cutover gotchas (wind4 reset native)
+
+- **`outputToCssLayers: true` is mandatory** in uno.config.ts: without it uno
+  sorts layers internally but ships ALL css unlayered, and the vendor reset
+  then beats every `@layer components` rule regardless of specificity.
+- **The layer statement must name vendor layers first**: `@layer theme, base,
+  components, utilities;` in BaseLayout head. First declaration wins —
+  declaring only `components` silently places uno's `base`/`theme` AFTER it
+  and the reset nukes component styles.
+- **wind4 blockifies replaced elements** (`img,svg,video{display:block}` +
+  `max-width:100%;height:auto`): text-align centering stops working (use
+  `mx-auto` in markup), baseline descender gaps vanish (flow heights shrink),
+  and oversize hacks like `.hero img`'s `width:calc(100%+4px)` get clamped
+  (re-declare `max-width` alongside `width`).
+- **Universal `padding:0` strips UA table cell padding** (1px/row) — restored
+  in `_type.css`.
+- **Mono identity is config-driven**: wind4 resolves its mono stack via
+  `theme.font.mono` → `var(--monospace-font)` (user config). Inline `<code>`
+  now renders in the configured font — not the old hardcoded SFMono stack. The metric difference shifts line boxes by ~0.5px downstream of
+  inline code; visual baselines recorded before 3.5 will flag ±1px clips.
+- **Cutover lesson — hidden carrier dependencies surface at deletion**: the
+  old `.dropdown` class carried `position:relative` for the theme dropdown
+  (now owned by `_theme-dropdown.css`); `h-100`/`d-flex`/`flex-column` etc.
+  were load-bearing layout — all swapped to uno utilities (`h-full`, `flex`,
+  `flex-col`, …). Expect the same when deleting any "unused-looking" class.
+- Visual-test budget is `maxDiffPixels: 200` (global) — sub-pixel AA from any
+  font change exceeds it by orders of magnitude; re-record baselines only
+  after manual review of the diffs.

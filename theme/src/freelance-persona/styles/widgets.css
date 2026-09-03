@@ -1,0 +1,85 @@
+
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/*--------------------------------------------------------------
+# Widgets
+--------------------------------------------------------------*/
+.widgets-container {
+  margin: var(--spacing-xxl) 0 1.875rem 0;
+  /* Align with .section padding-top */
+}
+
+.widget-title {
+  color: var(--heading-color);
+  font-size: 1.25rem;
+  /* 20px */
+  font-weight: 600;
+  padding: 0 0 0 0.625rem;
+  /* 10px */
+  margin: 0 0 1.25rem 0;
+  /* 20px */
+  border-left: 0.25rem solid var(--accent-color);
+  /* 4px */
+}
+
+.widget-item {
+  margin-bottom: 1.875rem;
+  /* 30px */
+  background-color: color-mix(in srgb, var(--card-background, #fff), transparent 50%);
+  border: 1px solid var(--card-border, color-mix(in srgb, var(--default-color), transparent 90%));
+  padding: 1.875rem;
+  /* 30px */
+  border-radius: 0.3125rem;
+  /* 5px */
+}
+
+.widget-item:last-child {
+  margin-bottom: 0;
+}
+.recent-posts-widget ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent-posts-widget .post-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+  /* 20px */
+}
+
+.recent-posts-widget .post-item:last-child {
+  margin-bottom: 0;
+}
+
+.recent-posts-widget .post-item h4 {
+  font-size: 1rem;
+  /* 16px */
+  font-weight: 600;
+  margin-bottom: 0.3125rem;
+  /* 5px */
+}
+
+.recent-posts-widget .post-item h4 a {
+  color: var(--accent-color);
+  transition: 0.3s;
+}
+
+.recent-posts-widget .post-item h4 a:hover {
+  color: var(--default-color);
+  text-decoration: underline;
+}
+
+.recent-posts-widget .post-item time {
+  display: block;
+  font-style: italic;
+  font-size: 0.875rem;
+  /* 14px */
+  color: color-mix(in srgb, var(--default-color), transparent 50%);
+}
+

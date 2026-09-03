@@ -96,7 +96,11 @@ export default defineConfig({
 
 /* Run your local dev server before starting the tests */
     webServer: {
-        command: 'PLAYWRIGHT_TEST=true bun run build && bun run preview',
+        // NOTE: `unset AGENT OPENCODE` is required because Astro >= 7.2 auto-enables
+        // `--background` (daemonized preview) when it detects an AI-agent environment
+        // (am-i-vibing). A daemonized preview exits instantly, which Playwright's
+        // webServer interprets as a crash ("Process exited early").
+        command: 'unset AGENT OPENCODE; PLAYWRIGHT_TEST=true bun run build && bun run preview',
         url: 'http://localhost:4321',
         reuseExistingServer: !process.env.CI,
         timeout: 120 * 1000,

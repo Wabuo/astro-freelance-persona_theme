@@ -89,7 +89,7 @@ mobile_image_object_position: "84% 0" # Horizontal focus (84% = Right side)
 # position_x: "center"  # Options: left, center, right
 # position_y: "middle"  # Options: top, middle, bottom
 
-# Controls the width of the content container (Bootstrap columns).
+# Controls the width of the content container (semantic container sizes).
 # size: "medium"        # Options: small, medium, large, full
 
 # -----------------------------------------------------------------------------

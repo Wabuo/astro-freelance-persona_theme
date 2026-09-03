@@ -81,8 +81,11 @@ const optimizedThumbnail = post.data.thumbnail
   <Breadcrumbs crumbs={crumbs} showTitle={false} />
 
   <div class="container">
-    <div class="row">
-      <section id="blog-post" class="blog-post section col-lg-8">
+    <div class="-mx-[0.75rem] [display:flow-root] lg:grid lg:grid-cols-3">
+      <!-- NOTE: no px-* utility here on purpose — .section's `padding: 3rem 0`
+           intentionally zeroed the x-axis in the reference design; horizontal
+           gutters come from the grid child's -mx + cell padding. -->
+      <section id="blog-post" class="blog-post section lg:col-span-2">
         <div class="container" data-reveal="fade-up">
           <article
             class="article"
@@ -99,7 +102,7 @@ const optimizedThumbnail = post.data.thumbnail
                   <Image
                     src={post.data.thumbnail}
                     alt={post.data.title}
-                    class="img-fluid"
+                    class="max-w-full h-auto"
                     width={1100}
                     quality="high"
                     format={post.data.thumbnail.format === 'svg' ? 'svg' : 'webp'}
@@ -134,9 +137,9 @@ const optimizedThumbnail = post.data.thumbnail
               <div class="meta-top-divider"></div>
 
               <div class="meta-top">
-                <div class="d-flex justify-content-between">
-                  <ul id="info" class="d-flex list-unstyled m-0">
-                    <li class="d-flex align-items-center me-4">
+                <div class="flex justify-between">
+                  <ul id="info" class="flex list-none m-0">
+                    <li class="flex items-center me-6">
                       <Icon name="bi:calendar-event" class="me-2" />
                       <time
                         >{
@@ -148,14 +151,14 @@ const optimizedThumbnail = post.data.thumbnail
                         }
                       </time>
                     </li>
-                    <li class="d-flex align-items-center">
+                    <li class="flex items-center">
                       <Icon name="bi:hourglass-split" class="me-2" />
                       <time>{readingTime} min read</time>
                     </li>
                   </ul>
 
-                  <ul id="action" class="d-flex list-unstyled m-0">
-                    <li class="d-flex align-items-center">
+                  <ul id="action" class="flex list-none m-0">
+                    <li class="flex items-center">
                       <ShareMenu
                         url={Astro.site
                           ? new URL(Astro.url.pathname, Astro.site).toString()
@@ -181,3 +184,11 @@ const optimizedThumbnail = post.data.thumbnail
     </div>
   </div>
 </BaseLayout>
+
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/blog-post.css" layer(components);
+  /* .post-figure markup is injected into post content by plugins/rehypeFigures,
+     so its styles belong to the blog-post rendering path. */
+  @import "@freelance-persona/styles/_blog-figures.css" layer(components);
+</style>

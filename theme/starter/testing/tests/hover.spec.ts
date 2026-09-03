@@ -35,7 +35,11 @@ test.describe('Visual Hover States', () => {
 
             await expect(page.locator('#hero')).toHaveScreenshot(`hero-social-hover-${i}.png`, {
                 maxDiffPixelRatio: 0.1,
-                maxDiffPixels: 5000
+                maxDiffPixels: 5000,
+                // The typing loop mutates textContent forever — mask the
+                // racy subline so hover-state comparisons stay deterministic
+                // (same masks the hero layout-stability shots use).
+                mask: [page.locator('.typing-lock'), page.locator('.typed-cursor')]
             });
 
             // Cleanup

@@ -16,11 +16,11 @@
  * Usage in about.md frontmatter (via token replacement in AboutSection):
  *   subtitle:
  *     - "Astro {{astro_major}}+"
- *     - "Bootstrap {{bootstrap_major}}"
+ *     - "UnoCSS {{unocss_major}}"
  */
 
 import astroPkg from 'astro/package.json' with { type: 'json' };
-import bootstrapPkg from 'bootstrap/package.json' with { type: 'json' };
+import unocssPkg from 'unocss/package.json' with { type: 'json' };
 
 // --- Astro ---
 
@@ -33,16 +33,16 @@ export const astroMajorVersion: string = astroPkg.version.split('.')[0];
 /** Major.minor version, e.g. "6.3" */
 export const astroMinorVersion: string = astroPkg.version.split('.').slice(0, 2).join('.');
 
-// --- Bootstrap ---
+// --- UnoCSS ---
 
-/** Full semver string, e.g. "5.3.8" */
-export const bootstrapVersion: string = bootstrapPkg.version;
+/** Full semver string, e.g. "66.7.5" */
+export const unocssVersion: string = unocssPkg.version;
 
-/** Major version, e.g. "5" */
-export const bootstrapMajorVersion: string = bootstrapPkg.version.split('.')[0];
+/** Major version, e.g. "66" */
+export const unocssMajorVersion: string = unocssPkg.version.split('.')[0];
 
-/** Major.minor version, e.g. "5.3" */
-export const bootstrapMinorVersion: string = bootstrapPkg.version.split('.').slice(0, 2).join('.');
+/** Major.minor version, e.g. "66.7" */
+export const unocssMinorVersion: string = unocssPkg.version.split('.').slice(0, 2).join('.');
 
 // --- Token map for content interpolation ---
 
@@ -55,9 +55,9 @@ export const buildTokens: Record<string, string> = {
   'astro_version': astroVersion,
   'astro_major': astroMajorVersion,
   'astro_minor': astroMinorVersion,
-  'bootstrap_version': bootstrapVersion,
-  'bootstrap_major': bootstrapMajorVersion,
-  'bootstrap_minor': bootstrapMinorVersion,
+  'unocss_version': unocssVersion,
+  'unocss_major': unocssMajorVersion,
+  'unocss_minor': unocssMinorVersion,
 };
 
 /**

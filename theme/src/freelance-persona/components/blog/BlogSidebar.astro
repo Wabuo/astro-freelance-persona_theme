@@ -15,7 +15,7 @@ const recentPosts = allPosts
   .slice(0, 5);
 ---
 
-<aside id="sidebar" class="sidebar col-lg-4">
+<aside id="sidebar" class="sidebar px-[0.75rem] lg:col-span-1">
   <div class="widgets-container">
     <div class="recent-posts-widget widget-item">
       <h3 class="widget-title">Recent Posts</h3>
@@ -42,3 +42,8 @@ const recentPosts = allPosts
     </div>
   </div>
 </aside>
+
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/widgets.css" layer(components);
+</style>

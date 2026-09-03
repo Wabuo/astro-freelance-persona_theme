@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Icon } from "astro-icon/components";
+import Tooltip from "@freelance-persona/components/ui/Tooltip.astro";
 
 interface Props {
   email: string;
@@ -19,7 +20,12 @@ const obfuscatedStr = email.replace(/@/g, '[at]').replace(/\./g, '[dot]');
 const encodedEmail = Buffer.from(email).toString('base64');
 ---
 
-<div class="obfuscated-email-wrapper" data-e={encodedEmail}>
+<div
+  class="obfuscated-email-wrapper"
+  data-e={encodedEmail}
+  interestfor="fp-tooltip-email"
+  style="anchor-name: --fp-tip-email;"
+>
   <noscript>
     <span class="email-text">{obfuscatedStr}</span>
   </noscript>
@@ -31,8 +37,11 @@ const encodedEmail = Buffer.from(email).toString('base64');
     </span>
   </button>
 </div>
+<Tooltip id="email" text="Copy email address" />
 
 <style>
+@layer components {
+
   .obfuscated-email-wrapper {
     display: inline-block;
     cursor: pointer;
@@ -50,11 +59,30 @@ const encodedEmail = Buffer.from(email).toString('base64');
     font-family: var(--font-mono, monospace);
     font-size: 0.9em;
     cursor: pointer;
-    transition: all 0.2s ease;
+    /* Same hover timing as the icon pill / rest of the row */
+    transition:
+      color var(--transition-hover-time),
+      text-decoration-color var(--transition-hover-time);
   }
-  
-  .obfuscated-email-wrapper:hover .email-copy-btn {
-    color: color-mix(in srgb, var(--accent-color), transparent 25%);
+
+  /* Persistent accent underline — same treatment as the blog card titles
+     (user-requested). Hover strengthens the underline to full accent. */
+  .email-copy-btn {
+    text-decoration: underline;
+    text-decoration-color: var(--underline-color);
+    text-underline-offset: 3px;
+  }
+
+  /* Hovering ANYWHERE on the contact row (icon pill, label, or the link
+     itself) reacts identically — same trigger, same speed. Hover moves
+     the text to the heading color + a weight bump, blog-card style;
+     the persistent accent underline stays. */
+  :global(.contact .info-item:hover) .email-copy-btn,
+  .obfuscated-email-wrapper:hover .email-copy-btn,
+  .email-copy-btn:focus-visible {
+    color: var(--heading-color);
+    font-weight: 600;
+    text-decoration-color: var(--accent-color);
   }
   
   .email-copy-btn.copied {
@@ -79,6 +107,7 @@ const encodedEmail = Buffer.from(email).toString('base64');
     font-size: 0.9em;
     color: var(--accent-color);
   }
+}
 </style>
 
 <script>

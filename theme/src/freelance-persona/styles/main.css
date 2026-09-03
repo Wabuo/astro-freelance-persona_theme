@@ -1,0 +1,40 @@
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* src/freelance-persona/styles/main.css
+   Global-only entry: layout-critical and cross-cutting styles.
+   Feature partials are imported by their owning components/pages
+   (with `layer(components)`) so unused features ship no CSS. */
+
+/* NOTE: Fonts are now imported in layouts/BaseLayout.astro via JS
+   to ensure correct loading in Yarn PnP environments. */
+
+/* Base typography (design-owned since 3.5; what the old reset used to
+   provide now lives in _type.css, imported below. */
+
+/* 1. Theme Core Styles */
+/* _type.css overlays the upstream reset (uno `base` layer) with the design's
+   typography + the legacy grid subset. First in layer(components): partials
+   below win same-specificity ties, utilities above unlayered. */
+@import "./_type.css" layer(components);
+@import "./base.css" layer(components);
+@import "./_attribution.css" layer(components);
+@import "./preloader.css" layer(components);
+/* NOTE: deliberately NOT in @layer components — this partial overrides
+   Expressive Code's own unlayered styles via :root:root specificity tricks,
+   which only work between two unlayered sheets (layers would invert priority). */
+@import "./_code-blocks.css";
+
+/* 2. Cross-cutting Section Styles */
+@import "./section.css" layer(components);
+@import "./plain.css" layer(components);
+@import "./_buttons.css" layer(components);
+
+/* 3. Conditional Navigation Styles (body-class scoped layouts) */
+@import "./_theme-dropdown.css" layer(components);
+@import "./_mobile-nav.css" layer(components);
+@import "./nav-home.css" layer(components);
+@import "./nav-page.css" layer(components);

@@ -114,39 +114,51 @@ const finalImage = explicitImage;
 // Fallback removed as per user request (controlled via hero.md)
 
 // --- CSS CLASS MAPPING ---
+// UnoCSS utility names (legacy names died with the 3.5 cutover).
+// `block` replaces the old flex-row alignment: the content column is a plain
+// block now, so horizontal alignment = auto margins.
 const xMap = {
   left: {
-    row: "justify-content-start",
-    text: "text-start",
-    flex: "justify-content-start",
+    block: "",
+    text: "text-left",
+    flex: "justify-start",
   },
   center: {
-    row: "justify-content-center",
+    block: "mx-auto",
     text: "text-center",
-    flex: "justify-content-center",
+    flex: "justify-center",
   },
   right: {
-    row: "justify-content-end",
-    text: "text-end",
-    flex: "justify-content-end",
+    block: "ml-auto",
+    text: "text-right",
+    flex: "justify-end",
   },
 };
 const alignSettings = xMap[position_x] || xMap["center"];
 
 const yMap = {
-  top: "align-items-start pt-5",
-  middle: "align-items-center",
-  bottom: "align-items-end pb-5",
+  top: "flex-start",
+  middle: "center",
+  bottom: "flex-end",
 };
-const heroAlignClass = yMap[position_y] || "align-items-center";
+/* Vertical alignment is config-driven and owned by hero.css via custom
+   properties (the old align-items-* utilities carried !important,
+   which inverts under cascade layers). pt-5/pb-5 equivalents below. */
+const heroAlignValue = yMap[position_y] || "center";
+const heroAlignPadTop = position_y === "top" ? "3rem" : "0rem";
+const heroAlignPadBottom = position_y === "bottom" ? "3rem" : "0rem";
 
+// Semantic width steps: percentages of the
+// container box, expressed against the padded container inner width.
+// Values derived from the old col-* widths incl. gutter math — see
+// .hero-content rules in styles/hero.css.
 const sizeMap = {
-  small: "col-lg-6 col-md-8",
-  medium: "col-lg-9 col-md-10",
-  large: "col-lg-11",
-  full: "col-12",
+  small: "hero-width-md-8 hero-width-lg-6",
+  medium: "hero-width-md-10 hero-width-lg-9",
+  large: "hero-width-lg-11",
+  full: "",
 };
-const colClass = sizeMap[size] || "col-lg-9";
+const widthClass = sizeMap[size] || "hero-width-md-10 hero-width-lg-9";
 
 // --- FINE TUNING STYLES ---
 const fineTuneStyle = {
@@ -194,12 +206,17 @@ const heroSectionStyle = {
 
   // Desktop Anchor
   "--desktop-image-anchor": background_image_anchor || "right bottom",
+
+  // Config-driven vertical alignment
+  "--hero-align-items": heroAlignValue,
+  "--hero-align-pad-top": heroAlignPadTop,
+  "--hero-align-pad-bottom": heroAlignPadBottom,
 };
 ---
 
 <section
   id="hero"
-  class={`hero section ${heroAlignClass}`}
+  class="hero section"
   style={heroSectionStyle}
 >
   {
@@ -230,8 +247,7 @@ const heroSectionStyle = {
   }
 
   <div class="container" data-reveal="zoom-out">
-    <div class={`row ${alignSettings.row}`}>
-      <div class={`${colClass} ${alignSettings.text}`} style={fineTuneStyle}>
+    <div class={`hero-content ${widthClass} ${alignSettings.block} ${alignSettings.text}`} style={fineTuneStyle}>
         <h1>{title}</h1>
 
         {
@@ -289,7 +305,6 @@ const heroSectionStyle = {
           )
         }
       </div>
-    </div>
   </div>
 </section>
 
@@ -336,6 +351,14 @@ const heroSectionStyle = {
     document.body.removeChild(measureSpan);
 
     (lockEl as HTMLElement).style.minWidth = `${Math.ceil(maxWidth) + 15}px`;
+
+    // TEST MODE: deterministic rendering — skip the animation loop entirely.
+    // The typing loop mutates textContent forever, which defeats Playwright's
+    // two-consecutive-stable-screenshots check regardless of CSS overrides.
+    if (document.documentElement.getAttribute("data-test-mode") === "true") {
+      typedEl.textContent = words[0] || "";
+      return;
+    }
 
     // 3. TYPING LOGIC
     let wordIndex = 0;
@@ -385,7 +408,14 @@ const heroSectionStyle = {
   }
 </script>
 
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/hero.css" layer(components);
+</style>
+
 <style>
+@layer components {
+
   .typing-wrapper {
     display: flex;
     width: 100%;
@@ -397,14 +427,14 @@ const heroSectionStyle = {
   .hero h1 {
     font-family: var(
       --title-font-family-override,
-      var(--heading-font, sans-serif)
+      var(--font-heading, sans-serif)
     );
     /* Font size is handled by inheritance from the wrapper's --title-font-size variable */
   }
 
   /* TYPING TEXT */
   .hero p {
-    font-family: var(--typing-font-family-override, var(--nav-font));
+    font-family: var(--typing-font-family-override, var(--font-nav));
     font-size: var(--hero-typing-font-size, 1.625rem);
     margin-top: var(--gap-title-to-typing, 0.3125rem);
 
@@ -461,9 +491,11 @@ const heroSectionStyle = {
 
   /* SOCIALS LOGIC */
   .social-links {
-    margin-top: var(--gap-typing-to-socials, 1.5625rem);
+    /* NOTE: margin-top & gap are owned by hero.css (which also applies the
+       --gap-typing-to-socials config var and the mobile overrides). Declaring
+       them here as well creates a specificity tie whose winner depends on
+       stylesheet chunk ORDER — which build tooling may reorder. */
     display: flex;
-    gap: 1.5rem;
   }
 
   .social-links a {
@@ -478,4 +510,6 @@ const heroSectionStyle = {
   .social-links a:hover {
     color: var(--accent-color);
   }
+}
 </style>
+

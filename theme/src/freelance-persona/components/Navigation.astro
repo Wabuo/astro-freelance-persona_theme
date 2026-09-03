@@ -13,7 +13,7 @@ const { isHome = false } = Astro.props;
 
 <!-- Desktop Navigation (always visible on desktop, hidden on mobile via CSS) -->
 <header
-  class={`header desktop-nav d-flex flex-column justify-content-center ${
+  class={`header desktop-nav flex flex-col justify-center ${
     isHome ? "is-home" : "is-inner"
   }`}
 >
@@ -24,7 +24,7 @@ const { isHome = false } = Astro.props;
 <header
   id="mobile-nav"
   popover="auto"
-  class={`header mobile-nav flex-column ${isHome ? "is-home" : "is-inner"}`}
+  class={`header mobile-nav flex-col ${isHome ? "is-home" : "is-inner"}`}
 >
   <!-- Ghost Backdrop: Invisible to AT, handles click-to-close -->
   <button
@@ -47,7 +47,7 @@ const { isHome = false } = Astro.props;
   </button>
 
   <!-- Visual Drawer: The actual menu content (Scroll Container) -->
-  <div class="mobile-nav-drawer d-flex flex-column" id="mobile-nav-drawer">
+  <div class="mobile-nav-drawer flex flex-col" id="mobile-nav-drawer">
     <NavLinks isHome={isHome} isMobile={true} />
   </div>
 </header>
@@ -63,6 +63,8 @@ const { isHome = false } = Astro.props;
 </button>
 
 <style>
+@layer components {
+
   /* Optional: Fix drawer height clipping for dropdowns near the bottom */
   :global(.mobile-nav-drawer) {
     padding-bottom: 2rem;
@@ -79,7 +81,7 @@ const { isHome = false } = Astro.props;
     align-items: center;
     padding: 0.625rem 1.125rem;
     font-size: 0.9375rem;
-    font-family: var(--nav-font);
+    font-family: var(--font-nav);
     transition: 0.3s;
     border-radius: 3.125rem;
     margin-bottom: 0.5rem;
@@ -157,6 +159,10 @@ const { isHome = false } = Astro.props;
     min-height: 2.5rem; /* Ensure they don't collapse to 0px height on mobile */
     padding: 0.5rem; /* Add some padding for the hover state */
     border-radius: 0.25rem;
+    /* Dropdown item styling (design-owned since 3.5): */
+    white-space: nowrap;
+    clear: both;
+    text-align: inherit;
     transition:
       background-color 0.2s ease,
       color 0.2s ease;
@@ -259,7 +265,11 @@ const { isHome = false } = Astro.props;
     color: var(--nav-dropdown-hover-color);
   }
 
-  /* Universal hover/focus state for dropdown items */
+  /* Universal hover/focus state for dropdown items.
+     Light mode: subtle accent wash reads fine on the white dropdown
+     (user-verified). DARK mode is compensated in _theme-dropdown.css —
+     it darkens the row instead (a light wash here would reduce the
+     contrast of the accent-colored item). */
   :global(.theme-dropdown-menu .dropdown-item:hover),
   :global(.theme-dropdown-menu .dropdown-item:focus-within) {
     color: var(--nav-dropdown-hover-color) !important;
@@ -269,6 +279,7 @@ const { isHome = false } = Astro.props;
       transparent 92%
     );
   }
+}
 </style>
 
 <script>

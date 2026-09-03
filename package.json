@@ -22,7 +22,7 @@
     "playground:setup": "fuser -k 4321/tcp || true; fuser -k 4322/tcp || true; cd theme && bun link && cd .. && rm -rf playground && mkdir -p playground && cp -a theme/starter/. playground && cd playground && bun link astro-freelance-persona_theme"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
+    "@changesets/cli": "^3.0.0",
     "@mathjax/mathjax-newcm-font": "4",
     "@playwright/test": "^1.60.0",
     "mathjax-full": "^3.2.2"

@@ -38,6 +38,24 @@ jobs:
       - name: Setup Playground
         run: bun run playground:setup
 
+      # Google Search Console verification, CI-only: the token never
+      # touches the repo. GSC HTML-file verification expects
+      # google<token>.html at the site root with a self-referencing
+      # content line; both derive from the single secret. Inert when the
+      # secret is unset.
+      - name: Google Search Console verification (CI-only)
+        env:
+          GSC_TOKEN: ${{ secrets.GSC_SITE_VERIFICATION }}
+        run: |
+          if [ -n "$GSC_TOKEN" ]; then
+            mkdir -p playground/public
+            printf 'google-site-verification: google%s.html' "$GSC_TOKEN" \
+              > "playground/public/google${GSC_TOKEN}.html"
+            echo "GSC verification file written"
+          else
+            echo "no GSC token configured — skipping"
+          fi
+
       - name: Build Demo Site
         run: bun run build
 

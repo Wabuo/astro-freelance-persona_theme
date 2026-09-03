@@ -22,7 +22,12 @@ const title = "Coming Soon";
 const description = "We are working hard to bring you this page.";
 ---
 
-<BaseLayout title={title} description={description} navType="page">
+<BaseLayout
+  title={title}
+  description={description}
+  navType="page"
+  robots={themeConfig.coming_soon?.noarchive !== false ? "noarchive" : undefined}
+>
   <section
     class="section coming-soon flex flex-col items-center justify-center"
   >

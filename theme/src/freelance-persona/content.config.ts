@@ -367,6 +367,13 @@ const blog = defineCollection({
     img_attribution_theme: attributionThemeSchema,
     tags: z.array(z.string()),
     tex: z.boolean().optional(),
+    /** Optional per-post robots meta directive, e.g. "noindex, noarchive".
+        Absent = no robots meta is emitted. */
+    robots: z.string().optional(),
+    /** Optional per-post og:image override. Accepts a source asset path
+        ("/src/assets/...") or an absolute URL. Absent = the post
+        thumbnail (if any) is used, else the theme-wide seo.og_image. */
+    ogImage: z.string().optional(),
     layout_style: z.enum(['standard', 'science']).optional(),
   }).superRefine((data, ctx) => {
     // If thumbnail is present, require attribution fields

@@ -34,7 +34,7 @@ const contentSections = allSections
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title={themeConfig.title} navType="home" preloadImageUrl={optimizedHeroBg?.src}>
+<BaseLayout title={themeConfig.title} navType="home" preloadImageUrl={optimizedHeroBg?.src} ogImage={optimizedHeroBg?.src}>
   <Hero
     title={heroData.title}
     hero_typing_text={heroData.hero_typing_text}

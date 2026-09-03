@@ -149,8 +149,8 @@ export default function freelancePersona(): AstroIntegration {
                 codePaddingBlock: '1.25rem',
                 // Using our theme variables for a designed-in look
                 codeBackground: 'var(--code-background)',
-                uiFontFamily: 'var(--default-font)',
-                codeFontFamily: 'var(--monospace-font)',
+                uiFontFamily: 'var(--font-body)',
+                codeFontFamily: 'var(--font-mono)',
                 frames: {
                   terminalTitlebarDotsOpacity: '0',
                   editorBackground: 'var(--code-background)',

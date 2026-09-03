@@ -97,7 +97,7 @@ export default function rehypeFigures() {
                 tagName: 'svg',
                 properties: {
                   ...properties,
-                  style: 'width: 100%; height: auto; display: block; font-family: var(--monospace-font), monospace;'
+                  style: 'width: 100%; height: auto; display: block; font-family: var(--font-mono), monospace;'
                 },
                 children: [{ type: 'raw', value: cleanInnerContent }]
               };

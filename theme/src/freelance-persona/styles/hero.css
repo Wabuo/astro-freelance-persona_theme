@@ -146,7 +146,7 @@
 .hero p {
   margin: 0.3125rem 0 0 0; /* 5px */
   font-size: 1.625rem; /* 26px */
-  font-family: var(--monospace-font);
+  font-family: var(--font-mono);
 }
 
 .hero p span {

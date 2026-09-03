@@ -67,7 +67,7 @@ section,
   display: block;
   margin-top: 1rem;
   font-style: normal;
-  font-family: var(--monospace-font);
+  font-family: var(--font-mono);
   font-size: var(--subtitle-font-size);
   color: var(--accent-color);
 }

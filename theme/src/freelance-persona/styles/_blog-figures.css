@@ -43,7 +43,7 @@
     font-size: 0.825rem;
     line-height: 1.45;
     color: var(--text-muted);
-    font-family: var(--default-font);
+    font-family: var(--font-body);
     text-align: center;
 
     .figure-title {

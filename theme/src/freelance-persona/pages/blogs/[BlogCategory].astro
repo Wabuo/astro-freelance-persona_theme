@@ -218,18 +218,12 @@ const formatDate = (date: Date) => {
     display: block;
     text-decoration: none;
     color: inherit;
-    transition: transform var(--transition-hover-time, 0.2s);
   }
 
   .post-entry {
     padding-bottom: 1.5rem; /* Match reference gap (24px) */
     margin-bottom: var(--spacing-lg);
-    border-bottom: 1px solid
-      var(
-        --border-color,
-        color-mix(in srgb, var(--default-color), transparent 90%)
-      );
-    transition: transform 0.3s ease-out;
+    border-bottom: 1px solid var(--card-border);
   }
 
   /* Hover feedback lives on the title/link color only — the separator
@@ -260,7 +254,7 @@ const formatDate = (date: Date) => {
 
   /* Increase specificity to override global .post-entry .post-meta .post-date */
   .post-entry .post-meta .post-date {
-    font-size: var(--default-font-size);
+    font-size: var(--normal-font-size);
     color: color-mix(in srgb, var(--default-color), transparent 50%);
     white-space: nowrap;
     margin-left: var(--spacing-sm);

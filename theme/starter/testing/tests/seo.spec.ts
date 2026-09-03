@@ -17,8 +17,9 @@ test.describe('SEO Checks', () => {
         const canonical = page.locator('link[rel="canonical"]');
         await expect(canonical).toHaveCount(1);
 
-        // Open Graph website card (no config og_image -> compact card)
+        // Open Graph website card (hero image -> large card)
         await expect(page.locator('meta[property="og:site_name"]')).toHaveCount(1);
+        await expect(page.locator('meta[property="og:image"]')).toHaveCount(1);
         await expect(page.locator('meta[property="og:title"]')).toHaveCount(1);
         const ogType = await page
             .locator('meta[property="og:type"]')
@@ -31,7 +32,17 @@ test.describe('SEO Checks', () => {
         const card = await page
             .locator('meta[name="twitter:card"]')
             .getAttribute('content');
-        expect(card).toBe('summary');
+        expect(card).toBe('summary_large_image');
+
+        // JSON-LD: WebSite + Person on the homepage
+        const ldJson = page.locator('script[type="application/ld+json"]');
+        await expect(ldJson).toHaveCount(2);
+        const website = JSON.parse((await ldJson.nth(0).textContent()) ?? '{}');
+        expect(website['@type']).toBe('WebSite');
+        expect(website.url).toMatch(/^https?:\/\//);
+        const person = JSON.parse((await ldJson.nth(1).textContent()) ?? '{}');
+        expect(person['@type']).toBe('Person');
+        expect(person.name).toBeTruthy();
     });
 
     test('Blog Post Meta Tags', async ({ page }) => {
@@ -60,5 +71,14 @@ test.describe('SEO Checks', () => {
             .locator('meta[name="twitter:card"]')
             .getAttribute('content');
         expect(card).toBe('summary_large_image');
+
+        // JSON-LD: BlogPosting on posts
+        const ldJson = page.locator('script[type="application/ld+json"]');
+        await expect(ldJson).toHaveCount(1);
+        const posting = JSON.parse((await ldJson.textContent()) ?? '{}');
+        expect(posting['@type']).toBe('BlogPosting');
+        expect(posting.headline).toBeTruthy();
+        expect(posting.datePublished).toBeTruthy();
+        expect(posting.author?.['@type']).toBe('Person');
     });
 });

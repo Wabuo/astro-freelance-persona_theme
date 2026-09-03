@@ -169,6 +169,58 @@ if (ogImageSource) {
   }
 }
 
+// --- JSON-LD structured data (search-engine rich results) ------------------
+// Emitted centrally: WebSite + Person on the homepage (navType "home"),
+// BlogPosting on posts (ogType "article" + publishedTime). Serialized
+// strings double as the CSP hash source — see the registration below.
+const siteRootUrl = Astro.site
+  ? new URL(import.meta.env.BASE_URL, Astro.site).href
+  : undefined;
+const jsonLdScripts: string[] = [];
+if (siteRootUrl) {
+  if (navType === 'home') {
+    jsonLdScripts.push(
+      JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: themeConfig.title,
+        url: siteRootUrl,
+        description,
+      }),
+    );
+    jsonLdScripts.push(
+      JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: themeConfig.author,
+        url: siteRootUrl,
+        ...(themeConfig.social_links?.length && {
+          sameAs: themeConfig.social_links.map((link) => link.url),
+        }),
+      }),
+    );
+  }
+  if (ogType === 'article' && publishedTime) {
+    jsonLdScripts.push(
+      JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: title,
+        description,
+        datePublished: publishedTime,
+        url: Astro.url.href,
+        mainEntityOfPage: Astro.url.href,
+        ...(ogImageUrl && { image: [ogImageUrl] }),
+        author: {
+          '@type': 'Person',
+          name: themeConfig.author,
+          url: siteRootUrl,
+        },
+      }),
+    );
+  }
+}
+
 const bodyClass = navType === "home" ? "home-page" : "inner-page";
 
 // --- LAYOUT LOGIC ---
@@ -413,6 +465,7 @@ if (Astro.csp) {
     themeSyncScript,
     removePreloaderScript,
     animationEngineScript,
+    ...jsonLdScripts,
   ]) {
     Astro.csp.insertScriptHash(
       `sha256-${createHash("sha256").update(script).digest("base64")}`,
@@ -862,6 +915,7 @@ if (Astro.csp) {
     <meta property="article:published_time" content={publishedTime} />
   )}
   <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+  {jsonLdScripts.map((json) => <script type="application/ld+json" is:inline set:html={json} />)}
 
   {
     faviconSrc && (

@@ -90,7 +90,7 @@
        (& = .share-menu-item — without it the nested selector would
        double the parent and never match.) Specificity above the
        .share-menu-item [data-icon] rule below (later source). */
-    & .action-copy-link .icon-trailing-copy {
+    &.action-copy-link .icon-trailing-copy {
         margin-left: auto;
         font-size: 0.85rem;
         width: 0.95rem;

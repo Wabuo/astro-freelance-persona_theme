@@ -48,7 +48,10 @@ if (!entry) {
 const { Content } = entry ? await render(entry) : { Content: null };
 ---
 
-<BaseLayout title={pageTitle}>
+<BaseLayout
+  title={pageTitle}
+  robots={legal?.noindex !== false ? "noindex, noarchive" : undefined}
+>
   <section class="section">
     <div class="container" style="max-width: 800px;">
       <SectionTitle title={pageTitle} />

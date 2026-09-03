@@ -1,0 +1,133 @@
+/* SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors */
+/* SPDX-License-Identifier: MIT */
+
+/* Pre-migration origin: _code-blocks.scss (converted in phase 3.1) */
+
+/* ============================================================
+   Expressive Code Customizations
+
+   Theme switching strategy (all CSS-native, zero JS):
+   - EC's useDarkModeMediaQuery handles OS dark preference
+   - EC's themeCssSelector handles manual :has(.theme-state-dark:checked)
+   - This file handles the edge case: OS dark + user forces light
+     by resetting EC tokens and frame vars back to light values.
+
+   EC fully manages its own copy-button opacity/hover behaviour via
+   @media (hover: hover). We must NOT override opacity here or we
+   break the hover-reveal interaction.
+   ============================================================ */
+
+.expressive-code {
+  margin: 2rem 0;
+
+  /* Connect to our theme variables for a designed-in look */
+  --ec-bg: var(--code-background);
+  --ec-brdRad: 0.5rem;
+  --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
+
+  /* Copy icon follows the theme: the icon is drawn via mask-image +
+     background-color: var(--ec-frm-inlBtnFg) — feeding it our token makes
+     it theme-aware in all four input combinations.
+     Per-theme dials (0% = full muted, 100% = invisible):
+     - light: near-solid muted
+     - dark: muted tone, heavily faded (full strength is too bright)
+     The button outline (border) follows the same muted tone; EC's default
+     border opacity (0.4) reads as invisible on the light code background.
+     The dark combos are re-asserted in the :root:root blocks below (EC's
+     (0,4,0) dark rules would otherwise win) — tune the dials HERE only. */
+  --copy-icon-fade-light: 5%;
+  --copy-icon-fade-dark: 55%;
+  --ec-frm-inlBtnFg: color-mix(
+    in srgb,
+    var(--text-muted),
+    transparent var(--copy-icon-fade-light)
+  );
+  --ec-frm-inlBtnBrd: var(--text-muted);
+  --ec-frm-inlBtnBrdOpa: 0.6;
+
+  /* Style the "Copied!" tooltip message */
+  --ec-frm-tooltipSuccessBg: var(--accent-color);
+  --ec-frm-tooltipSuccessFg: var(--contrast-color);
+
+  .frame {
+    background-color: var(--ec-bg);
+  }
+}
+
+/* =============================================================
+   DARK MODE: Remove EC's built-in box shadow.
+   EC uses a heavy #0000005b shadow in dark mode which creates
+   a muddy look on dark surfaces. Adwaita uses borders, not
+   shadows, for visual separation. The --ec-brdCol border is
+   sufficient.
+
+   Specificity note: EC's themeCssSelector generates rules at
+   (0,4,0). We use :root:root to reach (0,5,0) and win
+   regardless of stylesheet load order.
+   ============================================================= */
+
+/* Case A: OS prefers dark AND user has not forced light.
+   :root:root boosts specificity above EC's themeCssSelector rules. */
+@media (prefers-color-scheme: dark) {
+  :root:root:not(:has(.theme-state-light:checked)) .expressive-code {
+    --ec-frm-shdCol: transparent;
+    --ec-frm-frameBoxShdCssVal: none;
+    --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
+    /* Re-assert the dark dial at (0,5,0): EC's dark rules re-declare
+       --ec-frm-inlBtnFg and --ec-frm-inlBtnBrd on .expressive-code and
+       would otherwise win in this combo (OS dark, chooser not forced
+       light). */
+    --ec-frm-inlBtnFg: color-mix(
+      in srgb,
+      var(--text-muted),
+      transparent var(--copy-icon-fade-dark)
+    );
+    --ec-frm-inlBtnBrd: var(--text-muted);
+  }
+}
+
+/* Case B: User explicitly forced dark.
+   NO media query wrapper — this must fire for both OS=dark and OS=light
+   (Case A only covers OS=dark; this covers OS=light+user=dark). */
+:root:root:has(.theme-state-dark:checked) .expressive-code {
+  --ec-frm-shdCol: transparent;
+  --ec-frm-frameBoxShdCssVal: none;
+  --ec-brdCol: color-mix(in srgb, var(--default-color), transparent 85%);
+  /* Same re-assertion for the forced-dark combo (OS light, chooser dark) —
+     EC's themeCssSelector rule (0,4,0) beats the base (0,1,0) mapping. */
+  --ec-frm-inlBtnFg: color-mix(
+    in srgb,
+    var(--text-muted),
+    transparent var(--copy-icon-fade-dark)
+  );
+  --ec-frm-inlBtnBrd: var(--text-muted);
+}
+
+/* =============================================================
+   EDGE CASE: OS prefers dark BUT user has forced light.
+   EC's @media (prefers-color-scheme: dark) activates dark tokens
+   and frame vars. We counteract by resetting to light values.
+   !FixMe! EC quirk compensation — EC reads the OS directly instead of
+   following the page chooser. See the copy-button !FixMe! below and
+   To_Do.md → "EC theming modernization".
+   ============================================================= */
+@media (prefers-color-scheme: dark) {
+  :root:has(.theme-state-light:checked) {
+    /* Reset EC tokens from dark (--1) back to light (--0) */
+    .expressive-code .ec-line :where(span[style^='--']:not([class])) {
+      color: var(--0, inherit);
+      background-color: var(--0bg, transparent);
+      font-style: var(--0fs, inherit);
+      font-weight: var(--0fw, inherit);
+      text-decoration: var(--0td, inherit);
+    }
+  }
+}
+
+/* Copy button icon: theme-aware via --ec-frm-inlBtnFg (mapped above).
+   !FixMe! Long-term: either EC ships modern :has()/color-scheme-aware dual
+   themes, or the compensation blocks above move to the CSS if() function
+   (Chrome 137+, Firefox/Safari pending) querying our global --theme state —
+   EC emits its own @media (prefers-color-scheme) switch, which bypasses the
+   page chooser in the OS-dark + forced-light case.
+   See To_Do.md → "EC theming modernization" (file a GitHub issue there). */

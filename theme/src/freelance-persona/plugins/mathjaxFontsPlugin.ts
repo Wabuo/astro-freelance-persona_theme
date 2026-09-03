@@ -9,7 +9,8 @@ import fs from 'fs';
 
 export function mathjaxFontsPlugin() {
   let resolvedFontSourceDir = '';
-  
+  let resolvedFinalOutDir = '';
+
   return {
     name: 'freelance-persona:mathjax-fonts',
     configResolved(config) {
@@ -20,15 +21,20 @@ export function mathjaxFontsPlugin() {
       const themeSrcDir = path.resolve(pluginFile, '..', '..', '..'); // theme/src/
       const themeRoot = path.resolve(themeSrcDir, '..'); // theme/
       resolvedFontSourceDir = path.join(themeRoot, 'node_modules', 'mathjax-full', 'es5', 'output', 'chtml', 'fonts', 'woff-v2');
+      // Astro 7 runs multiple Vite passes; writeBundle fires for the
+      // prerender pass (dist/.prerender) AND the final pass (dist).
+      // Copy only in the pass that writes the configured final output.
+      resolvedFinalOutDir = path.resolve(config.root, config.build.outDir || 'dist');
     },
     async writeBundle({ dir }) {
+      if (!dir || path.resolve(dir) !== resolvedFinalOutDir) return;
       const outDir = path.join(dir, 'fonts', 'mathjax');
       fs.mkdirSync(outDir, { recursive: true });
-      
+
       if (fs.existsSync(resolvedFontSourceDir)) {
         const files = fs.readdirSync(resolvedFontSourceDir);
         let copied = 0;
-        
+
         for (const file of files) {
           if (file.endsWith('.woff') || file.endsWith('.woff2')) {
             fs.copyFileSync(

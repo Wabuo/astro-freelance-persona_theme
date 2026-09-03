@@ -81,7 +81,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
             >
               <Card
                 href={finalLink}
-                class={`feature-card h-100 ${
+                class={`feature-card h-full ${
                   isUnavailable ? "unavailable" : ""
                 }`}
               >
@@ -131,7 +131,14 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
   </div>
 </section>
 
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/features.css" layer(components);
+</style>
+
 <style>
+@layer components {
+
   .features-section-wrapper {
     transform: translate(var(--nudge-x, 0), var(--nudge-y, 0))
       scale(var(--content-scale, 1));
@@ -146,7 +153,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
   }
 
   .feature-icon {
-    /* Sized via font-size: 1.5rem in features.scss — no box-model overrides needed for <i> elements */
+    /* Sized via font-size: 1.5rem in features.css — no box-model overrides needed for <i> elements */
   }
 
   /* Default state for Secondary Icon is hidden (unless parent has-secondary-icon) */
@@ -178,4 +185,6 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
   }
 
   /* Removed Hover Triggers - No animation */
+}
 </style>
+

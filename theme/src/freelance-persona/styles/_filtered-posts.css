@@ -1,0 +1,83 @@
+
+
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* Pre-migration origin: _filtered-posts.scss (converted in phase 3.1) */
+
+/* ====================================================
+   === COMPONENT: FILTERED POSTS SECTION ===
+   ==================================================== */
+
+/* 16:9 Image Container */
+.post-image-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background-color: var(--card-background, #ffffff);
+    position: relative;
+
+    /* Attribution: smaller size for cards */
+    --attribution-font-size: 0.6rem;
+
+    /* Import attribution styles FIRST */
+
+    /* Override for 2-line layout on cards */
+    .img-attribution {
+        bottom: 0.25rem;
+        right: 0.5rem;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0;
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            right: 0.4rem;
+            bottom: 0.2rem;
+            --attribution-font-size: 0.45rem;
+        }
+    }
+}
+
+.post-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Post Details Container */
+.post-details {
+    /* No padding here, use Card's padding via .card-content */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
+/* Transition base state for text elements */
+.post-details .post-content p,
+.post-details .date {
+    transition: color 0.3s ease-out;
+    /* transition-delay: 0s; Remove delay to match standard */
+    will-change: color;
+}
+
+/* Hover Text Color Changes */
+/* We rely on global selector because Card wrapper handles hover */
+/* Using specificity to target within the card wrapper context */
+.card-wrapper:hover .post-details .post-content p,
+.card-wrapper:hover .post-details .date {
+    color: var(--accent-color);
+}
+
+/* OVERRIDE: Prevent text-only preview cards from lighting up on hover */
+/* .card-wrapper:hover .mock-page-content, */
+/* .card-wrapper:hover .mock-page-content * { */
+/*     color: var(--text-muted) !important; */
+/* } */
+
+/* TAG STYLES (Refactored from inline) */

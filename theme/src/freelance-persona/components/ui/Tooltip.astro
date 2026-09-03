@@ -1,0 +1,84 @@
+---
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
+/**
+ * Hint tooltip — the standardized popover="hint" pattern with an
+ * anchor-positioned speech bubble whose caret points at the source.
+ *
+ * Usage (two parts):
+ *   1. The HOVER TARGET carries the trigger + anchor name:
+ *        <button interestfor="fp-tooltip-my-tip" style={`anchor-name: --fp-tip-my-tip`}>
+ *   2. Render the bubble anywhere (popovers live in the top layer):
+ *        <Tooltip id="my-tip" text="Copy email address" />
+ *
+ * Browser support ladder (To_Do.md tracks trigger standardization):
+ *   - Chromium 142+: hover / long-press auto-shows (interest invokers)
+ *   - Firefox 153+: popover=hint ships, but without the interest trigger
+ *     the bubble stays hidden — aria-labels carry the information
+ *   - Safari: popover=hint unsupported — same silent degradation
+ *
+ * Zero JavaScript: interestfor/popover are declarative attributes, so the
+ * CSP needs no changes.
+ */
+interface Props {
+  /** Unique id — the invoker's interestfor value */
+  id: string;
+  /** Tooltip text — sentence case, no trailing period, one line */
+  text: string;
+}
+
+const { id, text } = Astro.props;
+const anchorName = `--fp-tip-${id}`;
+---
+
+<div
+  class="fp-tooltip"
+  popover="hint"
+  role="tooltip"
+  id={`fp-tooltip-${id}`}
+  style={`position-anchor: ${anchorName}; --fp-tip-src: ${anchorName};`}
+>
+  {text}
+</div>
+
+<style is:global>
+  /* Bubble: anchored above the source, flips below on top overflow.
+     The caret (rotated ::after square) anchors to the source's center-x
+     and top edge, so it points at the source in both flip states. */
+  .fp-tooltip {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    position-area: block-start;
+    position-try-fallbacks: flip-block;
+    max-width: 18rem;
+    width: max-content;
+    padding: 0.45rem 0.7rem;
+    border-radius: 0.5rem;
+    background: var(--surface-color);
+    color: var(--default-color);
+    border: 1px solid
+      color-mix(in srgb, var(--default-color), transparent 85%);
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.12);
+    font-size: 0.8rem;
+    font-family: var(--font-body);
+    text-align: center;
+  }
+
+  .fp-tooltip::after {
+    content: "";
+    position: absolute;
+    width: 0.6rem;
+    height: 0.6rem;
+    rotate: 45deg;
+    background: inherit;
+    border: inherit;
+    border-top: none;
+    border-left: none;
+    left: anchor(var(--fp-tip-src) 50%);
+    top: anchor(var(--fp-tip-src) top);
+    translate: -50% -50%;
+  }
+</style>

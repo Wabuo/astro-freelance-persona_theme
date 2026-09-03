@@ -8,7 +8,7 @@ title: "Legal Notice Guide"
 
 # Legal Disclaimer (Demo Page)
 
-> **⚠️ Demo Page Notice:** This is a sample page hosted on GitHub Pages. The content displayed here is automatically generated from the template repository. If you have any concerns regarding this site, its content, or compliance, please open a [GitHub Issue](https://github.com/freelance-persona/astro-freelance-persona_theme/issues) or contact GitHub support directly.
+> **⚠️ Demo Page Notice:** This is a sample page hosted on GitHub Pages. The content displayed here is automatically generated from the starter template in the repository. If you have any concerns regarding this site, its content, or compliance, please open a [GitHub Issue](https://github.com/freelance-persona/astro-freelance-persona_theme/issues) or contact GitHub support directly.
 
 # Legal Notice / Impressum — Getting Started
 

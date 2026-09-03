@@ -18,6 +18,22 @@
       "dependencyDashboardApproval": false
     },
     {
+      "description": ["Fragile-set dependency bumps must pass the visual suite before merge"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchPackageNames": [
+        "astro",
+        "unocss",
+        "@unocss/preset-wind4",
+        "expressive-code",
+        "astro-expressive-code",
+        "lightningcss",
+        "sharp",
+        "mathjax-full",
+        "rehype-mathjax"
+      ],
+      "labels": ["run-visual-tests"]
+    },
+    {
       "matchPackageNames": ["katex", "rehype-katex"],
       "groupName": "KaTeX and Rehype-KaTeX"
     }

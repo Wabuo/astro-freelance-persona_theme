@@ -1,0 +1,338 @@
+
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/*--------------------------------------------------------------
+# Hero Section
+--------------------------------------------------------------*/
+.hero {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  /* Padding removed to ensure full-bleed background without box-model conflicts.
+     Config-driven extra padding (old pt-5/pb-5) is injected per-axis. */
+  padding: var(--hero-align-pad-top, 0rem) 0 var(--hero-align-pad-bottom, 0rem);
+  display: flex;
+  /* Default alignment (overridden on mobile); config-driven */
+  align-items: var(--hero-align-items, center);
+  justify-content: center;
+  background-color: var(--background-color); /* Match theme color to hide sub-pixel gaps */
+  overflow: hidden;
+
+  /* Hero attribution: positioned bottom-right, above overlay */
+  --attribution-font-size: 0.65rem;
+
+
+  .img-attribution {
+    z-index: 5;
+    bottom: 1rem;
+    right: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+
+    /* Mobile specific adjustments */
+    @media (max-width: 768px) {
+      right: 0.8rem; /* Nudge closer to edge (was 2.5rem) */
+      bottom: 0.8rem;
+      --attribution-font-size: 0.45rem; /* Smaller text */
+    }
+  }
+}
+
+.hero img {
+  position: absolute;
+
+  /* Aggressive fix: Oversize by 2px on all sides to cover any sub-pixel left/bottom gaps */
+  top: -2px;
+  left: -2px;
+  /* max-width must match: wind4's reset caps img at 100%, killing the oversize */
+  width: calc(100% + 4px);
+  max-width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  /* Ensure no rounding leaks background */
+  border-radius: 0 !important;
+  object-fit: cover;
+  object-position: var(--desktop-image-anchor, right bottom);
+  z-index: 0;
+
+  @media (max-height: 500px) {
+    object-position: right center;
+  }
+}
+
+.hero:before {
+  content: "";
+  background: color-mix(in srgb, var(--background-color), transparent var(--transparency));
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  /* Ensure overlay also matches */
+  border-radius: 0 !important;
+  z-index: 2;
+
+  /* Dark Mode: "Hazy" Multi-layer overlay */
+  /* Stacks a dark layer over a white layer to lift blacks while keeping it dark. */
+  @media (prefers-color-scheme: dark) {
+    :root:not(:has(.theme-state-light:checked)) & {
+      background:
+        linear-gradient(
+          color-mix(in srgb, var(--background-color), transparent calc(var(--transparency) + 30%)),
+          color-mix(in srgb, var(--background-color), transparent calc(var(--transparency) + 15%))
+        ),
+        /* Dark Dimmer (Adjust % to change darkness - scales with --transparency) */
+        linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
+      /* White Haze (Bottom) */
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:has(.theme-state-dark:checked) & {
+      background:
+        linear-gradient(
+          color-mix(in srgb, var(--background-color), transparent calc(var(--transparency) + 30%)),
+          color-mix(in srgb, var(--background-color), transparent calc(var(--transparency) + 15%))
+        ),
+        /* Dark Dimmer (Adjust % to change darkness - scales with --transparency) */
+        linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
+      /* White Haze (Bottom) */
+    }
+  }
+}
+
+.hero .container {
+  position: relative;
+  z-index: 3;
+}
+
+/* --------------------------------------------------------------
+   Semantic content column (design-owned since 3.5).
+   Widths reproduce the old col-* geometry exactly: the old row's
+   -0.75rem margins cancelled the container's +0.75rem padding and
+   the col re-added 0.75rem gutters, netting `container_box * pct`
+   outer width. Against the padded container inner width that is:
+   `calc(pct% + pct*1.5rem - 1.5rem)` — simplified per step below.
+   Horizontal alignment comes from auto-margin utilities in markup
+   (xMap.block); mobile always resets to full-width/left (below).
+   -------------------------------------------------------------- */
+.hero-content {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .hero-width-md-8  { width: calc(66.6667% - 0.5rem); }
+  .hero-width-md-10 { width: calc(83.3333% - 0.25rem); }
+}
+
+@media (min-width: 992px) {
+  .hero-width-lg-6  { width: calc(50% - 0.75rem); }
+  .hero-width-lg-9  { width: calc(75% - 0.375rem); }
+  .hero-width-lg-11 { width: calc(91.6667% - 0.125rem); }
+}
+
+.hero h1 {
+  margin: 0;
+  margin-block: 0; /* Reset UA stylesheet h1 margin — h1 gets larger margins than h2 by default */
+  font-size: var(--title-font-size);
+  font-weight: 700;
+}
+
+.hero p {
+  margin: 0.3125rem 0 0 0; /* 5px */
+  font-size: 1.625rem; /* 26px */
+  font-family: var(--font-mono);
+}
+
+.hero p span {
+  letter-spacing: 0.0625rem; /* 1px */
+  color: var(--accent-color);
+}
+
+/* Dark Mode: Highlighted Style (User Request) */
+/* Mimics "selected text" look: White Text on Brand Blue Background. */
+/* - Targeting .typed and .typed-cursor specifically to avoid highlighting the */
+/*   layout-locking container (which has a fixed min-width). */
+@media (prefers-color-scheme: dark) {
+
+  :root:not(:has(.theme-state-light:checked)) .hero p span.typed,
+  :root:not(:has(.theme-state-light:checked)) .hero p span.noscript-text {
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+    padding: 0 0.1em;
+    box-decoration-break: clone;
+    font-weight: normal;
+    text-shadow: none;
+    -webkit-text-stroke: 0;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root:has(.theme-state-dark:checked) .hero p span.typed,
+  :root:has(.theme-state-dark:checked) .hero p span.noscript-text {
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+    padding: 0 0.1em;
+    box-decoration-break: clone;
+    font-weight: normal;
+    text-shadow: none;
+    -webkit-text-stroke: 0;
+  }
+}
+
+/* 1. Default (Light Mode): Standard Line Cursor */
+/*    The HTML uses '|', so it renders correctly by default. */
+/* 1. Default (Light Mode): Standard Line Cursor */
+/*    The HTML uses '|', so it renders correctly by default. */
+/* Both explicit OS Light vs Explicit Light Override logic */
+@media (prefers-color-scheme: light) {
+  :root:not(:has(.theme-state-dark:checked)) {
+    .hero p span.typed,
+    .hero p span.noscript-text {
+      background-color: transparent;
+      color: var(--accent-color);
+      padding: 0;
+    }
+
+    /* Make sure the cursor uses the font color, not the transparent/accent color */
+    .typed-cursor {
+      color: var(--default-color) !important;
+      background-color: transparent !important;
+      width: auto;
+      font-weight: 300;
+      margin-left: 0; /* Reset dark margin */
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:has(.theme-state-light:checked) {
+    .hero p span.typed,
+    .hero p span.noscript-text {
+      background-color: transparent;
+      color: var(--accent-color);
+      padding: 0;
+    }
+
+    /* Make sure the cursor uses the font color, not the transparent/accent color */
+    .typed-cursor {
+      color: var(--default-color) !important;
+      background-color: transparent !important;
+      width: auto;
+      font-weight: 300;
+      margin-left: 0; /* Reset dark margin */
+    }
+  }
+}
+
+/* 2. Dark Mode: Block Cursor */
+/*    We transform the '|' into a block using background color and transparency. */
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(.theme-state-light:checked)) .typed-cursor {
+    color: transparent !important; /* Hide the pipe character */
+    background-color: var(--accent-color); /* Show the block (Accent Color) */
+    width: 0.6em; /* Block width */
+    display: inline-block;
+    vertical-align: text-bottom; /* Align with text base */
+    margin-left: 2px;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root:has(.theme-state-dark:checked) .typed-cursor {
+    color: transparent !important; /* Hide the pipe character */
+    background-color: var(--accent-color); /* Show the block (Accent Color) */
+    width: 0.6em; /* Block width */
+    display: inline-block;
+    vertical-align: text-bottom; /* Align with text base */
+    margin-left: 2px;
+  }
+}
+
+.hero .social-links {
+  /* Consumed from the hero content element's inline style (hero.md frontmatter: */
+  /* gap_typing_to_socials). Owns desktop spacing; the mobile block below overrides. */
+  margin-top: var(--gap-typing-to-socials, 1.5625rem); /* default 25px */
+  gap: 1.5rem;
+}
+
+.hero .social-links a {
+  font-size: 1.25rem; /* 20px */
+  display: inline-block;
+  color: color-mix(in srgb, var(--default-color), transparent 30%);
+  line-height: 1;
+  margin-right: 0rem; /* 20px */
+  margin-left: 0rem; /* 20px */
+  transition: 0.3s;
+}
+
+.hero .social-links a:hover {
+  color: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    /* CONTROL TEXT POSITION VERTICALLY */
+    align-items: var(--mobile-align-items, flex-end) !important;
+
+    /* Padding-bottom pushes it UP from the bottom edge. */
+    /* 0rem = Touching bottom edge. 5rem = High up. */
+    /* Negative values are invalid in CSS. */
+    padding-bottom: var(--mobile-padding-bottom, 0rem);
+  }
+
+  .hero img {
+    /* CONTROL LANCY POSITION HERE */
+    /* Horizontal (0% Left, 50% Center, 100% Right) */
+    object-position: var(--mobile-image-object-position, 84% 0);
+  }
+
+  /* --- CONTROL FONT SIZES HERE --- */
+
+  /* TITLE SIZE ("Freelance - Persona") */
+  .hero h1 {
+    font-size: calc(var(--title-font-size) / 2.5) !important;
+  }
+
+  /* TYPING TEXT SIZE ("portfolio |") */
+  .hero p,
+  .hero p .typing-lock {
+    font-size: calc(var(--title-font-size) / 3.5) !important;
+    max-width: 95vw;
+    overflow: visible;
+    white-space: normal !important;
+    /* Allow wrapping */
+    height: auto !important;
+    text-align: var(--mobile-text-align, left) !important;
+    justify-content: var(--mobile-justify-content, flex-start) !important;
+  }
+
+  /* Content Wrapper: Default width (No Wrapping constraint) */
+  .hero .container .hero-content {
+    max-width: 100%;
+    text-align: var(--mobile-text-align, left) !important;
+    /* !important: must beat unlayered mx-auto/ml-auto alignment utilities */
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+
+  /* Override Flex Alignments for Mobile */
+  .hero .typing-wrapper,
+  .hero .social-links {
+    justify-content: var(--mobile-justify-content, flex-start) !important;
+  }
+
+  .hero .social-links {
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  .hero .social-links a {
+    font-size: calc(var(--title-font-size) / 4) !important;
+  }
+}

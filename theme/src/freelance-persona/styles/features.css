@@ -1,0 +1,197 @@
+
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* Pre-migration origin: features.scss (converted in phase 3.1) */
+
+/* ====================================================
+   === FREELANCE FEATURE GRID ===
+   ==================================================== */
+
+.features-section-wrapper {
+    position: relative;
+    /* Reduced top padding to decrease gap above the grid */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-section-wrapper {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+}
+
+.features-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+
+
+/* --- Grid Layout --- */
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* 1 column on mobile */
+    gap: 2rem;
+}
+
+@media (min-width: 640px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns on small screens+ */
+    }
+}
+
+@media (min-width: 1024px) {
+    .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 columns on large screens+ */
+    }
+}
+
+/* --- Hybrid Card and Link Styling --- */
+
+/* Ensures the entire grid cell is clickable and text styles are maintained */
+.feature-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    
+    &:hover, &:focus {
+        text-decoration: none;
+    }
+}
+
+/* Card Container Styling */
+/* .feature-card extends .card-base implicitly by usage in component */
+.feature-card {
+    /* Override defaults if necessary */
+    padding: 2rem;
+    /* The base structure is handled by _cards.css */
+}
+
+/* Hover effect for the card container */
+/* We target the .card-base inside the wrapper for the lift effect */
+.feature-group-wrapper:hover .card-base {
+    transform: translateY(-0.3125rem);
+    box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.1);
+}
+
+.feature-group-wrapper:hover .feature-description-card {
+    color: var(--accent-color);
+}
+
+/* --- Icon and Text Styles --- */
+.feature-icon-wrapper-outer {
+    margin-bottom: 1.5rem;
+}
+
+.feature-icon-bg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.5rem;
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+}
+
+.feature-icon {
+    font-size: 1.5rem; /* Icon <i> elements size from font-size, not width/height */
+    color: inherit;
+
+    /* Sizing for Lance Icon specifically (SVG needs explicit dimensions) */
+    &.lance-icon-svg {
+        width: 2.2rem;
+        height: 2.2rem;
+        fill: currentColor;
+
+        /* Invert the colored part to white when inside the primary background */
+        .colored-part {
+            fill: var(--contrast-color, #ffffff) !important;
+        }
+    }
+}
+
+.feature-title-card {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    white-space: pre-line;
+    font-family: var(--font-heading, sans-serif);
+}
+
+.feature-description-card {
+    line-height: 1.625;
+    white-space: pre-line;
+    font-family: var(--font-body, sans-serif);
+    transition: color 0.3s ease-out;
+    will-change: color;
+}
+
+/* --- Hover Action Element (Call-to-Action Text) --- */
+.feature-hover-action {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    padding: 0.5rem 1rem;
+    border-top-left-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    background-color: var(--accent-color);
+    color: var(--contrast-color, #fff);
+    z-index: 5;
+
+    /* Hides the element below the card initially */
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+    font-family: var(--font-nav, sans-serif);
+
+    /* Fix Chrome rendering artifact */
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+/* Unavailable State */
+.feature-card.unavailable {
+    opacity: 0.7;
+    /* Exception: needs to affect entire element including images with grayscale */
+    filter: grayscale(100%);
+    cursor: not-allowed !important;
+}
+
+/* Custom style for the unavailable badge */
+.feature-card.unavailable .feature-hover-action {
+    background-color: var(--text-muted);
+    color: white;
+    cursor: not-allowed;
+}
+
+/* Optional: reduce hover lift for unavailable cards to feel 'heavier' */
+.card-wrapper:hover .feature-card.unavailable {
+    transform: translateY(-2px);
+    /* Reduced lift */
+}
+
+/* Slides the element up when the user hovers over the card group */
+/* Slides the element up when the user hovers over the card group */
+.feature-group-wrapper:hover .feature-hover-action {
+    transform: translateY(0);
+}
+
+/* Touch Device Optimization: Always show badge */
+@media (hover: none) {
+    .feature-hover-action {
+        transform: translateY(0);
+    }
+}

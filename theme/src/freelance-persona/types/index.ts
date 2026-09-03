@@ -103,6 +103,8 @@ export interface PersonaConfig {
       id: string;
       label: string;
       required: boolean;
+      /** Optional hint tooltip (popover="hint") elaborating the label */
+      tooltip?: string;
     }[];
   };
 
@@ -111,20 +113,25 @@ export interface PersonaConfig {
    */
   contact_infos?: ContactInfo[];
 
+  /** Security hardening (see SECURITY.md).
+   *  csp: set to false ONLY to disable the auto Content-Security-Policy
+   *  (not recommended). Extend via cspExtra directive strings. */
+  security?: {
+    csp?: boolean;
+    cspExtra?: string[];
+  };
+
 
   quote: string;
   copyright: string;
   credits: string | string[];
 
-  // Color Configuration (Overrides base.scss)
+  // Color Configuration (overrides the base.css token table)
   colors?: {
     transparency?: string; // --transparency (e.g. "25%")
 
     light?: ColorPalette;
     dark?: ColorPalette;
-
-    // Backward compatibility / Shortcuts (optional, mapped to light/dark)
-    primary?: string;
   };
 
 
@@ -138,7 +145,7 @@ export interface PersonaConfig {
     navigation?: string;
     monospace?: string;
 
-    // Font Sizes (Overrides base.scss)
+    // Font Sizes (overrides the base.css token table)
     sizes?: {
       normal?: string; // --normal-font-size
       footer?: string; // --footer-font-size

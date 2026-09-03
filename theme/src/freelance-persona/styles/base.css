@@ -1,0 +1,394 @@
+/*
+ * SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/*--------------------------------------------------------------
+# Font & Color Variables
+--------------------------------------------------------------*/
+/* Fonts */
+:root {
+  --font-mono: monospace;
+}
+
+/* Accessibility Utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
+/*
+  DARK MODE STRATEGY (flat light-dark() table)
+  1. Default: System Preference (via `color-scheme: light dark` — the UA picks)
+  2. Override: Native Checkbox (CSS :has selector flips color-scheme)
+  3. Persistence: JS syncs checkbox with localStorage
+
+  Every scheme-dependent variable is declared exactly once using
+  light-dark(<light>, <dark>). Variables whose value is identical in both
+  schemes are declared once without light-dark(); formulas referencing
+  other variables (e.g. --heading-color) resolve per-scheme automatically.
+*/
+
+/* Manual scheme override (checkbox wins over OS preference) */
+:root:has(.theme-state-light:checked) {
+  color-scheme: light;
+}
+
+:root:has(.theme-state-dark:checked) {
+  color-scheme: dark;
+}
+
+/* Theme Variable Table (Libadwaita palette for the dark sides) */
+:root {
+  color-scheme: light dark;
+
+  /* Core */
+  --background-color: light-dark(#ffffff, #1e1e1e);
+  --default-color: light-dark(#272829, #e0e0e0);
+  --heading-color: color-mix(in srgb, var(--default-color), transparent 20%);
+  --accent-color: #0563bb;
+  --surface-color: light-dark(#ffffff, #303030);
+  --contrast-color: #ffffff;
+  --transparency: 25%;
+  --text-muted: light-dark(#6c757d, color-mix(in srgb, var(--default-color), transparent 50%));
+
+  /* Component Specifics */
+  --card-background: light-dark(#ffffff, color-mix(in srgb, var(--default-color), transparent 98%));
+  --card-border: light-dark(rgba(0, 0, 0, 0.125), color-mix(in srgb, var(--default-color), transparent 85%));
+  --tag-background: color-mix(in srgb, var(--default-color), transparent 94%);
+  --tag-text: color-mix(in srgb, var(--default-color), transparent 55%);
+  --tag-border: transparent;
+  --input-background: light-dark(#ffffff, color-mix(in srgb, var(--default-color), transparent 95%));
+  --input-border: light-dark(#ced4da, color-mix(in srgb, var(--default-color), transparent 85%));
+  --input-text: light-dark(#212529, var(--default-color));
+
+  --underline-color: light-dark(var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 45%));
+  --code-background: light-dark(#f6f6f6, var(--surface-color));
+
+  /* Scrollbars (css-side tokens, deliberately not config-exposed) */
+  --scrollbar-track: light-dark(#f1f1f1, color-mix(in srgb, var(--default-color), transparent 92%));
+  --scrollbar-thumb: light-dark(#cccccc, color-mix(in srgb, var(--default-color), transparent 75%));
+  --scrollbar-thumb-hover: light-dark(#999999, color-mix(in srgb, var(--default-color), transparent 60%));
+
+  /* Nav Menu Colors */
+  --nav-color: light-dark(#45505b, #e0e0e0);
+  --nav-hover-color: var(--accent-color);
+  --nav-dropdown-background-color: light-dark(#ffffff, var(--surface-color));
+  --nav-dropdown-color: light-dark(#212529, #e0e0e0);
+  --nav-dropdown-hover-color: var(--accent-color);
+
+  /* Nav Menu Colors (Header) — Matte Polished glassmorphism base */
+  --header-background-color: color-mix(in srgb, var(--background-color), transparent 5%);
+  --header-color: light-dark(var(--default-color), #ffffff);
+}
+
+/* Font Sizes */
+:root {
+  --normal-font-size: 1rem; /* 16px */
+  --footer-font-size: 0.875rem; /* 14px */
+  --heading-font-size: 2rem; /* 32px */
+  --subtitle-font-size: 1.5rem; /* 24px */
+  --title-font-size: 4rem; /* 64px */
+}
+
+/* Nav Menu Dimensions */
+:root {
+  --nav-icon-size: 3.5rem; /* 56px */
+  --nav-menu-width: 8.75rem; /* 140px */
+  --nav-pill-expanded-width: 11.25rem; /* 180px */
+  --nav-menu-mobile-width: 18.75rem; /* 300px */
+  --nav-menu-border-padding: 0.9375rem; /* 15px */
+  --nav-menu-mobile-border-width: 1px; /* 1px */
+  --nav-border-color: color-mix(in srgb, var(--accent-color), transparent 85%); /* Standard border color */
+}
+
+/* Spacing Variables */
+:root {
+  --spacing-xxs: 0.25rem; /* 4px */
+  --spacing-xs: 0.5rem; /* 8px */
+  --spacing-sm: 1rem; /* 16px */
+  --spacing-md: 1.5rem; /* 24px */
+  --spacing-lg: 2rem; /* 32px */
+  --spacing-xl: 3rem; /* 48px */
+  --spacing-xxl: 4rem; /* 64px */
+}
+
+:root {
+  --transition-hover-time: 0.3s; /* Hover transition duration */
+  --transition-hover-transparency: var(--transparency);
+}
+
+:root {
+  --img-border-radius: 0.625rem; /* 10px */
+  --button-size: 2.5rem; /* 40px */
+  --button-position-away-from-corner-distance: 0.9375rem; /* 15px */
+  --button-position-away-from-corner-horizontal-distance: var(--button-position-away-from-corner-distance);
+  --button-position-away-from-corner-vertical-distance: 1.875rem; /* 30px */
+}
+
+/* Smooth scroll */
+:root {
+  scroll-behavior: smooth;
+}
+
+/*--------------------------------------------------------------
+# Selection
+--------------------------------------------------------------*/
+::selection {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+body {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  font-family: var(--font-body);
+  width: 100%;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: var(--transition-hover-time);
+}
+
+a:hover {
+  color: color-mix(in srgb, var(--accent-color), transparent var(--transition-hover-transparency));
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-color), transparent 50%);
+  text-underline-offset: 2px;
+}
+
+/* Skip link — first focusable element on every page. Visually hidden
+   until focused (WCAG 2.4.1 bypass blocks). */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 1000;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  border-radius: 0 0 0.5rem 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus-visible,
+.skip-link:focus {
+  top: 0;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-color);
+  font-family: var(--font-heading);
+}
+
+code {
+  color: var(--accent-color);
+}
+
+/*--------------------------------------------------------------
+# Native Scroll Animations
+--------------------------------------------------------------*/
+
+/* 1. Base State: Default to VISIBLE (Safety First) */
+[data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition-property: opacity, transform;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-out;
+}
+
+/* 2. Loading State: Explicitly Hidden via JS */
+/* 'js-ready' ensures elements stay hidden until the observation logic runs. */
+html.js-loading [data-reveal],
+html.js-ready [data-reveal]:not(.revealed) {
+  opacity: 0;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+html.js-loading [data-reveal="fade-up"],
+html.js-ready [data-reveal="fade-up"]:not(.revealed) {
+  transform: translateY(1.875rem); /* 30px */
+}
+
+html.js-loading [data-reveal="zoom-out"],
+html.js-ready [data-reveal="zoom-out"]:not(.revealed) {
+  transform: scale(1.05);
+}
+
+/* 3. Active State (Visible) */
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+/*--------------------------------------------------------------
+# Global Icon Fixes
+--------------------------------------------------------------*/
+/* Global Icon Styling for astro-icon SVGs */
+[data-icon] {
+  display: inline; /* wind4 blockifies svg; icons flow inline with text (pre-3.5 UA default) */
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em; /* Standard vertical alignment for font icons */
+  fill: currentColor;
+}
+
+/* 
+  Prevent icons from being treated as text (blinking caret, selection).
+  Targeting:
+  - .bi (Bootstrap Icons)
+  - .ai (Academicons)
+  - [class*="icon-"] (Common pattern)
+  - [class*=" bi-"] (icon-prefix safety)
+  - [data-icon] (astro-icon)
+*/
+.bi,
+.ai,
+[class*="icon-"],
+[class*=" bi-"],
+[data-icon] {
+  user-select: none;
+  -webkit-user-select: none;
+  caret-color: transparent;
+}
+
+
+
+/*--------------------------------------------------------------
+# Global Scroll Lock
+--------------------------------------------------------------*/
+/* 
+  Prevent background page scrolling when mobile menu is open.
+  This works in tandem with the "Layout Inversion" in navigation:
+  1. Nav container captures scroll events.
+  2. If scroll reaches boundary, this Lock prevents it from chaining to Body.
+  
+  Targeting HTML ensures we catch the root scroll container.
+*/
+html:has(#mobile-nav:popover-open),
+html:has(.mobile-nav:popover-open),
+html:has(.header[popover]:popover-open) {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/*--------------------------------------------------------------
+# Unified Tags and Badges
+--------------------------------------------------------------*/
+.badge,
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.1875rem;
+  /* 3px (square-ish) */
+  background-color: var(--tag-background, color-mix(in srgb, var(--default-color), transparent 94%));
+  color: var(--tag-text, color-mix(in srgb, var(--default-color), transparent 45%));
+  border: none;
+  margin-right: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease, background-color 0.3s ease;
+
+  /* Active State */
+  &.active {
+    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    color: var(--accent-color);
+
+    @media (prefers-color-scheme: dark) {
+      :root:not(:has(.theme-state-light:checked)) & {
+        background-color: color-mix(in srgb, var(--accent-color), var(--surface-color) 85%);
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:has(.theme-state-dark:checked) & {
+        background-color: color-mix(in srgb, var(--accent-color), var(--surface-color) 85%);
+      }
+    }
+  }
+}
+
+/* Badge styling (design-owned since 3.5).
+   NOTE: sibling rule, NOT nested — nesting inside `.badge,.tag` compiles
+   to a descendant selector that never matches. Scoped to .badge only —
+   bare `.tag` spans never had these. */
+.badge {
+  white-space: nowrap;
+  line-height: 1;
+  vertical-align: baseline;
+}
+.badge:empty {
+  display: none;
+}
+/*--------------------------------------------------------------
+# Code Blocks (Legacy - Removed in favor of astro-expressive-code)
+--------------------------------------------------------------*/
+/* Legacy styles removed. Now using astro-expressive-code. */
+
+/*--------------------------------------------------------------
+# Test Mode: Deterministic Rendering for Visual Regression
+--------------------------------------------------------------*/
+[data-test-mode="true"] {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* NOTE: the universal selectors are kept flat (not nested) because bare `*`
+   inside a nested rule trips lightningcss' minifier. Output is identical. */
+[data-test-mode="true"] *,
+[data-test-mode="true"] *::before,
+[data-test-mode="true"] *::after {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
+}
+
+[data-test-mode="true"] [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+[data-test-mode="true"] .typed-cursor {
+  display: none !important;
+}
+
+[data-test-mode="true"] .typing-lock,
+[data-test-mode="true"] .typed {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+[data-test-mode="true"] .mascot-container {
+  animation: none !important;
+}
+
+[data-test-mode="true"] ::-webkit-scrollbar {
+  display: none;
+}
+

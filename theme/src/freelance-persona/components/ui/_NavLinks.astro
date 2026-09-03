@@ -11,6 +11,7 @@ import { Icon } from "astro-icon/components";
 import { transformIcon } from "@freelance-persona/utils/iconUtils";
 import { resolveLink } from "@freelance-persona/utils/linkUtils";
 import LanceIcon from "@freelance-persona/components/ui/LanceIcon.astro";
+import Tooltip from "@freelance-persona/components/ui/Tooltip.astro";
 
 interface Props {
   isHome?: boolean;
@@ -115,6 +116,8 @@ const getLink = (id: string) => {
         <li>
           <label
             for="theme-os"
+            interestfor={`fp-tooltip-${isMobile ? "m" : "d"}-theme-os`}
+            style={`anchor-name: --fp-tip-${isMobile ? "m" : "d"}-theme-os;`}
             class="theme-toggle-label dropdown-item theme-label-os"
           >
             <Icon name="bi:circle-half" class="navicon" /><span class="theme-name"
@@ -129,6 +132,8 @@ const getLink = (id: string) => {
         <li>
           <label
             for="theme-light"
+            interestfor={`fp-tooltip-${isMobile ? "m" : "d"}-theme-light`}
+            style={`anchor-name: --fp-tip-${isMobile ? "m" : "d"}-theme-light;`}
             class="theme-toggle-label dropdown-item theme-label-light"
           >
             <Icon name="bi:sun" class="navicon" /><span class="theme-name"
@@ -143,6 +148,8 @@ const getLink = (id: string) => {
         <li>
           <label
             for="theme-dark"
+            interestfor={`fp-tooltip-${isMobile ? "m" : "d"}-theme-dark`}
+            style={`anchor-name: --fp-tip-${isMobile ? "m" : "d"}-theme-dark;`}
             class="theme-toggle-label dropdown-item theme-label-dark"
           >
             <Icon name="bi:moon" class="navicon" /><span class="theme-name"
@@ -155,6 +162,9 @@ const getLink = (id: string) => {
           </label>
         </li>
       </ul>
+      <Tooltip id={`${isMobile ? "m" : "d"}-theme-os`} text="Matches your device's light or dark setting" />
+      <Tooltip id={`${isMobile ? "m" : "d"}-theme-light`} text="Always uses the light theme" />
+      <Tooltip id={`${isMobile ? "m" : "d"}-theme-dark`} text="Always uses the dark theme" />
     </li>
   </ul>
 </nav>

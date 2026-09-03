@@ -31,13 +31,6 @@ const {
   gutter = "default",
 } = Astro.props;
 
-// Gutter styles
-const rowClass = gutter === "wide" ? "row" : "row gy-4";
-const gutterStyle =
-  gutter === "wide"
-    ? "--bs-gutter-x: 2rem; --bs-gutter-y: 2rem;"
-    : "--bs-gutter-x: 1.5rem;";
-
 // 1. Fetch ALL posts (only if posts not provided)
 const allPosts = posts ? [] : await getCollection("blog_posts");
 
@@ -61,9 +54,18 @@ const displayedPosts = filteredPosts
     return b.id.localeCompare(a.id);
   })
   .slice(0, limit === -1 ? undefined : limit);
-// 4. Determine Column Class
-const colClass =
-  columns === 4 ? "col-xl-3 col-lg-4 col-md-6 mb-4" : "col-lg-4 col-md-6 mb-4";
+// 4. Layout Classes (semantic grid)
+// Gutter model: negative margins on the
+// container, matching padding + gutter-top margin on every cell.
+const isWide = gutter === "wide";
+const gridWrap = isWide ? "-mx-[1rem] -mt-[2rem]" : "-mx-[0.75rem] -mt-[1.5rem]";
+const cellPad  = isWide ? "px-[1rem]"        : "px-[0.75rem]";
+const cellMt   = isWide ? "mt-[2rem]"        : "mt-[1.5rem]";
+const gridCols = columns === 4
+  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+const cellClass = `mb-6 ${cellMt} ${cellPad}`;
+const colClass = `${gridWrap} ${gridCols}`;
 
 // 5. Excerpt Helper
 const getExcerpt = (body: string) => {
@@ -100,10 +102,10 @@ const getExcerpt = (body: string) => {
       <SectionTitle title={title} subtitle={subtitle} />
 
       <div class="container" data-reveal="fade-up">
-        <div class={rowClass} style={gutterStyle}>
+        <div class={colClass}>
           {displayedPosts.map((post) => (
-            <div class={colClass}>
-              <Card href={`${import.meta.env.BASE_URL}posts/${post.id.split("/").pop()}`} class="h-100">
+            <div class={cellClass}>
+              <Card href={`${import.meta.env.BASE_URL}posts/${post.id.split("/").pop()}`} class="h-full">
                 {/* Image Slot */}
                 <div slot="image" class="post-image-container">
                   {post.data.thumbnail ? (
@@ -111,7 +113,7 @@ const getExcerpt = (body: string) => {
                       <Image
                         src={post.data.thumbnail}
                         alt={post.data.title}
-                        class="img-fluid post-image"
+                        class="max-w-full h-auto post-image"
                         width={600}
                         quality="high"
                         format={post.data.thumbnail.format === 'svg' ? 'svg' : 'webp'}
@@ -129,7 +131,7 @@ const getExcerpt = (body: string) => {
                       />
                     </>
                   ) : (
-                    <div class="preview-card-wrapper h-100 w-100">
+                    <div class="preview-card-wrapper h-full w-full">
                       <div
                         class="mock-page-content"
                         style="width: 100%; height: 100%; padding: 1rem; background-color: var(--surface-color, #fff); color: var(--default-color); overflow: hidden; position: relative;"
@@ -177,7 +179,7 @@ const getExcerpt = (body: string) => {
                           <hr style="margin: 0.75rem 0; opacity: 0.2; border-top: 1.5px solid;" />
 
                           <div
-                            class="meta-top d-flex align-items-center mb-2"
+                            class="meta-top flex items-center mb-2"
                             style="font-size: 0.6rem; color: var(--text-muted);"
                           >
                             <Icon name="bi:calendar-event" class="me-1" />
@@ -205,10 +207,10 @@ const getExcerpt = (body: string) => {
                 </div>
 
                 <div class="post-details">
-                  <div class="meta mb-4">
+                  <div class="meta mb-6">
                     {/* Tags Display */}
                     {post.data.tags && post.data.tags.length > 0 && (
-                      <div class="d-inline-block">
+                      <div class="inline-block">
                         {post.data.tags.map((tag: string) => {
                           const isFiltered =
                             tags_to_filter_posts_by?.includes(tag);
@@ -265,13 +267,27 @@ const getExcerpt = (body: string) => {
   )
 }
 
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/_filtered-posts.css" layer(components);
+</style>
+
 <style>
-  /* Component styles moved to _recent-posts.scss */
-  @import "@freelance-persona/styles/_filtered-posts.scss";
+@layer components {
+
+  /* Component styles live in styles/_blog-categories.css (recent-posts block) */
 
   /* Local Fix for Attribution Positioning */
   :global(.post-image-container) {
     position: relative;
     overflow: hidden; /* Ensure attribution stays within image bounds */
   }
+}
+</style>
+
+
+<style is:global>
+  /* Card-facing post primitives (.post-header/.post-title/.meta-top) render here too,
+     so this partial ships wherever those cards appear. */
+  @import "@freelance-persona/styles/blog-post.css" layer(components);
 </style>

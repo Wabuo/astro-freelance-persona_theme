@@ -166,7 +166,7 @@ const formatDate = (date: Date) => {
                   class="post-entry-link"
                 >
                   <article class="post-entry border-bottom">
-                    <div class="post-meta d-flex justify-content-between align-items-center">
+                    <div class="post-meta flex justify-between items-center">
                       <h4 class="post-title">{post.data.title}</h4>
                       <div class="post-date">{formatDate(post.data.date)}</div>
                     </div>
@@ -189,7 +189,21 @@ const formatDate = (date: Date) => {
   }
 </BaseLayout>
 
+<style is:global>
+  /* Component-owned styles (shipped only when this component is used) */
+  @import "@freelance-persona/styles/blog.css" layer(components);
+</style>
+
+<style is:global>
+  /* Card-facing post primitives (.post-header/.post-title/.meta-top) render here too,
+     so this partial ships wherever those cards appear. */
+  @import "@freelance-persona/styles/blog-post.css" layer(components);
+</style>
+
 <style>
+@layer components {
+
+
   /* Layout Refinements matching Zola Reference */
   /* Layout Refinements matching Zola Reference */
   /* Replaced .category-page-container with standard .container */
@@ -204,25 +218,16 @@ const formatDate = (date: Date) => {
     display: block;
     text-decoration: none;
     color: inherit;
-    transition: transform var(--transition-hover-time, 0.2s);
   }
 
   .post-entry {
     padding-bottom: 1.5rem; /* Match reference gap (24px) */
     margin-bottom: var(--spacing-lg);
-    border-bottom: 1px solid
-      var(
-        --border-color,
-        color-mix(in srgb, var(--default-color), transparent 90%)
-      );
-    transition: border-color var(--transition-hover-time, 0.2s),
-      transform 0.3s ease-out;
+    border-bottom: 1px solid var(--card-border);
   }
 
-  .post-entry-link:hover .post-entry {
-    border-color: var(--accent-color);
-    /* transform: translateX(5px); // Optional: slide effect */
-  }
+  /* Hover feedback lives on the title/link color only — the separator
+     line keeps its neutral color on hover (regression fix). */
 
   /* Flexbox Layout for Title + Date */
   .post-meta {
@@ -233,7 +238,7 @@ const formatDate = (date: Date) => {
   .post-title {
     margin: 0;
     font-size: var(--subtitle-font-size); /* 24px */
-    font-family: var(--heading-font);
+    font-family: var(--font-heading);
     font-weight: 500;
     color: var(--accent-color);
     transition: color var(--transition-hover-time, 0.2s);
@@ -249,11 +254,11 @@ const formatDate = (date: Date) => {
 
   /* Increase specificity to override global .post-entry .post-meta .post-date */
   .post-entry .post-meta .post-date {
-    font-size: var(--default-font-size);
+    font-size: var(--normal-font-size);
     color: color-mix(in srgb, var(--default-color), transparent 50%);
     white-space: nowrap;
     margin-left: var(--spacing-sm);
-    font-family: var(--default-font);
+    font-family: var(--font-body);
     font-weight: 500;
     transition: color 0.2s ease;
   }
@@ -327,4 +332,7 @@ const formatDate = (date: Date) => {
       font-size: 0.9rem;
     }
   }
+}
 </style>
+
+

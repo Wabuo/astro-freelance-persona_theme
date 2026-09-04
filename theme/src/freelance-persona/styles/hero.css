@@ -36,7 +36,7 @@
     gap: 0;
 
     /* Mobile specific adjustments */
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
       right: 0.8rem; /* Nudge closer to edge (was 2.5rem) */
       bottom: 0.8rem;
       --attribution-font-size: 0.45rem; /* Smaller text */
@@ -275,7 +275,7 @@
   color: var(--accent-color);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .hero {
     /* CONTROL TEXT POSITION VERTICALLY */
     align-items: var(--mobile-align-items, flex-end) !important;

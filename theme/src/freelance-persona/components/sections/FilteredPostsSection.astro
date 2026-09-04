@@ -7,6 +7,8 @@ import ImageAttribution from "@freelance-persona/components/ui/ImageAttribution.
 import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
 import { Icon } from "astro-icon/components";
+import { getExcerpt } from "@freelance-persona/utils/excerpt";
+import PostPreviewMock from "@freelance-persona/components/ui/PostPreviewMock.astro";
 
 interface Props {
   id?: string;
@@ -18,6 +20,7 @@ interface Props {
   columns?: number;
   scale?: number;
   gutter?: "default" | "wide"; // "default" = gy-4 1.5rem (inner pages), "wide" = 2rem (home page)
+  layout?: "cards" | "rows"; // "cards" = grid cards ≥768 + news rows <768 (default); "rows" = news rows at ALL widths
 }
 const {
   id,
@@ -29,6 +32,7 @@ const {
   columns = 3,
   scale = 1,
   gutter = "default",
+  layout = "cards",
 } = Astro.props;
 
 // 1. Fetch ALL posts (only if posts not provided)
@@ -61,25 +65,18 @@ const isWide = gutter === "wide";
 const gridWrap = isWide ? "-mx-[1rem] -mt-[2rem]" : "-mx-[0.75rem] -mt-[1.5rem]";
 const cellPad  = isWide ? "px-[1rem]"        : "px-[0.75rem]";
 const cellMt   = isWide ? "mt-[2rem]"        : "mt-[1.5rem]";
-const gridCols = columns === 4
-  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
-const cellClass = `mb-6 ${cellMt} ${cellPad}`;
+const gridCols = layout === "rows"
+  ? "grid grid-cols-1"
+  : columns === 4
+    ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
+const cellClass = `post-card-cell mb-6 max-md:mb-3 ${cellMt} ${cellPad}`;
 const colClass = `${gridWrap} ${gridCols}`;
 
 // 5. Excerpt Helper
-const getExcerpt = (body: string) => {
-  if (!body) return "";
-  let text = body
-    .replace(/^#+\s+/gm, "") // Remove headers
-    .replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1") // Remove links, keep text
-    .replace(/[*_`]/g, "") // Remove formatting chars
-    .replace(/!\[[^\]]*\]\([^\)]+\)/g, "") // Remove images
-    .replace(/<br\s*\/?>/gi, "\n") // Convert <br> to newline
-    .trim();
+// Excerpt helper moved to @freelance-persona/utils/excerpt (shared with
+// the list-page teaser rows).
 
-  return text; // Return full text, allow CSS to handle overflow/fade
-};
 ---
 
 {/* Only render the section if we actually found posts for this category */}
@@ -87,9 +84,12 @@ const getExcerpt = (body: string) => {
   displayedPosts.length > 0 && (
     <section
       id={id}
-      class="filtered-posts section"
+      class={`filtered-posts section ${layout === "rows" ? "rows" : ""}`}
       style={`
         --scale-factor: ${scale};
+        /* Mobile hairline lines sit centered in the vertical gap
+           between cells (mb-3 + mt utilities = this total). */
+        --fp-hairline-gap: ${isWide ? "2.75rem" : "2.25rem"};
         /* Downsize key variables by the scale factor */
         --h2-font-size: calc(2rem * var(--scale-factor)); 
         --h3-font-size: calc(1.75rem * var(--scale-factor));
@@ -131,84 +131,31 @@ const getExcerpt = (body: string) => {
                       />
                     </>
                   ) : (
-                    <div class="preview-card-wrapper h-full w-full">
-                      <div
-                        class="mock-page-content"
-                        style="width: 100%; height: 100%; padding: 1rem; background-color: var(--surface-color, #fff); color: var(--default-color); overflow: hidden; position: relative;"
-                      >
-                        {/* Fade Out Mask Overlay - Applied to container to fade content at bottom */}
-                        <div
-                          style="
-                            position: absolute; 
-                            bottom: 0; 
-                            left: 0; 
-                            width: 100%; 
-                            height: 25%; /* FADE START POINT: Adjust height% to control where fade begins (25% = starts lower) */
-                            background: linear-gradient(to bottom, transparent, var(--surface-color, #fff)); 
-                            z-index: 2;
-                            pointer-events: none;
-                          "
-                        />
-
-                        <div class="post-header">
-                          <h2
-                            class="post-title"
-                            style="font-size: calc(1.25rem * var(--scale-factor)); margin-bottom: 0.25rem; color: var(--heading-color);"
-                          >
-                            {post.data.title}
-                          </h2>
-
-                          <div class="post-tags mb-0">
-                            {post.data.tags?.map((tag: string) => (
-                              <span
-                                class="tag badge me-1"
-                                style="font-size: 0.6em;"
-                              >
-                                {tag.toLowerCase()}
-                              </span>
-                            )) || (
-                              <span
-                                class="tag badge me-1"
-                                style="font-size: 0.6em;"
-                              >
-                                blog
-                              </span>
-                            )}
-                          </div>
-
-                          <hr style="margin: 0.75rem 0; opacity: 0.2; border-top: 1.5px solid;" />
-
-                          <div
-                            class="meta-top flex items-center mb-2"
-                            style="font-size: 0.6rem; color: var(--text-muted);"
-                          >
-                            <Icon name="bi:calendar-event" class="me-1" />
-                            {post.data.date.toLocaleDateString("en-GB", {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            })}
-                            <span class="mx-2">|</span>
-                            <Icon name="bi:hourglass-split" class="me-1" />1 min read
-                          </div>
-
-                          <hr style="margin: 0.5rem 0; opacity: 0.2; border-top: 1.5px solid;" />
-
-                          <div
-                            class="post-content"
-                            style="font-size: 0.77rem; line-height: 1.2; white-space: pre-line;"
-                          >
-                            <p>{getExcerpt(post.body)}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <PostPreviewMock
+                      title={post.data.title}
+                      tags={post.data.tags}
+                      date={post.data.date}
+                      excerpt={getExcerpt(post.body)}
+                    />
                   )}
                 </div>
 
                 <div class="post-details">
-                  <div class="meta mb-6">
-                    {/* Tags Display */}
+                  <div class="post-content">
+                    <h3 class="post-card-title">
+                      {post.data.title}
+                    </h3>
+                    <p class="post-card-desc">
+                      {post.data.description || "Click to read more..."}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mobile heise rows: full-width meta line below text+thumb —
+                    tag bottom-left, date bottom-right. Desktop keeps the
+                    absolute date inside the details. */}
+                <div class="post-meta-row">
+                  <div class="meta">
                     {post.data.tags && post.data.tags.length > 0 && (
                       <div class="inline-block">
                         {post.data.tags.map((tag: string) => {
@@ -217,9 +164,6 @@ const getExcerpt = (body: string) => {
                           return (
                             <span
                               class={`tag badge me-1 ${isFiltered ? "active" : ""}`}
-                              style={`
-                                  font-size: calc(0.75em * var(--scale-factor)); 
-                                `}
                             >
                               {tag}
                             </span>
@@ -229,27 +173,9 @@ const getExcerpt = (body: string) => {
                     )}
                   </div>
 
-                  <div class="post-content" style="flex-grow: 1;">
-                    <h3 style="font-weight: 500; font-size: calc(1.25rem * var(--scale-factor)); margin-bottom: 0.5rem;">
-                      {post.data.title}
-                    </h3>
-                    <p style="margin-left: 0; font-size: calc(1rem * var(--scale-factor));">
-                      {post.data.description || "Click to read more..."}
-                    </p>
-                  </div>
-
                   {/* Date at Bottom Right */}
                   <span
                     class="date"
-                    style={`
-                        position: absolute;
-                        bottom: calc(1rem * var(--scale-factor));
-                        right: calc(1.5rem * var(--scale-factor));
-                        font-size: calc(0.75em * var(--scale-factor)); 
-                        font-weight: 500;
-                        line-height: 1.5;
-                        color: var(--text-muted);
-                      `}
                   >
                     {post.data.date.toLocaleDateString("en-GB", {
                       day: "2-digit",
@@ -266,6 +192,8 @@ const getExcerpt = (body: string) => {
     </section>
   )
 }
+
+
 
 <style is:global>
   /* Component-owned styles (shipped only when this component is used) */

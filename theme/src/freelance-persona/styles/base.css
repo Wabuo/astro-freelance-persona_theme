@@ -122,6 +122,15 @@
   --spacing-xxl: 4rem; /* 64px */
 }
 
+/* Tighter vertical rhythm on phones — sections otherwise burn ~128px of
+   pure padding before content on a small viewport. Desktop (>767px) keeps
+   the airy 4rem spacing untouched. */
+@media (max-width: 767px) {
+  :root {
+    --spacing-xxl: 2.25rem; /* 36px */
+  }
+}
+
 :root {
   --transition-hover-time: 0.3s; /* Hover transition duration */
   --transition-hover-transparency: var(--transparency);

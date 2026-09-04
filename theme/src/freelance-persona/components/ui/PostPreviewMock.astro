@@ -1,0 +1,140 @@
+---
+// SPDX-FileCopyrightText: 2026 The freelance-persona_theme Project Contributors
+//
+// SPDX-License-Identifier: MIT
+
+// Miniature "page preview" render used when a post has no thumbnail:
+// post cards on the home sections and the list-page teaser thumbs.
+//
+// Behaves like a screenshot of the desktop preview card, scaled to
+// whatever box it lands in: every internal size is expressed in cqw
+// (% of the box width), which equals a 480px-wide design scaled down.
+// Readability is not a goal — it is a thumbnail of text content.
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  title: string;
+  tags?: string[];
+  date?: Date;
+  excerpt?: string;
+}
+
+const { title, tags = [], date, excerpt = "" } = Astro.props;
+
+const dateStr = date?.toLocaleDateString("en-GB", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+});
+---
+
+<div class="preview-card-wrapper">
+  <div class="mock-page-content">
+    {/* Fade Out Mask Overlay */}
+    <div class="mock-fade" />
+
+    <div class="post-header">
+      <h2 class="post-title">{title}</h2>
+
+      <div class="post-tags">
+        {tags.length > 0
+          ? tags.map((tag) => (
+            <span class="tag badge me-1">
+              {tag.toLowerCase()}
+            </span>
+          ))
+          : (
+            <span class="tag badge me-1">blog</span>
+          )}
+      </div>
+
+      <hr class="mock-hr mock-hr-wide" />
+
+      <div class="meta-top">
+        <Icon name="bi:calendar-event" class="me-1" />
+        {dateStr}
+        <span class="mx-2">|</span>
+        <Icon name="bi:hourglass-split" class="me-1" />1 min read
+      </div>
+
+      <hr class="mock-hr" />
+
+      <div class="post-content">
+        <p>{excerpt}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* The box this component fills is the size reference: all sizes in
+     cqw = a 480px design scaled to fit, identical proportions at any
+     thumb size. Scoped = overrides the shared blog-post.css partials
+     (unlayered component styles > layered partials). */
+  .preview-card-wrapper {
+    container-type: inline-size;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .mock-page-content {
+    width: 100%;
+    height: 100%;
+    padding: 3.33cqw;
+    background-color: var(--surface-color, #fff);
+    color: var(--default-color);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .mock-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    background: linear-gradient(to bottom, transparent, var(--surface-color, #fff));
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .post-title {
+    font-size: 4.17cqw;
+    line-height: 1.2;
+    margin-bottom: 0.5cqw;
+    color: var(--heading-color);
+  }
+
+  .post-tags {
+    margin-bottom: 0;
+  }
+
+  .tag.badge {
+    font-size: 2cqw;
+  }
+
+  .mock-hr {
+    margin: 1.05cqw 0;
+    opacity: 0.2;
+    border-top: 0.3cqw solid;
+  }
+
+  .mock-hr-wide {
+    margin: 1.55cqw 0;
+  }
+
+  .meta-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2cqw;
+    font-size: 2cqw;
+    color: var(--text-muted);
+  }
+
+  .post-content {
+    font-size: 2.56cqw;
+    line-height: 1.2;
+    white-space: pre-line;
+  }
+</style>

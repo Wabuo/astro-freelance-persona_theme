@@ -12,9 +12,8 @@
   --grid-gap: 2rem;
   --mini-group-gap: 5rem;
   /* Gap between standard cards and mini cards */
-  --mini-card-min-height: 6rem;
-  --mini-card-padding-y: 0.8rem;
-  /* New variable for internal top/bottom spacing */
+  --mini-card-padding-y: 3.12cqi;
+  /* Proportional (0.8rem at the 410.7px master card) */
 
   transform: translate(var(--nudge-x, 0), var(--nudge-y, 0)) scale(var(--content-scale, 1));
 }
@@ -34,26 +33,40 @@
 }
 
 
+/* Big category card: fixed master shape 403×534, internals in cqi
+   (constitution; measured @1920×1080, card 410.7px). */
+.category-card-wrapper .card-base {
+  aspect-ratio: 403 / 534;
+  border-radius: 2.92cqi;
+}
+
+.category-card-wrapper .card-content {
+  padding: 5.84cqi; /* 1.5rem at master */
+}
+
 .category-image-container {
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: var(--border-radius) var(--border-radius) 0 0;
-  margin-bottom: 1rem;
+  /* The fixed-ratio card must never squish the image window to make
+     room for overflowing text — text leaks get fixed instead. */
+  flex-shrink: 0;
+  margin-bottom: 3.9cqi; /* 1rem at the 410.7px master card */
   background: transparent;
   /* Placeholder removed to fix white line artifact */
   position: relative;
   /* Context for overlay */
 
   /* Attribution: smaller size for cards */
-  --attribution-font-size: 0.6rem;
+  --attribution-font-size: 2.34cqi; /* 0.6rem at master */
 
   /* Mobile specific overrides */
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .img-attribution {
-      --attribution-font-size: 0.45rem;
-      bottom: 0.2rem;
-      right: 0.4rem;
+      --attribution-font-size: 1.75cqi; /* 0.45rem */
+      bottom: 0.78cqi; /* 0.2rem */
+      right: 1.56cqi; /* 0.4rem */
     }
   }
 }
@@ -84,7 +97,7 @@
   justify-content: center;
   background: var(--overlay-bg, color-mix(in srgb, black, transparent 60%));
   text-align: center;
-  padding-block: 0.75rem;
+  padding-block: 2.92cqi; /* 0.75rem at master */
   transition: background 0.3s ease;
   z-index: 2;
   /* Ensure it stays on top */
@@ -98,9 +111,9 @@
 
 .overlay-title-text {
   color: var(--overlay-title-color, white) !important;
-  font-size: 2.7rem;
+  font-size: 10.52cqi; /* 43.2/410.7 */
   /* Increased size to match placeholder aesthetic */
-  padding-inline: 1rem;
+  padding-inline: 2.43cqi; /* 1rem at master */
   /* Prevent edge touching */
   font-weight: 700;
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.158);
@@ -134,20 +147,20 @@
 }
 
 .category-title {
-  font-size: 1.25rem;
+  font-size: 4.87cqi; /* 20/410.7 */
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.95cqi; /* 0.5rem */
 }
 
 .category-description {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
+  font-size: 3.51cqi; /* 14.4/410.7 */
+  margin-bottom: 2.43cqi; /* 1rem */
   color: var(--heading-color);
   /* color: var(--accent-color); */
 
   &.prominent {
-    font-size: 1rem;
+    font-size: 3.9cqi; /* 16/410.7 */
     font-weight: 600;
   }
 
@@ -163,9 +176,15 @@
 .category-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1.22cqi; /* 0.5rem */
   margin-top: auto;
   /* Push to bottom */
+}
+
+.category-tags .badge {
+  font-size: 2.92cqi; /* 12/410.7 */
+  border-radius: 0.73cqi; /* 3px */
+  padding: 0.97cqi 1.95cqi; /* 4px 8px */
 }
 
 
@@ -199,11 +218,11 @@
 .latest-posts {
   position: relative;
   z-index: 2;
+  margin-top: 5.84cqi; /* 1.5rem */
+  padding-top: 6.23cqi; /* 1.6rem */
   /* Keep default pointer-events (auto) so empty areas capture clicks if desired,
      but user specifically wanted TOP part to be clickable.
      If user wants empty latest-posts area to act as dead zone, we leave it auto. */
-  margin-top: 1.5rem;
-  padding-top: 1.6rem;
   border-top: 1px solid var(--card-border);
 
   /* Second line for double-border effect with custom gap */
@@ -221,12 +240,16 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 5.5rem;
-  /* ~88px to align with 2-post cards */
 }
 
 .latest-posts-separator {
   /* Optional: Could use this for a styled line if border-top is not enough */
+}
+
+.no-posts-message {
+  font-size: 3.12cqi; /* 0.8rem at master */
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+  font-style: italic;
 }
 
 .latest-posts-list {
@@ -235,8 +258,8 @@
   margin: 0;
 
   li {
-    margin-bottom: 0.7rem;
-    font-size: 0.9rem;
+    margin-bottom: 2.72cqi; /* 0.7rem */
+    font-size: 3.51cqi; /* 0.9rem */
     font-weight: 500;
 
     &:last-child {
@@ -287,7 +310,7 @@
   }
 
   .post-date {
-    font-size: 0.75rem;
+    font-size: 2.92cqi; /* 0.75rem */
     text-decoration: none !important;
     /* Never underline the date */
     display: inline-block;
@@ -300,13 +323,17 @@
 
 
 /* Mini Category Card */
-.mini-category-card {
+/* Mini category card: fixed master shape 403×113, internals in cqi
+   (measured @1920×1080: title 20→4.87, desc 15.2→3.70, badge 11.2→2.73).
+   On phones the stack fills the neighboring big card's slot instead
+   (see the mobile block) — the fill geometry derives the ratio there. */
+.card-base.mini-category-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
   /* Center content vertically if brief */
-  min-height: var(--mini-card-min-height);
-  /* Sufficient height to stand out but smaller than full cards */
+  border-radius: 2.92cqi; /* 12px at master — compound beats the
+                             fixed 0.75rem on .card-base */
   padding: var(--mini-card-padding-y) 0;
   /* Drastically reduced padding */
   position: relative;
@@ -318,14 +345,12 @@
 
   /* Remove default inner card padding so variable controls everything */
   .card-content {
-    padding: 0 1.5rem;
-    /* Remove vertical, keep default horizontal */
+    padding: 0 5.84cqi;
+    /* Remove vertical, keep default horizontal (1.5rem at master) */
   }
 
   .category-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+    /* Size/spacing inherited from the proportional base rule */
     /* Restored to match standard */
     margin-top: 0;
     color: var(--heading-color);
@@ -347,9 +372,9 @@
   }
 
   .category-description {
-    font-size: 0.95rem;
+    font-size: 3.7cqi; /* 15.2/410.7 */
     color: color-mix(in srgb, currentColor, transparent 20%);
-    margin-bottom: 1rem;
+    margin-bottom: 2.43cqi; /* 1rem */
     /* Restored to match standard */
     line-height: 1.4;
   }
@@ -360,8 +385,9 @@
     margin-top: auto;
 
     .badge {
-      font-size: 0.7rem;
-      padding: 0.15rem 0.4rem;
+      font-size: 2.73cqi; /* 11.2/410.7 */
+      border-radius: 0.73cqi;
+      padding: 0.37cqi 0.97cqi; /* 0.15rem 0.4rem */
     }
   }
 
@@ -372,5 +398,70 @@
     }
 
     /* Title remains static color as requested */
+  }
+}
+
+/* ====================================================
+   === MOBILE DENSITY (phones only, <768px) ===
+   2-column grid for both big and mini category cards,
+   compact card interiors, shorter image window.
+   Odd counts center the last card (2+1 layout).
+   ==================================================== */
+@media (max-width: 767px) {
+  .blog-categories-section {
+    --grid-gap: 1rem;
+    --mini-group-gap: 1.5rem;
+  }
+
+  .blog-categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Card internals are fully proportional via the unified cqi rules —
+     no per-breakpoint variants. Only the ARRANGEMENT differs: minis
+     stack in the main grid's leftover slot and FILL it, so the stack's
+     bottom edge exactly meets the neighboring big card's bottom edge
+     at every width (equal-share geometry; the per-mini ratio is
+     derived, not hand-picked — a documented fixed-ratio override). */
+  .mini-stack-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 3.9cqi; /* 1rem at master */
+  }
+
+  .mini-stack-cell .mini-category-card-wrapper {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  .mini-stack-cell .mini-category-card {
+    aspect-ratio: auto;
+    min-height: 0;
+  }
+
+  /* Attribution: smaller size for tiny image windows */
+  .category-image-container .img-attribution {
+    --attribution-font-size: 0.45rem;
+    bottom: 0.2rem;
+    right: 0.4rem;
+  }
+}
+
+/* ≥768px: dissolve the stack cell so minis flow as their own row in the
+   main grid (replaces the old dedicated mini-categories container). The
+   wrapper margin restores the group gap that container used to provide. */
+@media (min-width: 768px) {
+  .mini-stack-cell {
+    display: contents;
+  }
+
+  .mini-category-card-wrapper .mini-category-card {
+    aspect-ratio: 403 / 113;
+  }
+
+  .mini-stack-cell > .mini-category-card-wrapper {
+    /* The main grid's row-gap stacks on top of this margin — subtract it
+       so the visual group gap matches the old dedicated container (--grid-gap). */
+    margin-top: calc(var(--mini-group-gap, 5rem) - var(--grid-gap, 2rem));
   }
 }

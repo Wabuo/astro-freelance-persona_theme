@@ -25,7 +25,7 @@ avatar_styles:
   # Can also be set to something like 30rem, to ensure no text below it for the rest of the about page
   float_margin_bottom: "clamp(2rem, 2%, 5rem)"
 qualifications_sidebar:
-  - text: "Theme License"
+  - text: "Theme Licence"
     subtitle:
       - "MIT Open Source"
       - "2026"
@@ -64,14 +64,14 @@ Clean code, high performance, and zero bloat. Consider this the blueprint for yo
 
 ## The Outer Space
 
-I'm built as a static site generator theme, prioritizing speed, accessibility, and simplicity.
+I'm built as a static site generator theme, prioritising speed, accessibility, and simplicity.
 My structure is a journey of continuous refinement - a nicer way of saying I'm always open to Pull Requests.
 I thrive on turning markdown content into beautiful HTML, whether that means shaping a simple resume or guiding a visitor through a complex portfolio.
 The goal is always the same: to render work that is intelligent in its design, useful in its function, and elegant in its form.
 
 ## The Inner Compass
 
-In the parallel world of code, I am a quiet composition of minimal Javascript, an avid consumer of structured data, and a dedicated believer in semantic HTML.
+In the parallel world of code, I am a quiet composition of minimal JavaScript, an avid consumer of structured data, and a dedicated believer in semantic HTML.
 These technical pillars are my backbone, the source of my performance, and the wellspring of my reliability.
 It's in the solitude of a build process or the logic of a type definition that I find the clarity needed for the web's bigger challenges.
 

@@ -11,7 +11,7 @@ icon_class: "lance-icon"
 
 features:
   - title: "Blazing Fast"
-    desc: "Built with Astro {{astro_major}} and zero-JS core. Degrades extreamly gracefully in a no-JS environment."
+    desc: "Built with Astro {{astro_major}} and zero-JS core. Degrades extremely gracefully in a no-JS environment."
     icon: "bi bi-lightning-charge"
     link: "/coming-soon"
     button_text: "Tell me More"
@@ -36,7 +36,7 @@ features:
     button_text: "Read More"
 
   - title: "Easy Configuration"
-    desc: "Control colors, fonts, and settings via a single config file."
+    desc: "Control colours, fonts, and settings via a single config file."
     icon: "bi bi-sliders"
     link: "/coming-soon"
     button_text: "Read More"

@@ -59,10 +59,10 @@ mobile_image_object_position: "84% 0" # Horizontal focus (84% = Right side)
 
 ```yaml
 ###############################################################################
-##                          All posible settings                             ##
+##                          All possible settings                             ##
 ##               Needed ones are uncommented and have defaults               ##
 ##                                                                           ##
-##          uncomment the other ones and customize to your liking            ##
+##          uncomment the other ones and customise to your liking            ##
 ###############################################################################
 
 # -----------------------------------------------------------------------------

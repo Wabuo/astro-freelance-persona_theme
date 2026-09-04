@@ -135,7 +135,7 @@ Key EU authorities with especially useful SME resources:
 
 ## 🛡️ Digital Rights & Privacy Organizations
 
-These organizations defend digital rights and provide excellent educational resources:
+These organisations defend digital rights and provide excellent educational resources:
 
 * **[Electronic Frontier Foundation (EFF)](https://www.eff.org/)** — Leading US nonprofit defending digital privacy, free speech, and innovation.
 * **[European Digital Rights (EDRi)](https://edri.org/)** — Defending rights and freedoms in the digital environment across Europe.

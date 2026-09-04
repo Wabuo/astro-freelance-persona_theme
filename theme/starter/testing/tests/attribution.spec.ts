@@ -63,14 +63,14 @@ test.describe('Attribution Logic & Interactions', () => {
         const aboutSection = page.locator('#about');
         await expect(aboutSection).toBeVisible();
 
-        // Find the first qualification with an image (Theme License)
-        const themeLicenseQual = aboutContent.qualifications_sidebar?.find(q => q.text === 'Theme License');
+        // Find the first qualification with an image (Theme Licence)
+        const themeLicenseQual = aboutContent.qualifications_sidebar?.find(q => q.text === 'Theme Licence');
         if (!themeLicenseQual) {
             test.skip();
             return;
         }
 
-        const certItem = aboutSection.locator('.qualifications-item').filter({ hasText: 'Theme License' }).first();
+        const certItem = aboutSection.locator('.qualifications-item').filter({ hasText: 'Theme Licence' }).first();
         const attribution = certItem.locator('.cert-attribution');
 
         await expect(attribution).toBeVisible();
@@ -103,7 +103,7 @@ test.describe('Attribution Logic & Interactions', () => {
 
     test('About Section: Certificate Hover Interaction', async ({ page, isMobile }) => {
         if (isMobile) test.skip();
-        const certItem = page.locator('#about .qualifications-item').filter({ hasText: 'Theme License' }).first();
+        const certItem = page.locator('#about .qualifications-item').filter({ hasText: 'Theme Licence' }).first();
         const titleLink = certItem.locator('.qualifications-link');
         const imgLink = certItem.locator('.cert-img-only-link');
         const img = imgLink.locator('img');

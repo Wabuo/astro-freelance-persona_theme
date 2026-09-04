@@ -169,7 +169,7 @@ Key EU DPAs with especially useful privacy policy resources:
 * **[Chaos Computer Club (CCC)](https://www.ccc.de/)** — Europe's largest hacker association; strong voice on privacy.
 * **[IAPP](https://iapp.org/resources/)** — Global privacy law trackers, DPA directories, and professional resources. Their "[Data Protection Laws of the World](https://iapp.org/resources/)" resource covers 160+ jurisdictions.
 * **[Access Now](https://www.accessnow.org/)** — Global advocacy for digital rights with focus on privacy and surveillance.
-* **[noyb — European Center for Digital Rights](https://noyb.eu/)** — Max Schrems' organization; active GDPR enforcement and public guidance.
+* **[noyb — European Center for Digital Rights](https://noyb.eu/)** — Max Schrems' organisation; active GDPR enforcement and public guidance.
 
 ---
 

@@ -11,6 +11,7 @@ order: 25
 icon_class: "bi bi-grid"
 categories:
   - title: "Development"
+    thumb_fallback: "mock"
     overlay_title: true
     overlay_style: "none"
     title_style: "dark"
@@ -20,6 +21,7 @@ categories:
     show_subtitle: false
     style: "cards"
   - title: "Design System"
+    thumb_fallback: "none"
     image: "@/assets/img/background.svg"
     img_credit: "hidden"
     img_copyright: "freelance-persona"

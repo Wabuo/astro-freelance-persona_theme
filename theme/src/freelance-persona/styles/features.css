@@ -32,6 +32,12 @@
     z-index: 10;
 }
 
+/* No container cap: the section spans the full width with only the
+   global padding as margins (same edges as the Blogs section). */
+.features-section-wrapper .features-container {
+    max-width: none;
+}
+
 
 
 /* --- Grid Layout --- */
@@ -71,11 +77,28 @@
 }
 
 /* Card Container Styling */
-/* .feature-card extends .card-base implicitly by usage in component */
-.feature-card {
-    /* Override defaults if necessary */
-    padding: 2rem;
+/* .feature-card extends .card-base implicitly by usage in component.
+   Proportional card (constitution): fixed master shape 403×339,
+   internals in cqi — measured at 1920×1080 (card 402.7px):
+   pad 32→7.95, radius 12→2.98, icon 64→15.89 (r 8→1.99),
+   icon-gap 24→5.96, title 24→5.96 (mb 16→3.97), desc 16→3.97,
+   badge font 14.4→3.58 (pads 8/16→1.99/3.97, btl-radius 8→1.99).
+   The full 3-line description fits the master shape — no clamp. */
+.card-base.feature-card {
+    aspect-ratio: 403 / 339;
+    padding: 7.95cqi;
+    border-radius: 2.98cqi; /* 12px at master — compound beats the
+                               fixed 0.75rem on .card-base */
     /* The base structure is handled by _cards.css */
+}
+
+/* The Card component wraps children in .card-content (24px at the
+   master viewport) — expressed proportionally so the total offset
+   (32+24 = 56px @1920) scales with the card. min-height: 0 lets the
+   flex item shrink to the fixed-ratio card height. */
+.features-grid .card-content {
+    padding: 5.96cqi;
+    min-height: 0;
 }
 
 /* Hover effect for the card container */
@@ -89,30 +112,31 @@
     color: var(--accent-color);
 }
 
-/* --- Icon and Text Styles --- */
+/* --- Icon and Text Styles (proportional, see feature-card) --- */
 .feature-icon-wrapper-outer {
-    margin-bottom: 1.5rem;
+    display: flex;
+    margin-bottom: 5.96cqi;
 }
 
 .feature-icon-bg {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 0.5rem;
+    width: 15.89cqi;
+    height: 15.89cqi;
+    border-radius: 1.99cqi;
     background-color: var(--accent-color);
     color: var(--contrast-color);
 }
 
 .feature-icon {
-    font-size: 1.5rem; /* Icon <i> elements size from font-size, not width/height */
+    font-size: 5.96cqi; /* Icon <i> elements size from font-size, not width/height */
     color: inherit;
 
     /* Sizing for Lance Icon specifically (SVG needs explicit dimensions) */
     &.lance-icon-svg {
-        width: 2.2rem;
-        height: 2.2rem;
+        width: 8.74cqi;
+        height: 8.74cqi;
         fill: currentColor;
 
         /* Invert the colored part to white when inside the primary background */
@@ -123,14 +147,16 @@
 }
 
 .feature-title-card {
-    font-size: 1.5rem;
+    font-size: 5.96cqi;
+    line-height: 1.2;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 3.97cqi;
     white-space: pre-line;
     font-family: var(--font-heading, sans-serif);
 }
 
 .feature-description-card {
+    font-size: 3.97cqi;
     line-height: 1.625;
     white-space: pre-line;
     font-family: var(--font-body, sans-serif);
@@ -144,10 +170,10 @@
     bottom: 0;
     right: 0;
 
-    padding: 0.5rem 1rem;
-    border-top-left-radius: 0.5rem;
+    padding: 1.99cqi 3.97cqi;
+    border-top-left-radius: 1.99cqi;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 3.58cqi;
     background-color: var(--accent-color);
     color: var(--contrast-color, #fff);
     z-index: 5;
@@ -193,5 +219,22 @@
 @media (hover: none) {
     .feature-hover-action {
         transform: translateY(0);
+    }
+}
+
+/* ====================================================
+   === MOBILE LAYOUT (phones only, <768px) ===
+   2-column grid, whole grid scales as ONE unit and never
+   grows past phone width (the grid centers on wider
+   screens). Card internals are fully proportional via the
+   unified cqi rules above — no per-breakpoint variants.
+   ==================================================== */
+@media (max-width: 767px) {
+    .features-grid {
+        /* Full outer-edge width (same margins as every other
+           section) — no centered cap. */
+        container-type: inline-size;
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(0.5rem, 2.2cqi, 1rem);
     }
 }

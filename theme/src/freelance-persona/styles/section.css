@@ -71,3 +71,27 @@ section,
   font-size: var(--subtitle-font-size);
   color: var(--accent-color);
 }
+
+/* Mobile: compact section-title block (divider + subtitle) so content
+   starts higher on small screens. Headings scale fluidly with the
+   viewport (user config vars act as the ceiling). */
+@media (max-width: 767px) {
+  .section .section-title {
+    padding-bottom: calc(var(--spacing-xxl) * 0.75);
+  }
+
+  .section-title h2 {
+    font-size: clamp(1.35rem, 5.5vw, var(--heading-font-size));
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .section-title h2::before {
+    width: 6rem;
+  }
+
+  .section-title em {
+    margin-top: 0.5rem;
+    font-size: clamp(0.8rem, 3.2vw, var(--subtitle-font-size));
+  }
+}

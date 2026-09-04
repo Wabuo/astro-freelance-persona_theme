@@ -203,6 +203,10 @@ const sections = defineCollection({
         overlay_opacity: z.number().optional(),
         title_style: z.enum(['dark', 'light', 'custom', '']).default(''),
         custom_title_color: z.string().optional(),
+
+        // List-page thumb fallback for posts without a thumbnail:
+        // "mock" renders the mini preview-page, "none" = text-only row.
+        thumb_fallback: z.enum(['mock', 'none']).default('none'),
       })).default([]),
 
       mini_categories: z.array(z.object({
@@ -211,6 +215,7 @@ const sections = defineCollection({
         tags: z.array(z.string()),
         background_color: z.string().optional(),
         color: z.string().optional(),
+        thumb_fallback: z.enum(['mock', 'none']).default('none'),
       })).optional(),
 
       // Visual Overrides

@@ -262,10 +262,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                       ))}
                     </ul>
                   ) : (
-                    <p
-                      class="no-posts-message"
-                      style="font-size: 0.8rem; color: color-mix(in srgb, var(--default-color), transparent 40%); font-style: italic;"
-                    >
+                    <p class="no-posts-message">
                       No posts yet
                     </p>
                   )}
@@ -275,16 +272,14 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
           );
         })
       }
-    </div>
 
-    {/* Mini Categories Grid - Separate container for layout control */}
-    {
-      mini_categories && mini_categories.length > 0 && (
-        <div
-          class="blog-categories-grid mini-categories-grid"
-          style="margin-top: var(--mini-group-gap, 2rem);"
-        >
-          {mini_categories?.map((category, index) => {
+      {/* Mini Categories — mobile: stacked inside the grid's leftover slot;
+          ≥768px: dissolved into the grid (display: contents) so minis flow
+          as their own row, matching the previous dedicated-grid layout. */}
+      {
+        mini_categories && mini_categories.length > 0 && (
+          <div class="mini-stack-cell">
+            {mini_categories?.map((category, index) => {
             const miniCardStyle = category.background_color
               ? `background-color: ${category.background_color};`
               : "";
@@ -352,6 +347,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
         </div>
       )
     }
+    </div>
   </div>
 </section>
 

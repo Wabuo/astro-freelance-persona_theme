@@ -15,6 +15,22 @@
   /* 40px */
 }
 
+/* Mobile: the info rows live in ONE box, styled like the About
+   qualifications-box template (bg, hairline border, radius).
+   Desktop keeps the bare pills layout. */
+@media (max-width: 767px) {
+  .contact .info-list {
+    background-color: color-mix(in srgb, var(--default-color), transparent 98%);
+    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    border-radius: 0.3125rem;
+    padding: 1.5rem;
+  }
+
+  .contact .info-item+.info-item {
+    margin-top: 1.25rem;
+  }
+}
+
 .contact .info-item .contact-icon-pill {
   color: var(--accent-color);
   transition:
@@ -247,4 +263,95 @@
 .contact .contact-form .error-message.show,
 .contact .contact-form .sent-message.show {
   display: block;
+}
+
+/* ====================================================
+   === MOBILE DENSITY (phones only, <768px) ===
+   Goal: the whole section (title, pills, form, button)
+   fits one viewport. Pills go 2+2 (grid via utilities in
+   the component markup), harvested margins, compact
+   inputs. The checkbox label uses an inline font-size, so
+   !important is required to shrink it.
+   ==================================================== */
+@media (max-width: 767px) {
+  .contact .info-item .contact-icon-pill {
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-right: 0.625rem;
+  }
+
+  .contact .info-item .contact-icon-pill [data-icon] {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .contact .info-item h3 {
+    font-size: 1rem;
+    margin-bottom: 0.125rem;
+  }
+
+  .contact .info-item p {
+    font-size: 0.8rem;
+  }
+
+  /* Grid items must be allowed to shrink below content width, else long
+     emails force their column wide and blow up the page layout viewport. */
+  .contact .info-list {
+    align-items: start;
+  }
+
+  /* The stacked-layout sibling margin pushes every non-first tile down
+     inside its grid cell (40px skew) — the grid gap handles spacing. */
+  .contact .info-item + .info-item {
+    margin-top: 0;
+  }
+
+  .contact .info-item {
+    min-width: 0;
+  }
+
+  /* The obfuscated-email component's own `display: inline-block` outranks
+     the `flex` utility (scoped selector specificity) and would misalign
+     this tile against its neighbours — reassert the flex row layout. */
+  .contact .info-item.email-wrapper {
+    display: flex;
+  }
+
+  .contact .info-item > div {
+    min-width: 0;
+  }
+
+  .contact .obfuscated-email-wrapper {
+    max-width: 100%;
+  }
+
+  .contact .email-copy-btn,
+  .contact noscript .email-text {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .contact .contact-form fieldset {
+    margin-bottom: 0;
+  }
+
+  .contact .contact-form .input-box input,
+  .contact .contact-form .input-box textarea {
+    padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+  }
+
+  .contact .contact-form .input-box .label {
+    left: 0.75rem;
+    top: 0.75rem;
+  }
+
+  .contact .contact-form .input-box textarea {
+    min-height: 4.5rem;
+    height: 5.5rem;
+  }
+
+  .contact .checkbox-label {
+    font-size: 0.75rem !important;
+    line-height: 1.3 !important;
+  }
 }

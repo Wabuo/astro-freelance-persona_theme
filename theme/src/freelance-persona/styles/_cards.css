@@ -11,6 +11,39 @@
    === SHARED CARD BASE ===
    ==================================================== */
 
+/* ====================================================
+   === CARD SYSTEM CONSTITUTION ===
+   1. ONE proportional system for all card types: the
+      desktop rendering at 1920×1080 (16:9) is the master
+      mask; every other viewport renders a scaled version
+      of the same design.
+   2. Shared primitives live here (container setup,
+      image aspects, structure). Per-type files hold only
+      overrides/additions and propagate through the
+      consumable chain.
+   3. NO card deforms: every card type carries a fixed
+      aspect-ratio derived from its master measurements.
+      A new shape = an explicit fixed-ratio override or a
+      new card type. heise news rows are list items, not
+      cards, and are exempt.
+   Master measurements @1920×1080:
+   - feature card   402.7×338.8  → 403/339
+   - post card      410.7×426    → 403/418
+   - blog big card  410.7×543.8  → 403/534
+   - mini card      410.7×114.9  → 403/113
+   ==================================================== */
+
+/* Every card wrapper is an inline-size container: card
+   internals are sized in cqi (% of card width) so the
+   whole design scales like an image at any viewport. */
+.feature-group-wrapper,
+.category-card-wrapper,
+.mini-category-card-wrapper,
+.post-card-cell,
+.preview-card-wrapper {
+    container-type: inline-size;
+}
+
 .card-wrapper {
     height: 100%;
     text-decoration: none;

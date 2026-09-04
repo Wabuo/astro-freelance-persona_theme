@@ -5,7 +5,6 @@ import SectionTitle from "@freelance-persona/components/ui/SectionTitle.astro";
 import Breadcrumbs from "@freelance-persona/components/ui/Breadcrumbs.astro";
 import FilteredPostsSection from "@freelance-persona/components/sections/FilteredPostsSection.astro";
 import Card from "@freelance-persona/components/ui/Card.astro";
-import { Image } from "astro:assets";
 import { slugify } from "@freelance-persona/utils/slugify";
 import { resolveLink } from "@freelance-persona/utils/linkUtils";
 
@@ -44,6 +43,7 @@ export async function getStaticPaths() {
               parentTitle: section.data.title,
               show_subtitle: category.show_subtitle,
               style: category.style,
+              thumb_fallback: category.thumb_fallback,
             },
           });
         });
@@ -62,6 +62,7 @@ export async function getStaticPaths() {
               parentTitle: section.data.title,
               show_subtitle: category.show_subtitle,
               style: category.style,
+              thumb_fallback: category.thumb_fallback,
             },
           });
         });
@@ -80,6 +81,7 @@ const {
   parentTitle,
   show_subtitle,
   style,
+  thumb_fallback,
 } = Astro.props;
 const allPosts = await getCollection("blog_posts");
 
@@ -94,13 +96,6 @@ const filteredPosts = allPosts
     return b.id.localeCompare(a.id);
   });
 
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-};
 ---
 
 <BaseLayout title={`${title} - Blog`}>
@@ -149,42 +144,36 @@ const formatDate = (date: Date) => {
         </div>
       )
     ) : (
-      /* Simple Layout (List) - Requires manual container wrapper */ <div class="section">
-        <div class="container">
-          <div class="section-header">
-            <SectionTitle
-              title={title}
-              subtitle={show_subtitle ? description : undefined}
-            />
-          </div>
-
-          {filteredPosts.length > 0 ? (
-            <div class="posts-list">
-              {filteredPosts.map((post: any) => (
-                <a
-                  href={resolveLink(`posts/${post.id.split("/").pop()}`)}
-                  class="post-entry-link"
-                >
-                  <article class="post-entry border-bottom">
-                    <div class="post-meta flex justify-between items-center">
-                      <h4 class="post-title">{post.data.title}</h4>
-                      <div class="post-date">{formatDate(post.data.date)}</div>
-                    </div>
-                    <p class="post-description">{post.data.description}</p>
-                  </article>
-                </a>
-              ))}
+      /* Simple Layout (List) - news-rows consumable (same UI as the
+         home news rows, at ALL widths on list-styled pages) */
+      filteredPosts.length > 0 ? (
+        <FilteredPostsSection
+          id="blog-category-posts"
+          title={title}
+          subtitle={show_subtitle ? description : undefined}
+          posts={filteredPosts}
+          limit={-1}
+          layout="rows"
+          tags_to_filter_posts_by={tags}
+        />
+      ) : (
+        <div class="section">
+          <div class="container">
+            <div class="section-header">
+              <SectionTitle
+                title={title}
+                subtitle={show_subtitle ? description : undefined}
+              />
             </div>
-          ) : (
             <div class="empty-state">
               <p>No posts found in this category, yet.</p>
               <a href={resolveLink("#blogs")} class="btn-return">
                 Return Home
               </a>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )
     )
   }
 </BaseLayout>
@@ -213,6 +202,41 @@ const formatDate = (date: Date) => {
     max-width: 80rem; /* 960px -> 60rem assuming 16px base */
     margin: 0 auto;
   }
+
+  /* heise-style teaser rows: text left, small thumb right.
+     Posts without a thumbnail render as clean text-only rows
+     (thumb_fallback: "none") or the mini page preview
+     (thumb_fallback: "mock"). */
+  .post-entry {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .post-entry-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .post-entry-thumb {
+    flex-shrink: 0;
+    width: 9rem;
+    aspect-ratio: 16 / 9;
+    border-radius: 0.375rem;
+    overflow: hidden;
+    background: var(--surface-color);
+    border: 1px solid var(--card-border);
+  }
+
+  .post-entry-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* The mock preview self-scales via cqw (PostPreviewMock) — no
+     per-context overrides needed. */
 
   .post-entry-link {
     display: block;
@@ -292,7 +316,7 @@ const formatDate = (date: Date) => {
 
   .btn-return {
     position: absolute;
-    bottom: -3rem;
+    bottom: 1.5rem;
     left: 0;
     right: 0;
     margin-inline: auto;
@@ -321,7 +345,7 @@ const formatDate = (date: Date) => {
   }
 
   /* Responsive Adjustments */
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .post-meta {
       flex-direction: column;
       align-items: flex-start !important;
@@ -330,6 +354,9 @@ const formatDate = (date: Date) => {
       margin-left: 0;
       margin-top: var(--spacing-xs);
       font-size: 0.9rem;
+    }
+    .post-entry-thumb {
+      width: 40%;
     }
   }
 }

@@ -32,11 +32,7 @@
     z-index: 10;
 }
 
-/* No container cap: the section spans the full width with only the
-   global padding as margins (same edges as the Blogs section). */
-.features-section-wrapper .features-container {
-    max-width: none;
-}
+
 
 
 

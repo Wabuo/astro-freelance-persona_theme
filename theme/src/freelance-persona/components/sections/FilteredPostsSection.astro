@@ -62,7 +62,9 @@ const displayedPosts = filteredPosts
 // Gutter model: negative margins on the
 // container, matching padding + gutter-top margin on every cell.
 const isWide = gutter === "wide";
-const gridWrap = isWide ? "-mx-[1rem] -mt-[2rem]" : "-mx-[0.75rem] -mt-[1.5rem]";
+// The small negative top-margin keeps the header->first-post distance
+// comfortable (cell top-margins supply the inter-row spacing).
+const gridWrap = isWide ? "-mx-[1rem]" : "-mx-[0.75rem]";
 const cellPad  = isWide ? "px-[1rem]"        : "px-[0.75rem]";
 const cellMt   = isWide ? "mt-[2rem]"        : "mt-[1.5rem]";
 const gridCols = layout === "rows"
@@ -87,9 +89,7 @@ const colClass = `${gridWrap} ${gridCols}`;
       class={`filtered-posts section ${layout === "rows" ? "rows" : ""}`}
       style={`
         --scale-factor: ${scale};
-        /* Mobile hairline lines sit centered in the vertical gap
-           between cells (mb-3 + mt utilities = this total). */
-        --fp-hairline-gap: ${isWide ? "2.75rem" : "2.25rem"};
+        ${isWide ? "--fp-hairline-gap: 2.75rem;" : ""}
         /* Downsize key variables by the scale factor */
         --h2-font-size: calc(2rem * var(--scale-factor)); 
         --h3-font-size: calc(1.75rem * var(--scale-factor));

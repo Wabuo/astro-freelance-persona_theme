@@ -101,7 +101,8 @@ export interface PersonaConfig {
     ntfy_server?: string; // Default: https://ntfy.sh
     checkboxes?: {
       id: string;
-      label: string;
+      /** A single string, or an array of lines rendered one per line (<br>) */
+      label: string | string[];
       required: boolean;
       /** Optional hint tooltip (popover="hint") elaborating the label */
       tooltip?: string;

@@ -210,7 +210,10 @@ export const themeConfig: PersonaConfig = {
     checkboxes: [
       {
         id: "privacy_consent",
-        label: "I have read and agree to the [Privacy Policy](/legal/privacy-policy). My data (e.g. name, email, and metadata such as IP address) will be processed solely for the purpose of handling this inquiry.",
+        label: [
+          "I have read and agree to the [Privacy Policy](/legal/privacy-policy).",
+          "Your data (e.g. name, email, and metadata such as IP address) will be processed **_solely_** for the purpose of handling this inquiry.",
+        ],
         required: true,
         tooltip: "Required so we can legally reply to your inquiry.",
       },

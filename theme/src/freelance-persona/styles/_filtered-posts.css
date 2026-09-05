@@ -12,6 +12,13 @@
    === COMPONENT: FILTERED POSTS SECTION ===
    ==================================================== */
 
+/* === TUNABLE DIALS ===
+   --fp-meta-gap: the vertical distance between the row content
+   (text + thumb) and the meta line (tags + date). Adjust here. */
+.filtered-posts {
+    --fp-meta-gap: 0.5rem;
+}
+
 /* 16:9 Image Container */
 .post-image-container {
     width: 100%;
@@ -47,6 +54,16 @@
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+/* Mock previews must never inflate the 16:9 image window — their
+   min-content height would beat the aspect-ratio and push the meta
+   line down (text-only posts). Absolute fill + the window's
+   overflow clip. */
+.post-image-container .preview-card-wrapper {
+    position: absolute;
+    inset: 0;
+    height: 100%;
 }
 
 /* Post Details Container */
@@ -168,9 +185,7 @@
             "meta meta";
         grid-template-columns: 1fr 40%;
         column-gap: 0.75rem;
-        /* Tunable: the gap between the content (text/thumb) and the
-           meta line (tags + date). */
-        row-gap: 0.5rem;
+        row-gap: var(--fp-meta-gap, 0.5rem);
         background: transparent;
         box-shadow: none;
     }
@@ -220,15 +235,6 @@
         border-radius: 0.375rem;
         overflow: hidden;
         border: 1px solid var(--card-border);
-    }
-
-    /* Mock previews must never inflate the 16:9 window (their
-       min-content height beats the aspect-ratio and pushes the meta
-       line down). Absolute fill + the container's overflow clip. */
-    .filtered-posts .post-image-container .preview-card-wrapper {
-        position: absolute;
-        inset: 0;
-        height: 100%;
     }
 
     .filtered-posts .post-details {
@@ -283,6 +289,18 @@
    .filtered-posts — for .rows they're redundant but identical,
    so both blocks can coexist without conflicts.)
    ==================================================== */
+.filtered-posts.rows {
+    /* The hairline sits centered in the vertical gap between cells:
+       default gutter = cell mt 1.5rem + mb 1.5rem = 3rem. */
+    --fp-hairline-gap: 3rem;
+}
+
+@media (max-width: 767px) {
+    .filtered-posts.rows {
+        --fp-hairline-gap: 2.25rem;
+    }
+}
+
 .filtered-posts.rows .card-base {
     aspect-ratio: auto;
     border-radius: 0;
@@ -292,7 +310,7 @@
         "meta meta";
     grid-template-columns: 1fr 40%;
     column-gap: 0.75rem;
-    row-gap: 0.5rem;
+    row-gap: var(--fp-meta-gap, 0.5rem);
     background: transparent;
     box-shadow: none;
 }
@@ -324,21 +342,16 @@
 .filtered-posts.rows .post-image-container {
     grid-area: img;
     align-self: center;
+    justify-self: end;
     width: 100%;
-    /* Cap the thumb so desktop rows stay flat heise-style instead of
-       growing 516px-tall image panes. */
-    max-width: 20rem;
+    /* Cap the thumb so desktop rows stay flat heise-style; flush
+       right = the hairline and the date end at its corner. */
+    max-width: 13.5rem;
     aspect-ratio: 16 / 9;
     height: auto;
     border-radius: 0.375rem;
     overflow: hidden;
     border: 1px solid var(--card-border);
-}
-
-.filtered-posts.rows .post-image-container .preview-card-wrapper {
-    position: absolute;
-    inset: 0;
-    height: 100%;
 }
 
 .filtered-posts.rows .post-details {

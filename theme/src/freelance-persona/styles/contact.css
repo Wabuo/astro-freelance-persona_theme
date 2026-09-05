@@ -15,10 +15,10 @@
   /* 40px */
 }
 
-/* Mobile: the info rows live in ONE box, styled like the About
-   qualifications-box template (bg, hairline border, radius).
-   Desktop keeps the bare pills layout. */
-@media (max-width: 767px) {
+/* Below the 3-col grid (tablets included): the info rows live in ONE
+   box, styled like the About qualifications-box template (bg, hairline
+   border, radius). The desktop keeps the bare pills layout. */
+@media (max-width: 1023px) {
   .contact .info-list {
     background-color: color-mix(in srgb, var(--default-color), transparent 98%);
     border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);

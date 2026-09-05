@@ -30,7 +30,9 @@
     /* 100px */
     margin-bottom: -2.5rem;
     /* -40px */
-    border-bottom: var(--nav-menu-mobile-border-width) solid var(--nav-border-color);
+    /* No bottom hairline here: the mobile top bar has no outline
+       (desktop's nav border doesn't apply), so the title bar blends
+       straight into the page content. */
   }
 }
 

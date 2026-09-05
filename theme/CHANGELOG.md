@@ -1,5 +1,12 @@
 # astro-freelance-persona_theme
 
+## 0.1.1-beta.1
+
+### Minor Changes
+
+- Proportional card constitution: every card type carries a fixed aspect ratio (no card can deform) and scales as one system from the desktop master; internals, corners and badges are container-relative.
+- News-row (heise-style) teaser UI as a shared consumable: used by the home feed on mobile and by the inner blog list pages at all viewports.
+- Mobile density pass: contact info box, hairline separators, fluid sections, feature grid at full outer-edge width, 768px breakpoint audit for tablet consistency.
 # 0.1.0-alpha.7
 
 ### Minor Changes

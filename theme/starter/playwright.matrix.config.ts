@@ -36,8 +36,10 @@ export default defineConfig({
   reporter: [['html', { outputFolder: 'testing/playwright-report-matrix' }], ['list']],
   outputDir: './testing/test-results-matrix',
 
+  // TEST_PORT override — see playwright.config.ts. The matrix runner
+  // script (scripts/test-config-matrix.ts) passes it through.
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL: `http://localhost:${process.env.TEST_PORT || '4321'}`,
     trace: 'on-first-retry',
   },
 
@@ -62,7 +64,7 @@ export default defineConfig({
 
   webServer: {
     command: 'echo "Server managed by test-config-matrix.ts"',
-    url: 'http://localhost:4321',
+    url: `http://localhost:${process.env.TEST_PORT || '4321'}`,
     reuseExistingServer: true,
     timeout: 5 * 1000,
   },

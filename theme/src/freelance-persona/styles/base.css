@@ -150,6 +150,28 @@
 }
 
 /*--------------------------------------------------------------
+# Proportional desktop scaling (fluid root dial — true linear)
+  One dial makes the entire rem chain viewport-proportional:
+  master design = 1920×1080 (0.8333vw = 16px there). TRUE LINEAR
+  in both directions, so any 16:9 viewport is the master design
+  photographically reduced/enlarged — identical positions and
+  line breaks, just fewer/more pixels. The 1.4814vh term (= 16px
+  at 1080 height) keeps that true on any aspect ratio and shields
+  ultrawides. Floor 0.625rem only cushions the 1024–1200px zone
+  (true-linear would dip to 8.5px there); cap 2rem is an 8K
+  sanity bound. Bounds are rem so user font-size preferences
+  still propagate. Below the 1024px breakpoint the mobile/tablet
+  system keeps a fixed 16px root. The 1024 seam (16px → ~10px)
+  is the accepted @min handover.
+--------------------------------------------------------------*/
+@media (min-width: 1024px) {
+  html {
+    font-size: clamp(0.625rem, min(0.8333vw, 1.4814vh), 2rem);
+  }
+}
+
+
+/*--------------------------------------------------------------
 # Selection
 --------------------------------------------------------------*/
 ::selection {

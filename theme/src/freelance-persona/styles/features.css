@@ -16,6 +16,19 @@
     /* Reduced top padding to decrease gap above the grid */
     padding-top: 2rem;
     padding-bottom: 2rem;
+
+    /* === TUNABLE DIALS (readability floors) ===
+       0rem = pure cqi (cards follow the master design proportionally
+       at every width — identical positions/line breaks, see the
+       true-linear root dial). Raising a floor makes text readable on
+       small cards but breaks proportionality: floored text eventually
+       no longer fits the fixed master shape (403/339) — that is how
+       the old 403/540 phone slabs happened. Tune with the shape in
+       mind. */
+    --feature-title-floor: 0.73rem;
+    --feature-desc-floor: 0.55rem;
+    --feature-subtitle-floor: 0.625rem;
+    --feature-badge-floor: 0.5rem;
 }
 
 @media (min-width: 768px) {
@@ -66,7 +79,7 @@
     color: inherit;
     display: block;
     height: 100%;
-    
+
     &:hover, &:focus {
         text-decoration: none;
     }
@@ -97,15 +110,21 @@
     min-height: 0;
 }
 
-/* Hover effect for the card container */
-/* We target the .card-base inside the wrapper for the lift effect */
-.feature-group-wrapper:hover .card-base {
-    transform: translateY(-0.3125rem);
-    box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.1);
-}
+/* Hover effect for the card container — gated on hover-capable
+   pointers (best practice): on touch-only devices :hover triggers on
+   tap and STICKS (lift/shadow/desc-color would stay applied). All
+   :hover styling lives here; the touch fallback is the
+   @media (hover: none) badge rule below. */
+@media (hover: hover) {
+    /* We target the .card-base inside the wrapper for the lift effect */
+    .feature-group-wrapper:hover .card-base {
+        transform: translateY(-0.3125rem);
+        box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.1);
+    }
 
-.feature-group-wrapper:hover .feature-description-card {
-    color: var(--accent-color);
+    .feature-group-wrapper:hover .feature-description-card {
+        color: var(--accent-color);
+    }
 }
 
 /* --- Icon and Text Styles (proportional, see feature-card) --- */
@@ -143,7 +162,7 @@
 }
 
 .feature-title-card {
-    font-size: 5.96cqi;
+    font-size: clamp(var(--feature-title-floor), 5.96cqi, 1.5rem);
     line-height: 1.2;
     font-weight: bold;
     margin-bottom: 3.97cqi;
@@ -151,8 +170,38 @@
     font-family: var(--font-heading, sans-serif);
 }
 
+/* With a subtitle, pull the header together: the tight title→subtitle
+   gap is what makes them read as one unit, while the normal rhythm
+   returns before the description. */
+.feature-title-card:has(+ .feature-subtitle-card) {
+    margin-bottom: 1.98cqi;
+}
+
+/* Optional sub-heading (content key: subtitle) — a miniature echo of
+   the section header (title → accent divider → mono accent subtitle,
+   see .section-title em): mono family + accent color tie it to the
+   title, the small ::before tick is the divider. ~18px @master;
+   proportional via cqi; eats description lines on small cards. */
+.feature-subtitle-card {
+    font-family: var(--font-mono, monospace);
+    font-size: clamp(var(--feature-subtitle-floor), 4.47cqi, 1.125rem);
+    line-height: 1.4;
+    white-space: pre-line;
+    color: var(--accent-color);
+    margin-bottom: 3.97cqi;
+}
+
+.feature-subtitle-card::before {
+    content: "";
+    display: block;
+    width: 2.5em;
+    height: 2px;
+    background: var(--accent-color);
+    margin-bottom: 0.6em;
+}
+
 .feature-description-card {
-    font-size: 3.97cqi;
+    font-size: clamp(var(--feature-desc-floor), 3.97cqi, 1rem);
     line-height: 1.625;
     white-space: pre-line;
     font-family: var(--font-body, sans-serif);
@@ -169,7 +218,7 @@
     padding: 1.99cqi 3.97cqi;
     border-top-left-radius: 1.99cqi;
     font-weight: bold;
-    font-size: 3.58cqi;
+    font-size: clamp(var(--feature-badge-floor), 3.58cqi, 0.9rem);
     background-color: var(--accent-color);
     color: var(--contrast-color, #fff);
     z-index: 5;
@@ -199,19 +248,21 @@
     cursor: not-allowed;
 }
 
-/* Optional: reduce hover lift for unavailable cards to feel 'heavier' */
-.card-wrapper:hover .feature-card.unavailable {
-    transform: translateY(-2px);
-    /* Reduced lift */
+/* Slides the element up when the user hovers over the card group */
+@media (hover: hover) {
+    .feature-group-wrapper:hover .feature-hover-action {
+        transform: translateY(0);
+    }
+
+    /* Optional: reduce hover lift for unavailable cards to feel 'heavier' */
+    .card-wrapper:hover .feature-card.unavailable {
+        transform: translateY(-2px);
+        /* Reduced lift */
+    }
 }
 
-/* Slides the element up when the user hovers over the card group */
-/* Slides the element up when the user hovers over the card group */
-.feature-group-wrapper:hover .feature-hover-action {
-    transform: translateY(0);
-}
-
-/* Touch Device Optimization: Always show badge */
+/* Touch Device Optimization: Always show badge (and no slide/hover
+   behavior — touch-only setups get a static, predictable card) */
 @media (hover: none) {
     .feature-hover-action {
         transform: translateY(0);
@@ -232,5 +283,21 @@
         container-type: inline-size;
         grid-template-columns: repeat(2, 1fr);
         gap: clamp(0.5rem, 2.2cqi, 1rem);
+    }
+
+    /* Block flow on phones so the icon can float: in flex-column
+       flow floats are ignored, and we want the title text to wrap
+       beside the icon. Stacking order is unchanged. */
+    .features-grid .card-content {
+        display: block;
+    }
+
+    /* Icon floats to the card's right edge — the title (and any
+       description lines that reach it) wrap beside it, so the
+       title "hops up" instead of sitting below the icon row. */
+    .feature-icon-wrapper-outer {
+        float: right;
+        margin-left: 5.96cqi;
+        margin-bottom: 0;
     }
 }

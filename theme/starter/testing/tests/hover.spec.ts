@@ -244,8 +244,14 @@ test.describe('Blog Category Card Hovers', () => {
         if (await categoryCards.count() > 0) {
             const firstCard = categoryCards.first();
             await firstCard.scrollIntoViewIfNeeded();
+            // Settle the scroll-reveal (200ms delay + 500ms transition)
+            // BEFORE hovering — otherwise the reveal lift and the hover
+            // lift race and the screenshot catches a 2-3px mid-frame.
+            await page.waitForTimeout(900);
             await firstCard.hover();
-            await page.waitForTimeout(300);
+            // Settle the 500ms hover transition before screenshotting —
+            // 300ms landed mid-flight (2px ghost, load-dependent flake).
+            await page.waitForTimeout(700);
             await expect(firstCard).toHaveScreenshot('blog-category-card-hover.png');
         }
 
@@ -254,8 +260,9 @@ test.describe('Blog Category Card Hovers', () => {
         if (await miniCards.count() > 0) {
             const firstMini = miniCards.first();
             await firstMini.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(900);
             await firstMini.hover();
-            await page.waitForTimeout(300);
+            await page.waitForTimeout(700);
             await expect(firstMini).toHaveScreenshot('blog-mini-card-hover.png');
         }
     });

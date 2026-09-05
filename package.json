@@ -29,7 +29,8 @@
   },
   "overrides": {
     "lightningcss": "1.33.0",
-    "typescript": "^6.0.0"
+    "typescript": "^6.0.0",
+    "astro": "~7.2.9"
   },
   "dependencies": {
     "@iconify-json/academicons": "^1.2.4",

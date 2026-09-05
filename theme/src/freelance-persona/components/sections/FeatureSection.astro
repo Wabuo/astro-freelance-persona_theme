@@ -15,6 +15,8 @@ interface Props {
   description?: string;
   features: {
     title: string;
+    subtitle?: string;
+    mobileOrder?: number;
     desc: string;
     icon?: string;
     secondary_icon?: string;
@@ -49,6 +51,35 @@ const sectionStyle = `
 
 const defaultContentDelay = themeConfig.visuals?.delays?.content || 200;
 const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
+
+// Phone grid order: on phones the 2-col grid re-pairs cards by
+// reading the desktop 3-col matrix in 2-column bands, row-major —
+// first columns 1-2 of every row (the desktop's left block), then
+// the remaining column. A no-op whenever the desktop grid already
+// has ≤2 columns (768–1023px). An explicit `mobileOrder` (1..n)
+// pins a card to an absolute phone position instead.
+const DESKTOP_COLS = 3;
+const PHONE_COLS = 2;
+const phoneKeys = features.map((feature, index) => {
+  if (feature.mobileOrder != null) return feature.mobileOrder;
+  const row = Math.floor(index / DESKTOP_COLS);
+  const col = index % DESKTOP_COLS;
+  return Math.floor(col / PHONE_COLS) * 100 + row * PHONE_COLS + (col % PHONE_COLS);
+});
+const mobilePos = new Map(
+  [...phoneKeys.keys()]
+    .sort((a, b) => phoneKeys[a] - phoneKeys[b] || a - b)
+    .map((index, pos) => [index, pos])
+);
+// Static per-card rules — deliberately NOT inline styles: the reveal
+// engine rewrites the wrappers' style attribute at runtime, which
+// silently drops custom properties from it (see AGENT.md). CSS rules
+// cannot be clobbered that way.
+const phoneOrderCss = `@media (max-width: 767px) {
+  ${features
+    .map((_, i) => `.features-grid > .feature-group-wrapper:nth-child(${i + 1}) { order: ${mobilePos.get(i)}; }`)
+    .join("\n  ")}
+}`;
 ---
 
 <section id={id} class="features-section-wrapper section" style={sectionStyle}>
@@ -113,6 +144,9 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                 {finalLink && <div class="feature-card-shadow" />}
 
                 <h3 class="feature-title-card">{feature.title}</h3>
+                {feature.subtitle && (
+                  <p class="feature-subtitle-card">{feature.subtitle}</p>
+                )}
                 <p class="feature-description-card">{replaceBuildTokens(feature.desc)}</p>
 
                 {(feature.button_text || isUnavailable) && (
@@ -135,6 +169,8 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
   /* Component-owned styles (shipped only when this component is used) */
   @import "@freelance-persona/styles/features.css" layer(components);
 </style>
+
+<style is:global set:html={phoneOrderCss} />
 
 <style>
 @layer components {

@@ -149,3 +149,24 @@
    EC emits its own @media (prefers-color-scheme) switch, which bypasses the
    page chooser in the OS-dark + forced-light case.
    See To_Do.md → "EC theming modernization" (file a GitHub issue there). */
+
+/* NOTE: do NOT resize the copy button externally (cqi/transform). EC
+   manages the button's internals (icon div, pseudo-elements, copied-state
+   feedback) against its fixed 2.5rem box — resizing breaks rendering and
+   makes the click feedback jump. Verified 2026-09-08. */
+
+/* ⚠️ EC-VISUAL OVERRIDE (flagged, minimal): shrink the copy button to
+   50% via transform. WHY TRANSFORM: it's technically not the best
+   approach — the best would be EC exposing a size knob for the button
+   (it exposes colors only, e.g. --ec-frm-inlBtnFg) or a safely
+   resizable box — but EC manages the button's internals (icon layer,
+   copied-state feedback) against a fixed 2.5rem box with no size hook,
+   so a real resize breaks rendering and makes the click feedback jump.
+   A uniform transform is the only feasible route: EC renders at its
+   native box — internals stay intact and scale 1:1 with the visual.
+   The layout box stays 40px = a larger-than-visual click target.
+   Do NOT resize the button box instead. */
+.expressive-code .copy button {
+  transform: scale(0.55);
+  transform-origin: top right;
+}

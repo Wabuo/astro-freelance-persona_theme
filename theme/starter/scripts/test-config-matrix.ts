@@ -34,7 +34,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const CONFIGS_DIR = path.join(__dirname, '../testing/configs');
-const PORT = 4321;
+// TEST_PORT override — see playwright.config.ts / playwright.matrix.config.ts.
+// Lets the matrix run on a non-default port so it doesn't collide with a
+// manually-started preview on 4321.
+const PORT = Number(process.env.TEST_PORT) || 4321;
 
 interface TestResult {
   configName: string;

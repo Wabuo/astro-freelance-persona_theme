@@ -1,17 +1,4 @@
 {
   "mode": "pre",
-  "tag": "beta",
-  "initialVersions": {
-    "astro-freelance-persona_theme": "0.1.0-alpha.8",
-    "my-freelance-portfolio": "0.1.0-alpha.0"
-  },
-  "changesets": [
-    "dynamic-version-introspection",
-    "fix-katex-mismatch",
-    "fruity-cases-see",
-    "nine-sides-beg",
-    "perf-image-preload-preloader",
-    "perf-optimization-font-preload",
-    "ui-clipping-fix-and-theme-aware-favicon"
-  ]
+  "tag": "beta"
 }

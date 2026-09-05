@@ -235,6 +235,11 @@ const sections = defineCollection({
 
       features: z.array(z.object({
         title: z.string(),
+        subtitle: z.string().optional(),
+        // Absolute position in the phone grid (1..n), overriding the
+        // default matrix band order (FeatureSection frontmatter).
+        // Desktop and DOM keep the authored order.
+        mobileOrder: z.number().int().positive().optional(),
         desc: z.string(),
         icon: z.string().optional(),
         secondary_icon: z.string().optional(),

@@ -11,6 +11,10 @@
 .hero {
   width: 100%;
   min-height: 100vh;
+  /* Small-viewport height: on phones 100vh includes the area under the
+     browser URL bar, pushing bottom-anchored hero content below the
+     fold. svh is always the visible area (identical to vh on desktop). */
+  min-height: 100svh;
   position: relative;
   /* Padding removed to ensure full-bleed background without box-model conflicts.
      Config-driven extra padding (old pt-5/pb-5) is injected per-axis. */

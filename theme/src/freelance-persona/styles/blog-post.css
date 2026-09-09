@@ -256,14 +256,15 @@
 }
 
 /* The bracket line (:::info[Subtitle]) — follows the theme's subtitle
-   idiom (mono + accent, see .section-title em); sits between the type
-   title and the content. */
+   idiom (mono, size/weight like .section-title em) but takes the
+   admonition's semantic hue instead of the accent, matching the type
+   title above it. */
 .blog-post .post-content .admonition .admonition-subtitle {
   margin: 0 0 0.75rem;
   font-family: var(--font-mono, monospace);
   font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--accent-color);
+  color: var(--admonition-color);
 }
 
 .blog-post .post-content .admonition.admonition-warning {

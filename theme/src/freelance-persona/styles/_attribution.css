@@ -11,6 +11,18 @@
 #          post-image-container, category-image-container,
 #          avatar-container
 #
+# === TUNABLE DIALS === (defined at :root below)
+# --attribution-ratio:         attribution size as a share of the
+#                              IMAGE width (cqi — needs the image
+#                              wrapper to be a query container).
+# --attribution-ratio-mobile:  phone news-row ratio.
+# --attribution-min-size:      global floor — anything smaller reads
+#                              as a rendering mistake. Reference:
+#                              the Permaculture Blogs card.
+# Hero + About avatar keep fixed sizes (viewport-anchored / already
+# tiny). Consumers: font-size: max(var(--attribution-ratio),
+# var(--attribution-min-size)).
+#
 # Native-CSS port of the former Sass `attribution.styles()` mixin.
 #
 # ⚠️ The parent contexts are split into TWO groups by complexity.
@@ -21,6 +33,12 @@
 # { position: static }`). Keeping groups homogeneous restores the exact
 # cascade semantics of the old Sass expansion.
 --------------------------------------------------------------*/
+
+:root {
+    --attribution-ratio: 2.34cqi;
+    --attribution-ratio-mobile: 1.75cqi;
+    --attribution-min-size: 0.1875rem; /* 3px — Permaculture card floor */
+}
 
 /* Group 1: simple (0,1,0) contexts -> rules compute to (0,2,0),
    matching the legacy per-context Sass expansion specificity. */

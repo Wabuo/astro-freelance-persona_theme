@@ -10,6 +10,10 @@
   box-shadow: none;
   box-sizing: border-box;
   margin-bottom: 1.5rem;
+  /* Attribution scales with the figure's own width
+     (1.3cqi ≈ the pre-proportional size at desktop figure width) */
+  container-type: inline-size;
+  --attribution-font-size: max(1.3cqi, var(--attribution-min-size));
 
   /* Inherit and include theme attribution overlay styles */
 

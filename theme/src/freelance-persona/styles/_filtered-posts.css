@@ -14,9 +14,35 @@
 
 /* === TUNABLE DIALS ===
    --fp-meta-gap: the vertical distance between the row content
-   (text + thumb) and the meta line (tags + date). Adjust here. */
+   (text + thumb) and the meta line (tags + date). Adjust here.
+   --fp-meta-date-gap: horizontal breathing room between the tag
+   rail's cutoff (or last badge, fully scrolled) and the date.
+   Adjust here.
+   --fp-news-*-size: MOBILE news-UI typography (<768px news rows —
+   home news + inner list on phones): headline, excerpt, tag badge,
+   date. Adjust here.
+   --fp-news-desktop-*-size: DESKTOP news-UI typography (rows
+   variant at ≥768px — the inner category list pages): same four
+   roles, independently tunable. The desktop cards layout is NOT
+   touched by either set (it scales via cqi). Adjust here.
+   --fp-news-title-lines / --fp-news-title-lines-desktop: how many
+   lines the post-card headline wraps to before the ellipsis
+   (mobile news rows / rows + cards). Adjust here. */
 .filtered-posts {
     --fp-meta-gap: 0.5rem;
+    --fp-meta-date-gap: 1rem;
+    --fp-news-title-lines: 2;
+    --fp-news-title-lines-desktop: 2;
+    /* mobile (<768px) */
+    --fp-news-title-size: 1rem;
+    --fp-news-desc-size: 0.75rem;
+    --fp-news-tag-size: 0.75rem;
+    --fp-news-date-size: 0.7rem;
+    /* desktop (≥768px, rows variant) */
+    --fp-news-desktop-title-size: 1.5rem;
+    --fp-news-desktop-desc-size: 1rem;
+    --fp-news-desktop-tag-size: 0.75rem;
+    --fp-news-desktop-date-size: 0.8rem;
 }
 
 /* 16:9 Image Container */
@@ -27,7 +53,9 @@
     background-color: var(--card-background, #ffffff);
     position: relative;
 
-    /* Attribution: smaller size for cards */
+    /* Attribution: desktop = fixed 0.6rem (pre-proportional value —
+       NO container here: inline-size containment inside the desktop
+       rows' auto-hugging grid column collapses the thumb). */
     --attribution-font-size: 0.6rem;
 
     /* Import attribution styles FIRST */
@@ -44,7 +72,7 @@
         @media (max-width: 767px) {
             right: 0.4rem;
             bottom: 0.2rem;
-            --attribution-font-size: 0.45rem;
+            --attribution-font-size: max(var(--attribution-ratio-mobile), var(--attribution-min-size));
         }
     }
 }
@@ -105,7 +133,7 @@
     line-height: 1.2;
     margin-bottom: 1.95cqi;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: var(--fp-news-title-lines-desktop);
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -125,6 +153,32 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* Breathing room between the tag rail's cutoff (or its last
+       badge, fully scrolled) and the date — dial at the top. */
+    gap: var(--fp-meta-date-gap, 0.5rem);
+}
+
+/* Tags: single row, horizontally scrollable, scrollbar hidden —
+   the mid-badge cutoff at the date's edge is the scroll affordance.
+   min-width: 0 + flex: 1 lets the row shrink instead of deforming
+   the date. */
+.post-meta-row .meta {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none; /* Firefox + all modern engines */
+}
+
+.post-meta-row .meta::-webkit-scrollbar {
+    display: none; /* older Chromium/Safari fallback */
+}
+
+/* The date can never deform: fixed at the right edge, single line. */
+.post-meta-row .date {
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .post-meta-row .date {
@@ -180,21 +234,24 @@
         aspect-ratio: auto;
         border-radius: 0;
         display: grid;
+        /* Same two-column stacks as the rows variant: text over tag
+           rail (left), thumb over date (right). No column-gap — the
+           text block carries its own right padding, so the rail's
+           cutoff sits EXACTLY inline with the thumb's left edge. */
         grid-template-areas:
             "text img"
-            "meta meta";
+            "meta date";
         grid-template-columns: 1fr 40%;
-        column-gap: 0.75rem;
+        column-gap: 0;
         row-gap: var(--fp-meta-gap, 0.5rem);
         background: transparent;
         box-shadow: none;
     }
 
     /* Unwrap the Card's content box so .post-details and
-       .post-meta-row become direct grid children — the meta
-       line can then span the FULL row width (tags flush left,
-       date flush right) instead of being trapped in the text
-       column (which made tags wrap and the date misplace). */
+       .post-meta-row become direct grid children (the meta row
+       unwraps further, see below) — text and rail own the left
+       column, thumb and date the right. */
     .filtered-posts .card-content {
         display: contents;
     }
@@ -235,22 +292,44 @@
         border-radius: 0.375rem;
         overflow: hidden;
         border: 1px solid var(--card-border);
+        /* Mobile only: the thumb becomes the query container so the
+           attribution scales with the image (floor = Permaculture
+           reference). Desktop rows/cards stay fixed-rem — containment
+           in the desktop rows' auto column collapses the thumb. */
+        container-type: inline-size;
+        --attribution-font-size: max(var(--attribution-ratio-mobile), var(--attribution-min-size));
     }
 
     .filtered-posts .post-details {
         grid-area: text;
-        padding: 0.5rem 0 0;
+        /* Right padding instead of the grid's column-gap: the rail
+           (row 2) has no gap of its own and clips at the column
+           boundary = the thumb's left edge. */
+        padding: 0.5rem 0.75rem 0 0;
         min-width: 0;
     }
 
-    /* Meta line = full-width flush footer below text+thumb */
+    /* Unwrap so the rail (meta) and the date land in the two
+       columns independently — see the grid areas above. */
     .filtered-posts .post-meta-row {
+        display: contents;
+    }
+
+    .filtered-posts .post-meta-row .meta {
         grid-area: meta;
+        align-self: end;
+        padding-bottom: 0.25rem;
+    }
+
+    .filtered-posts .post-meta-row .date {
+        grid-area: date;
+        align-self: end;
+        justify-self: end; /* flush with the thumb's right edge */
         padding-bottom: 0.25rem;
     }
 
     .post-details .meta .tag.badge {
-        font-size: 0.75rem;
+        font-size: var(--fp-news-tag-size, 0.75rem);
         border-radius: 0.25rem;
         padding: 0.1rem 0.4rem;
     }
@@ -259,13 +338,14 @@
        titles shrink to fit via the title-fit script; without JS
        the base 2-line clamp applies instead), 16px excerpt. */
     .post-details .post-content .post-card-title {
-        font-size: 1.5rem;
+        font-size: var(--fp-news-title-size, 1.5rem);
         line-height: 1.2;
         margin-bottom: 0.5rem;
+        -webkit-line-clamp: var(--fp-news-title-lines);
     }
 
     .post-details .post-content .post-card-desc {
-        font-size: 1rem;
+        font-size: var(--fp-news-desc-size, 1rem);
         line-height: 1.6;
         -webkit-line-clamp: 3;
     }
@@ -273,7 +353,7 @@
     /* Date: modest, right end of the meta line (big stacked dates
        were the layout killer in the guide list). */
     .post-meta-row .date {
-        font-size: 0.8rem;
+        font-size: var(--fp-news-date-size, 0.8rem);
         line-height: 1.2;
     }
 }
@@ -305,14 +385,33 @@
     aspect-ratio: auto;
     border-radius: 0;
     display: grid;
+    /* Two columns, two stacks: left = text over tag rail, right =
+       thumb over date. The rail's cutoff therefore sits inline with
+       the thumb's left edge. */
     grid-template-areas:
         "text img"
-        "meta meta";
+        "meta date";
     grid-template-columns: 1fr 40%;
-    column-gap: 0.75rem;
+    column-gap: 0;
     row-gap: var(--fp-meta-gap, 0.5rem);
     background: transparent;
     box-shadow: none;
+}
+
+/* Desktop rows: the thumb is capped (13.5rem, flush right) — hug
+   the second column to it so the rail's cutoff lines up with the
+   thumb's LEFT edge, not the wide 40% column boundary. */
+@media (min-width: 768px) {
+    .filtered-posts.rows .card-base {
+        grid-template-columns: 1fr auto;
+    }
+
+    /* Mock-preview rows (text-only posts) contribute min-content to the
+       auto column and would collapse — floor them at the same cap the
+       real thumbs use, so every row's thumb is 13.5rem on desktop. */
+    .filtered-posts.rows .post-image-container {
+        min-width: 13.5rem;
+    }
 }
 
 .filtered-posts.rows .card-base::after {
@@ -356,7 +455,9 @@
 
 .filtered-posts.rows .post-details {
     grid-area: text;
-    padding: 0.5rem 0 0;
+    /* Right padding instead of the grid's column-gap (see the
+       mobile block): the rail clips at the thumb's left edge. */
+    padding: 0.5rem 0.75rem 0 0;
     min-width: 0;
 }
 
@@ -365,29 +466,49 @@
 }
 
 .filtered-posts.rows .post-meta-row {
+    /* Unwrap so the rail (meta) and the date land in the two
+       columns independently — see the grid areas above. */
+    display: contents;
+}
+
+.filtered-posts.rows .post-meta-row .meta {
     grid-area: meta;
+    align-self: end;
     padding-bottom: 0.25rem;
 }
 
-.filtered-posts.rows .post-details .meta .tag.badge {
-    font-size: 0.75rem;
-    border-radius: 0.25rem;
-    padding: 0.1rem 0.4rem;
-}
-
-.filtered-posts.rows .post-details .post-content .post-card-title {
-    font-size: 1.5rem;
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
-}
-
-.filtered-posts.rows .post-details .post-content .post-card-desc {
-    font-size: 1rem;
-    line-height: 1.6;
-    -webkit-line-clamp: 3;
-}
-
 .filtered-posts.rows .post-meta-row .date {
-    font-size: 0.8rem;
-    line-height: 1.2;
+    grid-area: date;
+    align-self: end;
+    justify-self: end; /* flush with the thumb's right edge */
+    padding-bottom: 0.25rem;
+}
+
+/* Desktop rows typography — the mobile set above (in the <768px
+   block) covers phones on ALL .filtered-posts, so these four rules
+   only need the ≥768px range and read the desktop dials. */
+@media (min-width: 768px) {
+    .filtered-posts.rows .post-details .meta .tag.badge {
+        font-size: var(--fp-news-desktop-tag-size, 0.75rem);
+        border-radius: 0.25rem;
+        padding: 0.1rem 0.4rem;
+    }
+
+    .filtered-posts.rows .post-details .post-content .post-card-title {
+        font-size: var(--fp-news-desktop-title-size, 1.5rem);
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+        -webkit-line-clamp: var(--fp-news-title-lines-desktop);
+    }
+
+    .filtered-posts.rows .post-details .post-content .post-card-desc {
+        font-size: var(--fp-news-desktop-desc-size, 1rem);
+        line-height: 1.6;
+        -webkit-line-clamp: 3;
+    }
+
+    .filtered-posts.rows .post-meta-row .date {
+        font-size: var(--fp-news-desktop-date-size, 0.8rem);
+        line-height: 1.2;
+    }
 }

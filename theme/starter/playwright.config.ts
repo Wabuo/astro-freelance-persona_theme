@@ -7,6 +7,13 @@ import { homedir } from 'os';
 import { join } from 'path';
 import { defineConfig, devices } from '@playwright/test';
 
+// Port override: TEST_PORT lets tests run on a non-default port so they
+// don't collide with a manually-started preview already on 4321 —
+// `reuseExistingServer` would otherwise silently test THAT build.
+// The webServer command gets the port via astro preview's --port flag.
+const testPort = process.env.TEST_PORT || '4321';
+const baseURL = `http://localhost:${testPort}`;
+
 // Pre-flight check: verify Playwright browsers are installed
 const browserCache = join(homedir(), '.cache', 'ms-playwright');
 if (!existsSync(browserCache) || readdirSync(browserCache).length === 0) {
@@ -35,7 +42,7 @@ export default defineConfig({
 
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: 'http://localhost:4321',
+        baseURL,
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
@@ -100,8 +107,8 @@ export default defineConfig({
         // `--background` (daemonized preview) when it detects an AI-agent environment
         // (am-i-vibing). A daemonized preview exits instantly, which Playwright's
         // webServer interprets as a crash ("Process exited early").
-        command: 'unset AGENT OPENCODE; PLAYWRIGHT_TEST=true bun run build && bun run preview',
-        url: 'http://localhost:4321',
+        command: `unset AGENT OPENCODE; PLAYWRIGHT_TEST=true bun run build && bun run preview --port ${testPort}`,
+        url: baseURL,
         reuseExistingServer: !process.env.CI,
         timeout: 120 * 1000,
     },

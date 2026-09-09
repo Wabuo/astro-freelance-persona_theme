@@ -8,6 +8,19 @@ SPDX-License-Identifier: MIT
 start using popover=hint for all tooltips and put them everywhere sensible, shit needs to explain what it does #88
 basically check if there is a decent modern to do it and then use it.
 
+## ✅ Resolved: non-uniform scaling at small 16:9 desktops (1280×720)
+
+**Fixed 2026-09-06** via the true-linear fluid root dial
+(`docs/decisions/2026-09-06-proportional-desktop-scaling.md`): ≥1024px
+viewports scale the rem chain linearly (1280×720 = 67%, 1920 = 100%,
+1440p = 133%) — identical positions and line breaks at every 16:9
+width, About float wrap included. Container caps px→rem; About sidebar
+float margins container-edge-relative; About images px→rem. Verified at
+1280×720/1366×768/1920×1080/2560×1440. The 1024–1200px zone sits on a
+10px floor (linear would dip to 8.5px). The hero-socials/sidebar
+proximity symptom is defused by the scaling; re-check on the mobile
+redesign pass.
+
 
 ## Deferred from Audit (May 2026)
 

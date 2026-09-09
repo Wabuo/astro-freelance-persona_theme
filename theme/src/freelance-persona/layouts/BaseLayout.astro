@@ -369,6 +369,24 @@ const initScrollAnimations = () => {
 
   const elements = document.querySelectorAll("[data-reveal]");
 
+  // Reveal on ANY intersection (threshold: 0). A ratio threshold would
+  // permanently hide elements taller than 1/threshold viewports — the
+  // intersection ratio of a 12-viewport-tall blog post can never reach
+  // 0.1 while only its top is on screen (long posts rendered blank!).
+  // The configured threshold's INTENT ("don't fire on barely-visible
+  // slivers") is preserved as a bottom viewport inset instead — % of
+  // the viewport is height-independent, so tall and short elements
+  // behave identically.
+  const thresholdInset = Math.min(
+    Math.max(Number(animConfig.threshold) || 0, 0),
+    0.5,
+  );
+  // NOTE: string concatenation only — this whole engine is a template
+  // literal, so nested backticks/dollar-brace would be interpolated at
+  // build time.
+  const defaultRootMargin =
+    "0px 0px -" + Math.round(thresholdInset * 100) + "% 0px";
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -379,8 +397,13 @@ const initScrollAnimations = () => {
       });
     },
     {
-      threshold: animConfig.threshold,
-      rootMargin: animConfig.root_margin,
+      threshold: 0,
+      // A root_margin set EXPLICITLY by the user wins; the default
+      // sentinel is replaced by the threshold-derived inset.
+      rootMargin:
+        animConfig.root_margin === "0px 0px -50px 0px"
+          ? defaultRootMargin
+          : animConfig.root_margin,
     },
   );
 

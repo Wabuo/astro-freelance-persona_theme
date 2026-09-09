@@ -90,6 +90,13 @@
     padding: 0 0.5rem;
   }
 
+  /* The quote scaled with everything else on desktop (root dial) but
+     was missed here — phones keep a 16px root, so it needs the same
+     explicit mobile clamp as every other mobile text (section em idiom). */
+  .footer .quote {
+    font-size: clamp(0.8rem, 3.2vw, var(--normal-font-size));
+  }
+
   .footer .copyright,
   .footer .credits {
     font-size: 0.75rem;

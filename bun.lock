@@ -65,8 +65,8 @@
         "@fontsource/roboto": "^5.2.9",
         "@iconify-json/academicons": "^1.2.4",
         "@iconify-json/bi": "^1.2.7",
-        "astro": "^7.0.0",
-        "astro-freelance-persona_theme": "^0.1.0-alpha.8",
+        "astro": "~7.2.9",
+        "astro-freelance-persona_theme": "^0.1.1-beta.1",
         "astro-icon": "^1.1.5",
         "typescript": "^6.0.0",
       },
@@ -79,6 +79,7 @@
     },
   },
   "overrides": {
+    "astro": "~7.2.9",
     "lightningcss": "1.33.0",
     "typescript": "^6.0.0",
   },
@@ -1362,8 +1363,6 @@
     "katex/commander": ["commander@8.3.0", "", {}, "sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww=="],
 
     "magic-regexp/magic-string": ["magic-string@0.30.21", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.5" } }, "sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ=="],
-
-    "my-freelance-portfolio/astro-freelance-persona_theme": ["astro-freelance-persona_theme@0.1.0-beta.3", "", { "dependencies": { "@astrojs/markdown-remark": "^7.2.0", "@astrojs/mdx": "^7.0.0", "@astrojs/sitemap": "^3.7.3", "@fontsource/poppins": "^5.2.7", "@fontsource/raleway": "^5.2.8", "@fontsource/roboto": "^5.2.9", "@iconify-json/academicons": "^1.2.4", "@iconify-json/bi": "^1.2.7", "@unocss/astro": "~66.8.0", "@unocss/preset-wind4": "~66.8.0", "astro-expressive-code": "^0.44.0", "astro-icon": "^1.1.5", "expressive-code": "^0.44.0", "marked": "^18.0.0", "mathjax-full": "^3.2.2", "rehype-mathjax": "^7.0.0", "remark-directive": "^4.0.0", "remark-math": "^6.0.0", "sharp": "^0.35.0", "unist-util-visit": "^5.0.0", "unocss": "~66.8.0" }, "peerDependencies": { "astro": "^6.0.0 || ^7.0.0" } }, "sha512-wDjam6AVzxOizmiBlyZj6Hqn1mST+nu1O4WpsCqhXH6Bl5nX52H1ViBv/j4mrw4dP66g6NQS7/RMzQDY7qdKSw=="],
 
     "oxc-parser/@oxc-project/types": ["@oxc-project/types@0.131.0", "", {}, "sha512-PgnWDfV0h+b16XNKbXU7Daib/BFSt/J2mEzfYIBu6JB/wNdlU+kVYXCkGA1A9fWkTbOgbjh4e6NhPeQOYvFhEA=="],
 

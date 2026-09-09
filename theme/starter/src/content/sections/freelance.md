@@ -10,6 +10,16 @@ order: 5
 icon_class: "lance-icon"
 
 features:
+  # Each feature card supports: title, subtitle (optional sub-heading,
+  # e.g. split "Permaculture" / "Ecosystem Restoration Consulting"),
+  # desc, icon, secondary_icon, link, button_text, unavailable,
+  # unavailable_button_text. Font sizes have tunable floors — see
+  # --feature-*-floor vars in the theme's styles/features.css.
+  # On phones the grid re-pairs automatically: cards are read from the
+  # desktop 3-col matrix in 2-column bands (first two columns of every
+  # row, then the last column). mobileOrder (optional, 1..n) pins a
+  # card to an absolute phone position instead. Desktop keeps the
+  # authored order.
   - title: "Blazing Fast"
     desc: "Built with Astro {{astro_major}} and zero-JS core. Degrades extremely gracefully in a no-JS environment."
     icon: "bi bi-lightning-charge"

@@ -9,6 +9,7 @@ import mdx from '@astrojs/mdx';
 import remarkDirective from 'remark-directive';
 import remarkMath from 'remark-math';
 import remarkMagicMath from './plugins/remarkMagicMath';
+import remarkAdmonitions from './plugins/remarkAdmonitions';
 import rehypeFigures from './plugins/rehypeFigures';
 import remarkExtractImageParams from './plugins/remarkExtractImageParams';
 import rehypeMathjaxChtml from 'rehype-mathjax/chtml';
@@ -34,7 +35,8 @@ export default function freelancePersona(): AstroIntegration {
           remarkExtractImageParams,
           remarkDirective,
           remarkMath,
-          remarkMagicMath
+          remarkMagicMath,
+          remarkAdmonitions
         ];
 
         const rehypePluginsList = [
@@ -46,7 +48,10 @@ export default function freelancePersona(): AstroIntegration {
               // (GitHub Pages project sites) an absolute /fonts/ URL
               // 404s and the formulas fall back to system fonts with
               // broken vertical metrics (clipped rendering).
-              fontURL: `${(config.base ?? '/').replace(/\/?$/, '/')}fonts/mathjax/`,
+              // NOTE: NO trailing slash — MathJax prepends its own '/' to
+              // each font path, so a trailing slash here doubles it
+              // (/fonts/mathjax//MathJax_Zero.woff → 404 → fallback).
+              fontURL: `${(config.base ?? '/').replace(/\/?$/, '')}/fonts/mathjax`,
               adaptiveCSS: false
             },
             tex: {
@@ -207,10 +212,23 @@ export default function freelancePersona(): AstroIntegration {
                 csp: {
                   algorithm: 'SHA-256' as const,
                   directives: cspDirectives,
-                  // Styles: Astro auto-hashes its processed inline styles;
-                  // 'unsafe-inline' covers the remaining is:inline style blocks
-                  // and inline style attributes (low-severity, pervasive).
-                  styleDirective: { resources: ["'self'", "'unsafe-inline'"] },
+                  // Styles: Astro auto-hashes its processed inline styles
+                  // onto style-src — and per CSP spec, a hash in a source
+                  // list makes 'unsafe-inline' IGNORED there. So plain
+                  // 'unsafe-inline' on style-src would be dead, silently
+                  // breaking every non-hashed inline style (set:html style
+                  // blocks, nudges, define:vars, Shiki token colors).
+                  // Fix: re-declare the style sub-directives explicitly —
+                  // style-src-elem/-attr override style-src per content
+                  // type, and with no hashes in them 'unsafe-inline' is
+                  // effective again.
+                  styleDirective: { resources: ["'self'"] },
+                  directives: [
+                    ...cspDirectives,
+                    // Style sub-directives: see the CSP comment above
+                    "style-src-elem 'self' 'unsafe-inline'",
+                    "style-src-attr 'unsafe-inline'",
+                  ],
                 },
               },
         });

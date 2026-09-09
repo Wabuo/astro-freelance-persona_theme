@@ -47,6 +47,14 @@ if (blogsSection && blogsSection.data.categories && post.data.tags) {
 const wordCount = post.body ? post.body.split(/\s+/g).length : 0;
 const readingTime = Math.ceil(wordCount / 200);
 
+// Clamped post tags: the checkbox-reveal renders server-side only when
+// the tag count can overflow. Desktop capacity = 11 tags in two rows
+// (visually verified — a scrollHeight probe false-positives here: the
+// last row's margin-bottom reads as overflow). Mobile fits ~3 tags in
+// one row: 4–11 = the label is mobile-only; ≥12 = always; ≤3 = none.
+const tagCount = post.data.tags?.length ?? 0;
+const labelClass = tagCount > 11 ? "always" : "mobile-only";
+
 const crumbs: { label: string; href?: string }[] = [
   { label: "Home", href: resolveLink("/") },
 ];
@@ -149,14 +157,31 @@ const optimizedOgImage = post.data.thumbnail
             <div class="post-header">
               <h1 class="post-title">{post.data.title}</h1>
 
-              <div class="post-tags">
-                {
-                  post.data.tags &&
+              {tagCount > 3 ? (
+                <>
+                  {/* Native checkbox reveal (theme-consistent with the radio
+                      theme switcher; works without JS). Clamp + label styling
+                      in blog-post.css. */}
+                  <input type="checkbox" id="post-tags-toggle" class="tags-toggle-cb" />
+                  <div class="post-tags">
+                    {post.data.tags &&
+                      post.data.tags.map((tag: string) => (
+                        <span class="tag">{tag.toLowerCase()}</span>
+                      ))}
+                  </div>
+                  <label for="post-tags-toggle" class={`tags-toggle tags-toggle--${labelClass}`}>
+                    <span class="when-closed"><span class="tags-chevron">▾</span> Show all tags <span class="tags-chevron">▾</span></span>
+                    <span class="when-open"><span class="tags-chevron">▴</span> Show fewer tags <span class="tags-chevron">▴</span></span>
+                  </label>
+                </>
+              ) : (
+                <div class="post-tags">
+                  {post.data.tags &&
                     post.data.tags.map((tag: string) => (
                       <span class="tag">{tag.toLowerCase()}</span>
-                    ))
-                }
-              </div>
+                    ))}
+                </div>
+              )}
 
               <div class="meta-top-divider"></div>
 

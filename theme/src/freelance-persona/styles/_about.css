@@ -59,10 +59,16 @@
         clear: right;
         order: unset;
 
-        /* Apply dynamic positioning variables */
+        /* Apply dynamic positioning variables.
+           NOTE: offsets are CONTAINER-EDGE-RELATIVE (rem) — they scale
+           with the fluid root dial and default 0 aligns the sidebar's
+           outer edge flush with every other section's container edge.
+           The old screen-edge formula (calc(((100% - 100vw) / 2) + Xrem))
+           mixed vw with rem and drifted apart below the dial's floor
+           zone (rem frozen at 12.8px while the viewport kept shrinking) */
         z-index: var(--z-index);
         margin-top: var(--float-margin-top);
-        margin-right: calc(((100% - 100vw) / 2) + var(--float-margin-right));
+        margin-right: var(--float-margin-right);
         margin-left: var(--float-margin-left);
         margin-bottom: var(--float-margin-bottom);
         position: relative;
@@ -113,12 +119,13 @@
 }
 
 .avatar-image {
-    width: 200px;
-    height: 200px;
+    /* rem (not px) so the avatar scales with the fluid root dial */
+    width: 12.5rem;
+    height: 12.5rem;
     border-radius: 50%;
     object-fit: cover;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border: 4px solid var(--surface-color, #fff);
+    border: 0.25rem solid var(--surface-color, #fff);
     background-color: var(--surface-color, #fff);
     /* Prevents bleed-through */
 }
@@ -130,8 +137,8 @@
     display: block;
     margin: 0 auto 2rem auto;
     /* Center horizontally, push text down */
-    width: 200px;
-    height: 200px;
+    width: 12.5rem;
+    height: 12.5rem;
     border-radius: 50%;
     object-fit: cover;
     z-index: 1;
@@ -232,14 +239,14 @@
 }
 
 .qualifications-cert-img {
-    width: 50px;
+    width: 3.125rem;
     /* Bigger size */
-    height: 50px;
+    height: 3.125rem;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     /* Slight roundness */
     overflow: hidden;
     background: #f8f9fa;

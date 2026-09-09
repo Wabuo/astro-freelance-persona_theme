@@ -154,9 +154,12 @@ td {
   padding-left: 0.75rem;
 }
 
-@media (min-width: 576px)  { .container { max-width: 540px; } }
-@media (min-width: 768px)  { .container { max-width: 720px; } }
-@media (min-width: 992px)  { .container { max-width: 960px; } }
-@media (min-width: 1200px) { .container { max-width: 1140px; } }
-@media (min-width: 1400px) { .container { max-width: 1320px; } }
+/* Breakpoint caps in rem (not px) so they inherit the fluid root
+   dial above 1024px and stay pixel-identical below it (16px root).
+   Values are the historical px caps ÷ 16. */
+@media (min-width: 576px)  { .container { max-width: 33.75rem; } }
+@media (min-width: 768px)  { .container { max-width: 45rem; } }
+@media (min-width: 992px)  { .container { max-width: 60rem; } }
+@media (min-width: 1200px) { .container { max-width: 71.25rem; } }
+@media (min-width: 1400px) { .container { max-width: 82.5rem; } }
 

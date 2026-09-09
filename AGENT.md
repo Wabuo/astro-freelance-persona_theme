@@ -10,6 +10,10 @@ SPDX-License-Identifier: MIT
 >
 > **META-RULE:** If you encounter a recurring issue or a "gotcha" that cost you time/tokens, YOU MUST UPDATE THIS FILE with a new rule or debugging hint to prevent future agents from failing in the same way.
 
+> **META-RULE (user directive):** Do NOT ship hacky solutions silently. Before writing custom plumbing (inline hooks, manual walkers, compensating margins), check for a proper ecosystem/package solution and propose it first. When custom code IS the answer (no ecosystem option, or the package is broken for our stack), SAY SO EXPLICITLY and label it as custom code to maintain — never present it as the normal way.
+
+> **META-RULE (user directive):** The user's working tree is **uncommitted by default** — their manual dial/value tuning is not in git and cannot be recovered from it. Before replacing existing values with new defaults (dial blocks, refactors), **diff the file first and surface what will change**; never silently overwrite. If an overwrite already happened: say so immediately, name what was lost, and help replay it.
+
 ---
 
 ## 🚨 CRITICAL OPERATIONAL RULES
@@ -58,7 +62,17 @@ SPDX-License-Identifier: MIT
 - **Always `fuser -k 4321/tcp 4322/tcp` before test runs**: Playwright's
   webServer uses `reuseExistingServer: !CI` — any server already on 4321
   (e.g. a manual `preview`) gets REUSED, silently testing a stale build and
-  poisoning re-recorded baselines.
+  poisoning re-recorded baselines. EXCEPTION: a manually-started user
+  preview must NOT be killed — use `TEST_PORT=<port>` instead (e.g.
+  `TEST_PORT=4323 bun run test`), supported by playwright.config.ts,
+  playwright.matrix.config.ts and scripts/test-config-matrix.ts.
+  Diagnostic tell: content-dependent tests (SEO meta tags, attribution
+  locators, error pages) fail en masse = you tested a foreign site/build.
+- **Never `tail` the Playwright summary short**: the list reporter prints
+  `N failed` / `N flaky` ABOVE the `skipped / passed` lines — `tail -2`
+  hides failures and makes a red run look green. Capture the full output
+  (or grep for `failed`) and cross-check `testing/test-results/` for
+  fresh `*-diff.png` artifacts before declaring a run green.
 - **Path Aliases:** Tests use `@/*` (e.g., `import { themeConfig } from '@/freelance-persona.config'`) which maps to `src/*` in the starter context.
 
 #### Two-Tier Test Structure
@@ -131,6 +145,33 @@ Each config is built separately and tested with `testing/tests/config-matrix.spe
 
 ## 🧠 DESIGN PATTERNS
 
+### 0. 📐 Fluid Root Dial (true-linear proportional desktop scaling)
+
+- `base.css` sets `html { font-size: clamp(0.625rem, min(0.8333vw, 1.4814vh), 2rem) }`
+  for ≥1024px viewports: the ONE dial that makes the entire rem chain
+  viewport-proportional. Master = 16px @1920×1080; TRUE LINEAR in both
+  directions (1280×720 = 67%, 2560×1440 = 133%) — any 16:9 viewport is
+  the master design photographically resized: same positions, same
+  line breaks.
+- The `vh` term keeps proportions aspect-ratio-agnostic (ultrawide-safe);
+  floor 0.625rem only cushions 1024–1200px; below 1024px the root is
+  fixed 16px (mobile/tablet system owns it; rem === px there).
+- Consequences: **never introduce px for sizes that should scale with the
+  page** in the desktop zone — use rem (they inherit the dial) or cqi
+  (component-proportional). px is only for hairlines (1px), sub-pixel
+  optical fixes, and shadows. Container caps are rem (`_type.css`).
+- Below 1024px the root is fixed 16px (mobile/tablet system owns it);
+  rem === px there, so those zones are dial-immune.
+- `base.css` sets the dial (see above). **Never mix vw/vh with rem in one
+  formula** inside the floor zone (1024–1200px) or the cap zone (>3840px):
+  rem is pinned there while vw keeps moving → the formula's output drifts
+  with width (this bit the About sidebar hang-out — fixed to
+  container-edge-relative offsets). Everywhere else rem ≡ 0.8333vw, so
+  mixing is proportionally safe. If viewport-relative positioning is
+  needed in the edge zones, express BOTH sides in viewport units.
+- Bounds are rem on purpose → user font-size preferences propagate.
+- Decision record: `docs/decisions/2026-09-06-proportional-desktop-scaling.md`.
+
 ### 1. 📂 Flat Blog Routing (Regression Prevention)
 
 - **Requirement:** Users must be allowed to organize `blog_posts/` with any folder structure (e.g., `blog_posts/archive/2025/post.md`).
@@ -194,9 +235,9 @@ bun run playground:setup && bun run dev
 
 ### 📦 Version Mismatch after Release / Versioning
 
-**Symptom:** `bun install` fails with `GET https://registry.npmjs.org/astro-freelance-persona_theme - 404` or similar resolution errors.
+**Symptom:** `bun install` fails with `GET https://registry.npmjs.org/astro-freelance-persona_theme - 404` or similar resolution errors — **or test/preview builds silently run against an OLD published theme** (compiled chunks reference `node_modules/.bun/astro-freelance-persona_theme@<old-version>/...` instead of the workspace; symptoms like `marked(): input parameter is of type [object Array]` from a component version that predates current schema support).
 **Cause:** The version in `theme/package.json` was bumped (e.g. by `changeset version`), but `theme/starter/package.json` was not updated because it is not a workspace package. When `playground` copies `starter`'s package.json, the root `bun install` attempts to resolve the old version from npm registry because the local version no longer satisfies the range in `starter/package.json`.
-**Fix:** Manually update `"astro-freelance-persona_theme"` in `theme/starter/package.json` to match the new version in `theme/package.json` (e.g. `^0.1.0-alpha.0`).
+**Fix:** Manually update `"astro-freelance-persona_theme"` in `theme/starter/package.json` to match the new version in `theme/package.json` (e.g. `^0.1.0-alpha.0`). Then ALSO purge the stale resolution artifacts: the old registry copy under `node_modules/.bun/astro-freelance-persona_theme@<old>+hash/` and any polluted `theme/starter/node_modules`, `theme/starter/dist`, `theme/starter/.astro` — Vite keeps resolving the cached old copy otherwise.
 
 ### 🌐 Standalone Template `@freelance-persona/*` Resolution / Symlink Mismatch
 
@@ -211,8 +252,21 @@ bun run playground:setup && bun run dev
             ]
 ```
 
-### 🧩 Content Collections in Monorepos
+### 📄 Stale User Template Copies (post-cutover breakage)
 
+**Symptom:** a user page (404, 403, …) renders elements in weird spots
+(e.g. the mascot hugging the top-left instead of centered) while the
+starter demo renders fine.
+**Cause:** the user's site carries a pre-cutover copy of a template
+page with dead classes (`d-flex`, `img-fluid`, … — removed in the
+UnoCSS 3.5 cutover). Layout-critical classes like `mx-auto` /
+`flex flex-col items-center` are missing → silent breakage.
+**Fix:** re-diff user-site `src/pages/*.astro` + `fonts.ts` against the
+current `theme/starter/src/` after breaking releases and sync the
+template files (keep user-edited content: hero/features/about/blogs +
+their `freelance-persona.config.ts` and trimmed `fonts.ts`).
+
+### 🧩 Content Collections in Monorepos
 **Symptom:** Theme schema updates are ignored by `playground` or `starter`.
 **Fix:** Ensure `starter/src/content.config.ts` re-exports the theme's collections:
 
@@ -240,6 +294,15 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 **Cause:** `bun` started on port `4322` because `4321` is zombie.
 **Fix:** `fuser -k 4321/tcp; fuser -k 4322/tcp;`
 
+### 🌐 Verifying BASE_URL / Subpath Hosting
+
+The playground config reads `BASE_PATH` env → astro `base`. Build with
+`BASE_PATH=/repo/ bun run build` and grep `playground/dist` for rewritten
+hrefs to prove BASE_URL-aware link resolution (GitHub Pages style subpath).
+With default base (`/`) a correct rewrite is invisible (output identical to
+the input path), so a root-only build verifies nothing. See
+`docs/features/internal-links-in-markdown.md` for the link-handling rules.
+
 ### 🎭 Theme Dropdown Backdrop Blocks Test Clicks
 
 **Symptom:** `label.theme-label-dark.click({ force: true })` times out or fails silently in theme tests even though the dropdown is "visible".
@@ -251,6 +314,90 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 **Symptom:** Clicking `.nav-toggle` to close the mobile popover does nothing (popover stays open).
 **Cause:** The `.nav-toggle` button has `command="show-popover"` only. It cannot close the popover.
 **Fix:** Use `button.nav-close[aria-label="Close navigation menu"]` to close, and `page.keyboard.press('Escape')` for light-dismiss testing.
+
+### 🎨 Astro `<style>` + `@import` Scoping (UnoCSS Migration Gotchas)
+
+### 🔒 CSP Kills Non-Hashed Inline Styles (Silent)
+
+**Symptom:** A server-rendered inline style (attribute or `set:html`
+`<style>`) works in dev / non-CSP builds but is dead in production.
+**Cause:** The default CSP combines Astro's auto-generated inline-style
+hashes with `'unsafe-inline'` on `style-src` — per CSP spec, a hash in
+a source list makes `'unsafe-inline'` IGNORED, so everything not
+auto-hashed (set:html style blocks, style attributes: nudges,
+`define:vars`, Shiki colors) is silently blocked. No console hint
+unless you look for CSP violations.
+**Fix (in place):** `integration.ts` re-declares the style
+sub-directives explicitly — `style-src-elem 'self' 'unsafe-inline'` +
+`style-src-attr 'unsafe-inline'` — which override `style-src` per
+content type and carry no hashes, so they're effective. Don't remove
+them. Related traps:
+- `Astro.csp.insertStyleHash()` from a component render is too late —
+  the CSP meta in the layout `<head>` was already rendered. Register
+  hashes from layouts/frontmatter only.
+- Astro's CSP serializer does NOT support object-form resources
+  (`{ resource, kind }`) in `styleDirective.resources` — they render
+  as literal `[object Object]` into the meta.
+- Prefer static build-time CSS rules (e.g. `nth-child` keyed, emitted
+  via `<style is:global set:html>`) over inline `style=""` values for
+  anything behavior-critical.
+
+### 👁️ IntersectionObserver Ratio Thresholds Hide Tall Elements
+
+**Symptom:** A page "renders blank on mobile" (or only after scrolling
+~one element-height); works on desktop / for short content.
+**Cause:** An IntersectionObserver reveal with a ratio `threshold`
+(e.g. 0.1) fires `isIntersecting` only when 10% OF THE ELEMENT is
+visible — an element taller than 10 viewports (long blog post) can
+never reach it while its top is on screen.
+**Rule:** For show-on-scroll reveals use `threshold: 0` and express
+"don't fire on slivers" as a **bottom rootMargin inset in %**
+(`0px 0px -10% 0px`) — viewport-relative = height-independent.
+Theme location: BaseLayout `animationEngineScript` (the configured
+`scroll_animations.threshold` is translated into that inset).
+**Test-side corollary:** hover-screenshot tests must SETTLE the
+scroll-reveal (wait ~900ms after scrollIntoView) before hovering —
+reveal lift + hover lift racing produces load-dependent 2-3px ghost
+diffs (hover.spec.ts Category Cards).
+
+### 🔗 User-Project Theme Link Dies on Every Install
+
+User sites (fabio_rieker) import the theme via a **symlinked**
+`node_modules/astro-freelance-persona_theme → <abs theme path>`. ANY
+install in the user project (`bun install`, `bun remove`, `bun update`,
+playground:setup reruns that touch it) **re-materializes the package as
+a real copied directory from the store** — silently replacing the
+symlink with a stale snapshot. Symptom: theme changes verified green on
+the theme/demo are invisible on the user site ("I see no change at
+all"), while old behavior (unclamped titles, oversized attributions)
+persists.
+**Fix + ritual:** restore the symlink
+(`rm -rf node_modules/astro-freelance-persona_theme && ln -s <abs theme
+path> node_modules/astro-freelance-persona_theme`) and **re-verify the
+link after every install round in a user project** before debugging
+"missing changes".
+**Resolution strategy (fabio):** the `package.json` dep =
+`"astro-freelance-persona_theme": "latest"` — clones/CI resolve the npm
+`latest` release (registry, no sibling directory needed); the local dev
+override = the manual symlink above (re-apply after installs). The
+bun.lock pins the resolved version — after publishing a new release,
+`bun update astro-freelance-persona_theme` picks it up. NOTE: new
+theme features land on the user site only after an npm release (or the
+local symlink).
+
+### 🖥️ EC Copy Button Internals (resizing = flagged hack)
+
+Expressive Code manages the copy button's internals (icon layer div,
+pseudo-elements, copied-state feedback) against a **fixed 2.5rem box**.
+Resizing the box externally breaks rendering: the icon mask keeps its
+fixed metrics inside the shrunken box (tiny glyph), and the copied-state
+feedback reflows inside it (jumpy click). `width: 100%` on the icon
+layer even computes to `NaN` against EC's internal rules.
+**Supported pattern:** leave the button at EC's native box and scale the
+VISUAL via `transform: scale(0.5); transform-origin: top right;`
+(`_code-blocks.css`, flagged EC-VISUAL OVERRIDE) — internals stay intact,
+everything scales 1:1, and the 40px layout box doubles as the click
+target. Verify the click behavior at 390 + 1920 after EC updates.
 
 ### 🎨 Astro `<style>` + `@import` Scoping (UnoCSS Migration Gotchas)
 
@@ -273,6 +420,24 @@ export { collections } from 'astro-freelance-persona_theme/content.config';
 - **A/B build rigs must pin dependency versions.** A fresh `bun install` in a comparison
   workspace pulled astro-icon 1.2.x vs the repo's 1.1.x, changing SVG sprite emission
   (`viewBox` moved to `<symbol>`) and producing fake Firefox-only diffs.
+
+### 🗜️ Precompression on Astro 7 (user configs)
+
+Two traps when adding build-time `.zst`/`.br` precompression (the
+theme itself does NOT precompress — edge hosts compress dynamically):
+1. `vite-plugin-compression@0.5` maps `algorithm` **directly onto a
+   Node zlib function** (`zlib[algorithm]`) — it must be the function
+   name (`brotliCompress`, `zstdCompress`, `gzip`). `'brotli'`/`'zstd'`
+   resolve to `undefined`, throw, and the plugin then writes **raw
+   bytes under the compressed extension** (silent fake precompression —
+   spot it in the success log: oldSize == size).
+2. Astro 7 builds into `dist/.prerender` and merges afterwards — a
+   `writeBundle`-time compressor's companion files land in `.prerender`
+   and are **dropped by the merge**. If precompression is ever needed
+   (bare nginx with `*_static` directives), use the `astro-compressor`
+   integration (runs after the merge). For Cloudflare/Workers/Caddy/
+   Ferron: skip it — they compress dynamically. Reference impl (hook
+   version): fabio_rieker git history, `precompressDist`.
 
 ### 🧱 Cascade Layers (post-3.5 architecture)
 

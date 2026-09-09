@@ -6,10 +6,18 @@
 title: "Hello World"
 description: "This is a post without an image. It should display as a text-only card."
 date: 2026-01-13
-tags: ["general", "astro", "design"]
+# The extra long tags below intentionally overflow the post-card meta
+# row: they demo the scrollable single-row tag rail (no visible
+# scrollbar, date stays put) — see .post-meta-row .meta in
+# _filtered-posts.css.
+tags: ["general", "astro", "design", "Proportional Scaling", "Container Queries", "Zero JavaScript", "UnoCSS", "MathJax", "Astro 7"]
 ---
 
 Welcome to my new blog! This is the first post. It doesn't have a picture, so it relies on the text content to draw you in.
+
+:::tip[Markdown directives]
+The theme parses markdown container directives — `:::tip`, `:::info`, `:::note`, `:::important`, `:::warning`, `:::caution` and `:::pullquote` render as callout boxes. Custom titles via `:::warning[Custom title]`. See docs/features/admonitions.md.
+:::
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 

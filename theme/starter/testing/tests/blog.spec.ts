@@ -14,10 +14,12 @@ test.describe('Blog Visuals & Functionality', () => {
             // "Design System" category is List by default
             await page.goto('/blogs/design-system');
 
-            // Check for list elements
-            const listItems = page.locator('.posts-list .post-entry');
+            // List view = news-rows UI (FilteredPostsSection layout="rows",
+            // same component as cards mode — .rows class is the discriminator).
+            // The legacy static .posts-list markup no longer exists.
+            const listItems = page.locator('.filtered-posts.rows .card-wrapper');
             await expect(listItems.first()).toBeVisible();
-            await expect(page.locator('.filtered-posts')).toBeHidden();
+            await expect(page.locator('.filtered-posts:not(.rows)')).toHaveCount(0);
 
             await expect(page).toHaveScreenshot('blog-category-list-desktop.png', { fullPage: true });
         });
@@ -28,9 +30,10 @@ test.describe('Blog Visuals & Functionality', () => {
 
             // Check for grid elements
             // Card.astro uses .card-wrapper as the outer container
-            const gridItems = page.locator('.filtered-posts .card-wrapper');
+            const gridItems = page.locator('.filtered-posts:not(.rows) .card-wrapper');
             await expect(gridItems.first()).toBeVisible();
-            await expect(page.locator('.posts-list')).toBeHidden();
+            // cards mode renders FilteredPostsSection WITHOUT the .rows modifier
+            await expect(page.locator('.filtered-posts.rows')).toHaveCount(0);
 
             await expect(page).toHaveScreenshot('blog-category-grid-desktop.png', { fullPage: true });
         });

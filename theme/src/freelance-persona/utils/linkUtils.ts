@@ -26,3 +26,22 @@ export function resolveLink(url: string | undefined): string | undefined {
   
   return `${normalizedBase}${cleanPath}`;
 }
+
+/**
+ * Post-processes HTML produced by marked's `parseInline()` so internal
+ * root-absolute links (`href="/..."`) become BASE_URL-aware.
+ *
+ * Use this for ANY internal link that comes from markdown-controlled
+ * content (checkbox labels, markdown config fields, ...): raw
+ * `parseInline()` output is NOT BASE_URL-aware and breaks on subpath
+ * hosting (e.g. GitHub Pages) by pointing at the domain root.
+ *
+ * Only `href="/path"` gets rewritten; protocol-relative (`//`), empty,
+ * http(s)/mailto/tel/hash hrefs pass through untouched.
+ */
+export function resolveParsedInline(html: string): string {
+  return html.replace(/href="([^"]*)"/g, (match, url: string) => {
+    if (!url.startsWith("/") || url.startsWith("//")) return match;
+    return `href="${resolveLink(url)}"`;
+  });
+}

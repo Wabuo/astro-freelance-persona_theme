@@ -6,10 +6,12 @@
 // Miniature "page preview" render used when a post has no thumbnail:
 // post cards on the home sections and the list-page teaser thumbs.
 //
-// Behaves like a screenshot of the desktop preview card, scaled to
-// whatever box it lands in: every internal size is expressed in cqw
-// (% of the box width), which equals a 480px-wide design scaled down.
-// Readability is not a goal — it is a thumbnail of text content.
+// Renders a miniature of a DESKTOP post view: a 1280×720 (16:9)
+// reference viewport scaled to whatever box it lands in. Every size is
+// expressed in cqw (% of box width), i.e. design-px / 12.8, so the
+// whole scene — nav padding, centered content column, badges with
+// their padding — scales as one uniform miniature. Readability is not
+// a goal — it is a thumbnail of text content.
 import { Icon } from "astro-icon/components";
 
 interface Props {
@@ -39,12 +41,12 @@ const dateStr = date?.toLocaleDateString("en-GB", {
       <div class="post-tags">
         {tags.length > 0
           ? tags.map((tag) => (
-            <span class="tag badge me-1">
+            <span class="tag badge">
               {tag.toLowerCase()}
             </span>
           ))
           : (
-            <span class="tag badge me-1">blog</span>
+            <span class="tag badge">blog</span>
           )}
       </div>
 
@@ -53,7 +55,7 @@ const dateStr = date?.toLocaleDateString("en-GB", {
       <div class="meta-top">
         <Icon name="bi:calendar-event" class="me-1" />
         {dateStr}
-        <span class="mx-2">|</span>
+        <span class="mock-sep">|</span>
         <Icon name="bi:hourglass-split" class="me-1" />1 min read
       </div>
 
@@ -68,9 +70,10 @@ const dateStr = date?.toLocaleDateString("en-GB", {
 
 <style>
   /* The box this component fills is the size reference: all sizes in
-     cqw = a 480px design scaled to fit, identical proportions at any
-     thumb size. Scoped = overrides the shared blog-post.css partials
-     (unlayered component styles > layered partials). */
+     cqw = the 1280px desktop viewport scaled to fit (design-px/12.8),
+     identical proportions at any thumb size. Scoped = overrides the
+     shared blog-post.css partials (unlayered component styles >
+     layered partials). */
   .preview-card-wrapper {
     container-type: inline-size;
     width: 100%;
@@ -81,7 +84,7 @@ const dateStr = date?.toLocaleDateString("en-GB", {
   .mock-page-content {
     width: 100%;
     height: 100%;
-    padding: 3.33cqw;
+    padding: 2.5cqw;
     background-color: var(--surface-color, #fff);
     color: var(--default-color);
     overflow: hidden;
@@ -99,10 +102,16 @@ const dateStr = date?.toLocaleDateString("en-GB", {
     pointer-events: none;
   }
 
+  /* Centered content column — the desktop container look. */
+  .mock-page-content .post-header {
+    width: 62.5cqw;
+    margin-inline: auto;
+  }
+
   .mock-page-content .post-title {
-    font-size: 4.17cqw;
+    font-size: 3.13cqw;
     line-height: 1.2;
-    margin-bottom: 0.5cqw;
+    margin-bottom: 0.63cqw;
     color: var(--heading-color);
   }
 
@@ -110,31 +119,43 @@ const dateStr = date?.toLocaleDateString("en-GB", {
     margin-bottom: 0;
   }
 
+  /* Badge chrome scales with the miniature: the global badge style is
+     fixed-rem (padding/radius/margins) and would dwarf 1cqw-scale
+     text inside small thumbs. 0.31cqw = 4px, 0.63cqw = 8px,
+     0.23cqw = 3px at the 1280px design. */
   .mock-page-content .tag.badge {
-    font-size: 2cqw;
+    font-size: 0.94cqw;
+    padding: 0.31cqw 0.63cqw;
+    border-radius: 0.23cqw;
+    margin-inline-end: 0.63cqw;
+    margin-block-end: 0.31cqw;
   }
 
   .mock-page-content .mock-hr {
-    margin: 1.05cqw 0;
+    margin: 0.63cqw 0;
     opacity: 0.2;
-    border-top: 0.3cqw solid;
+    border-top: 0.16cqw solid;
   }
 
   .mock-page-content .mock-hr-wide {
-    margin: 1.55cqw 0;
+    margin: 0.94cqw 0;
   }
 
   .mock-page-content .meta-top {
     display: flex;
     align-items: center;
-    margin-bottom: 2cqw;
-    font-size: 2cqw;
+    margin-bottom: 1.25cqw;
+    font-size: 1.09cqw;
     color: var(--text-muted);
   }
 
+  .mock-page-content .mock-sep {
+    margin-inline: 0.31cqw;
+  }
+
   .mock-page-content .post-content {
-    font-size: 2.56cqw;
-    line-height: 1.2;
+    font-size: 1.25cqw;
+    line-height: 1.6;
     white-space: pre-line;
   }
 </style>

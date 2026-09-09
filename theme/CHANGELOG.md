@@ -1,5 +1,11 @@
 # astro-freelance-persona_theme
 
+## 0.1.1-beta.3
+
+### Patch Changes
+
+- 211fb8c: fix: bump @astrojs/markdown-remark to ^7.3.0. Required by @astrojs/mdx v8 — Renovate's mdx major bump landed without its matching companion, and mdx v8 rejects markdown-remark < 7.3 with "`@astrojs/markdown-remark` is too old to render `.mdx` files" during the playground build.
+
 ## 0.1.1-beta.2
 
 ### Patch Changes

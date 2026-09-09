@@ -173,6 +173,187 @@
   background-color: color-mix(in srgb, var(--default-color), transparent 95%);
 }
 
+/* ====================================================
+   === MOBILE TABLE TREATMENTS (phones only, ≤767px) ===
+   Markdown tables can't shrink below min-content; the base
+   block+scroll above keeps them inside the article but hides
+   columns with zero affordance. The treatment is selected via
+   visuals.tables.mobile_style (body[data-tables-mobile]):
+   - cards (default): each row becomes a self-describing card —
+     remarkTableDataLabels copies the column headers into
+     data-label attributes
+   - scroll: the grid stays, first column pinned, right-edge
+     fade as the scroll affordance (the tag-rail peek idiom)
+   - native: no extra rules (base block+scroll only)
+   ==================================================== */
+@media (max-width: 767px) {
+  /* --- "cards": labeled row cards, no horizontal scroll --- */
+  body[data-tables-mobile="cards"] .blog-post .post-content table {
+    display: block;
+    border-collapse: separate;
+    background-color: transparent;
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content thead {
+    display: none; /* column names live on each cell as data-label */
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody {
+    display: block;
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody tr {
+    display: block;
+    background-color: var(--surface-color);
+    border: 1px solid var(--card-border);
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td {
+    display: block;
+    padding: 0.25rem 0;
+    border-bottom: none;
+    background-color: transparent;
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody tr:last-child td:last-child {
+    border-bottom: none;
+  }
+
+  /* Column label as an overline above each cell's content. */
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.6875rem; /* 11px */
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--default-color), transparent 45%);
+    margin-bottom: 0.125rem;
+  }
+
+  /* --- Per-column accents: visual anchors so grouped columns
+     (e.g. two colony columns in a schedule table) are pattern-
+     scannable. Each column gets a hue for its label and a soft
+     left bar on its blocks; the first column stays the neutral
+     card header. Override any column via the custom properties,
+     e.g. --table-col-3-color: #d97706. --- */
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:nth-child(2) {
+    --table-col-color: var(--table-col-2-color, #0284c7); /* sky-600 */
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:nth-child(3) {
+    --table-col-color: var(--table-col-3-color, #d97706); /* amber-600 */
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:nth-child(4) {
+    --table-col-color: var(--table-col-4-color, #16a34a); /* green-600 */
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:nth-child(5) {
+    --table-col-color: var(--table-col-5-color, #dc2626); /* red-600 */
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:nth-child(6) {
+    --table-col-color: var(--table-col-6-color, #7c3aed); /* violet-600 */
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:nth-child(7) {
+    --table-col-color: var(--table-col-7-color, #0284c7);
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:nth-child(8) {
+    --table-col-color: var(--table-col-8-color, #d97706);
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:nth-child(n + 2) {
+    border-left: 0.1875rem solid color-mix(in srgb, var(--table-col-color, var(--accent-color)), transparent 60%);
+    padding-left: 0.5rem;
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:nth-child(n + 2)::before {
+    color: var(--table-col-color, color-mix(in srgb, var(--default-color), transparent 45%));
+  }
+
+  /* First column = the row identifier ("Day 0 — The Split"):
+     emphasize it as the card header. */
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:first-child {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    color: var(--heading-color);
+    font-weight: 700;
+  }
+
+  body[data-tables-mobile="cards"] .blog-post .post-content tbody td:first-child strong {
+    color: var(--accent-color);
+  }
+
+  /* --- "scroll": compact data-grid for structured content
+     (statistics, price lists — content that reads like a sheet).
+     Dense typography, pinned first column, thin column separators,
+     right-edge fade as the swipe affordance (the tag-rail peek
+     idiom). Note: a sticky TOP header row is impossible inside an
+     overflow-x scroll container (the spec forces overflow-y to auto,
+     so there is no page-scroll to stick against) — the header row
+     scrolls away vertically by design. */
+  body[data-tables-mobile="scroll"] .blog-post .post-content table {
+    font-size: 0.8125rem; /* 13px — sheet-density body */
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 1.5rem), transparent);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 1.5rem), transparent);
+  }
+
+  body[data-tables-mobile="scroll"] .blog-post .post-content th {
+    padding: 0.5rem 0.625rem; /* 8px 10px */
+    background-color: var(--surface-color); /* solid: sticky head */
+    border-bottom: 2px solid color-mix(in srgb, var(--default-color), transparent 75%);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  body[data-tables-mobile="scroll"] .blog-post .post-content td {
+    padding: 0.5rem 0.625rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  }
+
+  /* Thin column separators give the grid its spreadsheet feel. */
+  body[data-tables-mobile="scroll"] .blog-post .post-content th:not(:first-child),
+  body[data-tables-mobile="scroll"] .blog-post .post-content td:not(:first-child) {
+    border-left: 1px solid color-mix(in srgb, var(--default-color), transparent 88%);
+  }
+
+  /* Pinned first column: row identifiers stay readable while the
+     remaining columns scroll. box-shadow instead of border — with
+     border-collapse the td borders live on the table and would not
+     travel with a sticky cell. */
+  body[data-tables-mobile="scroll"] .blog-post .post-content th:first-child,
+  body[data-tables-mobile="scroll"] .blog-post .post-content td:first-child {
+    position: sticky;
+    left: 0;
+    background-color: var(--surface-color);
+    font-weight: 600;
+    z-index: 1;
+    box-shadow: inset -1px 0 0 color-mix(in srgb, var(--default-color), transparent 88%);
+  }
+
+  /* Zebra rows must stay behind the pinned column: use the opaque
+     composite so the sticky cell doesn't turn see-through. */
+  body[data-tables-mobile="scroll"] .blog-post .post-content tr:nth-child(even) td:first-child {
+    background-color: color-mix(in srgb, var(--default-color) 3%, var(--surface-color));
+  }
+
+  body[data-tables-mobile="scroll"] .blog-post .post-content thead th:first-child {
+    z-index: 2; /* corner cell above pinned tds */
+  }
+}
+
 /* Quote — paragraph-friendly: the accent bar (blockquote:after)
    is the signature; text sits left and reads like prose. For the
    big centered "pop" look use the :::pullquote directive instead. */

@@ -1004,7 +1004,11 @@ if (Astro.csp) {
     </style>
   </noscript>
   </head>
-  <body class={bodyClass} data-tex={tex}>
+  <body
+    class={bodyClass}
+    data-tex={tex}
+    data-tables-mobile={themeConfig.visuals?.tables?.mobile_style ?? "cards"}
+  >
     <!-- Hidden radio state for theme management (No JS fallback) -->
     <input
       type="radio"

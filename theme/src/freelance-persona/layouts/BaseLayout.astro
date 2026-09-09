@@ -387,15 +387,30 @@ const initScrollAnimations = () => {
   const defaultRootMargin =
     "0px 0px -" + Math.round(thresholdInset * 100) + "% 0px";
 
+  // Shared handler — the second observer argument is the observer that
+  // fired, so one function serves both.
+  const onReveal = (entries, obs) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("revealed");
+        obs.unobserve(entry.target);
+      }
+    });
+  };
+
+  // Initial-fold observer: NO bottom inset. Elements visible in the
+  // real viewport at load reveal through it — the threshold inset
+  // below would never fire them (bottom-anchored hero text on phones
+  // sits entirely inside the excluded bottom zone until the URL bar
+  // collapses). Same threshold/intersection timing as the plain path,
+  // so settled screenshots are unaffected.
+  const foldObserver = new IntersectionObserver(onReveal, {
+    threshold: 0,
+    rootMargin: "0px 0px 0px 0px",
+  });
+
   const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("revealed");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
+    onReveal,
     {
       threshold: 0,
       // A root_margin set EXPLICITLY by the user wins; the default
@@ -463,6 +478,15 @@ const initScrollAnimations = () => {
              item.style.transitionDelay = (delay + (index * staggerTime)) + "ms";
           }
        });
+    }
+
+    // --- INITIAL-FOLD PASS ---
+    // Elements intersecting the real viewport at load go through the
+    // no-inset observer instead of the inset-gated one.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      foldObserver.observe(el);
+      return;
     }
 
     observer.observe(el);

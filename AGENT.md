@@ -68,6 +68,14 @@ SPDX-License-Identifier: MIT
   playwright.matrix.config.ts and scripts/test-config-matrix.ts.
   Diagnostic tell: content-dependent tests (SEO meta tags, attribution
   locators, error pages) fail en masse = you tested a foreign site/build.
+- **Astro 7's `preview` is a persistent daemon** (`astro preview
+  stop/status/logs`): a plain `fuser -k` of its port leaves the daemon
+  manager convinced a preview is still up, so every later `astro preview`
+  prints "Preview server already running at …4321" and exits — regardless
+  of `--port`. The config-matrix runner therefore runs `bun run preview
+  stop` before every config (see scripts/test-config-matrix.ts); do the
+  same in any manual loop, and when a matrix run reports "Preview server
+  did not start in time" check for an orphaned daemon first.
 - **Never `tail` the Playwright summary short**: the list reporter prints
   `N failed` / `N flaky` ABOVE the `skipped / passed` lines — `tail -2`
   hides failures and makes a red run look green. Capture the full output

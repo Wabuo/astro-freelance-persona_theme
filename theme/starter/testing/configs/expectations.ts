@@ -44,7 +44,7 @@ export const expectations: Record<string, ConfigExpectation> = {
       monospace: 'Courier New',
     },
     fontSizes: {
-      '.section-title h2': '40px',  // 2.5rem computed (vs default 2rem = 32px)
+      '.section-title h2': '2.5rem',  // vs default 2rem; resolved against the viewport-dialed root
     },
   },
 

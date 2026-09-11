@@ -31,15 +31,25 @@ jobs:
           args: detect -v
 
       - name: Verify Changeset Presence
-        if: github.actor != 'dependabot[bot]' && github.actor != 'renovate[bot]'
+        # Skip bots, and skip the changesets release PR: the version PR
+        # consumes ALL pending changesets by design, so this gate would
+        # always fail on it (false positive). Release branch name comes
+        # from changesets/action: `changeset-release/<baseBranch>`.
+        if: >-
+          github.actor != 'dependabot[bot]' &&
+          github.actor != 'renovate[bot]' &&
+          github.head_ref != 'changeset-release/main'
         run: |
-          changeset_count=$(find .changeset -maxdepth 1 -name "*.md" ! -name "README.md" | grep -c "")
+          # wc -l, NOT `grep -c ""`: grep exits 1 when it matches nothing,
+          # which under the runner's `bash -e` aborts the step with a bare
+          # exit code before the friendly error below can print.
+          changeset_count=$(find .changeset -maxdepth 1 -name "*.md" ! -name "README.md" | wc -l)
           if [ "$changeset_count" -eq 0 ]; then
             echo "🛑 ERROR: No changeset file found in .changeset/!"
             echo "Please run 'bunx changeset' to generate release notes for your changes."
             exit 1
           fi
-          echo "✅ Changeset verified."
+          echo "✅ Changeset verified ($changeset_count pending)."
 
       - name: Install Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0

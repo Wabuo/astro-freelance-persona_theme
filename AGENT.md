@@ -193,9 +193,7 @@ Each config is built separately and tested with `testing/tests/config-matrix.spe
   - **Affected components:** `FilteredPostsSection`, `BlogCategoriesSection`, `[BlogCategory]`, `BlogSidebar`.
 - **Result:** URL is always `/posts/post-name` regardless of depth. Do NOT use raw `post.id` in links.
 - **Slug = filename.** Folders are organization only; there is **no `slug` frontmatter** — renaming the file changes the URL (by design). Convention: lean hyphen/kebab-case (`split-and-treat`); modern crawlers handle underscores fine, consistency matters more than the separator. Full notes: `docs/url-slugs.md`.
-- **Collision (verified):** two posts with the same basename in different folders **do not error** — the build succeeds with
-  `[WARN] Could not render '/posts/<name>' ... conflicts with higher priority route`
-  and only ONE page is emitted; the other post is unreachable. Watch the warning on filename duplicates.
+- **Collision = hard build failure.** Two posts with the same basename in different folders flatten to the same URL; `BlogPost.astro`'s `getStaticPaths` detects it and throws (listing both source paths). Without the guard Astro only warns and silently writes one page. Details: `docs/url-slugs.md`.
 
 ### 2. 🎨 Styling & NoScript
 

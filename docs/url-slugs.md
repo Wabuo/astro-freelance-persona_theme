@@ -43,16 +43,26 @@ For a multi-word technique name (e.g. "Split and Treat"):
 - Once a slug is public, prefer not to change it (link stability), even in
   early beta. If you must, add a redirect.
 
-## Collision behavior (verified 2026-09)
+## Collision behavior (hard build failure)
 
 Two posts with the **same basename** in different folders (e.g.
-`a/post.mdx` and `b/post.mdx`) both flatten to `/posts/post`:
+`a/post.mdx` and `b/post.mdx`) both flatten to `/posts/post`. This is a
+**hard build failure** — `BlogPost.astro`'s `getStaticPaths` detects the
+duplicate and throws:
 
-- The build **succeeds** — it emits
-  `[WARN] Could not render '/posts/post' from route '/posts/[...id]' as it conflicts with higher priority route`.
-- **Only one page is written**; the other post becomes unreachable.
-- No hard error, no failing test. Watch for that warning if you ever
-  duplicate a filename.
+```
+Duplicate post slug(s): the filename is the URL slug and folders are
+organization-only, so these would render to the same page (Astro would
+silently drop one). Rename one file per pair:
+  /posts/post
+    - a/post.mdx
+    - b/post.mdx
+```
+
+Rename one file in each pair. (Background: without the guard Astro merely
+emits `[WARN] Could not render '/posts/post' ... conflicts with higher
+priority route` and writes only **one** page — the other post silently
+disappears. That trap is why the guard exists.)
 
 ## Related code
 

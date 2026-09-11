@@ -81,6 +81,23 @@ jobs:
         run: npm pack --dry-run
         working-directory: theme
 
+      - name: Guard Against Re-publishing an Existing Version
+        # The publish job does NOT bump the version — it publishes exactly
+        # what theme/package.json says. Bumping happens in the changesets
+        # "Version Packages" PR (Release Engine). If that PR was never
+        # merged, this job would otherwise hit npm's opaque 409 ("Cannot
+        # stage previously published version") — fail early and loud.
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "astro-freelance-persona_theme@${VERSION}" version >/dev/null 2>&1; then
+            echo "🛑 Version ${VERSION} is already published to npm."
+            echo "This workflow only publishes the version in theme/package.json — it does not bump it."
+            echo "Merge the changesets 'Version Packages' PR first, then cut the release again."
+            exit 1
+          fi
+          echo "✅ ${VERSION} is not yet on npm — proceeding."
+        working-directory: theme
+
       - name: Cryptographic Trusted Publication With Public Code Provenance
         run: |
           TAG=$(node -p "const v = require('./package.json').version; v.includes('-') ? v.split('-')[1].split('.')[0] : ''")

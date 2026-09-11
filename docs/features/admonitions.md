@@ -15,8 +15,9 @@ Body text. **Markdown works.**
 - The **type name** ("Warning", "Info"…) renders as the box title
   (small caps, type-colored)
 - The **bracketed line** is the subtitle — rendered as a row below
-  the title in the theme's subtitle styling (mono + accent, see
-  `.section-title em`), brackets stripped automatically
+  the title in the theme's subtitle styling (mono, same
+  size/weight as `.section-title em`) but in the box's semantic
+  color so it matches the type title, brackets stripped automatically
 
 ## Available types
 

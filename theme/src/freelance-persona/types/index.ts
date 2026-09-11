@@ -29,6 +29,15 @@ export interface VisualsConfig {
     content?: number;
     stagger?: number;
   };
+  tables?: {
+    // How markdown tables degrade on phones (≤767px):
+    // - "cards": each row becomes a labeled card (default — best for
+    //   prose tables; requires the remarkTableDataLabels labels)
+    // - "scroll": the table keeps its grid, first column pinned,
+    //    right-edge fade as the scroll affordance
+    // - "native": plain horizontal overflow (pre-theme behavior)
+    mobile_style?: "cards" | "scroll" | "native";
+  };
   layout?: {
     page_margin_left?: string;
     page_margin_right?: string;

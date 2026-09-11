@@ -14,6 +14,11 @@ SPDX-License-Identifier: MIT
 
 > **META-RULE (user directive):** The user's working tree is **uncommitted by default** — their manual dial/value tuning is not in git and cannot be recovered from it. Before replacing existing values with new defaults (dial blocks, refactors), **diff the file first and surface what will change**; never silently overwrite. If an overwrite already happened: say so immediately, name what was lost, and help replay it.
 
+> **WHERE THE USER-FACING DOCS LIVE:** `docs/` (repo root) — currently a
+> loose pile of snippets and pointers (features, decisions, conventions),
+> destined to become a ReadTheDocs-style site. This AGENT.md is the *agent*
+> knowledge base; when documenting something for humans, prefer `docs/`.
+
 ---
 
 ## 🚨 CRITICAL OPERATIONAL RULES
@@ -68,6 +73,14 @@ SPDX-License-Identifier: MIT
   playwright.matrix.config.ts and scripts/test-config-matrix.ts.
   Diagnostic tell: content-dependent tests (SEO meta tags, attribution
   locators, error pages) fail en masse = you tested a foreign site/build.
+- **Astro 7's `preview` is a persistent daemon** (`astro preview
+  stop/status/logs`): a plain `fuser -k` of its port leaves the daemon
+  manager convinced a preview is still up, so every later `astro preview`
+  prints "Preview server already running at …4321" and exits — regardless
+  of `--port`. The config-matrix runner therefore runs `bun run preview
+  stop` before every config (see scripts/test-config-matrix.ts); do the
+  same in any manual loop, and when a matrix run reports "Preview server
+  did not start in time" check for an orphaned daemon first.
 - **Never `tail` the Playwright summary short**: the list reporter prints
   `N failed` / `N flaky` ABOVE the `skipped / passed` lines — `tail -2`
   hides failures and makes a red run look green. Capture the full output
@@ -179,6 +192,8 @@ Each config is built separately and tested with `testing/tests/config-matrix.spe
 - **Link Generation:** All `href` attributes linking to posts MUST also flatten: `/posts/${post.id.split('/').pop()}`.
   - **Affected components:** `FilteredPostsSection`, `BlogCategoriesSection`, `[BlogCategory]`, `BlogSidebar`.
 - **Result:** URL is always `/posts/post-name` regardless of depth. Do NOT use raw `post.id` in links.
+- **Slug = filename.** Folders are organization only; there is **no `slug` frontmatter** — renaming the file changes the URL (by design). Convention: lean hyphen/kebab-case (`split-and-treat`); modern crawlers handle underscores fine, consistency matters more than the separator. Full notes: `docs/url-slugs.md`.
+- **Collision = hard build failure.** Two posts with the same basename in different folders flatten to the same URL; `BlogPost.astro`'s `getStaticPaths` detects it and throws (listing both source paths). Without the guard Astro only warns and silently writes one page. Details: `docs/url-slugs.md`.
 
 ### 2. 🎨 Styling & NoScript
 

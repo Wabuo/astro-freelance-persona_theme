@@ -10,6 +10,7 @@ import remarkDirective from 'remark-directive';
 import remarkMath from 'remark-math';
 import remarkMagicMath from './plugins/remarkMagicMath';
 import remarkAdmonitions from './plugins/remarkAdmonitions';
+import remarkTableDataLabels from './plugins/remarkTableDataLabels';
 import rehypeFigures from './plugins/rehypeFigures';
 import remarkExtractImageParams from './plugins/remarkExtractImageParams';
 import rehypeMathjaxChtml from 'rehype-mathjax/chtml';
@@ -36,7 +37,10 @@ export default function freelancePersona(): AstroIntegration {
           remarkDirective,
           remarkMath,
           remarkMagicMath,
-          remarkAdmonitions
+          remarkAdmonitions,
+          // GFM tables: copy column headers onto cells as data-label
+          // attributes — the mobile table treatments read them.
+          remarkTableDataLabels
         ];
 
         const rehypePluginsList = [

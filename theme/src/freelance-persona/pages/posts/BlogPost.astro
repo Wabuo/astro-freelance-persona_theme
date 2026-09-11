@@ -5,9 +5,36 @@ import BlogPostTemplate from "@freelance-persona/components/templates/BlogPostTe
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog_posts");
+
+  // Folders are organization-only: the filename becomes the URL slug
+  // (see docs/url-slugs.md). Two posts with the same basename therefore
+  // flatten to the same URL — Astro only WARNS and silently drops one,
+  // which is a content-loss trap. Detect it here and hard-fail with an
+  // actionable message instead, so the author is forced to rename.
+  const slugSources = new Map<string, string>();
+  const collisions: Array<{ slug: string; first: string; second: string }> = [];
+  for (const post of posts) {
+    const flatId = post.id.split("/").pop() || post.id;
+    const first = slugSources.get(flatId);
+    if (first) {
+      collisions.push({ slug: flatId, first, second: post.id });
+    } else {
+      slugSources.set(flatId, post.id);
+    }
+  }
+  if (collisions.length > 0) {
+    const details = collisions
+      .map(({ slug, first, second }) => `  /posts/${slug}\n    - ${first}\n    - ${second}`)
+      .join("\n");
+    throw new Error(
+      "Duplicate post slug(s): the filename is the URL slug and folders " +
+        "are organization-only, so these would render to the same page " +
+        "(Astro would silently drop one). Rename one file per pair:\n" +
+        details,
+    );
+  }
+
   return posts.map((post) => {
-    // Flatten ID: remove subdirectory paths (e.g., 'archive/post' -> 'post')
-    // This allows nested organization without changing URLs.
     const flatId = post.id.split("/").pop() || post.id;
     return {
       params: { id: flatId },

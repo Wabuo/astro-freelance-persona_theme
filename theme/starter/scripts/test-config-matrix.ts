@@ -46,6 +46,15 @@ interface TestResult {
 }
 
 function killPort(port: number): void {
+  // Astro 7's preview is a persistent daemon (astro preview stop/status/logs):
+  // a `fuser -k` alone leaves the daemon manager believing a preview is still
+  // up, and the next `astro preview` just reports "already running" and exits
+  // — regardless of --port. Stop the daemon cleanly first.
+  try {
+    execSync('bun run preview stop', { stdio: 'ignore' });
+  } catch {
+    // No daemon running
+  }
   try {
     execSync(`fuser -k ${port}/tcp 2>/dev/null || true`, { stdio: 'ignore' });
   } catch {
@@ -96,8 +105,11 @@ async function testConfig(configFile: string): Promise<TestResult> {
     // Start preview server
     // --host is REQUIRED: without it astro binds [::1] only and the
     // localhost readiness poll (IPv4) never connects (AGENT.md gotcha).
+    // --port is REQUIRED with TEST_PORT: `astro preview` always binds
+    // 4321 by default, so the readiness poll on TEST_PORT would never
+    // connect and every config would report "did not start in time".
     console.log(`Starting preview server on port ${PORT}...`);
-    const previewProcess = spawn('bun', ['run', 'preview', '--host'], {
+    const previewProcess = spawn('bun', ['run', 'preview', '--host', '--port', String(PORT)], {
       stdio: 'ignore',
       detached: true,
       env: {
@@ -114,7 +126,10 @@ async function testConfig(configFile: string): Promise<TestResult> {
 
     // Run playwright tests
     console.log(`Running config matrix tests...`);
-    execSync('bun run playwright test --config=playwright.matrix.config.ts', {
+    // MATRIX_UPDATE_SNAPSHOTS=1 regenerates the config's baseline PNGs
+    // (visual changes like the mock preview or hero height shift them).
+    const updateFlag = process.env.MATRIX_UPDATE_SNAPSHOTS ? ' --update-snapshots' : '';
+    execSync('bun run playwright test --config=playwright.matrix.config.ts' + updateFlag, {
       stdio: 'inherit',
       env: {
         ...process.env,

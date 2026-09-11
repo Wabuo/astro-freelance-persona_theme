@@ -78,11 +78,21 @@ export async function verifyConfigApplied(page: Page, expected: ConfigExpectatio
   }
 
   // 4. Font sizes — computed on target elements
-  //    Values must be in computed pixels (e.g., "40px" not "2.5rem")
+  //    Accepts computed pixels ("40px") or rem values ("2.5rem"). The
+  //    root font-size is viewport-dialed (true-linear dial ≥1024px), so
+  //    a hardcoded px expectation silently breaks whenever the matrix
+  //    viewport changes — rem expectations resolve against the live
+  //    computed root size instead.
   for (const [selector, expectedSize] of Object.entries(expected.fontSizes ?? {})) {
     const actual = await page.locator(selector).first().evaluate(
       el => getComputedStyle(el).fontSize);
-    expect(actual).toBe(expectedSize);
+    if (expectedSize.endsWith('rem')) {
+      const rootSize = await page.evaluate(
+        () => parseFloat(getComputedStyle(document.documentElement).fontSize));
+      expect(parseFloat(actual)).toBeCloseTo(parseFloat(expectedSize) * rootSize, 1);
+    } else {
+      expect(actual).toBe(expectedSize);
+    }
   }
 
   // 5. Contact form

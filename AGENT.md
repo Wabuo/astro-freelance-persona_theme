@@ -14,6 +14,11 @@ SPDX-License-Identifier: MIT
 
 > **META-RULE (user directive):** The user's working tree is **uncommitted by default** — their manual dial/value tuning is not in git and cannot be recovered from it. Before replacing existing values with new defaults (dial blocks, refactors), **diff the file first and surface what will change**; never silently overwrite. If an overwrite already happened: say so immediately, name what was lost, and help replay it.
 
+> **WHERE THE USER-FACING DOCS LIVE:** `docs/` (repo root) — currently a
+> loose pile of snippets and pointers (features, decisions, conventions),
+> destined to become a ReadTheDocs-style site. This AGENT.md is the *agent*
+> knowledge base; when documenting something for humans, prefer `docs/`.
+
 ---
 
 ## 🚨 CRITICAL OPERATIONAL RULES
@@ -187,6 +192,10 @@ Each config is built separately and tested with `testing/tests/config-matrix.spe
 - **Link Generation:** All `href` attributes linking to posts MUST also flatten: `/posts/${post.id.split('/').pop()}`.
   - **Affected components:** `FilteredPostsSection`, `BlogCategoriesSection`, `[BlogCategory]`, `BlogSidebar`.
 - **Result:** URL is always `/posts/post-name` regardless of depth. Do NOT use raw `post.id` in links.
+- **Slug = filename.** Folders are organization only; there is **no `slug` frontmatter** — renaming the file changes the URL (by design). Convention: lean hyphen/kebab-case (`split-and-treat`); modern crawlers handle underscores fine, consistency matters more than the separator. Full notes: `docs/url-slugs.md`.
+- **Collision (verified):** two posts with the same basename in different folders **do not error** — the build succeeds with
+  `[WARN] Could not render '/posts/<name>' ... conflicts with higher priority route`
+  and only ONE page is emitted; the other post is unreachable. Watch the warning on filename duplicates.
 
 ### 2. 🎨 Styling & NoScript
 

@@ -1,5 +1,19 @@
 # astro-freelance-persona_theme
 
+## 0.1.1-beta.4
+
+### Patch Changes
+
+- 88c176d: docs: document URL slug conventions — filenames are slugs (no frontmatter override), hyphen-lean naming with the honest underscore guidance, and the verified same-basename collision behavior. Adds an AGENT.md pointer to the user-facing `docs/` folder.
+- 4361e8a: feat: hero uses small-viewport height (100svh). On phones 100vh includes the area under the browser URL bar, so bottom-anchored hero content starts below the fold and only appears after scrolling collapses the bar. svh is always the visible area — identical to vh on desktop.
+- 30e7851: feat: mobile table treatments. Markdown tables on phones render via `visuals.tables.mobile_style`: **cards** (default — each row becomes a self-describing card, first column emphasized as the card header; per-column accents color the labels and add soft left bars so grouped columns are pattern-scannable, overridable via `--table-col-N-color`), **scroll** (compact spreadsheet-grade grid for structured data: 13px cells, thin column separators, pinned first column with zebra-matched background, right-edge swipe fade), or **native** (plain overflow). remarkTableDataLabels copies column headers onto cells as data-label attributes. Desktop untouched. Demo table in the starter's Hello World post; docs in docs/features/mobile-tables.md.
+- 0637dac: feat: no-image post previews render as a miniature desktop view. The mock preview now uses a 1280×720 (16:9) desktop reference viewport scaled entirely in cqw — nav padding, centered content column, and badge chrome (padding/radius/margins now proportional instead of fixed-rem, which dwarfed the microscopic text in small thumbs). Uniform miniature at any thumb size, mobile rows included.
+- d757d8f: fix: admonition subtitles take the box's semantic color (amber for warnings, green for tips, red for cautions, …) instead of the generic accent, matching the type title above them. Formatting (mono, size, weight) unchanged.
+- e05be6b: fix(routing): duplicate post slugs are now a hard build failure. Since the filename is the URL slug and folders are organization-only, two posts with the same basename flatten to the same page — `BlogPost.astro`'s `getStaticPaths` detects this and throws with both source paths listed, instead of Astro's silent warn-and-drop (which left one post unreachable). Docs updated in `docs/url-slugs.md`.
+- 41c9146: fix: reveal engine initial-fold pass. Elements visible in the real viewport at load reveal through a no-inset observer — the bottom threshold inset (rootMargin) could permanently suppress above-the-fold content whose top edge sits inside the excluded bottom zone, e.g. bottom-anchored hero text on phones, which only revealed after a tiny scroll collapsed the URL bar. Intersection timing is unchanged; elements below the fold keep the inset-gated observer exactly as before.
+- 8b98fcd: fix(testing): config-fonts matrix font-size expectation is root-relative. The expectation hardcoded "40px" (2.5rem at the pre-dial fixed 16px root); with the true-linear root dial the computed size varies with the viewport, so the check now accepts rem expectations and resolves them against the live computed root size.
+- 84de94f: fix(testing): config matrix honors TEST_PORT for its preview server. The runner spawned `astro preview` without `--port`, so the preview always bound 4321 while the readiness poll waited on TEST_PORT — every config reported "did not start in time" whenever the matrix ran on a non-default port.
+
 ## 0.1.1-beta.3
 
 ### Patch Changes

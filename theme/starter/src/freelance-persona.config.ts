@@ -72,8 +72,8 @@ export const themeConfig: PersonaConfig = {
       page_margin_left: "8.875rem", // "140px"
 
       //page_margin_right: "1em", // <- Uncomment to set manually. Defaults to page_margin_left
-      // nav_menu_width: "8.75rem", // 140px (Collapsed width of the sidebar)
-      nav_pill_expanded_width: "10.35rem", // 165.6px (How wide pills expand on hover)
+      nav_menu_width: "9.375rem", // 150px (Collapsed width of the sidebar)
+      nav_pill_expanded_width: "11.25rem", // 180px (How wide pills expand on hover)
     },
     scroll_animations: {
       enabled: true,
@@ -185,9 +185,15 @@ export const themeConfig: PersonaConfig = {
       heading: "2rem",      // 32px - h2/h3 base
       subtitle: "1.5rem",   // 24px
       title: "4rem",        // 64px - Hero title
-      nav_icon: "3.5rem"    // 56px - Mobile toggle icon
     }
     */
+
+    // Nav sizing dial (bumped ~7%: pills + label font read better at
+    // master 1920×1080 and in the 1280×720 proportional miniature)
+    sizes: {
+      nav_icon: "3.75rem", // 60px - nav pill height / collapsed width
+      nav: "1rem",         // 16px - nav label font (15px default)
+    },
   },
 
   // ===================================================================================

@@ -150,6 +150,50 @@ body.home-page {
   font-size: 1.25rem;
 }
 
+@media (min-width: 992px) {
+  /* Home sidenav: theme switcher icon sits quieter at rest (muted text
+     color); hover / menu-open keeps the established white-on-accent look. */
+  .desktop-nav .navmenu .theme-toggle-container {
+    /* Quiet cluster tone: dimmer than --text-muted in light mode so the
+       icon + hairline read as passive chrome; dark keeps the plain muted. */
+    --nav-quiet-color: light-dark(
+      color-mix(in srgb, var(--text-muted), transparent 60%),
+      var(--text-muted)
+    );
+  }
+
+  .desktop-nav .navmenu .theme-toggle [data-icon] {
+    color: var(--nav-quiet-color);
+  }
+
+  .desktop-nav .navmenu .theme-toggle:hover [data-icon],
+  .desktop-nav .navmenu .theme-toggle-container:hover .theme-toggle [data-icon],
+  .desktop-nav .navmenu .theme-toggle-container:has(.theme-menu-toggle-checkbox:checked) .theme-toggle [data-icon],
+  .desktop-nav .navmenu .theme-toggle-container.active .theme-toggle [data-icon] {
+    color: var(--contrast-color);
+  }
+
+  /* Separator: fading hairline between the last nav pill and the theme
+     toggle. Passive chrome — stays muted on hover / menu-open. */
+  /* TEMP-DISABLED while comparing looks
+  .desktop-nav .navmenu .theme-toggle-container::before {
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 1px;
+    border-radius: 1px;
+    margin: 0.75rem 0 0.625rem 0.75rem; / centered under the 3.5rem icon column /
+    background: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in srgb, var(--nav-quiet-color), transparent 25%) 30%,
+      color-mix(in srgb, var(--nav-quiet-color), transparent 25%) 70%,
+      transparent
+    );
+  }
+  */
+}
+
 /* Custom SVG Icon Styling (LanceIcon only) */
 .navmenu a svg.navicon:not([data-icon]) {
   width: 1.5rem;

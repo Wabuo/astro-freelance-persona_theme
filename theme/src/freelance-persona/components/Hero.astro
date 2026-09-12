@@ -432,9 +432,13 @@ const heroSectionStyle = {
     /* Font size is handled by inheritance from the wrapper's --title-font-size variable */
   }
 
-  /* TYPING TEXT */
+  /* TYPING TEXT — typography chain (README 4-level hierarchy):
+     L1 frontmatter `typing_font_family` → --typing-font-family-override;
+     L2/L3 the mono role token --font-mono (user config / theme);
+     L4 the raw token default in base.css (deliberately conspicuous).
+     Single source of truth — hero.css deliberately carries no typography. */
   .hero p {
-    font-family: var(--typing-font-family-override, var(--font-nav));
+    font-family: var(--typing-font-family-override, var(--font-mono));
     font-size: var(--hero-typing-font-size, 1.625rem);
     margin-top: var(--gap-title-to-typing, 0.3125rem);
 

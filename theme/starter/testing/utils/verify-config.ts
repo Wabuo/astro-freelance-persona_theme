@@ -69,6 +69,11 @@ export async function verifyConfigApplied(page: Page, expected: ConfigExpectatio
     body: 'body',
     navigation: 'nav a',
     monospace: 'code',
+    // Hero typing subtitle: chains frontmatter `typing_font_family`
+    // (L1) → mono token --font-mono (L2/L3) → raw token default in base.css
+    // (L4). Guards the exact blind spot that once let `.hero p` fall back
+    // to the nav face unnoticed.
+    typing: '.hero p',
   };
   for (const [role, font] of Object.entries(expected.fonts ?? {})) {
     const selector = fontTargets[role as keyof typeof fontTargets];

@@ -9,7 +9,13 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --font-mono: monospace;
+  --font-heading: sans-serif;
+  --font-body: sans-serif;
+  --font-nav: sans-serif;
+  /* Raw in-code default (README Level 4): deliberately conspicuous — a
+     project without a fonts.monospace setting should LOOK like it. Never
+     rendered by configured sites (starter ships Courier New). */
+  --font-mono: "Comic Sans MS", "Comic Neue", cursive;
 }
 
 /* Accessibility Utility */
@@ -98,12 +104,13 @@
   --heading-font-size: 2rem; /* 32px */
   --subtitle-font-size: 1.5rem; /* 24px */
   --title-font-size: 4rem; /* 64px */
+  --nav-font-size: 1rem; /* 16px */
 }
 
 /* Nav Menu Dimensions */
 :root {
-  --nav-icon-size: 3.5rem; /* 56px */
-  --nav-menu-width: 8.75rem; /* 140px */
+  --nav-icon-size: 3.75rem; /* 60px */
+  --nav-menu-width: 9.375rem; /* 150px */
   --nav-pill-expanded-width: 11.25rem; /* 180px */
   --nav-menu-mobile-width: 18.75rem; /* 300px */
   --nav-menu-border-padding: 0.9375rem; /* 15px */

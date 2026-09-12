@@ -1,5 +1,12 @@
 # astro-freelance-persona_theme
 
+## 0.1.1-beta.5
+
+### Patch Changes
+
+- 8b72605: fix(ci): the changeset-presence gate no longer fails on the changesets release PR (which consumes all pending changesets by design — a guaranteed false positive), and counts files with `wc -l` instead of `grep -c` so a genuine zero prints the friendly error rather than aborting with a bare exit code under `bash -e`.
+- 712d385: fix(ci): the publish workflow now fails fast with an actionable message when `theme/package.json`'s version already exists on npm, instead of surfacing npm's opaque `409 Conflict`. Guards against cutting a GitHub release before the changesets "Version Packages" PR has bumped the version (publish only publishes; it never bumps).
+
 ## 0.1.1-beta.4
 
 ### Patch Changes

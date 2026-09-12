@@ -15,7 +15,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro-freelance-persona_theme": "^0.1.1-beta.4",
+    "astro-freelance-persona_theme": "^0.1.1-beta.5",
     "astro": "~7.3.0",
     "astro-icon": "^1.1.5",
     "@astrojs/check": "^0.9.6",

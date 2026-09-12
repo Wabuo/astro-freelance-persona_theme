@@ -42,6 +42,7 @@ export const expectations: Record<string, ConfigExpectation> = {
       body: 'Georgia',
       navigation: 'Impact',
       monospace: 'Courier New',
+      typing: 'Courier New', // via hero.md `typing_font_family` (L1 override)
     },
     cssVars: {
       '--nav-icon-size': '4rem',

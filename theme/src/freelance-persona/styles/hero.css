@@ -147,11 +147,8 @@
   font-weight: 700;
 }
 
-.hero p {
-  margin: 0.3125rem 0 0 0; /* 5px */
-  font-size: 1.625rem; /* 26px */
-  font-family: var(--font-mono);
-}
+/* Typography for .hero p lives in Hero.astro (scoped, single source —
+   README 4-level chain via --typing-font-family-override / --font-mono). */
 
 .hero p span {
   letter-spacing: 0.0625rem; /* 1px */

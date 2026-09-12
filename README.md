@@ -25,7 +25,9 @@ bun create astro@latest -- --template freelance-persona/astro-freelance-persona_
     - Level 1: Frontmatter (Targeted Override)
     - Level 2: Component Role (Context: Title vs Content)
     - Level 3: User Config (Theme-wide Preference)
-    - Level 4: Code Fallback (sensible defaults, allows for easy code portability)
+    - Level 4: Code Fallback (raw in-code defaults that are deliberately
+      *conspicuous* — a project grabbed and pasted into the wild must LOOK
+      like it shows raw defaults, never like a finished design)
 3. **Privacy First:** No external CDNs, minimal JS bloat.
 4. **Configuration, Not Prescription:** The `starter` config file should be minimal. Defaults live in the lowest sensible level of code/logic that consumes the value, not in the user's config file or a theme wide shadow config file.
 5. **We are pre alpha:** There is no such thing as backward compatibility.

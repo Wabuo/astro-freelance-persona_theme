@@ -43,8 +43,12 @@ export const expectations: Record<string, ConfigExpectation> = {
       navigation: 'Impact',
       monospace: 'Courier New',
     },
+    cssVars: {
+      '--nav-icon-size': '4rem',
+    },
     fontSizes: {
       '.section-title h2': '2.5rem',  // vs default 2rem; resolved against the viewport-dialed root
+      '.navmenu a': '1.125rem',       // nav label dial (fonts.sizes.nav), vs 1rem starter
     },
   },
 

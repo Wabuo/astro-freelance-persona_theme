@@ -17,7 +17,7 @@ export interface ConfigExpectation {
   darkCssVars?: Record<string, string>;
 
   // Font families (checked via getComputedStyle on target elements)
-  fonts?: Record<'headings' | 'body' | 'navigation' | 'monospace', string>;
+  fonts?: Record<'headings' | 'body' | 'navigation' | 'monospace' | 'typing', string>;
 
   // Font sizes (checked via getComputedStyle on target elements)
   // Keys are CSS selectors, values are computed pixel values (e.g., "40px")

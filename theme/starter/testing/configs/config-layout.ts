@@ -12,7 +12,7 @@ import { astroMajorVersion } from 'astro-freelance-persona_theme/utils/buildInfo
  * Tests all 4 layout vars:
  * - page_margin_left: 2rem (vs default 8.875rem) — dramatic visual difference
  * - page_margin_right: 1rem (tests right margin var)
- * - nav_pill_expanded_width: 8rem (vs default 10.35rem)
+ * - nav_pill_expanded_width: 8rem (vs default 11.25rem)
  * - nav_menu_width: 6rem (vs default 8.75rem)
  */
 export const themeConfig: PersonaConfig = {

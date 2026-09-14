@@ -26,7 +26,7 @@ export const themeConfig: PersonaConfig = {
     mascot_image: "/src/assets/img/lancy.svg",
     layout: {
       page_margin_left: "8.875rem",
-      nav_pill_expanded_width: "10.35rem",
+      nav_pill_expanded_width: "11.25rem",
     },
     scroll_animations: { enabled: true },
   },
@@ -45,6 +45,8 @@ export const themeConfig: PersonaConfig = {
     sizes: {
       heading: "2.5rem",
       title: "3rem",
+      nav: "1.125rem",
+      nav_icon: "4rem",
     },
   },
 

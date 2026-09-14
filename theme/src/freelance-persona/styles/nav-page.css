@@ -212,8 +212,8 @@ body.inner-page {
   .navmenu .dropdown ul a {
     padding: 0.625rem 1.25rem;
     /* 10px 20px */
-    font-size: 0.9375rem;
-    /* 15px */
+    font-size: var(--nav-font-size);
+    /* 15px default, dialable via fonts.sizes.nav */
     text-transform: none;
     color: var(--nav-dropdown-color);
   }
@@ -283,8 +283,8 @@ body.inner-page {
     /* 10px 18px */
     margin-bottom: 0.5rem;
     /* 8px */
-    font-size: 0.9375rem;
-    /* 15px */
+    font-size: var(--nav-font-size);
+    /* 15px default, dialable via fonts.sizes.nav */
     border-radius: 3.125rem;
     /* 50px */
     background: color-mix(in srgb, var(--default-color), transparent 92%);

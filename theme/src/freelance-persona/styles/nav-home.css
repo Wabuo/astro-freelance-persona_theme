@@ -107,12 +107,15 @@ body.home-page {
   font-family: var(--font-nav);
   display: flex;
   align-items: center;
-  padding: 0.625rem 1.125rem;
-  /* 10px 18px */
+  /* Horizontal padding derives from --nav-icon-size so the icon is always
+     centered in the collapsed (icon-only, max-width: --nav-icon-size) pill:
+     padding = (pill − icon 1.25rem) / 2. Equals 1.125rem at the 3.5rem
+     default; stays centered at any fonts.sizes.nav_icon value. */
+  padding: 0.625rem calc(var(--nav-icon-size) / 2 - 0.625rem);
   margin-bottom: 0.5rem;
   /* 8px */
-  font-size: 0.9375rem;
-  /* 15px */
+  font-size: var(--nav-font-size);
+  /* 15px default, dialable via fonts.sizes.nav */
   border-radius: 3.125rem;
   /* 50px */
   --nav-pill-bg: color-mix(in srgb, var(--default-color), transparent 92%);
@@ -182,7 +185,7 @@ body.home-page {
     width: 2rem;
     height: 1px;
     border-radius: 1px;
-    margin: 0.75rem 0 0.625rem 0.75rem; / centered under the 3.5rem icon column /
+    margin: 0.75rem 0 0.625rem calc(var(--nav-icon-size) / 2 - 1rem); / centered under the icon column at any dial value /
     background: linear-gradient(
       to right,
       transparent,
@@ -203,7 +206,9 @@ body.home-page {
   fill: currentColor;
   transform: scale(1.8);
   transform-origin: center;
-  margin-left: -1.659px;
+  /* Nudge for the 1.5rem lance box vs the 1.25rem navicon footprint:
+     −(1.5 − 1.25)/2 rem — stays centered at any --nav-icon-size and root-dial scale. */
+  margin-left: -0.125rem;
   vertical-align: -1.875px;
   transition: transform 0.3s ease-in-out, fill 0.3s ease-in-out;
 }

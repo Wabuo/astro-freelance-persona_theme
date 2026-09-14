@@ -42,9 +42,14 @@ export const expectations: Record<string, ConfigExpectation> = {
       body: 'Georgia',
       navigation: 'Impact',
       monospace: 'Courier New',
+      typing: 'Courier New', // via hero.md `typing_font_family` (L1 override)
+    },
+    cssVars: {
+      '--nav-icon-size': '4rem',
     },
     fontSizes: {
       '.section-title h2': '2.5rem',  // vs default 2rem; resolved against the viewport-dialed root
+      '.navmenu a': '1.125rem',       // nav label dial (fonts.sizes.nav), vs 1rem starter
     },
   },
 

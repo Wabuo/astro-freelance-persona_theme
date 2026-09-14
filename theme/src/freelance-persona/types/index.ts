@@ -163,6 +163,7 @@ export interface PersonaConfig {
       subtitle?: string; // --subtitle-font-size
       title?: string; // --title-font-size
       nav_icon?: string; // --nav-icon-size
+      nav?: string; // --nav-font-size
     };
   };
 

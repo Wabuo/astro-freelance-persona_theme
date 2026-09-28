@@ -1,0 +1,5 @@
+---
+"astro-freelance-persona_theme": patch
+---
+
+Inline `code` gets a GitHub-ish chip that reuses the inactive tags' own background token (new `--code-inline-background: var(--tag-background)` dial in `base.css`), so inline code and tags read as one system — and because that tint is translucent, the chip follows the surface underneath it (plain page, callout box) instead of painting a flat grey. Its text gets a cool ink of its own instead of the old accent-blue, which read as a broken link: `--code-inline-color` is a new dialable mix of body ink toward `--text-muted` (50% default, ~7.5:1 on the chip in light and ~6.2:1 in dark) — a clear step off the prose colour without spending a hue, since accent stays reserved for things you can click. Code inside a link keeps that ink and gains a solid accent underline at all times, so the affordance survives even though the theme underlines links on hover only. Fenced code is explicitly reset (transparent background, no padding, no radius) so nothing doubles up inside Expressive Code frames, and `box-decoration-break: clone` keeps wrapped identifiers as per-line pills instead of one edge-to-edge band.

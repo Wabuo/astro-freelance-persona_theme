@@ -79,6 +79,28 @@
 
   --underline-color: light-dark(var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 45%));
   --code-background: light-dark(#f6f6f6, var(--surface-color));
+  /* Inline code: a chip in the INACTIVE-TAG family — it reuses the
+     tags' own background token, so inline code and (inactive) tags
+     read as one system, and because that tint is translucent it
+     follows whatever it sits on (page, callout box) instead of
+     painting a flat grey. Mixing a text colour into the fill (earlier
+     attempt) read ashy/dirty in light. No border: an outline would
+     only box the word. Retune by pointing this at another token. */
+  --code-inline-background: var(--tag-background);
+  /* Inline code TEXT: a "cool ink" — body ink cooled toward the site's
+     muted gray, so code reads as a distinct step off the prose WITHOUT
+     spending a hue (accent stays reserved for things you can click).
+     --text-muted is overridable from the site config, so the ink follows
+     the palette a site actually picked. Dial: the % of the mix toward
+     --text-muted — higher = cooler and fainter. 50% ≈ #494e53 light
+     (7.5:1 on the chip) / #bdbcbb dark (6.2:1). A colour mix, NOT
+     element opacity — opacity would fade the chip background too. */
+  --code-inline-ink-mix: 50%;
+  --code-inline-color: color-mix(
+    in srgb,
+    var(--default-color),
+    var(--text-muted) var(--code-inline-ink-mix)
+  );
 
   /* Scrollbars (css-side tokens, deliberately not config-exposed) */
   --scrollbar-track: light-dark(#f1f1f1, color-mix(in srgb, var(--default-color), transparent 92%));
@@ -241,6 +263,10 @@ h6 {
   font-family: var(--font-heading);
 }
 
+/* Colour for code that _type.css does NOT take over: inline code
+   inherits its context there (prose colour, or the link colour inside
+   links) and Expressive Code frames theme their own text. This covers
+   the rest — e.g. a raw <pre><code> outside an EC frame. */
 code {
   color: var(--accent-color);
 }

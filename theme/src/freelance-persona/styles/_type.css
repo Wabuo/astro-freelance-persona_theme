@@ -77,9 +77,53 @@ hr {
   opacity: 0.25;
 }
 
+/* Inline code gets its own ink instead of inheriting the prose colour:
+   a cool, muted step off body charcoal (--code-inline-color in base.css,
+   dial --code-inline-ink-mix). Inheriting was too heavy on the chip,
+   accent was too noisy (reserved for things you can click), and the
+   inactive-tag text at 55% transparent failed contrast. The
+   :not(pre code) guard is what keeps Expressive Code owning
+   block-code colours. */
+code:not(pre code) {
+  color: var(--code-inline-color);
+}
+
+/* Links only underline on hover (base.css), and code inside a link takes
+   the chip ink rather than the link colour — so without this the affordance
+   would vanish at rest. Code-bearing links therefore carry a SOLID accent
+   underline at all times, set on the chip so a wrapped fragment underlines
+   per line with its own pill. Hovering stacks the theme's own link line
+   (a:hover: muted accent, 2px offset) on top of this one — a deliberate
+   double, the beat that says "this became clickable". The chip's ink stays
+   put through it all: turning accent on hover would be too noisy. */
+a code:not(pre code) {
+  text-decoration: underline;
+  text-decoration-color: var(--accent-color);
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.18em;
+}
+
 code {
   font-size: 0.875em;
   word-wrap: break-word;
+  background-color: var(--code-inline-background);
+  padding: 0.2em 0.4em;
+  border-radius: 0.375rem;
+  /* Wrapped inline code would otherwise paint the background edge to edge
+     (one long band); clone keeps the chip per fragment-box so a wrapped
+     identifier reads as two tidy pills. Same idiom as the hero highlight. */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Inside a real code block the block owns the background — undo the
+   chip so no double surface or stray padding shows up in ``` fences
+   and Expressive Code frames. */
+pre code,
+.expressive-code code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 
 pre {

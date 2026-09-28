@@ -207,7 +207,12 @@ const phoneOrderCss = `@media (max-width: 767px) {
     - Gap controls spacing.
   */
   .feature-icon-bg.has-secondary-icon {
-    gap: 0.25rem; /* Adjust this to change spacing transparently */
+    /* cqi, not rem: every other icon-row dimension is proportional to the
+       card, and rem inverts against the fluid root dial (root clamps to
+       16px below 1024px while the card shrinks). 1cqi ≈ 4px at the
+       1920×1080 master card (402.7px) — matches the old desktop look,
+       scales the same as the icons. */
+    gap: 1cqi;
   }
 
   .feature-icon-bg.has-secondary-icon .icon-main {

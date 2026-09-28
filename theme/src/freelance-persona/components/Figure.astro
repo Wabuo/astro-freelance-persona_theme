@@ -6,7 +6,10 @@ import { getLicenseLink } from '../utils/licenseUtils';
 
 interface Props {
   src: any;
-  alt?: string;
+  /** Accessibility description (the img alt). Required unless 'hidden'. */
+  img_alt?: string;
+  /** Bold caption lead-in — the human-facing label for the visual. */
+  title?: string;
   inline?: boolean;
   width?: string;
   float?: 'left' | 'right';
@@ -20,7 +23,8 @@ interface Props {
 
 const {
   src,
-  alt = '',
+  img_alt = '',
+  title,
   inline,
   width,
   float,
@@ -43,11 +47,13 @@ const paramsObj = figureQuerySchema.parse({
   creditUrl,
   license,
   copyright,
-  altText: alt || undefined,
+  img_alt: img_alt || undefined,
+  title,
 });
 
 const figureStyle = generateFigureStyle(paramsObj);
-const isCaptionActive = !!paramsObj.altText || !!paramsObj.desc;
+const isCaptionActive = !!paramsObj.title || !!paramsObj.desc;
+const isDecorative = paramsObj.img_alt === 'hidden';
 const hasAttribution = !!paramsObj.credit || !!paramsObj.license || !!paramsObj.copyright;
 
 // Resolve license link info
@@ -61,16 +67,16 @@ const isImageMetadata = typeof src === 'object' && src !== null;
   {isImageMetadata ? (
     <Image
       src={src}
-      alt={alt || paramsObj.altText || ''}
-      aria-hidden={!alt && !paramsObj.altText ? 'true' : undefined}
+      alt={isDecorative ? '' : img_alt || ''}
+      aria-hidden={isDecorative ? 'true' : undefined}
       class="figure-img"
       style="width: 100%; height: auto; display: block;"
     />
   ) : (
     <img
       src={src}
-      alt={alt || paramsObj.altText || ''}
-      aria-hidden={!alt && !paramsObj.altText ? 'true' : undefined}
+      alt={isDecorative ? '' : img_alt || ''}
+      aria-hidden={isDecorative ? 'true' : undefined}
       class="figure-img"
       style="width: 100%; height: auto; display: block;"
     />
@@ -78,8 +84,8 @@ const isImageMetadata = typeof src === 'object' && src !== null;
 
   {isCaptionActive && (
     <figcaption>
-      {paramsObj.altText && <strong class="figure-title">{paramsObj.altText}</strong>}
-      {paramsObj.altText && paramsObj.desc && '. '}
+      {paramsObj.title && <strong class="figure-title">{paramsObj.title}</strong>}
+      {paramsObj.title && paramsObj.desc && '. '}
       {paramsObj.desc && <span class="figure-desc">{paramsObj.desc}</span>}
       {hasAttribution && (
         <>

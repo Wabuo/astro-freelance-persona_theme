@@ -9,6 +9,8 @@ icon_class: "bi bi-person-vcard"
 subtitle: "Public Self & Private Soul"
 order: 10
 avatar: "@/assets/img/avatar.svg"
+# REQUIRED with avatar. Describe the person/photo, or 'hidden' if decorative.
+img_alt: "Stylised profile avatar of the freelance-persona mascot."
 # img_license/avatar_license: Auto-links known licenses defined in licenseUtils.ts.
 # To override/custom link, use object format:
 # img_license:
@@ -36,6 +38,7 @@ qualifications_sidebar:
       - "OFL 1.1+"
     icon: "bi bi-award"
     image: "@/assets/img/theme_certificate.svg"
+    img_alt: "Theme certificate badge for the freelance-persona Astro theme."
     img_credit: "hidden"
     img_copyright: "freelance-persona"
     img_license: "CC0"

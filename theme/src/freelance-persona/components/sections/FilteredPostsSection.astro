@@ -112,7 +112,8 @@ const colClass = `${gridWrap} ${gridCols}`;
                     <>
                       <Image
                         src={post.data.thumbnail}
-                        alt={post.data.title}
+                        alt={post.data.img_alt === "hidden" ? "" : post.data.img_alt || ""}
+                        aria-hidden={post.data.img_alt === "hidden" ? "true" : undefined}
                         class="max-w-full h-auto post-image"
                         width={600}
                         quality="high"

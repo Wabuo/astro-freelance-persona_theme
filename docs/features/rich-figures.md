@@ -14,7 +14,8 @@ import myImage from './my-image.png';
 
 <Figure
   src={myImage}
-  alt="Detailed Alt Text"
+  img_alt="Detailed description of what the image shows."
+  title="Short Caption Title"
   desc="This is a description of the image shown below the image card."
   width="15rem"
   float="right"
@@ -31,7 +32,12 @@ import myImage from './my-image.png';
 The component parameters are validated using a Zod schema to ensure correct layout and formatting:
 
 - **`src`**: Relative image path imported at the top, or a public string path.
-- **`alt`**: Descriptive alt text for screen readers.
+- **`img_alt`**: Accessibility description — what a visitor who cannot see the
+  image would miss. **Required** (a build error without it). Use `"hidden"` for
+  purely decorative images: they render `alt=""` + `aria-hidden` and stay silent.
+- **`title`**: Bold caption lead-in, the human-facing label for the visual.
+  (This used to be the `alt` text doubling as the caption — `img_alt` is for
+  accessibility, `title` is for humans.)
 - **`width`**: A relative CSS unit (`%`, `rem`, `em`).
 - **`float`**: Float layout (`"left"` or `"right"`).
 - **`align`**: Text alignment when not floating (`"left"`, `"center"`, `"right"`).

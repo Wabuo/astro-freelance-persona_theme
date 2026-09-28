@@ -30,6 +30,16 @@ const licenseSchema = z.union([
 const attributionPositionSchema = z.enum(["bottom_left", "bottom_right", "top_left", "top_right"]).default("bottom_right").optional();
 const attributionThemeSchema = z.enum(["light", "dark", "auto"]).default("auto").optional();
 
+// Alt text (Level 1 targeted override). REQUIRED whenever an image is
+// present — a visitor who cannot see the image (screen reader, broken
+// render, image off) gets nothing else from it. 'hidden' is the explicit
+// opt-out for purely decorative graphics: it renders alt="" + aria-hidden.
+// An empty or whitespace-only string is a build error on purpose.
+const altSchema = z.union([
+  z.string().trim().min(1, { message: "img_alt cannot be empty — describe what a visitor would otherwise miss, or use 'hidden' if the image is purely decorative." }),
+  z.literal('hidden'),
+]);
+
 // 1. SECTIONS COLLECTION
 const sections = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/sections" }),
@@ -45,6 +55,7 @@ const sections = defineCollection({
       order: z.number().default(0),
       background_image: image().optional(),
       // Hero Config
+      img_alt: altSchema.optional(), // Required when background_image is present
       img_credit: creditSchema.optional(), // Required check done in superRefine
       img_copyright: copyrightSchema,
       img_license: licenseSchema.optional(), // Required check done in superRefine
@@ -119,6 +130,7 @@ const sections = defineCollection({
 
       // Profile / Sidebar Elements
       avatar: image().optional(),
+      img_alt: altSchema.optional(), // Required when avatar is present
       avatar_credit: creditSchema.optional(), // Required when avatar is present
       avatar_copyright: copyrightSchema,
       avatar_license: licenseSchema.optional(), // Required when avatar is present
@@ -127,6 +139,7 @@ const sections = defineCollection({
         subtitle: z.union([z.string(), z.array(z.string())]).optional(),
         icon: z.string().optional(),
         image: image().optional(),
+        img_alt: altSchema.optional(), // Required when image is present
         img_credit: creditSchema.optional(), // Required when image is present
         img_copyright: copyrightSchema,
         img_license: licenseSchema.optional(), // Required when image is present
@@ -184,6 +197,7 @@ const sections = defineCollection({
       categories: z.array(z.object({
         title: z.string(),
         image: image().optional(), // Path to image (now optional)
+        img_alt: altSchema.optional(), // Required when image is present
         img_credit: creditSchema.optional(), // Image attribution (required when image is present)
         img_copyright: copyrightSchema,
         img_license: licenseSchema.optional(), // Image license (required when image is present)
@@ -260,6 +274,13 @@ const sections = defineCollection({
     // Global image attribution enforcement
     // Hero: background_image requires attribution
     if (data.type === 'hero' && data.background_image) {
+      if (!data.img_alt) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "img_alt is required when background_image is present. Describe what the visitor would otherwise miss — it is what screen readers, SEO and broken renders rely on — or use 'hidden' if the image is purely decorative.",
+          path: ["img_alt"],
+        });
+      }
       if (!data.img_credit) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -279,6 +300,13 @@ const sections = defineCollection({
     // About: avatar requires attribution
     if (data.type === 'about') {
       if (data.avatar) {
+        if (!data.img_alt) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "img_alt is required when avatar is present. Describe what the visitor would otherwise miss — it is what screen readers, SEO and broken renders rely on — or use 'hidden' if the image is purely decorative.",
+            path: ["img_alt"],
+          });
+        }
         if (!data.avatar_credit) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -299,6 +327,13 @@ const sections = defineCollection({
       if (data.qualifications_sidebar) {
         data.qualifications_sidebar.forEach((item, index) => {
           if (item.image) {
+            if (!item.img_alt) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `qualifications_sidebar[${index}].img_alt is required when image is present. Describe what the visitor would otherwise miss — it is what screen readers, SEO and broken renders rely on — or use 'hidden' if the image is purely decorative.`,
+                path: ["qualifications_sidebar", index, "img_alt"],
+              });
+            }
             if (!item.img_credit) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
@@ -322,6 +357,13 @@ const sections = defineCollection({
     if (data.type === 'blog_categories' && data.categories) {
       data.categories.forEach((cat, index) => {
         if (cat.image) {
+          if (!cat.img_alt) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: `categories[${index}].img_alt is required when image is present. Describe what the visitor would otherwise miss — it is what screen readers, SEO and broken renders rely on — or use 'hidden' if the image is purely decorative.`,
+              path: ["categories", index, "img_alt"],
+            });
+          }
           if (!cat.img_credit) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
@@ -349,6 +391,7 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     thumbnail: image().optional(),
+    img_alt: altSchema.optional(), // Required when thumbnail is present
 
     // Image Attribution
     // Optional fields, but REQUIRED when thumbnail is present
@@ -388,6 +431,13 @@ const blog = defineCollection({
   }).superRefine((data, ctx) => {
     // If thumbnail is present, require attribution fields
     if (data.thumbnail) {
+      if (!data.img_alt) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "img_alt is required when thumbnail is provided. Describe what the visitor would otherwise miss — it is what screen readers, SEO and broken renders rely on — or use 'hidden' if the image is purely decorative.",
+          path: ["img_alt"],
+        });
+      }
       if (!data.img_credit) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,

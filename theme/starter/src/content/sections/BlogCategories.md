@@ -23,6 +23,7 @@ categories:
   - title: "Design System"
     thumb_fallback: "none"
     image: "@/assets/img/background.svg"
+    img_alt: "Pale-blue mountain range used as the Design System category cover."
     img_credit: "hidden"
     img_copyright: "freelance-persona"
     img_license: "CC BY-SA 4.0"

@@ -49,6 +49,12 @@ decorative graphics — they render `alt=""` + `aria-hidden` and stay silent.
 Markdown/MDX figures use the same key (`<Figure img_alt=…>` or the markdown alt),
 plus an optional `title` for the human-facing caption.
 
+The schema is the gate, not the only guard: every component also carries a
+sensible in-code fallback (`Portrait photo of <author>` for the avatar,
+`Cover image for the post "<title>"` for thumbnails, `<title> — hero background
+image` for the hero), so partial migrations degrade to something readable
+instead of a silent image.
+
 ## Blog post (`/posts/…`)
 
 - Figure images: decorative ones (`img_alt="hidden"`) are **silently skipped** (aria-hidden) — captions still announce

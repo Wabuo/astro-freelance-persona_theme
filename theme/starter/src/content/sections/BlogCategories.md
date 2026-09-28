@@ -23,7 +23,7 @@ categories:
   - title: "Design System"
     thumb_fallback: "none"
     image: "@/assets/img/background.svg"
-    img_alt: "Pale-blue mountain range used as the Design System category cover."
+    img_alt: "Pale-blue mountain range used as the cover image for the Design System category, shown behind the category title in the cards layout."
     img_credit: "hidden"
     img_copyright: "freelance-persona"
     img_license: "CC BY-SA 4.0"

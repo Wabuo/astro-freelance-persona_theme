@@ -182,7 +182,7 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                   {category.image ? (
                     <Image
                       src={category.image}
-                      alt={category.img_alt === "hidden" ? "" : category.img_alt || ""}
+                      alt={category.img_alt === "hidden" ? "" : category.img_alt || `Cover image for the ${category.title} category`}
                       aria-hidden={category.img_alt === "hidden" ? "true" : undefined}
                       class="category-image"
                       width={600}

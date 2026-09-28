@@ -133,7 +133,7 @@ const optimizedOgImage = post.data.thumbnail
                 <div class="post-img">
                   <Image
                     src={post.data.thumbnail}
-                    alt={post.data.img_alt === "hidden" ? "" : post.data.img_alt || ""}
+                    alt={post.data.img_alt === "hidden" ? "" : post.data.img_alt || `Cover image for the post “${post.data.title}”`}
                     aria-hidden={post.data.img_alt === "hidden" ? "true" : undefined}
                     class="max-w-full h-auto"
                     width={1100}

@@ -226,7 +226,7 @@ const heroSectionStyle = {
       <>
         <Image
           src={finalImage}
-          alt={img_alt === "hidden" ? "" : img_alt || ""}
+          alt={img_alt === "hidden" ? "" : img_alt || `${title} — hero background image`}
           aria-hidden={img_alt === "hidden" ? "true" : undefined}
           class="hero-bg"
           width={1920}

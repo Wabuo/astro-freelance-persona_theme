@@ -35,6 +35,12 @@ const attributionThemeSchema = z.enum(["light", "dark", "auto"]).default("auto")
 // render, image off) gets nothing else from it. 'hidden' is the explicit
 // opt-out for purely decorative graphics: it renders alt="" + aria-hidden.
 // An empty or whitespace-only string is a build error on purpose.
+//
+// The schema is the gate, not the last line of defence: components also
+// carry a sensible Level-4 fallback ("Portrait photo of <author>",
+// "Cover image for the post ..."), so a site that builds through a
+// different path (embedded components, partial migration) still gets a
+// meaningful description instead of a silent image.
 const altSchema = z.union([
   z.string().trim().min(1, { message: "img_alt cannot be empty — describe what a visitor would otherwise miss, or use 'hidden' if the image is purely decorative." }),
   z.literal('hidden'),

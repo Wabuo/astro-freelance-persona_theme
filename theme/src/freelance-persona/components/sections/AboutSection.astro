@@ -99,7 +99,7 @@ const hasSidebar = !!(
               <div class="avatar-container">
                 <Image
                   src={avatar}
-                  alt={img_alt === "hidden" ? "" : img_alt || ""}
+                  alt={img_alt === "hidden" ? "" : img_alt || `Portrait photo of ${themeConfig.author}`}
                   aria-hidden={img_alt === "hidden" ? "true" : undefined}
                   class="avatar-image"
                   width={800}
@@ -173,7 +173,7 @@ const hasSidebar = !!(
                               <div class="qualifications-cert-img">
                                 <Image
                                   src={item.image}
-                                  alt={item.img_alt === "hidden" ? "" : item.img_alt || ""}
+                                  alt={item.img_alt === "hidden" ? "" : item.img_alt || `${item.text} badge`}
                                   aria-hidden={item.img_alt === "hidden" ? "true" : undefined}
                                   width={50}
                                   height={50}
@@ -210,7 +210,8 @@ const hasSidebar = !!(
           <div class="avatar-float">
             <Image
               src={avatar}
-              alt="Profile Avatar"
+              alt={img_alt === "hidden" ? "" : img_alt || `Portrait photo of ${themeConfig.author}`}
+              aria-hidden={img_alt === "hidden" ? "true" : undefined}
               class="avatar-image"
               width={800}
               height={800}

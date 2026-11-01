@@ -35,6 +35,13 @@
   /* Narrow phones (2-col <480px): the latest-posts list with wrapping
      titles needs more height than the 650 shape holds. */
   --blog-narrow-ratio: 403 / 800;
+  /* Desktop 3-col (≥1024px) is the companion case: two 2-line
+     latest-post rows overflow the 534 master shape by 25-54px
+     (measured across 411/234/182px cards), slicing the last row at
+     the card edge. 562 was swept from the real site as the
+     bottom-margin-parity point: at the master card the underline's
+     bottom sits exactly one side padding above the edge (25.33px). */
+  --blog-desktop-ratio: 403 / 562;
 
   transform: translate(var(--nudge-x, 0), var(--nudge-y, 0)) scale(var(--content-scale, 1));
 }
@@ -176,7 +183,8 @@
 .category-description {
   font-family: var(--font-mono);
   font-size: clamp(var(--blog-desc-floor), 3.51cqi, 0.9rem); /* 14.4/410.7 */
-  margin-bottom: 2.43cqi; /* 1rem */
+  margin-bottom: 1.95cqi; /* 0.5rem at master (was 0.62rem) — reclaimed
+                             for the two-2-line-row fit */
   color: var(--heading-color);
   /* color: var(--accent-color); */
 
@@ -239,8 +247,10 @@
 .latest-posts {
   position: relative;
   z-index: 2;
-  margin-top: 5.84cqi; /* 1.5rem */
-  padding-top: 6.23cqi; /* 1.6rem */
+  margin-top: 3.9cqi; /* 1rem at master (was 1.5rem) — leaner so two
+                         2-line rows fit the shape (see
+                         --blog-desktop-ratio) */
+  padding-top: 3.7cqi; /* 0.95rem at master (was 1.6rem) */
   /* Keep default pointer-events (auto) so empty areas capture clicks if desired,
      but user specifically wanted TOP part to be clickable.
      If user wants empty latest-posts area to act as dead zone, we leave it auto. */
@@ -279,7 +289,9 @@
   margin: 0;
 
   li {
-    margin-bottom: 2.72cqi; /* 0.7rem */
+    margin-bottom: 1.9cqi; /* 0.49rem at master (was 0.7) — slimmed with
+                              the separator zone for the two-2-line-row
+                              fit */
     font-size: clamp(var(--latest-link-floor), 3.51cqi, 0.9rem); /* 0.9rem */
     font-weight: 500;
 
@@ -318,7 +330,9 @@
       text-decoration-color: var(--underline-color);
       text-underline-offset: 2px;
       /* Clamp: long post titles (e.g. 75-char fan-post headlines) —
-         3 rows on phones, 2 on ≥768px; the date stays fixed right. */
+         uniform 2 rows at every width (an earlier "3 rows on phones"
+         comment never shipped; phones measure fine on 2 — the narrow
+         shape ratios cover the height). The date stays fixed right. */
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2; /* 2 rows at every width — 3 read as weird */
@@ -498,6 +512,18 @@
 @media (max-width: 479px) {
   .category-card-wrapper .card-base {
     aspect-ratio: var(--blog-narrow-ratio);
+  }
+}
+
+/* Desktop companion of the phone ratio overrides (constitution §3).
+   The 534 master shape dates from 1-line latest-post titles; two
+   2-line rows (real titles: "The Soil Microbiome (A.K.A. the Soil
+   Food Web)", "Rhizophagy: How Plants Farm and Eat Microbes Whole")
+   overflow it at every 3-col desktop width and the card's overflow:
+   hidden cut the last row mid-underline. */
+@media (min-width: 1024px) {
+  .category-card-wrapper .card-base {
+    aspect-ratio: var(--blog-desktop-ratio);
   }
 }
 

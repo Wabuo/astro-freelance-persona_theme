@@ -183,8 +183,9 @@
 .category-description {
   font-family: var(--font-mono);
   font-size: clamp(var(--blog-desc-floor), 3.51cqi, 0.9rem); /* 14.4/410.7 */
-  margin-bottom: 1.95cqi; /* 0.5rem at master (was 0.62rem) — reclaimed
-                             for the two-2-line-row fit */
+  margin-bottom: 3.9cqi; /* 1rem at master — the space above the tags
+                            grew by the half taken from the separator
+                            gap below them (see .latest-posts margin-top) */
   color: var(--heading-color);
   /* color: var(--accent-color); */
 
@@ -247,9 +248,10 @@
 .latest-posts {
   position: relative;
   z-index: 2;
-  margin-top: 3.9cqi; /* 1rem at master (was 1.5rem) — leaner so two
-                         2-line rows fit the shape (see
-                         --blog-desktop-ratio) */
+  margin-top: 1.95cqi; /* 0.5rem at master (was 1rem) — tags hug the
+                          separator; the freed half joined the
+                          description gap (see .category-description)
+                          so the list itself never moves */
   padding-top: 3.7cqi; /* 0.95rem at master (was 1.6rem) */
   /* Keep default pointer-events (auto) so empty areas capture clicks if desired,
      but user specifically wanted TOP part to be clickable.

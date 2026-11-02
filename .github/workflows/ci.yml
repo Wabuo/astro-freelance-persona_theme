@@ -16,7 +16,7 @@ env:
 
 jobs:
   validate:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     steps:
@@ -84,7 +84,7 @@ jobs:
     if: |
       github.event_name == 'workflow_dispatch' ||
       contains(github.event.pull_request.labels.*.name, 'run-visual-tests')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     environment: visual-tests
     permissions:
       contents: read

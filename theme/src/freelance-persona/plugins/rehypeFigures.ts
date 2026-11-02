@@ -20,7 +20,7 @@ export default function rehypeFigures() {
         const queryStr = node.properties.srcQuery;
         const localPath = node.properties.localPath || '';
         const resolvedSrc = node.properties.src || '';
-        const altText = node.properties.alt || '';
+        const markdownAlt = node.properties.alt || '';
 
         const params = new URLSearchParams(queryStr);
 
@@ -34,8 +34,22 @@ export default function rehypeFigures() {
           creditUrl: params.get('creditUrl') || params.get('credit_url') || undefined,
           license: params.get('license') || undefined,
           copyright: params.get('copyright') || undefined,
-          altText: altText || undefined,
+          img_alt: params.get('img_alt') || markdownAlt || undefined,
+          title: params.get('title') || undefined,
         };
+
+        // Same rule as the frontmatter schemas: a figure image always
+        // needs an accessibility description unless it opts out with
+        // 'hidden' (decorative).
+        if (!queryData.img_alt) {
+          const fileInfo = file?.path ? ` in ${file.path}` : '';
+          throw new Error(
+            `[rehypeFigures] img_alt is required for figure images${fileInfo} (image "${resolvedSrc}"). ` +
+            `Describe what the visitor would otherwise miss — it is what screen readers, SEO and broken renders rely on — ` +
+            `or use 'hidden' if the image is purely decorative. ` +
+            `Sources: the markdown alt text (![...](image)), the img_alt query param, or 'hidden'.`
+          );
+        }
 
         const parseResult = figureQuerySchema.safeParse(queryData);
         if (!parseResult.success) {
@@ -125,7 +139,14 @@ export default function rehypeFigures() {
           };
         }
 
-        const isCaptionActive = !!paramsObj.altText || !!paramsObj.desc;
+        const isCaptionActive = !!paramsObj.title || !!paramsObj.desc;
+
+        // 'hidden' = decorative: no announcement, no broken-image text.
+        if (paramsObj.img_alt === 'hidden') {
+          mediaNode.properties = { ...mediaNode.properties, alt: '', ariaHidden: 'true' };
+        } else if (paramsObj.img_alt) {
+          mediaNode.properties = { ...mediaNode.properties, alt: paramsObj.img_alt };
+        }
 
         const figcaptionNode = isCaptionActive ? {
           type: 'element',

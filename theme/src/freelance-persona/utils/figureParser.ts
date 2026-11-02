@@ -20,7 +20,16 @@ export const figureQuerySchema = z.object({
   creditUrl: z.string().url().optional(),
   license: z.string().optional(),
   copyright: z.string().optional(),
-  altText: z.string().optional(),
+  /** Accessibility description (the img alt). REQUIRED unless 'hidden'
+   * (decorative). Never rendered as caption text — use `title` for that. */
+  img_alt: z.union([
+    z.string().trim().min(1, {
+      message: "img_alt cannot be empty — describe what a visitor would otherwise miss, or use 'hidden' if the image is purely decorative.",
+    }),
+    z.literal('hidden'),
+  ]),
+  /** Bold caption lead-in — the human-facing label for the visual. */
+  title: z.string().optional(),
 });
 
 export type FigureParams = z.infer<typeof figureQuerySchema>;
@@ -57,12 +66,12 @@ export function generateFigureStyle(params: FigureParams): string {
 export function buildCaptionChildren(data: FigureParams) {
   const children: any[] = [];
 
-  if (data.altText) {
+  if (data.title) {
     children.push({
       type: 'element',
       tagName: 'strong',
       properties: { class: 'figure-title' },
-      children: [{ type: 'text', value: data.altText }]
+      children: [{ type: 'text', value: data.title }]
     });
     if (data.desc) {
       children.push({ type: 'text', value: '. ' });

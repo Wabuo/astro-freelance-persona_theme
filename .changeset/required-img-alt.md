@@ -1,0 +1,5 @@
+---
+"astro-freelance-persona_theme": patch
+---
+
+Every image now carries frontmatter `img_alt` — the accessibility description a visitor who cannot see the image relies on (screen readers, SEO, broken renders). Required whenever an image field is set: hero `background_image`, about `avatar`, `qualifications_sidebar[].image`, `categories[].image`, post `thumbnail`; a missing or empty value fails the build with a pointed message. Use `img_alt: "hidden"` for purely decorative graphics — they render `alt=""` + `aria-hidden` and stay silent. The figure system follows the same key (`<Figure img_alt=…>`, markdown alt, or the `img_alt` query param) and gains a separate `title` prop for the human-facing caption lead-in, so alt no longer doubles as the caption. Replaces the previous hardcoded/derived alts (`"Background"`, `"Profile Avatar"`, post title) and adds `image-alt.spec.ts` (5 tests).

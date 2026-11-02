@@ -17,6 +17,7 @@ interface Props {
   categories: {
     title: string;
     image?: ImageMetadata;
+    img_alt?: string; // "hidden" renders alt="" + aria-hidden (decorative)
     img_credit?: { name: string; url?: string; icon?: string } | "hidden";
     img_copyright?: string;
     img_license?: string | { license: string; url: string } | "hidden";
@@ -181,7 +182,8 @@ const staggerDelay = themeConfig.visuals?.delays?.stagger || 100;
                   {category.image ? (
                     <Image
                       src={category.image}
-                      alt={category.title}
+                      alt={category.img_alt === "hidden" ? "" : category.img_alt || `Cover image for the ${category.title} category`}
+                      aria-hidden={category.img_alt === "hidden" ? "true" : undefined}
                       class="category-image"
                       width={600}
                       format={category.image.format === 'svg' ? 'svg' : undefined}

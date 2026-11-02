@@ -9,6 +9,10 @@ title: "Freelance — Persona"
 greeting: ""
 hero_typing_text: "A modern, responsive and lightweight theme for resume, portfolio, and blog"
 background_image: "@/assets/img/background.svg"
+# REQUIRED with background_image. Describe what a visitor who cannot see it
+# would miss (screen readers, SEO, broken renders) — or 'hidden' if the
+# background is purely decorative.
+img_alt: "Wide banner of layered pale-blue mountain ridges under a bright, hazy sky — the site's hero backdrop, sitting behind the title and typewriter line."
 # Desktop Background Position
 # Controls where the image focuses on large screens.
 # Values: "center", "top", "bottom", "left", "right", "top right", "bottom left", etc.

@@ -38,9 +38,26 @@ SPDX-License-Identifier: MIT
 - `h2` page title, `h3` post titles (fixed from h4 — was a level skip)
 - View toggle ("Card grid or sleek list") announces as a link/label — check it reads sensibly out of context
 
+## Images (all slots)
+
+Every image in the content frontmatter carries **`img_alt`** — the accessibility
+description a visitor who cannot see the image relies on. It is **required**
+whenever an image field is set (hero `background_image`, about `avatar`,
+`qualifications_sidebar[].image`, `categories[].image`, post `thumbnail`); a
+missing or empty value fails the build. Use `img_alt: "hidden"` for purely
+decorative graphics — they render `alt=""` + `aria-hidden` and stay silent.
+Markdown/MDX figures use the same key (`<Figure img_alt=…>` or the markdown alt),
+plus an optional `title` for the human-facing caption.
+
+The schema is the gate, not the only guard: every component also carries a
+sensible in-code fallback (`Portrait photo of <author>` for the avatar,
+`Cover image for the post "<title>"` for thumbnails, `<title> — hero background
+image` for the hero), so partial migrations degrade to something readable
+instead of a silent image.
+
 ## Blog post (`/posts/…`)
 
-- Figure images: decorative ones (`alt=""`) are **silently skipped** (aria-hidden) — captions still announce
+- Figure images: decorative ones (`img_alt="hidden"`) are **silently skipped** (aria-hidden) — captions still announce
 - Code blocks: EC's copy button announces its localized label; activation feedback is EC's own tooltip
 - Math: MathJax bakes at build time — formulas read as their CHTML text content (expect messy-but-present reading; `aria-label` per formula is a possible future enhancement)
 

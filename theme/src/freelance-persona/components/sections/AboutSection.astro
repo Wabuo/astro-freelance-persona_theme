@@ -12,6 +12,7 @@ interface Props {
   title: string;
   subtitle?: string;
   avatar?: ImageMetadata;
+  img_alt?: string; // "hidden" renders alt="" + aria-hidden (decorative)
   avatar_credit?: { name: string; url: string; icon?: string } | "hidden";
   avatar_copyright?: string;
   avatar_license?: string | "hidden";
@@ -20,6 +21,7 @@ interface Props {
     subtitle?: string | string[];
     icon?: string;
     image?: ImageMetadata;
+    img_alt?: string; // "hidden" renders alt="" + aria-hidden (decorative)
     img_credit?: { name: string; url: string; icon?: string } | "hidden";
     img_copyright?: string;
     img_license?: string | "hidden";
@@ -46,6 +48,7 @@ const {
   title,
   subtitle,
   avatar,
+  img_alt,
   avatar_credit,
   avatar_copyright,
   avatar_license,
@@ -96,7 +99,8 @@ const hasSidebar = !!(
               <div class="avatar-container">
                 <Image
                   src={avatar}
-                  alt="Profile Avatar"
+                  alt={img_alt === "hidden" ? "" : img_alt || `Portrait photo of ${themeConfig.author}`}
+                  aria-hidden={img_alt === "hidden" ? "true" : undefined}
                   class="avatar-image"
                   width={800}
                   height={800}
@@ -169,7 +173,8 @@ const hasSidebar = !!(
                               <div class="qualifications-cert-img">
                                 <Image
                                   src={item.image}
-                                  alt={item.text}
+                                  alt={item.img_alt === "hidden" ? "" : item.img_alt || `${item.text} badge`}
+                                  aria-hidden={item.img_alt === "hidden" ? "true" : undefined}
                                   width={50}
                                   height={50}
                                 />
@@ -205,7 +210,8 @@ const hasSidebar = !!(
           <div class="avatar-float">
             <Image
               src={avatar}
-              alt="Profile Avatar"
+              alt={img_alt === "hidden" ? "" : img_alt || `Portrait photo of ${themeConfig.author}`}
+              aria-hidden={img_alt === "hidden" ? "true" : undefined}
               class="avatar-image"
               width={800}
               height={800}

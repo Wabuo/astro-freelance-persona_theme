@@ -14,6 +14,7 @@ interface Props {
   background_overlay_transparency?: string;
 
   // Image Attribution (Updated Schema)
+  img_alt?: string; // "hidden" renders alt="" + aria-hidden (decorative)
   img_credit?: { name: string; url?: string; icon?: string } | "hidden";
   img_copyright?: string;
   img_license?: string | { license: string; url: string } | "hidden";
@@ -58,6 +59,7 @@ const {
   background_image_anchor = undefined,
 
   // Attribution
+  img_alt,
   img_credit,
   img_copyright,
   img_license,
@@ -224,7 +226,8 @@ const heroSectionStyle = {
       <>
         <Image
           src={finalImage}
-          alt="Background"
+          alt={img_alt === "hidden" ? "" : img_alt || `${title} — hero background image`}
+          aria-hidden={img_alt === "hidden" ? "true" : undefined}
           class="hero-bg"
           width={1920}
           height={1080}

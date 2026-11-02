@@ -42,6 +42,7 @@ function parseFrontmatter<T>(filePath: string): T {
 
 export interface HeroContent {
     title: string;
+    img_alt?: string; // 'hidden' = decorative
     img_credit?: string | { name: string; url: string; icon?: string };
     img_copyright?: string;
     img_license?: string | { license: string; url: string };
@@ -64,6 +65,8 @@ export interface AboutQualification {
 
 export interface AboutContent {
     title: string;
+    avatar?: string;
+    img_alt?: string; // 'hidden' = decorative
     qualifications_sidebar?: AboutQualification[];
 }
 
@@ -77,6 +80,8 @@ export function getAboutContent(): AboutContent {
 
 export interface BlogPostContent {
     title: string;
+    thumbnail?: string;
+    img_alt?: string; // 'hidden' = decorative
     img_credit?: string | { name: string; url: string };
     img_copyright?: string;
     img_license?: string | { license: string; url: string };

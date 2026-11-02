@@ -217,7 +217,7 @@ export const themeConfig: PersonaConfig = {
       {
         id: "privacy_consent",
         label: [
-          "I have read and agree to the [Privacy Policy](/legal/privacy-policy).",
+          "I have read and **_agree_** to the [Privacy Policy](/legal/privacy-policy).",
           "Your data (e.g. name, email, and metadata such as IP address) will be processed **_solely_** for the purpose of handling this inquiry.",
         ],
         required: true,

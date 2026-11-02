@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 // src/freelance-persona/plugins/mathjaxFontsPlugin.ts
-import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 import path from 'path';
 import fs from 'fs';
 
@@ -14,13 +14,26 @@ export function mathjaxFontsPlugin() {
   return {
     name: 'freelance-persona:mathjax-fonts',
     configResolved(config) {
-      // config.root is the project root (playground)
-      // The theme is at <monorepo-root>/theme/
-      // The plugin file is at <monorepo-root>/theme/src/freelance-persona/plugins/mathjaxFontsPlugin.ts
-      const pluginFile = fileURLToPath(import.meta.url);
-      const themeSrcDir = path.resolve(pluginFile, '..', '..', '..'); // theme/src/
-      const themeRoot = path.resolve(themeSrcDir, '..'); // theme/
-      resolvedFontSourceDir = path.join(themeRoot, 'node_modules', 'mathjax-full', 'es5', 'output', 'chtml', 'fonts', 'woff-v2');
+      // The woff-v2 CHTML fonts are data files of the mathjax-full
+      // dependency, NOT build artifacts of this theme — so their
+      // location must be resolved like any dependency data: through
+      // Node's resolution walk from this module's own context. That
+      // works for both install layouts:
+      //  - repo/workspace layout with nested theme/node_modules
+      //  - published npm installs, where bun/npm hoist mathjax-full
+      //    to the consumer's top-level node_modules (a
+      //    node_modules/astro-freelance-persona_theme/node_modules/
+      //    path does not exist there).
+      try {
+        const requireFromTheme = createRequire(import.meta.url);
+        resolvedFontSourceDir = path.join(
+          path.dirname(requireFromTheme.resolve('mathjax-full/package.json')),
+          'es5', 'output', 'chtml', 'fonts', 'woff-v2',
+        );
+      } catch (resolveError) {
+        resolvedFontSourceDir = '';
+        console.warn(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[33m⚠ Could not resolve mathjax-full from the theme package context: ${resolveError instanceof Error ? resolveError.message : String(resolveError)}\x1b[0m`);
+      }
       // Astro 7 runs multiple Vite passes; writeBundle fires for the
       // prerender pass (dist/.prerender) AND the final pass (dist).
       // Copy only in the pass that writes the configured final output.
@@ -31,7 +44,7 @@ export function mathjaxFontsPlugin() {
       const outDir = path.join(dir, 'fonts', 'mathjax');
       fs.mkdirSync(outDir, { recursive: true });
 
-      if (fs.existsSync(resolvedFontSourceDir)) {
+      if (resolvedFontSourceDir && fs.existsSync(resolvedFontSourceDir)) {
         const files = fs.readdirSync(resolvedFontSourceDir);
         let copied = 0;
 
@@ -46,7 +59,9 @@ export function mathjaxFontsPlugin() {
         }
         console.log(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[32m✔ Copied ${copied} MathJax fonts to build output\x1b[0m`);
       } else {
-        console.warn(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[33m⚠ MathJax font source not found at ${resolvedFontSourceDir}\x1b[0m`);
+        if (resolvedFontSourceDir) {
+          console.warn(`\x1b[36m[FreelancePersona]\x1b[0m \x1b[33m⚠ MathJax font source not found at ${resolvedFontSourceDir}\x1b[0m`);
+        }
       }
     }
   };

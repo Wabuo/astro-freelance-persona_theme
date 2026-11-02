@@ -1,0 +1,5 @@
+---
+"astro-freelance-persona_theme": patch
+---
+
+Packages that install the theme from npm now reliably get the MathJax CHTML fonts bundled into their build output. The fonts plugin used to derive the font directory from the plugin file's physical location (`theme/node_modules/mathjax-full/…`), which is only true inside the theme's own workspace: bun/npm hoist `mathjax-full` to the consumer's top-level `node_modules` on every published-package install, so the nested path did not exist there and the plugin warned ("MathJax font source not found at …") and skipped the copy — the built site then requested `/fonts/mathjax/*.woff` files that were never shipped. The plugin now resolves `mathjax-full` through the standard Node resolution walk from its own module context (`createRequire(import.meta.url)`), which is layout-agnostic: it finds the nested copy in the repo/workspace layout and the hoisted copy in consumer installs, and degrades to a clear warning if the dependency is genuinely absent.

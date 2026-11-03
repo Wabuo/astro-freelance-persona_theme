@@ -354,6 +354,11 @@ const heroSectionStyle = {
     document.body.removeChild(measureSpan);
 
     (lockEl as HTMLElement).style.minWidth = `${Math.ceil(maxWidth) + 15}px`;
+    /* This inline CLS-lock assumes the desktop nowrap mode. The ≤1024px
+       block in hero.css neutralizes it with min-width: 0 !important and
+       lets the typed text wrap at word boundaries on touch layouts —
+       do not rely on it there, and see the hero.md contract comment:
+       the longest single WORD of any item must fit the mobile size. */
 
     // TEST MODE: deterministic rendering — skip the animation loop entirely.
     // The typing loop mutates textContent forever, which defeats Playwright's

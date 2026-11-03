@@ -7,6 +7,20 @@ order: 0
 type: hero
 title: "Freelance — Persona"
 greeting: ""
+# The typewriter cycle. Items are comma-separated — a comma INSIDE an
+# item is not possible (it would start the next item).
+#
+# Layout contract (verify on a phone after edits):
+#  - Desktop (>1024px): each item renders on one line, never wrapping.
+#  - Touch/mobile (≤1023px): longer items wrap at spaces and hyphens —
+#    words are never split mid-word, there is no break-word fallback.
+#    Either keep the longest single WORD of every item short enough to
+#    fit the mobile typing size (mobile size = frontmatter title_font_size
+#    / 3.5, or the theme default's equivalent — the longest word decides), or expect a
+#    long lone word to overflow the hero edge.
+#  - Phrases longer than the phone line are fine and expected: the
+#    sample's item 2 ("responsive and lightweight theme for resume")
+#    intentionally demos the two-line wrap.
 hero_typing_text: "A modern, responsive and lightweight theme for resume, portfolio, and blog"
 background_image: "@/assets/img/background.svg"
 # REQUIRED with background_image. Describe what a visitor who cannot see it

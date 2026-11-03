@@ -311,6 +311,21 @@
     height: auto !important;
     text-align: var(--mobile-text-align, left) !important;
     justify-content: var(--mobile-justify-content, flex-start) !important;
+    /* Kill the JS inline CLS-lock (Hero.astro sets the lock's inline
+       min-width to the longest typing-item width to prevent reflow
+       while typing). It assumes nowrap desktop mode: on a phone the
+       forced width exceeds the container, the lock overflows it and
+       wrapped line tails clip at the hero's overflow:hidden — the
+       reported "cuts off, then wraps, letters missing". Inline style
+       needs !important to win, and the !important everywhere else in
+       this block to stay valuable. */
+    min-width: 0 !important;
+    /* Wrapping only at spaces/hyphenations: the sampled config strings
+       contain both; a lone word that cannot fit must never be split
+       (it would overflow instead — keep typed items' longest single
+       word within the mobile size, documented in the template's
+       hero.md). */
+    overflow-wrap: normal;
   }
 
   /* Content Wrapper: Default width (No Wrapping constraint) */

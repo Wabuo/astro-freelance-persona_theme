@@ -37,6 +37,11 @@
      (0,4,0) dark rules would otherwise win) — tune the dials HERE only. */
   --copy-icon-fade-light: 5%;
   --copy-icon-fade-dark: 55%;
+  /* The button's ::before outline ring inherits the light-tuned
+     --ec-frm-inlBtnBrdOpa (0.6, base rule below) unless the dark blocks
+     re-assert it: a 60%-opacity muted ring dominates the dark code
+     background while the icon itself is deliberately 55%-faded. Dial:  */
+  --copy-btn-outline-opa-dark: 0.3;
   --ec-frm-inlBtnFg: color-mix(
     in srgb,
     var(--text-muted),
@@ -83,6 +88,7 @@
       transparent var(--copy-icon-fade-dark)
     );
     --ec-frm-inlBtnBrd: var(--text-muted);
+    --ec-frm-inlBtnBrdOpa: var(--copy-btn-outline-opa-dark);
   }
 }
 
@@ -101,6 +107,7 @@
     transparent var(--copy-icon-fade-dark)
   );
   --ec-frm-inlBtnBrd: var(--text-muted);
+  --ec-frm-inlBtnBrdOpa: var(--copy-btn-outline-opa-dark);
 }
 
 /* =============================================================
@@ -156,17 +163,25 @@
    makes the click feedback jump. Verified 2026-09-08. */
 
 /* ⚠️ EC-VISUAL OVERRIDE (flagged, minimal): shrink the copy button to
-   50% via transform. WHY TRANSFORM: it's technically not the best
-   approach — the best would be EC exposing a size knob for the button
-   (it exposes colors only, e.g. --ec-frm-inlBtnFg) or a safely
-   resizable box — but EC manages the button's internals (icon layer,
-   copied-state feedback) against a fixed 2.5rem box with no size hook,
-   so a real resize breaks rendering and makes the click feedback jump.
-   A uniform transform is the only feasible route: EC renders at its
-   native box — internals stay intact and scale 1:1 with the visual.
-   The layout box stays 40px = a larger-than-visual click target.
-   Do NOT resize the button box instead. */
-.expressive-code .copy button {
-  transform: scale(0.55);
-  transform-origin: top right;
+   55% via transform — TOUCH-ONLY. WHY: mirrors EC's own interaction
+   model rather than viewport width. EC pairs @media (hover: hover)
+   with the narrow 2rem hover-revealed button (hidden until hover);
+   the (hover: none) branch renders the button ALWAYS VISIBLE inside
+   the reading flow at the full 2.5rem box — including on desktop-sized
+   non-hover devices (landscape tablets, kiosks) — and there the uniform
+   transform is the de-emphasis: EC renders at its native box, internals
+   stay intact and scale 1:1 with the visual, and the layout box keeps a
+   larger-than-visual click target. Desktop MUST NOT take this rule:
+   compounding scale(0.55) onto EC's narrow 2rem hover box — further
+   shrunk by the theme's responsive root font size (<16px on large
+   screens) — produced an ~12px speck (was unscoped in an earlier
+   "mobile finetuning" pass, tuned against the 2.5rem/16px touch box
+   only). (hover: on-demand devices match neither media and keep the
+   unscaled always-visible button — theoretical population.) Do NOT
+   resize the button box instead. */
+@media (hover: none) {
+  .expressive-code .copy button {
+    transform: scale(0.55);
+    transform-origin: top right;
+  }
 }

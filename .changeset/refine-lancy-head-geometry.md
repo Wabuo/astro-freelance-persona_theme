@@ -1,0 +1,5 @@
+---
+"astro-freelance-persona_theme": patch
+---
+
+Refine the Lancy mascot artwork: the lance tip and blade cage are re-traced (tip now flares outward with a concave silhouette, the cage spans wider with crisper corners) and the updated geometry is propagated to every rendition — the inline `LanceIcon` component, the starter's `lancy.svg`, `lancy_blog.svg`, `lancy_for_background.svg`, `avatar.svg`, `background.svg`, and the theme-aware `favicon.svg`. The re-traced cage sits ~0.46 units higher than the old one, so the eye/pupil/mouth paths are nudged up by the same world-space amount in each rendition (0.46 in the shared body frame; pre-scaled variants shifted per their ancestor matrix), restoring the previous eye/cage spacing exactly. The eye assembly itself is also refined — outline, eye background, and mouth offsets — with every rendition carrying the identical composition (verified numerically against the source rendition, frame-for-frame). The shaft, rung ladder, limbs, and all fills/styles are unchanged, so no layout or color behavior shifts; the head art simply matches the current master drawings everywhere.

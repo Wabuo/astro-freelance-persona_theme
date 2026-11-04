@@ -22,9 +22,9 @@
     "playground:setup": "fuser -k 4321/tcp || true; fuser -k 4322/tcp || true; cd theme && bun link && cd .. && rm -rf playground && mkdir -p playground && cp -a theme/starter/. playground && cd playground && bun link astro-freelance-persona_theme"
   },
   "devDependencies": {
-    "@changesets/cli": "^3.0.0",
+    "@changesets/cli": "^3.0.3",
     "@mathjax/mathjax-newcm-font": "4",
-    "@playwright/test": "^1.60.0",
+    "@playwright/test": "^1.64.1",
     "mathjax-full": "^3.2.2"
   },
   "overrides": {
@@ -35,7 +35,7 @@
   "dependencies": {
     "@iconify-json/academicons": "^1.2.4",
     "@iconify-json/bi": "^1.2.7",
-    "astro-expressive-code": "^0.44.0",
-    "astro-icon": "^1.1.5"
+    "astro-expressive-code": "^0.44.3",
+    "astro-icon": "^1.2.0"
   }
 }
